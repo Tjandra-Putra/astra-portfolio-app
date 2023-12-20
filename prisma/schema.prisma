@@ -35,10 +35,8 @@ model Profile {
 
 model SocialLink {
   id String @id @default(uuid())
-  name String
-
-  // relationships
-  socialLinks UserSocialLink[]
+  name String // name of social media
+  icon String // name of font awesome icon, pass this as a prop to the icon component
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -52,14 +50,10 @@ model UserSocialLink{
   profileId String
   profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade)
 
-  socialLinkId String
-  socialLink SocialLink@relation(fields: [socialLinkId], references: [id], onDelete: Cascade)
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([profileId])
-  @@index([socialLinkId])
 }
 
 model Project{
@@ -67,10 +61,14 @@ model Project{
   name String
   description String
   imageUrl String @db.Text
-  projectUrl String @db.Text
-  githubUrl String @db.Text
+  projectUrl String? @db.Text
+  githubUrl String? @db.Text
   markdown String @db.Text // this contains the blog post content including images
   featured Boolean @default(false)
+  company String
+  projectType String
+  visible Boolean @default(true)
+  date DateTime
 
   // relationships
   profileId String
