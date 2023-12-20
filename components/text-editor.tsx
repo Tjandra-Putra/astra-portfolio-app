@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-// import { Editor } from "react-draft-wysiwyg";
+import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToMarkdown from "draftjs-to-markdown";
 import ReactMarkDown from "react-markdown";
 import { stateToHTML } from "draft-js-export-html";
-import dynamic from "next/dynamic";
-const Editor = dynamic(() => import("react-draft-wysiwyg").then((mod) => mod.Editor), { ssr: false });
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
