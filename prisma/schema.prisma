@@ -7,3 +7,77 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+enum UserRole {
+  ADMIN
+  MEMBER
+  GUEST
+}
+
+// models
+model Profile {
+  id String @id @default(uuid())
+  userId String @unique // from Clerk Authentication
+  name String
+  jobTitle String
+  imageUrl String @db.Text
+  resumeUrl String @db.Text
+  email String @db.Text
+  role UserRole @default(GUEST)
+
+  // relationships
+  socialLinks UserSocialLink[]
+  projects Project[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SocialLink {
+  id String @id @default(uuid())
+  name String
+
+  // relationships
+  socialLinks UserSocialLink[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserSocialLink{
+  id String @id @default(uuid())
+  url String @db.Text
+
+  // relationships
+  profileId String
+  profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  socialLinkId String
+  socialLink SocialLink@relation(fields: [socialLinkId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([socialLinkId])
+}
+
+model Project{
+  id String @id @default(uuid())
+  name String
+  description String
+  imageUrl String @db.Text
+  projectUrl String @db.Text
+  githubUrl String @db.Text
+  markdown String @db.Text // this contains the blog post content including images
+  featured Boolean @default(false)
+
+  // relationships
+  profileId String
+  profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+}
