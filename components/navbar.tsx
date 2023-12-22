@@ -38,7 +38,7 @@ const Navbar = () => {
         </Link>
         {/* Only Authenticated Verified Users can see this */}
         <SignedIn>
-          <Link href="/" className="nav-item">
+          <Link href="/modify" className="nav-item">
             <Button variant="link">
               <FontAwesomeIcon icon={faPenToSquare} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
             </Button>

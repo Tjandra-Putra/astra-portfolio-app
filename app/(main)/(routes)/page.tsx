@@ -14,7 +14,7 @@ import Footer from "@/components/footer";
 export default function Home() {
   return (
     <div className="min-h-screen h-full shadow-paper bg-white rounded-lg mt-4 pb-[0.1rem]">
-      <section className="introduction p-4">
+      <section className="introduction p-5">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
@@ -59,7 +59,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="projects bg-ash mx-3 p-6 rounded-lg">
+      <section className="projects bg-ash mx-4 p-5 rounded-lg">
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
@@ -75,7 +75,7 @@ export default function Home() {
         <ProjectCard />
       </section>
 
-      <section className="experiences bg-ash mx-3 mt-3 p-6 rounded-lg">
+      <section className="experiences bg-ash mx-4 mt-4 p-5 rounded-lg">
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
@@ -91,7 +91,7 @@ export default function Home() {
         <ExperienceCard />
       </section>
 
-      <section className="collaborate mx-3 mt-3 p-6 text-center">
+      <section className="collaborate mx-4 mt-3 p-5 text-center">
         <div className="title text-xl font-semibold text-gray-700">Let's collaborate on your next project!</div>
         <div className="description mt-3 text-gray-900 font-normal">
           I'm always open to discussing product design work or partnership opportunities.
