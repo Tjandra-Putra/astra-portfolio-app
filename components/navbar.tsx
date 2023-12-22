@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton, useClerk } from "@clerk/nextjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard, faEnvelope, faFolder, faPenToSquare, faSquarePlus } from "@fortawesome/free-regular-svg-icons";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -9,6 +9,15 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 const Navbar = () => {
+  const clerk = useClerk();
+
+  const handleButtonClick = () => {
+    // Trigger the sign-in or sign-up modal
+    clerk.openUserProfile();
+    // OR
+    // clerk.openSignUp();
+  };
+
   return (
     <nav className="sticky top-[1rem] h-15 shadow-paper bg-white rounded-lg flex flex-row justify-between items-center p-4 overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
@@ -27,6 +36,7 @@ const Navbar = () => {
             <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
           </Button>
         </Link>
+        {/* Only Authenticated Verified Users can see this */}
         <SignedIn>
           <Link href="/" className="nav-item">
             <Button variant="link">
@@ -34,7 +44,7 @@ const Navbar = () => {
             </Button>
           </Link>
           <div className="nav-item me-2">
-            <Button variant="link">
+            <Button variant="link" onClick={handleButtonClick}>
               <UserButton
                 appearance={{
                   elements: {
