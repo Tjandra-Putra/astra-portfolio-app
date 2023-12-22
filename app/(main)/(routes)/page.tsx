@@ -9,12 +9,16 @@ import ProjectCard from "@/components/project-card";
 import ExperienceCard from "@/components/experience-card";
 import SocialCard from "@/components/social-card";
 import Footer from "@/components/footer";
+import Collaborate from "@/components/collaborate";
+import BottomGroup from "@/components/bottom-group";
+import Projects from "@/components/projects";
+import Experiences from "@/components/experiences";
 
 // default route for the app "https://localhost:3000/"
 export default function Home() {
   return (
-    <div className="min-h-screen h-full shadow-paper bg-white rounded-lg mt-4 pb-[0.1rem]">
-      <section className="introduction p-5">
+    <div className="">
+      <section className="introduction">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
@@ -30,9 +34,12 @@ export default function Home() {
         <div className="grid md:grid-cols-12 gap-6 mb-5 text-center sm:text-left">
           <div className="md:col-span-8">
             <div className="w-full">
-              <div className="name text-4xl font-medium">I'm Tjandra</div>
+              <div className="name text-4xl font-medium">
+                Hello, I'm <span className="text-primary">Tjandra</span>
+              </div>
               <div className="description mt-3 text-gray-900 font-normal">
-                I'm passionate about building products that make a positive impact on people's lives.
+                I'm passionate about building products that make a positive impact on people's lives. apple apple apple
+                apple apple apple apple.
               </div>
               <div className="buttons mt-5 space-x-3">
                 <Button variant={"navy"}>
@@ -59,59 +66,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="projects bg-ash mx-4 p-5 rounded-lg">
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 text-lg">Projects</div>
-          </div>
-          <Button variant="white">
-            View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
-          </Button>
-        </div>
+      <Projects />
 
-        <ProjectCard />
-        <ProjectCard />
-        <ProjectCard />
-      </section>
-
-      <section className="experiences bg-ash mx-4 mt-4 p-5 rounded-lg">
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 text-lg">Experiences</div>
-          </div>
-          <Button variant="white">
-            View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
-          </Button>
-        </div>
-
-        <ExperienceCard />
-        <ExperienceCard />
-        <ExperienceCard />
-      </section>
-
-      <section className="collaborate mx-4 mt-3 p-5 text-center">
-        <div className="title text-xl font-semibold text-gray-700">Let's collaborate on your next project!</div>
-        <div className="description mt-3 text-gray-900 font-normal">
-          I'm always open to discussing product design work or partnership opportunities.
-        </div>
-
-        <div className="buttons flex justify-center mt-5 space-x-3">
-          <Button variant={"navy"}>
-            <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-            Resume
-          </Button>
-          <Button variant="secondary">
-            <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
-            Copy Email
-          </Button>
-        </div>
-      </section>
-
-      <SocialCard />
-
-      <Footer />
+      <Experiences />
     </div>
   );
 }

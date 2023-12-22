@@ -21,6 +21,7 @@ model Profile {
   name String
   jobTitle String
   bio String @db.Text
+  about String @db.Text
   imageUrl String @db.Text
   resumeUrl String @db.Text
   email String @db.Text
