@@ -18,23 +18,23 @@ const Navbar = () => {
           </Button>
         </Link>
         <Link href="/about" className="nav-item">
-          <Button variant="ghost">
+          <Button variant="link">
             <FontAwesomeIcon icon={faAddressCard} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
           </Button>
         </Link>
         <Link href="/contact" className="nav-item">
-          <Button variant="ghost">
+          <Button variant="link">
             <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
           </Button>
         </Link>
         <SignedIn>
           <Link href="/" className="nav-item">
-            <Button variant="ghost">
+            <Button variant="link">
               <FontAwesomeIcon icon={faPenToSquare} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
             </Button>
           </Link>
           <div className="nav-item me-2">
-            <Button variant="ghost">
+            <Button variant="link">
               <UserButton
                 appearance={{
                   elements: {
@@ -51,7 +51,7 @@ const Navbar = () => {
       </div>
       <div className="nav-right gap-2">
         <Link href="/" className="nav-item">
-          <Button>
+          <Button variant={"navy"}>
             <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
             Hire Me
           </Button>

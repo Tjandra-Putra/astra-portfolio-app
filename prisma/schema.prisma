@@ -33,9 +33,30 @@ model Profile {
   socialLinks UserSocialLink[]
   projects Project[]
   workExperiences WorkExperience[]
+  certificates Certificate[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Certificate {
+  id String @id @default(uuid())
+  name String
+  description String
+  imageUrl String @db.Text
+  certificateUrl String @db.Text
+  issuedBy String
+  issueDate DateTime
+  expirationDate DateTime? // this is optional because some certificates do not expire
+
+  // relationships
+  profileId String
+  profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
 }
 
 model SocialLink {

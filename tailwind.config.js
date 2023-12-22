@@ -70,6 +70,10 @@ module.exports = {
       },
       backgroundColor: {
         ash: "#f0f1f3",
+        navy: "#1c3454",
+        sky: "#74c0fc",
+        grass: "#63e6be",
+        cheese: "#ffd43b",
       },
     },
   },
