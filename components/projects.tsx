@@ -16,7 +16,7 @@ const Projects = () => {
   const visibleProjects = projectsData.slice(0, 3);
 
   return (
-    <div className="projects bg-ash p-5 rounded-lg">
+    <div className="projects bg-ash p-6 rounded-lg">
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />

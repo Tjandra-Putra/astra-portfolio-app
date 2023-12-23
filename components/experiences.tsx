@@ -16,7 +16,7 @@ const Experiences = () => {
   const visibleExperiences = experiencesData.slice(0, 3);
 
   return (
-    <section className="experiences bg-ash mt-4 p-5 rounded-lg">
+    <section className="experiences bg-ash mt-4 p-6 rounded-lg">
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />

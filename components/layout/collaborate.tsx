@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 const Collaborate = () => {
   return (
-    <section className="collaborate mt-3 p-5 text-center">
+    <section className="collaborate mt-3 p-6 text-center">
       <div className="title text-xl font-semibold text-gray-700">Let's collaborate on your next project!</div>
       <div className="description mt-3 text-gray-900 font-normal">
         I'm always open to discussing product design work or partnership opportunities.

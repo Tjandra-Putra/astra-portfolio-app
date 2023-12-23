@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 
 const Navbar = () => {
   return (
-    <nav className="sticky top-[1rem] h-15 shadow-paper bg-white rounded-lg flex flex-row justify-between items-center p-4 overflow-x-auto z-10">
+    <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-lg flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
         <Link href="/" className="nav-item">
           <Button variant="ash">
