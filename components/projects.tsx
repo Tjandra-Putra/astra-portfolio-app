@@ -4,6 +4,17 @@ import { Button } from "./ui/button";
 import ProjectCard from "./project-card";
 
 const Projects = () => {
+  // Dummy data for projects (replace it with your actual data)
+  const projectsData = [
+    { id: 1, title: "Project 1" },
+    { id: 2, title: "Project 2" },
+    { id: 3, title: "Project 3" },
+    { id: 4, title: "Project 4" },
+  ];
+
+  // Slice the array to show only the first 3 items
+  const visibleProjects = projectsData.slice(0, 3);
+
   return (
     <div className="projects bg-ash p-5 rounded-lg">
       <div className="flex justify-between">
@@ -16,9 +27,10 @@ const Projects = () => {
         </Button>
       </div>
 
-      <ProjectCard />
-      <ProjectCard />
-      <ProjectCard />
+      {/* Use map to render only the first 3 ProjectCard components */}
+      {visibleProjects.map((project) => (
+        <ProjectCard key={project.id} />
+      ))}
     </div>
   );
 };

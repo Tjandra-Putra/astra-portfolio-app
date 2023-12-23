@@ -1,5 +1,5 @@
-import BottomGroup from "@/components/bottom-group";
-import Navbar from "@/components/navbar";
+import BottomGroup from "@/components/layout/bottom-group";
+import Navbar from "@/components/layout/navbar";
 import React from "react";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {

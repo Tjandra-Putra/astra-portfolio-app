@@ -4,20 +4,10 @@ import { useState } from "react";
 import { SignedIn, UserButton, useClerk } from "@clerk/nextjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard, faEnvelope, faFolder, faPenToSquare, faSquarePlus } from "@fortawesome/free-regular-svg-icons";
-import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
-  const clerk = useClerk();
-
-  const handleButtonClick = () => {
-    // Trigger the sign-in or sign-up modal
-    clerk.openUserProfile();
-    // OR
-    // clerk.openSignUp();
-  };
-
   return (
     <nav className="sticky top-[1rem] h-15 shadow-paper bg-white rounded-lg flex flex-row justify-between items-center p-4 overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
@@ -28,23 +18,27 @@ const Navbar = () => {
         </Link>
         <Link href="/about" className="nav-item">
           <Button variant="link">
-            <FontAwesomeIcon icon={faAddressCard} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
+            <FontAwesomeIcon icon={faAddressCard} className="w-6 h-6 transition duration-300" color="#000000" />
           </Button>
         </Link>
         <Link href="/contact" className="nav-item">
           <Button variant="link">
-            <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
+            <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 transition duration-300" color="#000000" />
           </Button>
         </Link>
         {/* Only Authenticated Verified Users can see this */}
         <SignedIn>
           <Link href="/modify" className="nav-item">
             <Button variant="link">
-              <FontAwesomeIcon icon={faPenToSquare} className="w-6 h-6 transition duration-300" color="#9b9ca5" />
+              <FontAwesomeIcon
+                icon={faPenToSquare}
+                className="w-[1.4rem] h-[1.4rem] transition duration-300"
+                color="#000000"
+              />
             </Button>
           </Link>
           <div className="nav-item me-2">
-            <Button variant="link" onClick={handleButtonClick}>
+            <Button variant="link">
               <UserButton
                 appearance={{
                   elements: {

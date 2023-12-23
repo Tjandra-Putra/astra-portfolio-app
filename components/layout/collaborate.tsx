@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const Collaborate = () => {
   return (

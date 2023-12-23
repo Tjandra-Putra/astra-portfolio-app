@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faAt, faC } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 

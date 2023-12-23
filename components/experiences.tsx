@@ -4,6 +4,17 @@ import { Button } from "./ui/button";
 import ExperienceCard from "./experience-card";
 
 const Experiences = () => {
+  // Dummy data for experiences (replace it with your actual data)
+  const experiencesData = [
+    { id: 1, title: "Experience 1" },
+    { id: 2, title: "Experience 2" },
+    { id: 3, title: "Experience 3" },
+    { id: 4, title: "Experience 4" },
+  ];
+
+  // Slice the array to show only the first 3 items
+  const visibleExperiences = experiencesData.slice(0, 3);
+
   return (
     <section className="experiences bg-ash mt-4 p-5 rounded-lg">
       <div className="flex justify-between">
@@ -16,9 +27,10 @@ const Experiences = () => {
         </Button>
       </div>
 
-      <ExperienceCard />
-      <ExperienceCard />
-      <ExperienceCard />
+      {/* Use map to render only the first 3 ExperienceCard components */}
+      {visibleExperiences.map((experience) => (
+        <ExperienceCard key={experience.id} />
+      ))}
     </section>
   );
 };

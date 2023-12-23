@@ -7,10 +7,10 @@ import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ProjectCard from "@/components/project-card";
 import ExperienceCard from "@/components/experience-card";
-import SocialCard from "@/components/social-card";
-import Footer from "@/components/footer";
-import Collaborate from "@/components/collaborate";
-import BottomGroup from "@/components/bottom-group";
+import SocialCard from "@/components/layout/social-card";
+import Footer from "@/components/layout/footer";
+import Collaborate from "@/components/layout/collaborate";
+import BottomGroup from "@/components/layout/bottom-group";
 import Projects from "@/components/projects";
 import Experiences from "@/components/experiences";
 
@@ -18,14 +18,14 @@ import Experiences from "@/components/experiences";
 export default function Home() {
   return (
     <div className="">
-      <section className="introduction">
+      <section className="introduction pb-5">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="job-title font-medium text-gray-800 text-lg">Software Engineer</div>
           </div>
           <Link href="/contact" className="status uppercase tracking-wider text-end">
-            <Badge variant={"ocean"} className="font-semibold">
+            <Badge variant={"diamond"} className="font-semibold">
               Available for Hire
             </Badge>
           </Link>
@@ -46,7 +46,7 @@ export default function Home() {
                   <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
                   Resume
                 </Button>
-                <Button variant="secondary" className="bg-cheese">
+                <Button variant="cheese">
                   <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
                   Copy Email
                 </Button>
