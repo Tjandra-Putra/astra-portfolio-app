@@ -9,7 +9,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         {/* static content */}
         <Navbar />
 
-        <div className="h-full shadow-paper bg-white rounded-lg p-6 mt-4 pb-[0.1rem]">
+        <div className="h-full shadow-paper bg-white rounded-xl p-6 mt-4 pb-[0.1rem]">
           {/* dynamic content */}
           {children}
 
