@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
-        <Link href="/" className="nav-item">
+        <Link href="/user/tjandra-putra" className="nav-item">
           <Button variant="ash">
             <FontAwesomeIcon icon={faFolder} className="w-6 h-6 transition duration-300" color="#000000" />
           </Button>
@@ -28,7 +28,7 @@ const Navbar = () => {
         </Link>
         {/* Only Authenticated Verified Users can see this */}
         <SignedIn>
-          <Link href="/modify" className="nav-item">
+          <Link href="/manage" className="nav-item">
             <Button variant="link">
               <FontAwesomeIcon
                 icon={faPenToSquare}

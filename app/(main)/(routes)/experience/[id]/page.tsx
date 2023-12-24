@@ -6,10 +6,8 @@ import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { Badge } from "@/components/ui/badge";
 import Projects from "@/components/projects";
-import { TextEditor } from "@/components/text-editor";
-import { Separator } from "@/components/ui/separator";
 
-const Project = () => {
+const Experience = () => {
   return (
     <React.Fragment>
       <section className="bg-ash rounded-lg p-6">
@@ -64,11 +62,10 @@ const Project = () => {
             <FontAwesomeIcon icon={faGithub} className="ms-2" />
           </Button>
         </div>
-        <Separator className="my-6" />
+        <hr className="my-6" />
         {/* Render Markdown Content Here*/}
         Markdown Content Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt fugiat reprehenderit unde
         facilis iste fugit quo itaque in sed minus.
-        <TextEditor />
         <div className="badges flex flex-row flex-wrap gap-3 my-6">
           <Badge variant={"diamond"}>React</Badge>
           <Badge variant={"diamond"}>Next.js</Badge>
@@ -79,12 +76,12 @@ const Project = () => {
           <Badge variant={"diamond"}>MongoDB</Badge>
           <Badge variant={"diamond"}>Mongoose</Badge>
         </div>
-        <Separator className="my-6" />
+        <hr className="my-6" />
         <Projects title="Other Projects" />
       </section>
     </React.Fragment>
   );
 };
 
-export default Project;
+export default Experience;
 4;

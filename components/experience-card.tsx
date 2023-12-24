@@ -36,7 +36,7 @@ const ExperienceCard = () => {
         </div>
       </div>
       <div className="view-more transition-transform transform hover:translate-x-1">
-        <Link href="/projects/1">
+        <Link href="/experience/1">
           <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
         </Link>
       </div>
