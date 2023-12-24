@@ -36,7 +36,7 @@ let options: { inlineStyleFn?: InlineStyleFn } = {
 };
 
 export const TextEditor: React.FC = () => {
-  const [editorState, setEditorState] = useState<EditorState | undefined>(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState<EditorState | undefined>();
   const [markdownContent, setMarkdownContent] = useState<string | undefined>("");
   const [htmlContent, setHtmlContent] = useState<string | undefined>("");
 
@@ -47,6 +47,8 @@ export const TextEditor: React.FC = () => {
     const contentState = newEditorState.getCurrentContent();
     const markdownText = draftToMarkdown(convertToRaw(contentState));
     setMarkdownContent(markdownText);
+
+    console.log(contentState);
 
     // Convert the current content to HTML and update the state
     const htmlText = stateToHTML(contentState, options as any);
@@ -69,8 +71,8 @@ export const TextEditor: React.FC = () => {
           list: { inDropdown: true },
           textAlign: { inDropdown: true },
           link: { inDropdown: true },
-          history: { inDropdown: true },
-          heading: { inDropdown: true }, // Include heading options
+          // history: { inDropdown: true },
+          heading: { inDropdown: true },
           image: {
             uploadEnabled: true,
             previewImage: true,
@@ -82,13 +84,21 @@ export const TextEditor: React.FC = () => {
 
       <hr />
 
-      <h3>Output Markdown:</h3>
-      <ReactMarkDown>{markdownContent}</ReactMarkDown>
+      <div className="shadow-paper my-6">
+        <h3>Output Markdown RAW:</h3>
+        {markdownContent}
+      </div>
+      <div className="shadow-paper my-6">
+        <h3>Output Markdown:</h3>
+        <ReactMarkDown>{markdownContent}</ReactMarkDown>
+      </div>
 
-      <hr />
+      {/* <h3>html</h3>
+      {htmlContent} */}
 
+      {/* 
       <h3>Output HTML:</h3>
-      <div dangerouslySetInnerHTML={{ __html: htmlContent || "" }} />
+      <div dangerouslySetInnerHTML={{ __html: htmlContent || "" }} /> */}
     </div>
   );
 };

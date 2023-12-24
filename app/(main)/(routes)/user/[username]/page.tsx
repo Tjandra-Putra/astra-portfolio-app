@@ -66,7 +66,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Projects />
+      <Projects showAll={false} />
 
       <Experiences />
     </div>
