@@ -37,6 +37,7 @@
     "react-dom": "^18",
     "react-draft-wysiwyg": "^1.15.0",
     "react-markdown": "^9.0.1",
+    "sonner": "^1.2.4",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7"
   },

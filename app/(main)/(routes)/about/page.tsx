@@ -29,7 +29,7 @@ const AboutPage = () => {
           你好
         </Badge>
       </div>
-      <div className="text-gray-800 text-lg leading-8 my-7">
+      <div className="text-gray-800 my-7 font-normal">
         My name is Tjandra and I am a student at Singapore Management University studying Information Systems. I'm
         passionate in learning new technologies and software development. I'm also interested in UI/UX design and
         product management.
