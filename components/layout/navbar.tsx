@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressCard, faEnvelope, faFolder, faPenToSquare, faSquarePlus } from "@fortawesome/free-regular-svg-icons";
+import { faAddressCard, faEnvelope, faFolder, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faCrown, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
 const Navbar = () => {
+  const [isAdmin, setIsAdmin] = useState<boolean>(true);
   return (
     <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
@@ -53,11 +55,22 @@ const Navbar = () => {
           </div>
         </SignedIn>
       </div>
-      <div className="nav-right gap-2">
+
+      <div className="nav-right flex gap-2">
+        <SignedIn>
+          {isAdmin && (
+            <Link href="/admin/dashboard" className="nav-item">
+              <Button variant={"ocean"}>
+                <FontAwesomeIcon icon={faCrown} className="me-2" color="#183153" />
+                Admin
+              </Button>
+            </Link>
+          )}
+        </SignedIn>
         <Link href="/" className="nav-item">
           <Button variant={"navy"}>
             <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
-            Hire Me
+            Collab
           </Button>
         </Link>
       </div>

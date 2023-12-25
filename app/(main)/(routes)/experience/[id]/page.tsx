@@ -1,71 +1,116 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
-// brands
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { Badge } from "@/components/ui/badge";
 import Projects from "@/components/projects";
+import { Separator } from "@/components/ui/separator";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+
+import projectsData from "@/data/data";
+
+interface InlineStyleFnOptions {
+  element: string;
+  style: Record<string, string>;
+}
+
+interface InlineStyleFn {
+  (styles: string[]): InlineStyleFnOptions | undefined;
+}
+
+// this is to allow for custom inline styles when rendering the HTML from the editor
+let options: { inlineStyleFn?: InlineStyleFn } = {
+  inlineStyleFn: (styles) => {
+    let key = "color-";
+    let color = styles.find((value) => value.startsWith(key));
+
+    if (color) {
+      return {
+        element: "span",
+        style: {
+          color: color.replace(key, ""),
+        },
+      };
+    }
+  },
+};
 
 const Experience = () => {
+  // get id from url
+  const params = useParams();
+  const id = params.id;
+
+  // get project data by id
+  const data = projectsData.find((project) => project.id === id);
+
   return (
     <React.Fragment>
       <section className="bg-ash rounded-lg p-6">
         <div className="company">
           <div className="flex mb-3">
             <div className="text-[#1c3454] w-36">Company</div>
-            <div className="text-black w-full">Personal</div>
+            <div className="text-black w-full">{data?.company}</div>
           </div>
         </div>
 
         <div className="project-title">
           <div className="flex mb-3">
             <div className="text-[#1c3454] w-36">Title</div>
-            <div className="text-black w-full">Naimu Ecommerce</div>
+            <div className="text-black w-full">{data?.name}</div>
           </div>
         </div>
 
         <div className="project-type">
           <div className="flex mb-3">
             <div className="text-[#1c3454] w-36">Type</div>
-            <div className="text-black w-full">Full Stack Web Development</div>
+            <div className="text-black w-full">{data?.projectType}</div>
           </div>
         </div>
 
         <div className="start-date">
           <div className="flex">
             <div className="text-[#1c3454] w-36">Date</div>
-            <div className="text-black w-full">12/20/2023 to 12/20/2024</div>
+            <div className="text-black w-full">
+              {data?.startDate.toLocaleDateString("en-US")} to {data?.endDate.toLocaleDateString("en-US")}
+            </div>
           </div>
         </div>
       </section>
 
       <section>
         <img
-          src="https://cdna.artstation.com/p/assets/images/images/027/840/198/large/michael-black-a3.jpg?1592714533"
-          alt=""
-          className="thumbnail-img w-full h-full rounded-lg my-6"
+          src={data?.thumbnailUrl}
+          alt={data?.name}
+          className="thumbnail-img w-full h-full rounded-lg my-6 shadow-paper"
         />
-        <div className="title text-2xl font-semibold capitalize">Naimu Ecommerce</div>
-        <div className="description capitalize my-3 leading-6">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit amet dignissimos inventore quisquam fugiat
-          a accusantium odio nulla voluptas quas! Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus,
-          labore?
-        </div>
+        <div className="title text-2xl font-semibold capitalize">{data?.name}</div>
+        <div className="description capitalize my-3 leading-6">{data?.description}</div>
         <div className="buttons flex flex-row justify-end">
-          <Button className="mr-3" variant={"navy"}>
-            Visit Website
-            <FontAwesomeIcon icon={faArrowAltCircleRight} className="ms-2" />
+          <Button className="mr-3" variant={"navy"} disabled={!data?.projectUrl}>
+            <Link href={data ? data.projectUrl : ""} target="_blank">
+              Visit Website
+              <FontAwesomeIcon icon={faArrowAltCircleRight} className="ms-2" />
+            </Link>
           </Button>
-          <Button className="mr-3" variant={"ash"}>
-            Github
-            <FontAwesomeIcon icon={faGithub} className="ms-2" />
+          <Button className="mr-3" variant={"ash"} disabled={!data?.githubUrl}>
+            <Link href={data ? data.githubUrl : ""} target="_blank">
+              Github
+              <FontAwesomeIcon icon={faGithub} className="ms-2" />
+            </Link>
           </Button>
         </div>
-        <hr className="my-6" />
+        <Separator className="my-6" />
+
         {/* Render Markdown Content Here*/}
-        Markdown Content Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt fugiat reprehenderit unde
-        facilis iste fugit quo itaque in sed minus.
+        <div className="markdown-content">
+          <ReactMarkdown>{data?.markdown || ""}</ReactMarkdown>
+        </div>
+
         <div className="badges flex flex-row flex-wrap gap-3 my-6">
           <Badge variant={"diamond"}>React</Badge>
           <Badge variant={"diamond"}>Next.js</Badge>
@@ -76,7 +121,7 @@ const Experience = () => {
           <Badge variant={"diamond"}>MongoDB</Badge>
           <Badge variant={"diamond"}>Mongoose</Badge>
         </div>
-        <hr className="my-6" />
+        <Separator className="my-6" />
         <Projects title="Other Projects" />
       </section>
     </React.Fragment>
@@ -84,4 +129,3 @@ const Experience = () => {
 };
 
 export default Experience;
-4;

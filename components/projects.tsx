@@ -8,23 +8,15 @@ import ProjectCard from "./project-card";
 import Link from "next/link";
 import projectsData from "@/data/data";
 
-interface Project {
-  id: number;
-  title?: string;
-}
-
 interface ProjectsProps {
   title?: string;
   showAll?: boolean;
 }
 
 const Projects: React.FC<ProjectsProps> = ({ title, showAll }) => {
-  // Dummy data for projects (replace it with your actual data)
-
-  console.log(projectsData);
-
-  // Determine which projects to display based on the showAll prop
-  const projectsToDisplay = showAll ? projectsData : projectsData.slice(0, 3);
+  const projectsToDisplay = showAll
+    ? projectsData.filter((project) => !project.isWorkExperience)
+    : projectsData.filter((project) => !project.isWorkExperience).slice(0, 3);
 
   return (
     <div className="projects bg-ash p-6 rounded-lg">

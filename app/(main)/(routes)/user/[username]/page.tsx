@@ -2,15 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faFaceSmile, faSeedling } from "@fortawesome/free-solid-svg-icons";
 import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import ProjectCard from "@/components/project-card";
-import ExperienceCard from "@/components/experience-card";
-import SocialCard from "@/components/layout/social-card";
-import Footer from "@/components/layout/footer";
-import Collaborate from "@/components/layout/collaborate";
-import BottomGroup from "@/components/layout/bottom-group";
 import Projects from "@/components/projects";
 import Experiences from "@/components/experiences";
 
@@ -26,6 +20,7 @@ export default function Home() {
           </div>
           <Link href="/contact" className="status uppercase tracking-wider text-end">
             <Badge variant={"diamond"} className="font-semibold">
+              <FontAwesomeIcon icon={faSeedling} className="me-2" color="#183153" />
               Available for Hire
             </Badge>
           </Link>
@@ -46,8 +41,8 @@ export default function Home() {
                   <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
                   Resume
                 </Button>
-                <Button variant="cheese">
-                  <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
+                <Button variant="ocean">
+                  <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
                   Copy Email
                 </Button>
               </div>

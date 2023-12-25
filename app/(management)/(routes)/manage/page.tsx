@@ -1,4 +1,4 @@
-import { faDiagramProject, faCircle, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faDiagramProject, faCircle, faChevronRight, faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -60,7 +60,7 @@ const ModifyPage = () => {
           <div className="flex items-center gap-4">
             <div className="avatar-border  border-4 border-[#e599f7] p-2 rounded-full">
               <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-                <FontAwesomeIcon icon={faUser} color="#ffffff" />
+                <FontAwesomeIcon icon={faBriefcase} color="#ffffff" />
               </div>
             </div>
             <div className="flex flex-col">

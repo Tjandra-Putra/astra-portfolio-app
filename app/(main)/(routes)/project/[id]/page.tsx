@@ -78,7 +78,7 @@ const Project = () => {
           <div className="flex">
             <div className="text-[#1c3454] w-36">Date</div>
             <div className="text-black w-full">
-              {/* {data?.startDate.toLocaleDateString()} to {data?.endDate.toLocaleDateString()} */}
+              {data?.startDate.toLocaleDateString("en-US")} to {data?.endDate.toLocaleDateString("en-US")}
             </div>
           </div>
         </div>

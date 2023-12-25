@@ -18,17 +18,17 @@ enum UserRole {
 model Profile {
   id String @id @default(uuid())
   userId String @unique // from Clerk Authentication
-  name String
-  jobTitle String
-  bio String @db.Text
-  about String @db.Text
-  imageUrl String @db.Text
-  resumeUrl String @db.Text
-  email String @db.Text
-  phone String @db.Text
-  location String @db.Text
-  workEmail String @db.Text // this is the email that is displayed on the contact form, it is not the same as the email used for authentication
   role UserRole @default(GUEST)
+  name String
+  jobTitle String?
+  bio String? @db.Text
+  about String? @db.Text
+  imageUrl String? @db.Text
+  resumeUrl String? @db.Text
+  email String @db.Text
+  phone String? @db.Text
+  location String? @db.Text
+  workEmail String? @db.Text // this is the email that is displayed on the contact form, it is not the same as the email used for authentication
 
   // relationships
   socialLinks UserSocialLink[]
@@ -97,7 +97,8 @@ model Project{
   startDate DateTime
   endDate DateTime
   isWorkExperience Boolean @default(false) // this is used to determine if this project is a work experience or not
-
+  workExperienceTitle String? // this is used to display the title of the work experience
+  
   // relationships
   profileId String  // [hidden] it is the foreign key that connects to the Profile model
   profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade) // explanation: https://www.prisma.io/docs/concepts/components/prisma-schema/relations#cascade
