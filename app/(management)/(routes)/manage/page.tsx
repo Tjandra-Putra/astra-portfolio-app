@@ -1,20 +1,18 @@
 import { faDiagramProject, faCircle, faChevronRight, faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";
-import { Button } from "@/components/ui/button";
 
 const ModifyPage = () => {
   return (
-    <div className="">
-      <div className="flex items-center gap-2 mb-4">
+    <>
+      <div className="flex items-center gap-2 mb-3">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
         <div className="job-title font-medium text-gray-800 text-lg">Manage Platform</div>
       </div>
 
-      <div className="text-gray-800 my-7 font-normal">
+      <div className="text-gray-800 mb-7 font-normal">
         This page allows you to effortlessly manage your projects, profile, and work experiences. Update, showcase, and
         organize your professional journey with ease.
       </div>
@@ -32,7 +30,7 @@ const ModifyPage = () => {
             </div>
           </div>
           <div className="view-more transition-transform transform hover:translate-x-1">
-            <Link href={`/project/`}>
+            <Link href={`/manage/profile`}>
               <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
             </Link>
           </div>
@@ -50,7 +48,7 @@ const ModifyPage = () => {
             </div>
           </div>
           <div className="view-more transition-transform transform hover:translate-x-1">
-            <Link href={`/project/`}>
+            <Link href={`/manage/projects`}>
               <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
             </Link>
           </div>
@@ -68,13 +66,13 @@ const ModifyPage = () => {
             </div>
           </div>
           <div className="view-more transition-transform transform hover:translate-x-1">
-            <Link href={`/project/`}>
+            <Link href={`/manage/experiences`}>
               <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
             </Link>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

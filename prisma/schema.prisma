@@ -26,8 +26,6 @@ model Profile {
   imageUrl String? @db.Text
   resumeUrl String? @db.Text
   email String @db.Text
-  phone String? @db.Text
-  location String? @db.Text
   workEmail String? @db.Text // this is the email that is displayed on the contact form, it is not the same as the email used for authentication
 
   // relationships
@@ -71,6 +69,7 @@ model SocialLink {
 model UserSocialLink{
   id String @id @default(uuid())
   url String @db.Text
+  icon String // name of font awesome icon, pass this as a prop to the icon component
 
   // relationships
   profileId String
