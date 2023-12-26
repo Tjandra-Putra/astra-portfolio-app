@@ -108,7 +108,7 @@ const EditProfilePage = () => {
           <div className="grid gap-4">
             <div className="col-span-1">
               <Label htmlFor="firstName">
-                Current Resume: <Badge variant={"secondary"}> Tjandra_Putra_Resume.pdf</Badge>
+                Current Resume: <Badge variant={"ocean"}> Tjandra_Putra_Resume.pdf</Badge>
               </Label>
               <Input id="picture" type="file" className="mt-3" />
             </div>
