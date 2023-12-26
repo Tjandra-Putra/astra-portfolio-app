@@ -67,8 +67,8 @@ const Experience = () => {
 
         <div className="project-type">
           <div className="flex mb-3">
-            <div className="text-[#1c3454] w-36">Type</div>
-            <div className="text-black w-full">{data?.projectType}</div>
+            <div className="text-[#1c3454] w-36">Category</div>
+            <div className="text-black w-full">{data?.category}</div>
           </div>
         </div>
 
@@ -108,7 +108,7 @@ const Experience = () => {
 
         {/* Render Markdown Content Here*/}
         <div className="markdown-content">
-          <ReactMarkdown>{data?.markdown || ""}</ReactMarkdown>
+          <ReactMarkdown>{data?.content || ""}</ReactMarkdown>
         </div>
 
         <div className="badges flex flex-row flex-wrap gap-3 my-6">

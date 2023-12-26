@@ -13,7 +13,7 @@ import Link from "next/link";
 const ModifyPage = () => {
   return (
     <React.Fragment>
-      <div className="flex items-center gap-2 mb-">
+      <div className="flex items-center gap-2 mb-3">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
         <div className="job-title font-medium text-gray-800 text-lg">Manage Platform</div>
       </div>

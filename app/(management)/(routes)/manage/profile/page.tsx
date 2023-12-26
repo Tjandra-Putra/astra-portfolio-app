@@ -1,9 +1,7 @@
-import { faDiagramProject, faCircle, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,15 +9,15 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
-const ProfilePage = () => {
+const EditProfilePage = () => {
   return (
-    <div>
+    <React.Fragment>
       <div className="flex items-center gap-2 mb-3">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
         <div className="job-title font-medium text-gray-800 text-lg">Manage Profile</div>
       </div>
 
-      <div className="text-gray-800 mt-7 font-normal">
+      <div className="text-gray-800 font-normal">
         Leave the field blank if you do not want to update the information. If you want to update the information,
         please fill in the field.
       </div>
@@ -226,8 +224,8 @@ const ProfilePage = () => {
       <Button variant={"diamond"} className="w-full font-semibold mt-5">
         Save Changes
       </Button>
-    </div>
+    </React.Fragment>
   );
 };
 
-export default ProfilePage;
+export default EditProfilePage;

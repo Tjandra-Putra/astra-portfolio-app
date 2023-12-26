@@ -9,9 +9,9 @@ const projectsData = [
     githubUrl: "https://github.com/ecommerce-project",
     featured: true,
     company: "TechCo Solutions",
-    projectType: "Web Application",
+    category: "Web Application",
     visible: true,
-    markdown: "This project involved creating a feature-rich e-commerce platform to handle large-scale transactions.",
+    content: "This project involved creating a feature-rich e-commerce platform to handle large-scale transactions.",
     startDate: new Date("2022-03-15"),
     endDate: new Date("2022-09-30"),
     isWorkExperience: true,
@@ -29,9 +29,9 @@ const projectsData = [
     githubUrl: "https://github.com/fitness-app-project",
     featured: true,
     company: "FitTech Innovations",
-    projectType: "Mobile Application",
+    category: "Mobile Application",
     visible: true,
-    markdown:
+    content:
       "#### Details Hello World ![](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*oAPx-_oQiyhCBNTJMmBtGw.png)",
     startDate: new Date("2022-01-10"),
     endDate: new Date("2022-07-20"),
@@ -50,9 +50,9 @@ const projectsData = [
     githubUrl: "https://github.com/data-dashboard-project",
     featured: true,
     company: "Data Insights Co.",
-    projectType: "Web Application",
+    category: "Web Application",
     visible: true,
-    markdown:
+    content:
       "The dashboard provided visualizations and insights based on complex data sets, enhancing decision-making.",
     startDate: new Date("2022-05-01"),
     endDate: new Date("2022-12-15"),
@@ -71,9 +71,9 @@ const projectsData = [
     githubUrl: "https://github.com/data-dashboard-project",
     featured: true,
     company: "Data Insights Co.",
-    projectType: "Web Application",
+    category: "Web Application",
     visible: true,
-    markdown:
+    content:
       "The dashboard provided visualizations and insights based on complex data sets, enhancing decision-making.",
     startDate: new Date("2022-05-01"),
     endDate: new Date("2022-12-15"),
@@ -92,9 +92,9 @@ const projectsData = [
     githubUrl: "https://github.com/data-dashboard-project",
     featured: true,
     company: "Data Insights Co.",
-    projectType: "Web Application",
-    visible: true,
-    markdown:
+    category: "Web Application",
+    visible: false,
+    content:
       "The dashboard provided visualizations and insights based on complex data sets, enhancing decision-making.",
     startDate: new Date("2022-05-01"),
     endDate: new Date("2022-12-15"),

@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
-        <Link href="/user/tjandra-putra" className="nav-item">
+        <Link href="/profile/tjandra-putra" className="nav-item">
           <Button variant="ash">
             <FontAwesomeIcon icon={faFolder} className="w-6 h-6 transition duration-300" color="#000000" />
           </Button>

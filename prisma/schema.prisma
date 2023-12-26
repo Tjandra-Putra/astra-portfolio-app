@@ -85,14 +85,14 @@ model Project{
   id String @id @default(uuid())
   name String
   description String
-  thumbnailUrl String @db.Text // thumbnail image, if not present, get the first letter of the project name and use it as the image
+  thumbnailUrl String? @db.Text // thumbnail image, if not present, get the first letter of the project name and use it as the image
   projectUrl String? @db.Text
   githubUrl String? @db.Text
-  featured Boolean @default(false)
-  company String
-  projectType String
+  featured Boolean? @default(false)
+  company String?
+  category String // e.g web application, mobile application, etc
   visible Boolean @default(true)
-  markdown String @db.Text // this contains the blog post content including images
+  content String @db.Text // this contains the blog post content including images
   startDate DateTime
   endDate DateTime
   isWorkExperience Boolean @default(false) // this is used to determine if this project is a work experience or not

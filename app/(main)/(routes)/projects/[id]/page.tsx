@@ -1,17 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { Badge } from "@/components/ui/badge";
 import Projects from "@/components/projects";
-import { TextEditor } from "@/components/text-editor";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { stateToHTML } from "draft-js-export-html";
 import ReactMarkdown from "react-markdown";
 
 import projectsData from "@/data/data";
@@ -69,8 +67,8 @@ const Project = () => {
 
         <div className="project-type">
           <div className="flex mb-3">
-            <div className="text-[#1c3454] w-36">Type</div>
-            <div className="text-black w-full">{data?.projectType}</div>
+            <div className="text-[#1c3454] w-36">Category</div>
+            <div className="text-black w-full">{data?.category}</div>
           </div>
         </div>
 
@@ -110,7 +108,7 @@ const Project = () => {
 
         {/* Render Markdown Content Here*/}
         <div className="markdown-content">
-          <ReactMarkdown>{data?.markdown || ""}</ReactMarkdown>
+          <ReactMarkdown>{data?.content || ""}</ReactMarkdown>
         </div>
 
         <div className="badges flex flex-row flex-wrap gap-3 my-6">

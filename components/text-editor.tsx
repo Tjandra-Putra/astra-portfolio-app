@@ -67,7 +67,7 @@ export const TextEditor: React.FC = () => {
         editorState={editorState}
         onEditorStateChange={onEditorStateChange}
         toolbar={{
-          inline: { inDropdown: true },
+          inline: { inDropdown: true, options: ["bold", "italic", "underline", "strikethrough"] },
           list: { inDropdown: true },
           textAlign: { inDropdown: true },
           link: { inDropdown: true },
@@ -82,14 +82,12 @@ export const TextEditor: React.FC = () => {
         }}
       />
 
-      <hr />
-
-      <div className="shadow-paper my-6">
-        <h3>Output Markdown RAW:</h3>
+      <div className="shadow-paper my-6 text-wrap">
+        <h6>Output Markdown RAW:</h6>
         {markdownContent}
       </div>
-      <div className="shadow-paper my-6">
-        <h3>Output Markdown:</h3>
+      <div className="shadow-paper my-6 text-wrap">
+        <h6>Output Markdown:</h6>
         <ReactMarkDown>{markdownContent}</ReactMarkDown>
       </div>
 

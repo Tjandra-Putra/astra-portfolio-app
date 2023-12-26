@@ -21,6 +21,7 @@ const buttonVariants = cva(
         cheese: "bg-cheese text-black hover:bg-cheese/90",
         ocean: "bg-[#74c0fc] text-[#183153] hover:bg-strawberry/90",
         diamond: "bg-[#63e6be] text-[#183153] hover:bg-[#63e6be]/90",
+        tomato: "bg-[#ff8787] text-[#1b3254] hover:bg-[#ff8787]/90",
       },
       size: {
         default: "h-10 px-4 py-2",
