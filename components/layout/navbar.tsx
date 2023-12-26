@@ -15,17 +15,29 @@ const Navbar = () => {
       <div className="nav-left flex gap-2">
         <Link href="/profile/tjandra-putra" className="nav-item">
           <Button variant="ash">
-            <FontAwesomeIcon icon={faFolder} className="w-6 h-6 transition duration-300" color="#000000" />
+            <FontAwesomeIcon
+              icon={faFolder}
+              className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300"
+              color="#000000"
+            />
           </Button>
         </Link>
         <Link href="/about" className="nav-item">
           <Button variant="link">
-            <FontAwesomeIcon icon={faAddressCard} className="w-6 h-6 transition duration-300" color="#000000" />
+            <FontAwesomeIcon
+              icon={faAddressCard}
+              className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
+              color="#000000"
+            />
           </Button>
         </Link>
         <Link href="/contact" className="nav-item">
           <Button variant="link">
-            <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 transition duration-300" color="#000000" />
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
+              color="#000000"
+            />
           </Button>
         </Link>
         {/* Only Authenticated Verified Users can see this */}
