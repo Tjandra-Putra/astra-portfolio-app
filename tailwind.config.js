@@ -11,6 +11,11 @@ module.exports = {
       },
     },
     extend: {
+      listStyleType: {
+        none: "disc", // Use 'none' as the default list style type
+        disc: "disc",
+        decimal: "decimal",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -77,5 +82,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };

@@ -36,7 +36,7 @@ let options: { inlineStyleFn?: InlineStyleFn } = {
 };
 
 export const TextEditor: React.FC = () => {
-  const [editorState, setEditorState] = useState<EditorState | undefined>();
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [markdownContent, setMarkdownContent] = useState<string | undefined>("");
   const [htmlContent, setHtmlContent] = useState<string | undefined>("");
 
@@ -67,7 +67,30 @@ export const TextEditor: React.FC = () => {
         editorState={editorState}
         onEditorStateChange={onEditorStateChange}
         toolbar={{
-          inline: { inDropdown: true, options: ["bold", "italic", "underline", "strikethrough"] },
+          options: [
+            "inline",
+            "blockType",
+            "fontSize",
+            // "fontFamily",
+            "list",
+            "textAlign",
+            "colorPicker",
+            "link",
+            "embedded",
+            // "emoji",
+            "image",
+            "remove",
+            "history",
+          ],
+
+          inline: { inDropdown: true },
+          blockType: {
+            inDropdown: true,
+            options: ["Normal", "H1", "H2", "H3", "H4", "H5", "H6", "Blockquote", "Code"],
+            className: undefined,
+            component: undefined,
+            dropdownClassName: undefined,
+          },
           list: { inDropdown: true },
           textAlign: { inDropdown: true },
           link: { inDropdown: true },
@@ -88,15 +111,8 @@ export const TextEditor: React.FC = () => {
       </div>
       <div className="shadow-paper my-6 text-wrap">
         <h6>Output Markdown:</h6>
-        <ReactMarkDown>{markdownContent}</ReactMarkDown>
+        {markdownContent ? <ReactMarkDown className="prose">{markdownContent}</ReactMarkDown> : null}
       </div>
-
-      {/* <h3>html</h3>
-      {htmlContent} */}
-
-      {/* 
-      <h3>Output HTML:</h3>
-      <div dangerouslySetInnerHTML={{ __html: htmlContent || "" }} /> */}
     </div>
   );
 };

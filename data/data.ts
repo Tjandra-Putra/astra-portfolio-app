@@ -53,7 +53,7 @@ const projectsData = [
     category: "Web Application",
     visible: true,
     content:
-      "The dashboard provided visualizations and insights based on complex data sets, enhancing decision-making.",
+      "#### Details This is my details ![](https://cdn.dribbble.com/users/1175294/screenshots/17181901/media/745119996fff52e3c9fb1f29fc94f2ec.png?resize=1600x1200&vertical=center) Fruits: - Apple - Orange",
     startDate: new Date("2022-05-01"),
     endDate: new Date("2022-12-15"),
     isWorkExperience: false,
