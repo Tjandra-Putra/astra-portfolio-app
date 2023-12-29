@@ -52,6 +52,16 @@ const EditProfilePage = () => {
         </section>
 
         <section className="mb-5">
+          <div className="grid gap-4">
+            <div className="col-span-1">
+              <Label htmlFor="domain">Domain Name</Label>
+              <Input id="domain" type="text" />
+              <p className="text-sm text-muted-foreground">This is the domain name for your portfolio.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mb-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="col-span-1">
               <Label htmlFor="firstName">First Name</Label>

@@ -20,6 +20,7 @@ model Profile {
   userId String @unique // from Clerk Authentication
   role UserRole @default(GUEST)
   name String?
+  domain String? // this is the domain name of the website, e.g https://www.example.com
   jobTitle String?
   bio String? @db.Text
   about String? @db.Text
@@ -93,26 +94,12 @@ model Project{
   profileId String  // [hidden] it is the foreign key that connects to the Profile model
   profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade) // explanation: https://www.prisma.io/docs/concepts/components/prisma-schema/relations#cascade
 
-  tags ProjectTag[]  // this project can have many tags
+  tags String? @db.Text // this is a comma separated string of tags, e.g React, Node, etc
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([profileId])
-}
-
-model ProjectTag{
-  id String @id @default(uuid())
-  name String @unique // e.g React, Node, etc
-
-  // relationships
-  projectId String
-  project Project@relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([projectId])
 }
 
 

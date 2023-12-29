@@ -60,9 +60,9 @@ const formSchema = z.object({
   endDate: z.date({
     required_error: "End date is required",
   }),
-  hideProject: z.boolean().optional(),
+  visible: z.boolean().optional(),
   isWorkExperience: z.boolean().optional(),
-  jobTitle: z.string().optional(),
+  workExperienceTitle: z.string().optional(),
   projectUrl: z.string().optional(),
   githubUrl: z.string().optional(),
   tags: z.string().optional(),
@@ -77,20 +77,20 @@ const AddProjectPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      thumbnailUrl: "",
       name: "",
-      category: "",
       description: "",
-      company: "",
-      jobTitle: "",
-      startDate: undefined,
-      endDate: undefined,
-      hideProject: false,
-      isWorkExperience: false,
+      thumbnailUrl: "",
       projectUrl: "",
       githubUrl: "",
-      tags: "",
+      company: "",
+      workExperienceTitle: "",
+      category: "",
       content: "",
+      startDate: undefined,
+      endDate: undefined,
+      isWorkExperience: false,
+      visible: false,
+      tags: "",
     },
   });
 
@@ -105,12 +105,14 @@ const AddProjectPage = () => {
     console.log(values);
 
     try {
-      await axios.post("/api/servers", values);
+      await axios.post("/api/projects", values);
 
       form.reset();
       router.refresh();
       window.location.reload();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -344,7 +346,7 @@ const AddProjectPage = () => {
                 <div>
                   <FormField
                     control={form.control}
-                    name="hideProject"
+                    name="visible"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
@@ -386,7 +388,7 @@ const AddProjectPage = () => {
                 <div className="col-span-1">
                   <FormField
                     control={form.control}
-                    name="jobTitle"
+                    name="workExperienceTitle"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>

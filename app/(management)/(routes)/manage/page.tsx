@@ -10,7 +10,7 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
-const ModifyPage = () => {
+const ManagePage = () => {
   return (
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3">
@@ -100,4 +100,4 @@ const ModifyPage = () => {
   );
 };
 
-export default ModifyPage;
+export default ManagePage;

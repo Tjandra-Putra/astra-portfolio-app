@@ -14,8 +14,6 @@ export const metadata: Metadata = {
   description: "Portfolio App",
 };
 
-const profile = initialProfile();
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
