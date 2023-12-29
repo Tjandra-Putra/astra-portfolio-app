@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -89,7 +88,7 @@ const AddProjectPage = () => {
       startDate: undefined,
       endDate: undefined,
       isWorkExperience: false,
-      visible: false,
+      visible: true,
       tags: "",
     },
   });
@@ -157,13 +156,6 @@ const AddProjectPage = () => {
                       </FormItem>
                     )}
                   />
-
-                  {/* <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                  </div> */}
                 </div>
               </div>
             </section>
@@ -336,7 +328,7 @@ const AddProjectPage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">
-                    Hide this project from your profile?{" "}
+                    Your project is visible to everyone{" "}
                     <span className="text-sm text-gray-600 font-light">(Optional)</span>
                   </Label>
                   <div className="text-sm text-gray-600 font-light">

@@ -11,6 +11,7 @@ const SocialCard = () => {
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#183153" />
         <div className="job-title font-medium text-gray-800 text-lg">Follow Me</div>
       </div>
+
       <div className="socials flex gap-3 mt-4 lg:mt-0">
         <Link href="https://www.linkedin.com/in/nicholas-yeo-6b1b3b1b2/" target="_blank" rel="noopener noreferrer">
           <Button variant={"white"} className="font-semibold rounded-full w-11 h-11">

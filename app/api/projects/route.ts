@@ -56,3 +56,24 @@ export async function POST(req: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+// get all projects for this user profile
+export async function GET() {
+  try {
+    const profile = await currentProfile();
+
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const projects = await db.project.findMany({
+      where: { profileId: profile.id },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json(projects);
+  } catch (error) {
+    console.error("[PROJECTS_GET_ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}

@@ -1,19 +1,44 @@
+"use client";
+
 import { faCircle, faTrash, faPen, faEye, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from "next/link";
 import projectsData from "@/data/data";
+import axios from "axios";
 
 const ProjectsPage = () => {
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get("/api/projects");
+      setProjects(response.data);
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString: string): string => {
+    const originalDate = new Date(dateString);
+
+    const day = originalDate.getUTCDate().toString().padStart(2, "0");
+    const month = (originalDate.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = originalDate.getUTCFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
+  fetchProjects();
+
   return (
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3 justify-between">
@@ -28,10 +53,11 @@ const ProjectsPage = () => {
           </Button>
         </Link>
       </div>
-
       <div className="text-gray-800 mb-7 font-normal">
         Your projects are listed below. You can edit, delete, or hide them from your profile.
       </div>
+
+      {/* fetchProjects: {JSON.stringify(projects)} */}
 
       <Table>
         <TableCaption></TableCaption>
@@ -44,10 +70,10 @@ const ProjectsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {projectsData
+          {projects
             ?.filter((project) => !project.isWorkExperience)
             .map((project) => (
-              <TableRow>
+              <TableRow key={project.id}>
                 <TableCell className="font-medium">{project.name}</TableCell>
                 <TableCell>
                   {project?.visible ? (
@@ -56,7 +82,7 @@ const ProjectsPage = () => {
                     <Badge variant={"cheese"}>Hidden</Badge>
                   )}
                 </TableCell>
-                <TableCell>{project?.startDate.toLocaleDateString("en-US")}</TableCell>
+                <TableCell>{project?.startDate ? formatDate(project.startDate) : "N/A"}</TableCell>
                 <TableCell className="text-right">
                   <div className="buttons flex gap-2">
                     <Link href={`/projects/${project.id}`}>
