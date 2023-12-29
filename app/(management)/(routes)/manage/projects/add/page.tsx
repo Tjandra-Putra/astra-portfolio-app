@@ -1,8 +1,14 @@
 "use client";
 
 import React from "react";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,15 +21,11 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { TextEditor } from "@/components/text-editor";
+import { FileUpload } from "@/components/file-upload";
 
 const formSchema = z.object({
+  thumbnailUrl: z.string(),
   name: z
     .string()
     .min(1, {
@@ -68,6 +70,7 @@ const AddProjectPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      thumbnailUrl: "",
       name: "",
       category: "",
       description: "",
@@ -124,17 +127,28 @@ const AddProjectPage = () => {
                   <div className="leading-7">
                     <Label htmlFor="picture">Project Thumbnail</Label>
                     <div className="font-light text-sm">Recommended size: any</div>
-                    <Input id="project-thumbnail" type="file" className="mt-3" />
                   </div>
                 </div>
 
-                <div className="col-span-6 px-12">
-                  <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
+                <div className="col-span-6 text-center">
+                  <FormField
+                    control={form.control}
+                    name="thumbnailUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
                     <Avatar>
                       <AvatarImage src="https://github.com/shadcn.png" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </section>
