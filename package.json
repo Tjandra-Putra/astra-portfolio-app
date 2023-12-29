@@ -37,7 +37,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^3.0.6",
-    "draft-js-export-html": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
     "draftjs-to-markdown": "^0.6.0",
     "font-awesome": "^4.7.0",

@@ -1,224 +1,480 @@
 "use client";
 
+import React from "react";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
-import { DatePicker } from "@/components/ui/date-picker";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
 import { TextEditor } from "@/components/text-editor";
 
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(1, {
+      message: "Name is required",
+    })
+    .max(50, {
+      message: "Name must be at most 50 characters long",
+    }),
+  category: z
+    .string()
+    .min(1, {
+      message: "Category is required",
+    })
+    .max(50, {
+      message: "Name must be at most 50 characters long",
+    }),
+  description: z
+    .string()
+    .min(1, {
+      message: "Description is required",
+    })
+    .max(1000, {
+      message: "Description must be at most 1000 characters long",
+    }),
+  company: z.string().optional(),
+  startDate: z.date({
+    required_error: "Start date is required",
+  }),
+  endDate: z.date({
+    required_error: "End date is required",
+  }),
+  hideProject: z.boolean().optional(),
+  isWorkExperience: z.boolean().optional(),
+  jobTitle: z.string().optional(),
+  projectUrl: z.string().optional(),
+  githubUrl: z.string().optional(),
+  tags: z.string().optional(),
+});
+
 const AddProjectPage = () => {
+  // define form
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      category: "",
+      description: "",
+      company: "",
+      jobTitle: "",
+      startDate: undefined,
+      endDate: undefined,
+      hideProject: false,
+      isWorkExperience: false,
+      projectUrl: "",
+      githubUrl: "",
+      tags: "",
+    },
+  });
+
+  const [markDownContent, setMarkdownContent] = React.useState<string | undefined>("");
+
+  // get values from text editor child component
+  const handleMarkdownChange = (markdown: string) => {
+    setMarkdownContent(markdown);
+  };
+
+  // submit handler.
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
+
   return (
     <React.Fragment>
-      <div className="flex items-center gap-2 mb-3">
-        <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="job-title font-medium text-gray-800 text-lg">Add Project </div>
-      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex items-center gap-2 mb-3">
+            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+            <div className="job-title font-medium text-gray-800 text-lg">Add Project </div>
+          </div>
 
-      <div className="text-gray-800 font-normal">
-        Add a project to your portfolio. This will be displayed on your profile page.
-      </div>
+          <div className="text-gray-800 font-normal">
+            Add a project to your portfolio. This will be displayed on your profile page.
+          </div>
 
-      <Badge
-        variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-      >
-        Introduction
-      </Badge>
+          <Badge
+            variant="navy"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+          >
+            Introduction
+          </Badge>
 
-      <div className="bg-zinc-50 p-5 rounded-lg">
-        <section className="mb-5">
-          <div className="grid grid-cols-12 items-center justify-center">
-            <div className="col-span-6 col-start-1">
-              <div className="leading-7">
-                <Label htmlFor="picture">Project Thumbnail</Label>
-                <div className="font-light text-sm">Recommended size: any</div>
-                <Input id="project-thumbnail" type="file" className="mt-3" />
+          <div className="bg-zinc-50 p-5 rounded-lg">
+            <section className="mb-5">
+              <div className="grid grid-cols-12 items-center justify-center">
+                <div className="col-span-6 col-start-1">
+                  <div className="leading-7">
+                    <Label htmlFor="picture">Project Thumbnail</Label>
+                    <div className="font-light text-sm">Recommended size: any</div>
+                    <Input id="project-thumbnail" type="file" className="mt-3" />
+                  </div>
+                </div>
+
+                <div className="col-span-6 px-12">
+                  <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </div>
+                </div>
               </div>
-            </div>
+            </section>
 
-            <div className="col-span-6 px-12">
-              <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+            <section className="mb-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="E.g Enterprise Development" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Category</FormLabel>
+                        <FormControl>
+                          <Input placeholder="E.g Web Development" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
 
-        <section className="mb-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="col-span-1">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" type="text" placeholder="E.g Enterprise Development" />
-            </div>
-
-            <div className="col-span-1">
-              <Label htmlFor="category">Category</Label>
-              <Input id="category" type="text" placeholder="E.g Web Application" />
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-5">
-          <Label htmlFor="description">Description</Label>
-          <Textarea id="description" placeholder="E.g This project aims to ..." />
-        </section>
-      </div>
-
-      <Badge
-        variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-      >
-        Project Details
-      </Badge>
-
-      <div className="bg-zinc-50 p-5 rounded-lg">
-        <section className="mb-5">
-          <div className="grid gap-4">
-            <div className="col-span-1">
-              <Label htmlFor="name">Company</Label>
-              <Input id="name" type="text" placeholder="E.g Enterprise Development" />
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="col-span-1">
-              <Label htmlFor="start-date">Start Date</Label>
-              <DatePicker />
-            </div>
-
-            <div className="col-span-1">
-              <Label htmlFor="end-date">End Date</Label>
-              <DatePicker />
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-5">
-          <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
-            <div className="space-y-0.5">
-              <Label htmlFor="is-work-experience">
-                Hide this project from your profile?{" "}
-                <span className="text-sm text-gray-600 font-light">(Optional)</span>
-              </Label>
-              <div className="text-sm text-gray-600 font-light">
-                Turning on this option will hide this project from your profile.
-              </div>
-            </div>
-            <div>
-              <Switch />
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-5">
-          <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
-            <div className="space-y-0.5">
-              <Label htmlFor="is-work-experience">Is this a work experience?</Label>
-              <div className="text-sm text-gray-600 font-light">
-                Turning on this option will consider this project as a work experience.
-              </div>
-            </div>
-            <div>
-              <Switch />
-            </div>
-          </div>
-        </section>
-
-        <section className="mb-5">
-          <div className="grid gap-4">
-            <div className="col-span-1">
-              {/* This component is rendered base on work experience toggle */}
-              <Label htmlFor="work-experience-title">Job Title</Label>
-              <Input id="work-experience-title" type="text" placeholder="E.g Software Developer" />
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <Badge
-        variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-      >
-        Project Links
-      </Badge>
-
-      <div className="bg-zinc-50 p-5 rounded-lg">
-        <section className="mb-5">
-          <div className="grid gap-4">
-            <div className="col-span-1">
-              <Label htmlFor="name">
-                Project URL <span className="text-sm text-gray-600 font-light">(Optional)</span>
-              </Label>
-              <Input
-                id="project-url"
-                type="text"
-                placeholder="
-                https://www.example.com"
+            <section className="mb-5">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="E.g This project aims to ..." className="resize-none" {...field} />
+                    </FormControl>
+                    <FormDescription>This is a summary of what your project is about.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
+            </section>
           </div>
-        </section>
 
-        <section className="mb-5">
-          <div className="grid gap-4">
-            <div className="col-span-1">
-              <Label htmlFor="name">
-                Github URL <span className="text-sm text-gray-600 font-light">(Optional)</span>
-              </Label>
-              <Input
-                id="project-url"
-                type="text"
-                placeholder="
-                https://www.example.com"
+          <Badge
+            variant="navy"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+          >
+            Project Details
+          </Badge>
+
+          <div className="bg-zinc-50 p-5 rounded-lg">
+            <section className="mb-5">
+              <div className="grid gap-4">
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Company <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="E.g Google" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="mb-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="startDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Start Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-[240px] pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="endDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>End Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-[240px] pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="mb-5">
+              <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
+                <div className="space-y-0.5">
+                  <Label htmlFor="is-work-experience">
+                    Hide this project from your profile?{" "}
+                    <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                  </Label>
+                  <div className="text-sm text-gray-600 font-light">
+                    Turning on this option will hide this project from your profile.
+                  </div>
+                </div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="hideProject"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="mb-5">
+              <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
+                <div className="space-y-0.5">
+                  <Label htmlFor="is-work-experience">Is this a work experience?</Label>
+                  <div className="text-sm text-gray-600 font-light">
+                    Turning on this option will consider this project as a work experience.
+                  </div>
+                </div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="isWorkExperience"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="mb-5">
+              <div className="grid gap-4">
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="jobTitle"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Job Title <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="E.g Software Developer" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <Badge
+            variant="navy"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+          >
+            Project Links
+          </Badge>
+
+          <div className="bg-zinc-50 p-5 rounded-lg">
+            <section className="mb-5">
+              <div className="grid gap-4">
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="projectUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Project Url <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://www.example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section className="mb-5">
+              <div className="grid gap-4">
+                <div className="col-span-1">
+                  <FormField
+                    control={form.control}
+                    name="githubUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Github Url <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://www.github.com/my-project" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <Badge
+            variant="navy"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+          >
+            Project Tags
+          </Badge>
+          <div className="border bg-zinc-50 p-5 rounded-lg">
+            <section className="mb-5">
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Tags <span className="text-sm text-gray-600 font-light">(Optional, Comma Separated)</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="E.g This project aims to ..." className="resize-none" {...field} />
+                    </FormControl>
+                    <FormDescription>This is a summary of what your project is about.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
+            </section>
           </div>
-        </section>
-      </div>
 
-      <Badge
-        variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-      >
-        Project Tags
-      </Badge>
-      <div className="border bg-zinc-50 p-5 rounded-lg">
-        <section className="mb-5">
-          <Label htmlFor="description">Tags (Comma Separated)</Label>
-          <Textarea id="description" placeholder="ReactJs, NextJs, MySQL" />
-        </section>
-      </div>
+          <Badge
+            variant="navy"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+          >
+            Main Content
+          </Badge>
 
-      <Badge
-        variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-      >
-        Main Content
-      </Badge>
+          <div className="border bg-white p-0 rounded-lg">
+            <section className="mb-5 bg-white">
+              <TextEditor onMarkdownChange={handleMarkdownChange} />
+            </section>
+          </div>
 
-      <div className="border bg-white p-0 rounded-lg">
-        <section className="mb-5 bg-white">
-          <TextEditor />
-        </section>
-      </div>
-
-      <Button variant={"diamond"} className="w-full font-semibold mt-5">
-        Save
-      </Button>
+          <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit">
+            Save
+          </Button>
+        </form>
+      </Form>
     </React.Fragment>
   );
 };

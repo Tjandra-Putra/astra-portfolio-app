@@ -5,7 +5,6 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToMarkdown from "draftjs-to-markdown";
 import ReactMarkDown from "react-markdown";
-import { stateToHTML } from "draft-js-export-html";
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -35,7 +34,11 @@ let options: { inlineStyleFn?: InlineStyleFn } = {
   },
 };
 
-export const TextEditor: React.FC = () => {
+interface TextEditorProps {
+  onMarkdownChange: (markdown: string) => void;
+}
+
+export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [markdownContent, setMarkdownContent] = useState<string | undefined>("");
   const [htmlContent, setHtmlContent] = useState<string | undefined>("");
@@ -48,11 +51,7 @@ export const TextEditor: React.FC = () => {
     const markdownText = draftToMarkdown(convertToRaw(contentState));
     setMarkdownContent(markdownText);
 
-    console.log(contentState);
-
-    // Convert the current content to HTML and update the state
-    const htmlText = stateToHTML(contentState, options as any);
-    setHtmlContent(htmlText);
+    onMarkdownChange(markdownText);
   };
 
   const uploadImageCallBack = async () => {
@@ -104,7 +103,7 @@ export const TextEditor: React.FC = () => {
           },
         }}
       />
-
+      {/* 
       <div className="shadow-paper my-6 text-wrap">
         <h6>Output Markdown RAW:</h6>
         {markdownContent}
@@ -112,7 +111,7 @@ export const TextEditor: React.FC = () => {
       <div className="shadow-paper my-6 text-wrap">
         <h6>Output Markdown:</h6>
         {markdownContent ? <ReactMarkDown className="prose">{markdownContent}</ReactMarkDown> : null}
-      </div>
+      </div> */}
     </div>
   );
 };
