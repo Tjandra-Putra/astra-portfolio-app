@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { UploadDropzone } from "@/lib/uploadthing";
 import "@uploadthing/react/styles.css";
-import "tailwindcss/tailwind.css";
+import "../app/globals.css";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
@@ -45,6 +45,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       onUploadError={(error: Error) => {
         console.log(error);
       }}
+      className="bg-white"
       // className=" bg-gray-100 border-2 border-gray-300 border-dashed rounded-lg p-2 text-[#1c3454]"
     />
   );

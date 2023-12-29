@@ -95,7 +95,7 @@
     @apply font-semibold;
   }
   h5 {
-    @apply text-md; /*or text-lg */
+    @apply text-lg; /*or text-lg */
     @apply font-semibold;
   }
   h6 {

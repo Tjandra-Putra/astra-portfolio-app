@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
+import axios from "axios";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useRouter } from "next/navigation";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -63,9 +66,13 @@ const formSchema = z.object({
   projectUrl: z.string().optional(),
   githubUrl: z.string().optional(),
   tags: z.string().optional(),
+  content: z.string().optional(),
 });
 
 const AddProjectPage = () => {
+  const [markDownContent, setMarkdownContent] = React.useState<string | undefined>("");
+  const router = useRouter();
+
   // define form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,10 +90,9 @@ const AddProjectPage = () => {
       projectUrl: "",
       githubUrl: "",
       tags: "",
+      content: "",
     },
   });
-
-  const [markDownContent, setMarkdownContent] = React.useState<string | undefined>("");
 
   // get values from text editor child component
   const handleMarkdownChange = (markdown: string) => {
@@ -94,11 +100,18 @@ const AddProjectPage = () => {
   };
 
   // submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    values.content = markDownContent;
     console.log(values);
-  }
+
+    try {
+      await axios.post("/api/servers", values);
+
+      form.reset();
+      router.refresh();
+      window.location.reload();
+    } catch (error) {}
+  };
 
   return (
     <React.Fragment>
@@ -115,12 +128,12 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
           >
             Introduction
           </Badge>
 
-          <div className="bg-zinc-50 p-5 rounded-lg">
+          <div className="border bg-zinc-50 p-5 rounded-lg">
             <section className="mb-5">
               <div className="grid grid-cols-12 items-center justify-center">
                 <div className="col-span-6 col-start-1">
@@ -209,12 +222,12 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
           >
             Project Details
           </Badge>
 
-          <div className="bg-zinc-50 p-5 rounded-lg">
+          <div className="border bg-zinc-50 p-5 rounded-lg">
             <section className="mb-5">
               <div className="grid gap-4">
                 <div className="col-span-1">
@@ -393,12 +406,12 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
           >
             Project Links
           </Badge>
 
-          <div className="bg-zinc-50 p-5 rounded-lg">
+          <div className="border bg-zinc-50 p-5 rounded-lg">
             <section className="mb-5">
               <div className="grid gap-4">
                 <div className="col-span-1">
@@ -446,7 +459,7 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
           >
             Project Tags
           </Badge>
@@ -473,7 +486,7 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
           >
             Main Content
           </Badge>

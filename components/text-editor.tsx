@@ -73,7 +73,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange }) => {
             // "fontFamily",
             "list",
             "textAlign",
-            "colorPicker",
+            // "colorPicker",
             "link",
             "embedded",
             // "emoji",
@@ -103,8 +103,8 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange }) => {
           },
         }}
       />
-      {/* 
-      <div className="shadow-paper my-6 text-wrap">
+
+      {/* <div className="shadow-paper my-6 text-wrap">
         <h6>Output Markdown RAW:</h6>
         {markdownContent}
       </div>

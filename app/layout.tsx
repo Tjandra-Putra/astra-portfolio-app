@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Sriracha, Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { initialProfile } from "@/lib/initial-profile";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
   title: "Astra",
   description: "Portfolio App",
 };
+
+const profile = initialProfile();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -19,7 +19,7 @@ model Profile {
   id String @id @default(uuid())
   userId String @unique // from Clerk Authentication
   role UserRole @default(GUEST)
-  name String
+  name String?
   jobTitle String?
   bio String? @db.Text
   about String? @db.Text
@@ -55,15 +55,6 @@ model Certificate {
   updatedAt DateTime @updatedAt
 
   @@index([profileId])
-}
-
-model SocialLink {
-  id String @id @default(uuid())
-  name String // name of social media
-  icon String // name of font awesome icon, pass this as a prop to the icon component
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model UserSocialLink{
