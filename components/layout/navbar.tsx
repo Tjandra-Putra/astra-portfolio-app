@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard, faEnvelope, faFolder, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -10,13 +10,18 @@ import { Button } from "../ui/button";
 import Cookies from "js-cookie";
 
 const Navbar = () => {
-  const [isAdmin, setIsAdmin] = useState<boolean>(true);
-  const domain = Cookies.get("domain");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [domain, setDomain] = useState("" as any);
+
+  useEffect(() => {
+    const domainCookie = Cookies.get("domain");
+    setDomain(domainCookie);
+  }, []);
 
   return (
     <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
-        <Link href={`/profile/${""}`} className="nav-item">
+        <Link href={`/profile/${domain}`} className="nav-item">
           <Button variant="ash">
             <FontAwesomeIcon
               icon={faFolder}
