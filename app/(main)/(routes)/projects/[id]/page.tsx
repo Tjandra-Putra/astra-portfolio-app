@@ -107,11 +107,13 @@ const Project = () => {
 
         <div className="badges flex flex-row flex-wrap gap-3 my-6">
           <div className="badges flex flex-row flex-wrap gap-3 my-6">
-            {project?.tags.split(",").map((tag: string, index: number) => (
-              <Badge key={index} variant={"diamond"}>
-                {tag.trim()}
-              </Badge>
-            ))}
+            {project?.tags
+              ? project?.tags.split(",").map((tag: string, index: number) => (
+                  <Badge key={index} variant={"diamond"}>
+                    {tag.trim()}
+                  </Badge>
+                ))
+              : null}
           </div>
         </div>
         <Separator className="my-6" />
