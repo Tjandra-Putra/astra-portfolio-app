@@ -1,10 +1,9 @@
-import { v4 as uuid } from "uuid";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const {
       thumbnailUrl,

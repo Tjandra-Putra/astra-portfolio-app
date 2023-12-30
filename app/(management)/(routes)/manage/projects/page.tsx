@@ -9,6 +9,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import Link from "next/link";
 import projectsData from "@/data/data";
 import axios from "axios";
+import { formatDate } from "@/lib/format-date";
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -27,17 +28,9 @@ const ProjectsPage = () => {
     }
   };
 
-  const formatDate = (dateString: string): string => {
-    const originalDate = new Date(dateString);
-
-    const day = originalDate.getUTCDate().toString().padStart(2, "0");
-    const month = (originalDate.getUTCMonth() + 1).toString().padStart(2, "0");
-    const year = originalDate.getUTCFullYear();
-
-    return `${day}/${month}/${year}`;
-  };
-
-  fetchProjects();
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   return (
     <React.Fragment>
