@@ -17,7 +17,7 @@ const ProjectsPage = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get("/api/projects");
+      const response = await axios.get("/api/manage/projects");
       setProjects(response.data);
 
       setLoading(false);

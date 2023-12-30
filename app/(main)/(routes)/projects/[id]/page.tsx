@@ -20,14 +20,12 @@ const Project = () => {
   const params = useParams();
   const id = params.id;
 
-  console.log("Fetching project with id:", id);
-
   const [project, setProject] = useState<any>();
   const [loading, setLoading] = useState(true);
 
   const fetchProject = async () => {
     try {
-      const response = await axios.get(`/api/projects/${id}`);
+      const response = await axios.get(`/api/manage/projects/${id}`);
 
       setProject(response.data);
       setLoading(false);

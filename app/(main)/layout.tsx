@@ -1,12 +1,8 @@
 import BottomGroup from "@/components/layout/bottom-group";
 import Navbar from "@/components/layout/navbar";
 import React from "react";
-import { initialProfile } from "@/lib/initial-profile";
-import { profile } from "console";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-  const profile = initialProfile();
-
   return (
     <div className="flex flex-col items-center p-4 bg-ash min-h-screen h-full">
       <div className="w-full sm:w-[570px]">

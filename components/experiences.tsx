@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { faArrowRight, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import projectsData from "@/data/data";
 import ExperienceCard from "./experience-card";
+import axios from "axios";
 
 interface ExperiencesProps {
   title?: string;
@@ -14,9 +15,36 @@ interface ExperiencesProps {
 }
 
 const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get("/api/projects");
+      setProjects(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
   const projectsToDisplay = showAll
-    ? projectsData.filter((project) => project.isWorkExperience)
-    : projectsData.filter((project) => project.isWorkExperience).slice(0, 3);
+    ? projects.filter((project) => project.isWorkExperience)
+    : projects.filter((project) => project.isWorkExperience).slice(0, 3);
+
+  // Check if there are no project experiences to display
+  if (projectsToDisplay.length === 0) {
+    return (
+      <div className="projects bg-ash p-6 rounded-lg mt-6">
+        <p>No project experiences available.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="projects bg-ash p-6 rounded-lg mt-6">

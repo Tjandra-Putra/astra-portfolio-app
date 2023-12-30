@@ -20,7 +20,7 @@ model Profile {
   userId String @unique // from Clerk Authentication
   role UserRole @default(GUEST)
   name String?
-  domain String? // this is the domain name of the website, e.g https://www.example.com
+  domain String? @unique// this is the domain name of the website, e.g https://www.example.com
   jobTitle String?
   bio String? @db.Text
   about String? @db.Text

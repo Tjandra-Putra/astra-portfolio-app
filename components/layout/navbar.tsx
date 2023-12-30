@@ -7,13 +7,16 @@ import { faAddressCard, faEnvelope, faFolder, faPenToSquare } from "@fortawesome
 import { faCrown, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(true);
+  const domain = Cookies.get("domain");
+
   return (
     <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
-        <Link href="/profile/tjandra-putra" className="nav-item">
+        <Link href={`/profile/${""}`} className="nav-item">
           <Button variant="ash">
             <FontAwesomeIcon
               icon={faFolder}
