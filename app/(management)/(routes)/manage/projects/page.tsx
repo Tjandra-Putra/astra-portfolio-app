@@ -54,7 +54,7 @@ const ProjectsPage = () => {
 
       <Badge
         variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
+        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
       >
         Personal Projects
       </Badge>

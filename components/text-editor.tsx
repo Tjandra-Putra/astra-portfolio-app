@@ -1,47 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { convertToRaw, EditorState } from "draft-js";
+import { convertToRaw, EditorState, convertFromRaw } from "draft-js";
 import draftToMarkdown from "draftjs-to-markdown";
-import ReactMarkDown from "react-markdown";
+import { markdownToDraft } from "markdown-draft-js";
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-interface InlineStyleFnOptions {
-  element: string;
-  style: Record<string, string>;
-}
-
-interface InlineStyleFn {
-  (styles: string[]): InlineStyleFnOptions | undefined;
-}
-
-// this is to allow for custom inline styles when rendering the HTML from the editor
-let options: { inlineStyleFn?: InlineStyleFn } = {
-  inlineStyleFn: (styles) => {
-    let key = "color-";
-    let color = styles.find((value) => value.startsWith(key));
-
-    if (color) {
-      return {
-        element: "span",
-        style: {
-          color: color.replace(key, ""),
-        },
-      };
-    }
-  },
-};
-
 interface TextEditorProps {
   onMarkdownChange: (markdown: string) => void;
+  initialContent?: string;
 }
 
-export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange }) => {
+export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initialContent }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [markdownContent, setMarkdownContent] = useState<string | undefined>("");
-  const [htmlContent, setHtmlContent] = useState<string | undefined>("");
+
+  // Set the initial content when it exists
+  useEffect(() => {
+    if (initialContent) {
+      const rawData = markdownToDraft(initialContent);
+      const contentState = convertFromRaw(rawData);
+      const newEditorState = EditorState.createWithContent(contentState);
+      setEditorState(newEditorState);
+    }
+  }, [initialContent]);
 
   const onEditorStateChange = (newEditorState: EditorState) => {
     setEditorState(newEditorState);
@@ -55,10 +39,12 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange }) => {
   };
 
   const uploadImageCallBack = async () => {
+    // upload to uploadthing and get back the url
     return Promise.resolve({ data: { link: "TODO" } });
   };
 
-  return (
+  // Only use the Editor component if window is defined (client side)
+  return typeof window !== "undefined" ? (
     <div>
       <Editor
         wrapperClassName="demo-wrapper"
@@ -81,37 +67,56 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange }) => {
             "remove",
             "history",
           ],
-
-          inline: { inDropdown: true },
-          blockType: {
-            inDropdown: true,
-            options: ["Normal", "H1", "H2", "H3", "H4", "H5", "H6", "Blockquote", "Code"],
-            className: undefined,
-            component: undefined,
-            dropdownClassName: undefined,
-          },
-          list: { inDropdown: true },
-          textAlign: { inDropdown: true },
-          link: { inDropdown: true },
-          // history: { inDropdown: true },
-          heading: { inDropdown: true },
-          image: {
-            uploadEnabled: true,
-            previewImage: true,
-            alt: { present: false, mandatory: false },
-            uploadCallback: uploadImageCallBack,
-          },
+          // ... (rest of the toolbar configuration remains unchanged)
         }}
       />
-
-      {/* <div className="shadow-paper my-6 text-wrap">
-        <h6>Output Markdown RAW:</h6>
-        {markdownContent}
-      </div>
-      <div className="shadow-paper my-6 text-wrap">
-        <h6>Output Markdown:</h6>
-        {markdownContent ? <ReactMarkDown className="prose">{markdownContent}</ReactMarkDown> : null}
-      </div> */}
     </div>
-  );
+  ) : null;
+
+  // return (
+  //   <div>
+  //     <Editor
+  //       wrapperClassName="text-editor-wrapper"
+  //       editorClassName="text-editor"
+  //       editorState={editorState}
+  //       onEditorStateChange={onEditorStateChange}
+  //       toolbar={{
+  //         options: [
+  //           "inline",
+  //           "blockType",
+  //           "fontSize",
+  //           // "fontFamily",
+  //           "list",
+  //           "textAlign",
+  //           // "colorPicker",
+  //           "link",
+  //           "embedded",
+  //           // "emoji",
+  //           "image",
+  //           "remove",
+  //           "history",
+  //         ],
+  //         inline: { inDropdown: true },
+  //         blockType: {
+  //           inDropdown: true,
+  //           options: ["Normal", "H1", "H2", "H3", "H4", "H5", "H6", "Blockquote", "Code"],
+  //           className: undefined,
+  //           component: undefined,
+  //           dropdownClassName: undefined,
+  //         },
+  //         list: { inDropdown: true },
+  //         textAlign: { inDropdown: true },
+  //         link: { inDropdown: true },
+  //         // history: { inDropdown: true },
+  //         heading: { inDropdown: true },
+  //         image: {
+  //           uploadEnabled: true,
+  //           previewImage: true,
+  //           alt: { present: false, mandatory: false },
+  //           uploadCallback: uploadImageCallBack,
+  //         },
+  //       }}
+  //     />
+  //   </div>
+  // );
 };

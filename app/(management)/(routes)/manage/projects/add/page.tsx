@@ -102,6 +102,7 @@ const AddProjectPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     values.content = markDownContent;
     console.log(values);
+    console.log("CLICKED");
 
     try {
       await axios.post("/api/manage/projects", values);
@@ -492,7 +493,7 @@ const AddProjectPage = () => {
           </div>
 
           <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit">
-            Save
+            Add Project
           </Button>
         </form>
       </Form>

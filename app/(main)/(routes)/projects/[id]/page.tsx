@@ -100,7 +100,15 @@ const Project = () => {
 
         {/* Render Markdown Content Here*/}
         <div className="markdown-content">
-          <ReactMarkdown>{project?.content || ""}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              img: ({ node, ...props }) => {
+                return <img {...props} className="w-full h-full rounded-lg my-6 shadow-paper" />;
+              },
+            }}
+          >
+            {project?.content || ""}
+          </ReactMarkdown>
         </div>
 
         <div className="badges flex flex-row flex-wrap gap-3 my-6">
