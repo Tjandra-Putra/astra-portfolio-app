@@ -75,7 +75,7 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
         projectUrl: updatedProjectData.projectUrl,
         githubUrl: updatedProjectData.githubUrl,
         tags: updatedProjectData.tags,
-        // content: updatedProjectData.content,
+        content: updatedProjectData.content,
         updatedAt: new Date(),
       },
     });

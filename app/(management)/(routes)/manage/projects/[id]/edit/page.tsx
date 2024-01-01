@@ -537,7 +537,7 @@ const EditProjectPage = () => {
 
           <div className="border bg-white p-0 rounded-lg">
             <section className="mb-5 bg-white">
-              {/* <TextEditor onMarkdownChange={handleMarkdownChange} initialContent={project?.content} /> */}
+              <TextEditor onMarkdownChange={handleMarkdownChange} initialContent={project?.content} />
             </section>
           </div>
 
