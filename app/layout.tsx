@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Sriracha, Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { initialProfile } from "@/lib/initial-profile";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -20,7 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className, "bg-white dark:bg-[#313338]")}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="astra-theme">
-            {children}
+            <main>{children}</main>
+            <Toaster position="bottom-center" />
           </ThemeProvider>
         </body>
       </html>

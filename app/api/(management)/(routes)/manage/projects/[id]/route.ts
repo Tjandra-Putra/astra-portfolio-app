@@ -65,6 +65,7 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
         id: existingProject.id,
       },
       data: {
+        thumbnailUrl: updatedProjectData.thumbnailUrl,
         name: updatedProjectData.name,
         category: updatedProjectData.category,
         description: updatedProjectData.description,

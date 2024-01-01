@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 import { TextEditor } from "@/components/text-editor";
 import { FileUpload } from "@/components/file-upload";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -158,6 +159,7 @@ const EditProjectPage = () => {
 
     try {
       await axios.put(`/api/manage/projects/${id}`, values);
+      toast.success("Project edited successfully!");
 
       // window.location.reload();
     } catch (error) {
