@@ -78,6 +78,7 @@ const EditProjectPage = () => {
 
   const [project, setProject] = useState<any>();
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -147,6 +148,8 @@ const EditProjectPage = () => {
 
   // submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsEditing(true);
+
     values.content = markDownContent;
 
     // Convert date strings to Date objects
@@ -156,13 +159,26 @@ const EditProjectPage = () => {
     try {
       await axios.put(`/api/manage/projects/${id}`, values);
 
-      form.reset();
-      router.refresh();
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsEditing(false);
     }
   };
+
+  // fixes the bug when edit button is clicked it becomes empty
+  useEffect(() => {
+    if (project) {
+      form.setValue("content", project.content);
+      setMarkdownContent(project.content);
+    }
+  }, [project, form]);
+
+  // clear content handler
+  // const clearContentHandler = () => {
+  //   form.setValue("content", "");
+  // };
 
   return (
     <React.Fragment>
@@ -528,9 +544,15 @@ const EditProjectPage = () => {
             </section>
           </div>
 
+          {/* <div className="flex flex-row justify-end mt-7">
+            <Button variant={"ghost"} onClick={() => clearContentHandler()}>
+              Clear Content
+            </Button>
+          </div> */}
+
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-between mt-7 rounded-lg rounded-bl-none rounded-br-none flex "
           >
             Main Content
           </Badge>
@@ -541,8 +563,8 @@ const EditProjectPage = () => {
             </section>
           </div>
 
-          <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit">
-            Edit Project
+          <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit" disabled={isEditing}>
+            {isEditing ? "Editing Project..." : "Edit Project"}
           </Button>
         </form>
       </Form>

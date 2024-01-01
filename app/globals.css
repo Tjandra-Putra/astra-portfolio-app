@@ -138,7 +138,3 @@
 .ut-text-xs {
   @apply text-center text-xs leading-5 text-gray-600;
 }
-
-.text-editor {
-  padding: 0 1rem;
-}
