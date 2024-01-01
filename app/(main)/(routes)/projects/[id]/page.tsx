@@ -69,7 +69,9 @@ const Project = () => {
         <div className="start-date">
           <div className="flex">
             <div className="text-[#1c3454] w-36">Date</div>
-            <div className="text-black w-full">{project?.startDate ? formatDate(project.startDate) : "N/A"} </div>
+            <div className="text-black w-full">
+              {project?.startDate ? `${formatDate(project.startDate)} to ${formatDate(project.endDate)}` : "N/A"}{" "}
+            </div>
           </div>
         </div>
       </section>
