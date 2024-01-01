@@ -104,7 +104,7 @@ const AddProjectPage = () => {
     console.log(values);
 
     try {
-      await axios.post("/api/projects", values);
+      await axios.post("/api/manage/projects", values);
 
       form.reset();
       router.refresh();
@@ -129,12 +129,12 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Introduction
           </Badge>
 
-          <div className="border bg-zinc-50 p-5 rounded-lg">
+          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid grid-cols-12 items-center justify-center">
                 <div className="col-span-6 col-start-1">
@@ -216,12 +216,12 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Project Details
           </Badge>
 
-          <div className="border bg-zinc-50 p-5 rounded-lg">
+          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid gap-4">
                 <div className="col-span-1">
@@ -400,12 +400,12 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Project Links
           </Badge>
 
-          <div className="border bg-zinc-50 p-5 rounded-lg">
+          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid gap-4">
                 <div className="col-span-1">
@@ -453,11 +453,11 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Project Tags
           </Badge>
-          <div className="border bg-zinc-50 p-5 rounded-lg">
+          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <FormField
                 control={form.control}
@@ -480,7 +480,7 @@ const AddProjectPage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Main Content
           </Badge>

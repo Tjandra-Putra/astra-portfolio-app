@@ -4,8 +4,7 @@ import { X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { UploadDropzone } from "@/lib/uploadthing";
-import "@uploadthing/react/styles.css";
-import "../app/globals.css";
+// import "@uploadthing/react/styles.css";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
@@ -45,8 +44,15 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       onUploadError={(error: Error) => {
         console.log(error);
       }}
-      className="bg-white"
-      // className=" bg-gray-100 border-2 border-gray-300 border-dashed rounded-lg p-2 text-[#1c3454]"
+      className="bg-ash text-[#1d3554] p-5"
+      appearance={{
+        button: "bg-navy text-white", // Add your desired styles here
+      }}
+      content={{
+        button({ isUploading }) {
+          return isUploading ? "Uploading..." : "Upload files";
+        },
+      }}
     />
   );
 };

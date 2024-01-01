@@ -77,7 +77,7 @@ const ManagePage = () => {
             </Link>
           </div>
         </div>
-
+        {/* 
         <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="avatar-border  border-4 border-[#ffd43b] p-2 rounded-full">
@@ -94,7 +94,7 @@ const ManagePage = () => {
               <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
             </Link>
           </div>
-        </div>
+        </div> */}
       </div>
     </React.Fragment>
   );

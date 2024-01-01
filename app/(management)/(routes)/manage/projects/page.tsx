@@ -52,13 +52,19 @@ const ProjectsPage = () => {
 
       {/* fetchProjects: {JSON.stringify(projects)} */}
 
+      <Badge
+        variant="navy"
+        className="text-lg font-semibold w-full justify-start mt-7 mb-2 rounded-lg rounded-bl-none rounded-br-none"
+      >
+        Personal Projects
+      </Badge>
       <Table>
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[150px]">Project Name</TableHead>
+            <TableHead className="w-[300px]">Project Name</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Created</TableHead>
+            {/* <TableHead>Created</TableHead> */}
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -75,7 +81,59 @@ const ProjectsPage = () => {
                     <Badge variant={"cheese"}>Hidden</Badge>
                   )}
                 </TableCell>
-                <TableCell>{project?.startDate ? formatDate(project.startDate) : "N/A"}</TableCell>
+                {/* <TableCell>{project?.startDate ? formatDate(project.startDate) : "N/A"}</TableCell> */}
+                <TableCell className="text-right">
+                  <div className="buttons flex gap-2">
+                    <Link href={`/projects/${project.id}`}>
+                      <Button variant="secondary">
+                        <FontAwesomeIcon icon={faEye} />
+                      </Button>
+                    </Link>
+                    <Link href={`/manage/projects/${project.id}/edit`}>
+                      <Button variant="secondary">
+                        <FontAwesomeIcon icon={faPen} />
+                      </Button>
+                    </Link>
+                    <Button variant="secondary">
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+
+      <Badge
+        variant="navy"
+        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+      >
+        Work Experiences
+      </Badge>
+      <Table>
+        <TableCaption></TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[300px]">Project Name</TableHead>
+            <TableHead>Status</TableHead>
+            {/* <TableHead>Created</TableHead> */}
+            <TableHead>Action</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {projects
+            ?.filter((project) => project.isWorkExperience)
+            .map((project) => (
+              <TableRow key={project.id}>
+                <TableCell className="font-medium">{project.name}</TableCell>
+                <TableCell>
+                  {project?.visible ? (
+                    <Badge variant={"diamond"}>Visible</Badge>
+                  ) : (
+                    <Badge variant={"cheese"}>Hidden</Badge>
+                  )}
+                </TableCell>
+                {/* <TableCell>{project?.startDate ? formatDate(project.startDate) : "N/A"}</TableCell> */}
                 <TableCell className="text-right">
                   <div className="buttons flex gap-2">
                     <Link href={`/projects/${project.id}`}>
