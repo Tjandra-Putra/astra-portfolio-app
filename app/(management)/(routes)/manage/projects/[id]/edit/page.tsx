@@ -78,8 +78,8 @@ const EditProjectPage = () => {
   const id = params.id;
 
   const [project, setProject] = useState<any>();
-  const [loading, setLoading] = useState(true);
-  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -106,11 +106,8 @@ const EditProjectPage = () => {
       const response = await axios.get(`/api/manage/projects/${id}`);
 
       setProject(response.data);
-      setLoading(false);
     } catch (error: any) {
       console.error("Error fetching data:", error.response.data);
-
-      setLoading(false);
     }
   };
 

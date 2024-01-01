@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 import { TextEditor } from "@/components/text-editor";
 import { FileUpload } from "@/components/file-upload";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -69,8 +70,10 @@ const formSchema = z.object({
 });
 
 const AddProjectPage = () => {
-  const [markDownContent, setMarkdownContent] = React.useState<string | undefined>("");
   const router = useRouter();
+
+  const [markDownContent, setMarkdownContent] = React.useState<string | undefined>("");
+  const [isAdding, setIsAdding] = React.useState<boolean>(false);
 
   // define form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -100,18 +103,25 @@ const AddProjectPage = () => {
 
   // submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsAdding(true);
+
     values.content = markDownContent;
-    console.log(values);
-    console.log("CLICKED");
 
     try {
       await axios.post("/api/manage/projects", values);
 
-      form.reset();
-      router.refresh();
-      window.location.reload();
+      toast.success("Project added successfully!");
+
+      // redirect to other page
+      router.push("/manage/projects");
+
+      // form.reset();
+      // router.refresh();
+      // window.location.reload();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -492,8 +502,8 @@ const AddProjectPage = () => {
             </section>
           </div>
 
-          <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit">
-            Add Project
+          <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit" disabled={isAdding}>
+            {isAdding ? "Adding Project..." : "Add Project"}
           </Button>
         </form>
       </Form>
