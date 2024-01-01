@@ -10,10 +10,12 @@ import Link from "next/link";
 import projectsData from "@/data/data";
 import axios from "axios";
 import { formatDate } from "@/lib/format-date";
+import { toast } from "sonner";
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const fetchProjects = async () => {
     try {
@@ -28,9 +30,22 @@ const ProjectsPage = () => {
     }
   };
 
+  const deleteProjectHandler = async (id: string) => {
+    console.log("CLICKED");
+    try {
+      setButtonLoading(true);
+      await axios.delete(`/api/manage/projects/${id}`);
+      toast.success("Project deleted successfully");
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    } finally {
+      setButtonLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [projects]);
 
   return (
     <React.Fragment>
@@ -94,7 +109,11 @@ const ProjectsPage = () => {
                         <FontAwesomeIcon icon={faPen} />
                       </Button>
                     </Link>
-                    <Button variant="secondary">
+                    <Button
+                      variant="secondary"
+                      onClick={() => deleteProjectHandler(project.id)}
+                      disabled={buttonLoading}
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </Button>
                   </div>
@@ -146,7 +165,11 @@ const ProjectsPage = () => {
                         <FontAwesomeIcon icon={faPen} />
                       </Button>
                     </Link>
-                    <Button variant="secondary">
+                    <Button
+                      variant="secondary"
+                      onClick={() => deleteProjectHandler(project.id)}
+                      disabled={buttonLoading}
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </Button>
                   </div>
