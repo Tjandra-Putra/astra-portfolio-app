@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type InitialState = {
-  value: UserState;
-};
-
 type UserState = {
   id: string;
   role: string;
@@ -13,14 +9,12 @@ type UserState = {
 };
 
 const initialState = {
-  value: {
-    id: "",
-    role: "",
-    name: "",
-    domain: "",
-    email: "",
-  } as UserState,
-} as InitialState;
+  id: "",
+  role: "",
+  name: "",
+  domain: "",
+  email: "",
+} as UserState;
 
 // define the state interface
 export const userSlice = createSlice({
@@ -35,16 +29,11 @@ export const userSlice = createSlice({
     setUserInfo: (state, action) => {
       const { id, role, name, domain, email } = action.payload;
 
-      return {
-        ...state,
-        value: {
-          id,
-          role,
-          name,
-          domain,
-          email,
-        },
-      };
+      state.id = id;
+      state.role = role;
+      state.name = name;
+      state.domain = domain;
+      state.email = email;
     },
   },
 });

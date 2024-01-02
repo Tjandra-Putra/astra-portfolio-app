@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import ExperienceCard from "./experience-card";
 import axios from "axios";
-import { useAppSelector } from "@/app/redux/store";
+import { useSelector } from "react-redux";
 
 interface ExperiencesProps {
   title?: string;
@@ -17,7 +17,7 @@ interface ExperiencesProps {
 const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const userInfo = useAppSelector((state: any) => state.userReducer.value);
+  const userInfo = useSelector((state: any) => state.userReducer);
 
   const fetchProjects = async () => {
     try {

@@ -16,7 +16,7 @@ const persistedReducer = persistReducer(persistConfig, userReducer);
 
 // manage all states
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: { userReducer: persistedReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -29,5 +29,3 @@ export let persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

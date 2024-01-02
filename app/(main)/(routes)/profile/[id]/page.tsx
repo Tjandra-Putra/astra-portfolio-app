@@ -15,24 +15,23 @@ import axios from "axios";
 import { serialize } from "cookie";
 
 import { setUserInfo } from "@/app/redux/features/user-slice";
-import { useDispatch } from "react-redux";
-import { AppDispatch, useAppSelector } from "@/app/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
   const params = useParams();
   const id = params.id;
 
-  const userInfo = useAppSelector((state: any) => state.userReducer.value);
+  const userInfo = useSelector((state: any) => state.userReducer);
 
   const [profile, setProfile] = useState<any>();
 
   // redux
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get(`/api/profile/${id}`);
+      const response = await axios.get(`/api/profile/${userInfo.id}`);
 
       setProfile(response.data);
 
@@ -46,6 +45,11 @@ export default function Profile() {
           email: response.data.email,
         })
       );
+
+      if (id != userInfo.id) {
+        // refresh
+        window.location.reload();
+      }
     } catch (error: any) {
       console.error("Error fetching data:", error.response.data);
     }

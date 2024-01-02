@@ -7,22 +7,17 @@ import { faAddressCard, faEnvelope, faFolder, faPenToSquare } from "@fortawesome
 import { faCrown, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { useAppSelector } from "@/app/redux/store";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [domain, setDomain] = useState("" as any);
-  const userInfo = useAppSelector((state: any) => state.userReducer.value);
-  const { id, role } = userInfo;
+  const [role, setRole] = useState("" as any);
+  const userInfo = useSelector((state: any) => state.userReducer);
 
   return (
     <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
-        <Link
-          href={{
-            pathname: `/profile/${id}`,
-          }}
-          className="nav-item"
-        >
+        <Link href={`/profile/${userInfo.id}`} className="nav-item">
           <Button variant="ash">
             <FontAwesomeIcon
               icon={faFolder}
@@ -79,7 +74,7 @@ const Navbar = () => {
 
       <div className="nav-right flex gap-2">
         <SignedIn>
-          {userInfo?.role == "ADMIN" && (
+          {role == "ADMIN" && (
             <Link href="/admin/dashboard" className="nav-item">
               <Button variant={"ocean"}>
                 <FontAwesomeIcon icon={faCrown} className="me-2" color="#183153" />
