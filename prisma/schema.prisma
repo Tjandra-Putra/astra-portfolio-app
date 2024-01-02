@@ -76,7 +76,7 @@ model UserSocialLink{
 model Project{
   id String @id @default(uuid())
   name String?
-  description String?
+  description String? @db.Text
   thumbnailUrl String? @db.Text // thumbnail image, if not present, get the first letter of the project name and use it as the image
   projectUrl String? @db.Text
   githubUrl String? @db.Text

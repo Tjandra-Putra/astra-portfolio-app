@@ -35,8 +35,8 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
   }, []);
 
   const projectsToDisplay = showAll
-    ? projects.filter((project) => project.isWorkExperience)
-    : projects.filter((project) => project.isWorkExperience).slice(0, 3);
+    ? projects.filter((project) => project.isWorkExperience && project.visible)
+    : projects.filter((project) => project.isWorkExperience && project.visible).slice(0, 3);
 
   // Check if there are no project experiences to display
   if (projectsToDisplay.length === 0) {

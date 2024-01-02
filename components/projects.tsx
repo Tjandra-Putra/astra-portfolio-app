@@ -40,8 +40,8 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll }) => {
   }, [userInfo]);
 
   const projectsToDisplay = showAll
-    ? projects.filter((project) => !project.isWorkExperience)
-    : projects.filter((project) => !project.isWorkExperience).slice(0, 3);
+    ? projects.filter((project) => !project.isWorkExperience && project.visible)
+    : projects.filter((project) => !project.isWorkExperience && project.visible).slice(0, 3);
 
   // Check if there are no non-work experience projects to display
   if (projectsToDisplay.length === 0) {
