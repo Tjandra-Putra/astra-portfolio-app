@@ -18,7 +18,7 @@ export default authMiddleware({
     // api routes
     "/api/uploadthing",
     "/api/profile/(.*)",
-    "/api/projects",
+    "/api/projects/(.*)",
   ],
 });
 

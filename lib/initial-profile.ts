@@ -8,6 +8,8 @@ export const initialProfile = async () => {
     return redirectToSignIn();
   }
 
+  // set up user profile for redux
+
   // Check if user already has a profile
   const profile = await db.profile.findUnique({
     where: { userId: user.id },

@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { ReduxProvider } from "./redux/provider";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className, "bg-white dark:bg-[#313338]")}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="astra-theme">
-            <main>{children}</main>
+            <ReduxProvider>
+              <main>{children}</main>
+            </ReduxProvider>
             <Toaster position="bottom-center" />
           </ThemeProvider>
         </body>

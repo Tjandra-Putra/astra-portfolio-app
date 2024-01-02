@@ -14,40 +14,40 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { serialize } from "cookie";
 
+import { setUserInfo } from "@/app/redux/features/user-slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch, useAppSelector } from "@/app/redux/store";
+
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
   const params = useParams();
   const id = params.id;
 
+  const userInfo = useAppSelector((state: any) => state.userReducer.value);
+
   const [profile, setProfile] = useState<any>();
-  const [loading, setLoading] = useState(true);
 
-  const setProfileDomain = (profileId: any) => {
-    const existingDomain = document.cookie.replace(/(?:(?:^|.*;\s*)domain\s*=\s*([^;]*).*$)|^.*$/, "$1");
-
-    if (existingDomain !== profileId) {
-      document.cookie = serialize("domain", profileId, {
-        path: "/",
-        maxAge: Number.MAX_SAFE_INTEGER,
-      });
-
-      window.location.reload();
-    }
-  };
+  // redux
+  const dispatch = useDispatch<AppDispatch>();
 
   const fetchProfile = async () => {
     try {
       const response = await axios.get(`/api/profile/${id}`);
 
       setProfile(response.data);
-      setLoading(false);
 
-      // Set the profile ID in a cookie
-      setProfileDomain(id);
+      // redux
+      dispatch(
+        setUserInfo({
+          id: id,
+          role: response.data.role,
+          name: response.data.name,
+          domain: response.data.domain,
+          email: response.data.email,
+        })
+      );
     } catch (error: any) {
       console.error("Error fetching data:", error.response.data);
-
-      setLoading(false);
     }
   };
 
@@ -55,12 +55,10 @@ export default function Profile() {
     if (id) {
       fetchProfile();
     }
-  }, []);
-
-  // const profile = await currentProfile();
+  }, [id]);
 
   return (
-    <div className="">
+    <>
       <section className="introduction pb-5">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
@@ -117,6 +115,6 @@ export default function Profile() {
       <Projects showAll={false} />
 
       <Experiences />
-    </div>
+    </>
   );
 }

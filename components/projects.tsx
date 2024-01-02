@@ -8,21 +8,21 @@ import ProjectCard from "./project-card";
 import Link from "next/link";
 import projectsData from "@/data/data";
 import axios from "axios";
+import { useAppSelector } from "@/app/redux/store";
 
 interface ProjectsProps {
   title?: string;
   showAll?: boolean;
 }
 
-// ... (import statements)
-
 const Projects: React.FC<ProjectsProps> = ({ title, showAll }) => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const userInfo = useAppSelector((state: any) => state.userReducer.value);
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get("/api/projects");
+      const response = await axios.get(`/api/projects/${userInfo?.id}`);
       setProjects(response.data);
 
       setLoading(false);

@@ -9,18 +9,8 @@ interface ProjectCardComponentProps {
 }
 
 const ProjectCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
-  const projectTags = [
-    "React.js",
-    "Node.js",
-    "MongoDB",
-    "Redux",
-    "TypeScript",
-    "JavaScript",
-    // Add more tags as needed
-  ];
-
-  // Limit the number of displayed badges to 4
-  const displayedTags = projectTags.slice(0, 3);
+  // Limit the number of displayed badges to 3
+  const displayedTags = data.tags.split(",").slice(0, 3);
 
   return (
     <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
@@ -33,14 +23,14 @@ const ProjectCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
         <div className="flex flex-col">
           <div className="project-title text-gray-800 font-medium text-lg">{data.name}</div>
           <div className="flex flex-wrap gap-2 mt-1 capitalize">
-            {displayedTags.map((tag, index) => (
+            {displayedTags.map((tag: string, index: number) => (
               <div key={index} className="project-tags">
                 <Badge variant="secondary" className="text-xs font-normal">
                   {tag}
                 </Badge>
               </div>
             ))}
-            {projectTags.length > 3 && (
+            {data.tags.split(",").length > 3 && (
               <div className="project-tags">
                 <Badge variant="secondary" className="text-xs font-normal">
                   ...

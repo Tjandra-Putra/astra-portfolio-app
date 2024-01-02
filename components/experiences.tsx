@@ -5,9 +5,9 @@ import { faArrowRight, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import projectsData from "@/data/data";
 import ExperienceCard from "./experience-card";
 import axios from "axios";
+import { useAppSelector } from "@/app/redux/store";
 
 interface ExperiencesProps {
   title?: string;
@@ -17,10 +17,11 @@ interface ExperiencesProps {
 const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const userInfo = useAppSelector((state: any) => state.userReducer.value);
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get("/api/projects");
+      const response = await axios.get(`/api/projects/${userInfo?.id}`);
       setProjects(response.data);
       setLoading(false);
     } catch (error) {
