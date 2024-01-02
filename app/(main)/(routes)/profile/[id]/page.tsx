@@ -31,7 +31,7 @@ export default function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get(`/api/profile/${userInfo.id}`);
+      const response = await axios.get(`/api/profile/${id}`);
 
       setProfile(response.data);
 
@@ -51,7 +51,7 @@ export default function Profile() {
         window.location.reload();
       }
     } catch (error: any) {
-      console.error("Error fetching data:", error.response.data);
+      console.error("Error fetching data:", error.response);
     }
   };
 

@@ -10,7 +10,6 @@ import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const [domain, setDomain] = useState("" as any);
   const userInfo = useSelector((state: any) => state.userReducer);
 
   return (
@@ -65,6 +64,7 @@ const Navbar = () => {
                     },
                   },
                 }}
+                afterSignOutUrl="/sign-in"
               />
             </Button>
           </div>
