@@ -87,11 +87,9 @@ const Project = () => {
         {!project ? (
           <div className="h-full w-full my-6 rounded-lg bg-ash p-6">Loading...</div>
         ) : project?.thumbnailUrl ? (
-          <Image
+          <img
             src={project?.thumbnailUrl}
             alt={project?.name}
-            width={500}
-            height={500}
             className="thumbnail-img w-full h-full rounded-lg my-6 shadow-paper"
           />
         ) : (
