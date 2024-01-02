@@ -24,8 +24,6 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
           userId: user.id,
         },
       });
-
-      return NextResponse.json(profile);
     }
 
     return NextResponse.json(profile);
