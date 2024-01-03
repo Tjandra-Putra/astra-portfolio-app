@@ -91,7 +91,8 @@ export default function Profile() {
             <div className="md:col-span-8">
               <div className="w-full">
                 <div className="name text-4xl font-medium">
-                  Hi, I'm <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
+                  Hi, I&apos;m{" "}
+                  <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
                 </div>
                 <div className="description mt-3 text-gray-900 font-normal">
                   {profile?.bio
