@@ -104,9 +104,9 @@ export default function Profile() {
               <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
                 <Avatar>
                   {profile?.imageUrl ? (
-                    <AvatarImage src={profile.imageUrl} />
+                    <AvatarImage src={profile.imageUrl} className="object-cover" />
                   ) : (
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src="https://github.com/shadcn.png" className="object-cover" />
                   )}
                   <AvatarFallback>{profile?.name}</AvatarFallback>
                 </Avatar>

@@ -28,6 +28,7 @@ export const initialProfile = async () => {
       imageUrl: user.imageUrl,
       email: user.emailAddresses[0].emailAddress,
       domain: user.id,
+      workEmail: user.emailAddresses[0].emailAddress,
     },
   });
 

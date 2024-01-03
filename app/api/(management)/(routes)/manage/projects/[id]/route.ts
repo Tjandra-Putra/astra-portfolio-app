@@ -57,8 +57,6 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
     // Extract the updated project data from the request body
     const updatedProjectData = await req.json();
 
-    console.log(updatedProjectData.content);
-
     // Update the project with the new data
     const updatedProject = await db.project.update({
       where: {

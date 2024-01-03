@@ -4,6 +4,8 @@ import { X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { UploadDropzone } from "@/lib/uploadthing";
+import { Button } from "./ui/button";
+import Link from "next/link";
 // import "@uploadthing/react/styles.css";
 
 interface FileUploadProps {
@@ -14,8 +16,9 @@ interface FileUploadProps {
 
 export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   const fileType = value?.split(".").pop();
+  const isImage = fileType && fileType !== "pdf";
 
-  if (value && fileType !== "pdf") {
+  if (isImage) {
     return (
       <div className="relative">
         <div className="avatar-border border-4 border-[#000000] p-2 rounded-lg">
@@ -26,6 +29,26 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
           <button
             onClick={() => onChange("")}
             className="bg-rose-500 text-white p-1 rounded-full absolute top-2 right-2 shadow-sm"
+            type="button"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // if pdf, preview pdf
+  if (value && fileType === "pdf") {
+    return (
+      <div className="relative">
+        <div className="avatar-border rounded-sm">
+          <Link href={value} target="_blank">
+            <div className="w-full h-10 bg-navy rounded-lg text-white flex items-center justify-center">View PDF</div>
+          </Link>
+          <button
+            onClick={() => onChange("")}
+            className="bg-rose-500 text-white p-1 rounded-full absolute top-[-10px] right-[-10px] shadow-sm"
             type="button"
           >
             <X className="h-4 w-4" />

@@ -61,7 +61,9 @@ model Certificate {
 model UserSocialLink{
   id String @id @default(uuid())
   url String @db.Text
-  icon String // name of font awesome icon, pass this as a prop to the icon component
+  iconName String // name of font awesome icon, pass this as a prop to the icon component
+  iconType String // free-solid-svg-icons, free-brands-svg-icons, etc
+  visible Boolean? @default(true)
 
   // relationships
   profileId String

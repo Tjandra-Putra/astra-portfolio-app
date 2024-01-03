@@ -76,7 +76,7 @@ const Navbar = () => {
           {userInfo?.role == "ADMIN" && (
             <Link href="/admin/dashboard" className="nav-item">
               <Button variant={"ocean"}>
-                <FontAwesomeIcon icon={faCrown} className="me-2" color="#183153" />
+                <FontAwesomeIcon icon={faCrown} className="me-2" color="#ffffff" />
                 Admin
               </Button>
             </Link>

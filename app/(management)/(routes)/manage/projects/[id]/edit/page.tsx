@@ -166,7 +166,7 @@ const EditProjectPage = () => {
     }
   };
 
-  // fixes the bug when edit button is clicked it becomes empty
+  // fixes the bug when edit button is clicked it becomes empty for text editor
   useEffect(() => {
     if (project) {
       form.setValue("content", project.content);
@@ -563,7 +563,7 @@ const EditProjectPage = () => {
           </div>
 
           <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit" disabled={isEditing}>
-            {isEditing ? "Editing Project..." : "Edit Project"}
+            {isEditing ? "Saving Changes..." : "Save Changes"}
           </Button>
         </form>
       </Form>
