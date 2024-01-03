@@ -9,6 +9,8 @@ import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Projects from "@/components/projects";
 import Experiences from "@/components/experiences";
+import Loader from "@/components/layout/loader";
+
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
@@ -22,18 +24,17 @@ export default function Profile() {
   const id = params.id;
 
   const userInfo = useSelector((state: any) => state.userReducer);
-
   const [profile, setProfile] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   // redux
   const dispatch = useDispatch();
 
   const fetchProfile = async () => {
     try {
+      setLoading(true);
+
       const response = await axios.get(`/api/profile/${id}`);
-
-      console.log(response.data);
-
       setProfile(response.data);
 
       // redux
@@ -54,6 +55,8 @@ export default function Profile() {
       }
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,65 +84,69 @@ export default function Profile() {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-12 gap-6 mb-5 text-center sm:text-left">
-          <div className="md:col-span-8">
-            <div className="w-full">
-              <div className="name text-4xl font-medium">
-                Hi, I'm <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
-              </div>
-              <div className="description mt-3 text-gray-900 font-normal">
-                {profile?.bio
-                  ? profile.bio
-                  : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
-              </div>
-              <div className="buttons mt-5 space-x-3">
-                {profile?.resumeUrl ? (
-                  <Link href={profile.resumeUrl} target="_blank">
-                    <Button variant={"navy"}>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="grid md:grid-cols-12 gap-6 mb-5 text-center sm:text-left">
+            <div className="md:col-span-8">
+              <div className="w-full">
+                <div className="name text-4xl font-medium">
+                  Hi, I'm <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
+                </div>
+                <div className="description mt-3 text-gray-900 font-normal">
+                  {profile?.bio
+                    ? profile.bio
+                    : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
+                </div>
+                <div className="buttons mt-5 space-x-3">
+                  {profile?.resumeUrl ? (
+                    <Link href={profile.resumeUrl} target="_blank">
+                      <Button variant={"navy"}>
+                        <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+                        Resume
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button variant={"navy"} disabled>
                       <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
                       Resume
                     </Button>
-                  </Link>
-                ) : (
-                  <Button variant={"navy"} disabled>
-                    <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-                    Resume
-                  </Button>
-                )}
-                {profile?.workEmail ? (
-                  // color="#183153"
-                  <Link href={`mailto:${profile?.workEmail}`}>
-                    <Button variant="ocean">
-                      <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
-                      Copy Email
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link href={`mailto:${profile?.workEmail}`}>
-                    <Button variant="ocean">
-                      <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
-                      Copy Email
-                    </Button>
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="md:col-span-4 flex items-center">
-            <div className="w-full">
-              <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
-                <Avatar>
-                  {profile?.imageUrl ? (
-                    <AvatarImage src={profile.imageUrl} className="object-cover" />
-                  ) : (
-                    <AvatarImage src="https://github.com/shadcn.png" className="object-cover" />
                   )}
-                  <AvatarFallback>{profile?.name}</AvatarFallback>
-                </Avatar>
+                  {profile?.workEmail ? (
+                    // color="#183153"
+                    <Link href={`mailto:${profile?.workEmail}`}>
+                      <Button variant="ocean">
+                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
+                        Copy Email
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link href={`mailto:${profile?.workEmail}`}>
+                      <Button variant="ocean">
+                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
+                        Copy Email
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="md:col-span-4 flex items-center">
+              <div className="w-full">
+                <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
+                  <Avatar>
+                    {profile?.imageUrl ? (
+                      <AvatarImage src={profile.imageUrl} className="object-cover" />
+                    ) : (
+                      <AvatarImage src="https://github.com/shadcn.png" className="object-cover" />
+                    )}
+                    <AvatarFallback>{profile?.name}</AvatarFallback>
+                  </Avatar>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
 
       <Projects showAll={false} />
