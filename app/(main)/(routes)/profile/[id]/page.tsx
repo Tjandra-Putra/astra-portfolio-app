@@ -10,11 +10,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Projects from "@/components/projects";
 import Experiences from "@/components/experiences";
 import Loader from "@/components/layout/loader";
-
+import CopyToClipboard from "react-copy-to-clipboard";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-
+import { toast } from "sonner";
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -114,19 +114,24 @@ export default function Profile() {
                   )}
                   {profile?.workEmail ? (
                     // color="#183153"
-                    <Link href={`mailto:${profile?.workEmail}`}>
-                      <Button variant="ocean">
-                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
+                    <CopyToClipboard
+                      text={profile?.workEmail}
+                      onCopy={() => {
+                        toast.success("Copied to clipboard!");
+                      }}
+                    >
+                      <Button variant={"navy"}>
+                        <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
                         Copy Email
                       </Button>
-                    </Link>
+                    </CopyToClipboard>
                   ) : (
-                    <Link href={`mailto:${profile?.workEmail}`}>
-                      <Button variant="ocean">
-                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
+                    <CopyToClipboard text={profile?.email} onCopy={() => {}}>
+                      <Button variant={"navy"}>
+                        <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
                         Copy Email
                       </Button>
-                    </Link>
+                    </CopyToClipboard>
                   )}
                 </div>
               </div>

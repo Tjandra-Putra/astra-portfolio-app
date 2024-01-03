@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import React, { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 const CopyToClipboardButton = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -24,7 +25,7 @@ const CopyToClipboardButton = () => {
         <button>Copy to clipboard</button>
       </CopyToClipboard>
 
-      {copied && <span style={{ color: 'red' }}>Copied.</span>}
+      {copied && <span style={{ color: "red" }}>Copied.</span>}
     </div>
   );
 };
