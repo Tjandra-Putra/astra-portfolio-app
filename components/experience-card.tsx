@@ -9,16 +9,6 @@ interface ProjectCardComponentProps {
 }
 
 const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
-  const projectTags = [
-    "React.js",
-    "Node.js",
-    "MongoDB",
-    "Redux",
-    "TypeScript",
-    "JavaScript",
-    // Add more tags as needed
-  ];
-
   return (
     <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
       <div className="flex items-center gap-4">

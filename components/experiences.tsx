@@ -8,6 +8,7 @@ import Link from "next/link";
 import ExperienceCard from "./experience-card";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Loader from "./layout/loader";
 
 interface ExperiencesProps {
   title?: string;
@@ -21,11 +22,12 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
 
   const fetchProjects = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`/api/projects/${userInfo?.id}`);
       setProjects(response.data);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching projects:", error);
+    } finally {
       setLoading(false);
     }
   };
@@ -38,30 +40,25 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
     ? projects.filter((project) => project.isWorkExperience && project.visible)
     : projects.filter((project) => project.isWorkExperience && project.visible).slice(0, 3);
 
-  // Check if there are no project experiences to display
-  if (projectsToDisplay.length === 0) {
-    return (
-      <div className="projects bg-ash p-6 rounded-lg mt-6">
-        <p>No project experiences available.</p>
-      </div>
-    );
-  }
-
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="projects bg-ash p-6 rounded-lg mt-6">
-      {!showAll && (
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 text-lg">{title || "Experiences"}</div>
-          </div>
-          <Link href={"/projects"}>
-            <Button variant="white">
-              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
-            </Button>
-          </Link>
-        </div>
-      )}
+      {projectsToDisplay.length === 0
+        ? "No project experiences available."
+        : !showAll && (
+            <div className="flex justify-between">
+              <div className="flex items-center gap-2">
+                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+                <div className="font-medium text-gray-800 text-lg">{title || "Experiences"}</div>
+              </div>
+              <Link href={"/projects"}>
+                <Button variant="white">
+                  View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+                </Button>
+              </Link>
+            </div>
+          )}
       {projectsToDisplay.map((project) => (
         <ExperienceCard key={project.id} data={project} />
       ))}
