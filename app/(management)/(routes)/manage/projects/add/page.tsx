@@ -106,6 +106,7 @@ const AddProjectPage = () => {
     setIsAdding(true);
 
     values.content = markDownContent;
+    values.description = values.description.replace(/\n/g, "<br />");
 
     try {
       await axios.post("/api/manage/projects", values);
@@ -215,7 +216,11 @@ const AddProjectPage = () => {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="E.g This project aims to ..." className="resize-none" {...field} />
+                      <Textarea
+                        placeholder="E.g This project aims to ..."
+                        className="resize-none whitespace-pre-line"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>This is a summary of what your project is about.</FormDescription>
                     <FormMessage />
