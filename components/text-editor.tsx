@@ -1,5 +1,5 @@
-"use client";
-
+// Use dynamic import for the Editor component
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw, EditorState, convertFromRaw } from "draft-js";
@@ -12,6 +12,11 @@ interface TextEditorProps {
   onMarkdownChange: (markdown: string) => void;
   initialContent?: string;
 }
+
+// Dynamic import for the Editor component with disabled SSR
+const DynamicEditor = dynamic(() => import("react-draft-wysiwyg").then((mod) => mod.Editor), {
+  ssr: false,
+});
 
 export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initialContent }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
@@ -44,10 +49,10 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initia
   };
 
   // Only use the Editor component if window is defined (client side)
-  if (typeof window !== "undefined") {
-    return (
-      <div>
-        <Editor
+  return (
+    <div>
+      {typeof window !== "undefined" ? (
+        <DynamicEditor
           wrapperClassName="demo-wrapper"
           editorClassName="demo-editor"
           editorState={editorState}
@@ -57,70 +62,20 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initia
               "inline",
               "blockType",
               "fontSize",
-              // "fontFamily",
               "list",
               "textAlign",
-              // "colorPicker",
               "link",
               "embedded",
-              // "emoji",
               "image",
               "remove",
               "history",
             ],
           }}
         />
-      </div>
-    );
-  } else {
-    // Return a placeholder or an alternative component for server-side rendering
-    return <div>Server-side rendering not supported</div>;
-  }
-
-  // return (
-  //   <div>
-  //     <Editor
-  //       wrapperClassName="text-editor-wrapper"
-  //       editorClassName="text-editor"
-  //       editorState={editorState}
-  //       onEditorStateChange={onEditorStateChange}
-  //       toolbar={{
-  //         options: [
-  //           "inline",
-  //           "blockType",
-  //           "fontSize",
-  //           // "fontFamily",
-  //           "list",
-  //           "textAlign",
-  //           // "colorPicker",
-  //           "link",
-  //           "embedded",
-  //           // "emoji",
-  //           "image",
-  //           "remove",
-  //           "history",
-  //         ],
-  //         inline: { inDropdown: true },
-  //         blockType: {
-  //           inDropdown: true,
-  //           options: ["Normal", "H1", "H2", "H3", "H4", "H5", "H6", "Blockquote", "Code"],
-  //           className: undefined,
-  //           component: undefined,
-  //           dropdownClassName: undefined,
-  //         },
-  //         list: { inDropdown: true },
-  //         textAlign: { inDropdown: true },
-  //         link: { inDropdown: true },
-  //         // history: { inDropdown: true },
-  //         heading: { inDropdown: true },
-  //         image: {
-  //           uploadEnabled: true,
-  //           previewImage: true,
-  //           alt: { present: false, mandatory: false },
-  //           uploadCallback: uploadImageCallBack,
-  //         },
-  //       }}
-  //     />
-  //   </div>
-  // );
+      ) : (
+        // Return a placeholder or an alternative component for server-side rendering
+        <div>Server-side rendering not supported</div>
+      )}
+    </div>
+  );
 };
