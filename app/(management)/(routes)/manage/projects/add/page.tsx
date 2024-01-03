@@ -502,9 +502,7 @@ const AddProjectPage = () => {
           </Badge>
 
           <div className="border bg-white p-0 rounded-lg">
-            <section className="mb-5 bg-white">
-              <TextEditor onMarkdownChange={handleMarkdownChange} />
-            </section>
+            <section className="mb-5 bg-white">{/* <TextEditor onMarkdownChange={handleMarkdownChange} /> */}</section>
           </div>
 
           <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit" disabled={isAdding}>
