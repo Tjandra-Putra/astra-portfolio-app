@@ -6,17 +6,22 @@ import { Badge } from "@/components/ui/badge";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "@/components/layout/loader";
 
 const AboutPage = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
   const [profile, setProfile] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchProfile = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`/api/profile/${userInfo.id}`);
       setProfile(response.data);
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,13 +55,22 @@ const AboutPage = () => {
           你好
         </Badge>
       </div>
-      <div
-        className="text-gray-800 my-7 font-normal whitespace-pre-line"
-        dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
-      />
-      <div className="avatar-border border-4 border-[#000000] p-3 rounded-lg my-4">
-        <img src={profile?.imageUrl} alt={profile?.imageUrl} className="w-full h-full rounded-lg" />
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div
+          className="text-gray-800 my-7 font-normal whitespace-pre-line"
+          dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
+        />
+      )}
+
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="avatar-border border-4 border-[#000000] p-3 rounded-lg my-4">
+          <img src={profile?.imageUrl} alt={profile?.imageUrl} className="w-full h-full rounded-lg" />
+        </div>
+      )}
     </div>
   );
 };
