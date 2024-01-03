@@ -33,15 +33,27 @@ const Navbar = () => {
             />
           </Button>
         </Link>
-        <Link href="/contact" className="nav-item">
-          <Button variant="link">
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
-              color="#000000"
-            />
-          </Button>
-        </Link>
+        {userInfo?.workEmail ? (
+          <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
+            <Button variant="link">
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
+                color="#000000"
+              />
+            </Button>
+          </Link>
+        ) : (
+          <Link href={`mailto:${userInfo?.email}`} className="nav-item">
+            <Button variant="link">
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
+                color="#000000"
+              />
+            </Button>
+          </Link>
+        )}
         {/* Only Authenticated Verified Users can see this */}
         <SignedIn>
           <Link href="/manage" className="nav-item">
