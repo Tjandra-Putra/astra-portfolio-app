@@ -44,7 +44,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initia
   };
 
   // Only use the Editor component if window is defined (client side)
-  return typeof window !== "undefined" ? (
+  return (
     <div>
       <Editor
         wrapperClassName="demo-wrapper"
@@ -71,7 +71,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initia
         }}
       />
     </div>
-  ) : null;
+  );
 
   // return (
   //   <div>
