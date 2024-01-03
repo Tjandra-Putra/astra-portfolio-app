@@ -44,34 +44,38 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initia
   };
 
   // Only use the Editor component if window is defined (client side)
-  return (
-    <div>
-      <Editor
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
-        editorState={editorState}
-        onEditorStateChange={onEditorStateChange}
-        toolbar={{
-          options: [
-            "inline",
-            "blockType",
-            "fontSize",
-            // "fontFamily",
-            "list",
-            "textAlign",
-            // "colorPicker",
-            "link",
-            "embedded",
-            // "emoji",
-            "image",
-            "remove",
-            "history",
-          ],
-          // ... (rest of the toolbar configuration remains unchanged)
-        }}
-      />
-    </div>
-  );
+  if (typeof window !== "undefined") {
+    return (
+      <div>
+        <Editor
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          editorState={editorState}
+          onEditorStateChange={onEditorStateChange}
+          toolbar={{
+            options: [
+              "inline",
+              "blockType",
+              "fontSize",
+              // "fontFamily",
+              "list",
+              "textAlign",
+              // "colorPicker",
+              "link",
+              "embedded",
+              // "emoji",
+              "image",
+              "remove",
+              "history",
+            ],
+          }}
+        />
+      </div>
+    );
+  } else {
+    // Return a placeholder or an alternative component for server-side rendering
+    return <div>Server-side rendering not supported</div>;
+  }
 
   // return (
   //   <div>
