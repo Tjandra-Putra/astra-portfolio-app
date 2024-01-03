@@ -55,7 +55,7 @@ const AboutPage = () => {
         dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
       />
       <div className="avatar-border border-4 border-[#000000] p-3 rounded-lg my-4">
-        <img src="https://github.com/shadcn.png" alt="profile-img" className="w-full h-full rounded-lg" />
+        <img src={profile?.imageUrl} alt={profile?.imageUrl} className="w-full h-full rounded-lg" />
       </div>
     </div>
   );
