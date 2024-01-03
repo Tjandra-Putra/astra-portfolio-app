@@ -33,6 +33,8 @@ export default function Profile() {
     try {
       const response = await axios.get(`/api/profile/${id}`);
 
+      console.log(response.data);
+
       setProfile(response.data);
 
       // redux
@@ -43,6 +45,7 @@ export default function Profile() {
           name: response.data.name,
           domain: response.data.domain,
           email: response.data.email,
+          workEmail: response.data.workEmail,
         })
       );
 
@@ -68,7 +71,7 @@ export default function Profile() {
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="job-title font-medium text-gray-800 text-lg">
-              {profile?.jobTitle ? profile.jobTitle : "<Job Title>"}
+              {profile?.jobTitle ? profile.jobTitle : "Self Employed"}
             </div>
           </div>
           <Link href="/contact" className="status uppercase tracking-wider text-end">
@@ -83,19 +86,43 @@ export default function Profile() {
           <div className="md:col-span-8">
             <div className="w-full">
               <div className="name text-4xl font-medium">
-                Hi, I'm{" "}
-                <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "<First Name>"}</span>
+                Hi, I'm <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
               </div>
-              <div className="description mt-3 text-gray-900 font-normal">{profile?.bio ? profile.bio : "<Bio>"}</div>
+              <div className="description mt-3 text-gray-900 font-normal">
+                {profile?.bio
+                  ? profile.bio
+                  : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
+              </div>
               <div className="buttons mt-5 space-x-3">
-                <Button variant={"navy"}>
-                  <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-                  Resume
-                </Button>
-                <Button variant="ocean">
-                  <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
-                  Copy Email
-                </Button>
+                {profile?.resumeUrl ? (
+                  <Link href={profile.resumeUrl} target="_blank">
+                    <Button variant={"navy"}>
+                      <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+                      Resume
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button variant={"navy"} disabled>
+                    <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+                    Resume
+                  </Button>
+                )}
+                {profile?.workEmail ? (
+                  // color="#183153"
+                  <Link href={`mailto:${profile?.workEmail}`}>
+                    <Button variant="ocean">
+                      <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
+                      Copy Email
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href={`mailto:${profile?.workEmail}`}>
+                    <Button variant="ocean">
+                      <FontAwesomeIcon icon={faCopy} className="me-2" color="#183153" />
+                      Copy Email
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

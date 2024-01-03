@@ -77,6 +77,7 @@ module.exports = {
         ash: "#f0f1f3",
         navy: "#1c3454",
         sky: "#74c0fc",
+        ocean: "#3e6392",
         grass: "#63e6be",
         cheese: "#ffd43b",
       },

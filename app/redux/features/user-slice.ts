@@ -6,6 +6,7 @@ type UserState = {
   name: string;
   domain: string;
   email: string;
+  workEmail: string;
 };
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   name: "",
   domain: "",
   email: "",
+  workEmail: "",
 } as UserState;
 
 // define the state interface
@@ -27,13 +29,14 @@ export const userSlice = createSlice({
 
     // this is to get user info for public (domain) visit and auth visit (profile info)
     setUserInfo: (state, action) => {
-      const { id, role, name, domain, email } = action.payload;
+      const { id, role, name, domain, email, workEmail } = action.payload;
 
       state.id = id;
       state.role = role;
       state.name = name;
       state.domain = domain;
       state.email = email;
+      state.workEmail = workEmail;
     },
   },
 });

@@ -82,12 +82,21 @@ const Navbar = () => {
             </Link>
           )}
         </SignedIn>
-        <Link href="/" className="nav-item">
-          <Button variant={"navy"}>
-            <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
-            Collab
-          </Button>
-        </Link>
+        {userInfo?.workEmail ? (
+          <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
+            <Button variant={"navy"}>
+              <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
+              Collab
+            </Button>
+          </Link>
+        ) : (
+          <Link href={`mailto:${userInfo?.email}`} className="nav-item">
+            <Button variant={"navy"}>
+              <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
+              Collab
+            </Button>
+          </Link>
+        )}
       </div>
     </nav>
   );

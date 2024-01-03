@@ -40,9 +40,12 @@ const formSchema = z.object({
     .max(50, {
       message: "Name must be at most 50 characters long",
     }),
-  workEmail: z.string().email({
-    message: "Please enter a valid email address",
-  }),
+  workEmail: z
+    .string()
+    .max(50, {
+      message: "Name must be at most 50 characters long",
+    })
+    .optional(),
   bio: z
     .string()
     .max(5000, {
@@ -108,14 +111,14 @@ const EditProfilePage = () => {
   useEffect(() => {
     if (profile) {
       form.reset({
-        name: profile?.name,
-        workEmail: profile?.workEmail,
-        bio: profile?.bio,
-        about: profile?.about,
-        imageUrl: profile?.imageUrl,
-        resumeUrl: profile?.resumeUrl,
-        jobTitle: profile?.jobTitle,
-        // socialMedia: profile?.socialMedia,
+        name: profile?.name ? profile.name : "",
+        workEmail: profile?.workEmail ? profile.workEmail : profile.email,
+        bio: profile?.bio ? profile.bio : "",
+        about: profile?.about ? profile.about : "",
+        imageUrl: profile?.imageUrl ? profile.imageUrl : "",
+        resumeUrl: profile?.resumeUrl ? profile.resumeUrl : "",
+        jobTitle: profile?.jobTitle ? profile.jobTitle : "",
+        socialMedia: profile?.socialMedia ? profile.socialMedia : [],
       });
     }
   }, [profile]);
@@ -239,11 +242,15 @@ const EditProfilePage = () => {
                     name="workEmail"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Contact Email</FormLabel>
+                        <FormLabel>
+                          Contact Email <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                        </FormLabel>
                         <FormControl>
                           <Input type="email" placeholder="E.g tjandrap.work@gmail.com" {...field} />
                         </FormControl>
-                        <FormDescription>This is visible to the public</FormDescription>
+                        <FormDescription>
+                          If no email is provided, the email used to sign up will be used.
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
