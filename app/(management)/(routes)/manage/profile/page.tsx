@@ -128,7 +128,11 @@ const EditProfilePage = () => {
 
     try {
       setIsEditing(true);
-      await axios.put(`/api/manage/profile/${userInfo?.id}`, values);
+      await axios.put(`/api/manage/profile/${userInfo?.id}`, {
+        ...values,
+        about: values.about?.replace(/\n/g, "<br />"), // Replace line breaks with HTML <br /> for storage
+        bio: values.bio?.replace(/\n/g, "<br />"), // Replace line breaks with HTML <br /> for storage
+      });
 
       fetchProfile();
 
@@ -271,7 +275,7 @@ const EditProfilePage = () => {
                         <FormControl>
                           <Textarea
                             placeholder="Introduce yourself in a few words."
-                            className="resize-none"
+                            className="resize-none whitespace-pre-line"
                             {...field}
                           />
                         </FormControl>
@@ -294,7 +298,11 @@ const EditProfilePage = () => {
                       <FormItem>
                         <FormLabel>About</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Introduce yourself in detail." className="resize-none" {...field} />
+                          <Textarea
+                            placeholder="Introduce yourself in detail."
+                            className="resize-none whitespace-pre-line"
+                            {...field}
+                          />
                         </FormControl>
                         <FormDescription>Introduce yourself in details for the about page.</FormDescription>
                         <FormMessage />

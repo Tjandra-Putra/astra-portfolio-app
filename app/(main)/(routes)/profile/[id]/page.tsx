@@ -12,7 +12,6 @@ import Experiences from "@/components/experiences";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-import { serialize } from "cookie";
 
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch, useSelector } from "react-redux";

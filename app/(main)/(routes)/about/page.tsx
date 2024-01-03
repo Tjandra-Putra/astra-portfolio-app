@@ -1,8 +1,29 @@
+"use client";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Badge } from "@/components/ui/badge";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const AboutPage = () => {
+  const userInfo = useSelector((state: any) => state.userReducer);
+  const [profile, setProfile] = useState<any>();
+
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get(`/api/profile/${userInfo.id}`);
+      setProfile(response.data);
+    } catch (error: any) {
+      console.error("Error fetching data:", error.response);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, [userInfo.id]);
+
   return (
     <div className="">
       <div className="flex items-center gap-2 mb-7">
@@ -22,18 +43,17 @@ const AboutPage = () => {
         <Badge variant={"diamond"} className="text-xl  font-normal">
           Bonjour
         </Badge>
-        <Badge variant={"strawberry"} className="text-xl  font-normal">
+        <Badge variant={"tomato"} className="text-xl  font-normal">
           Ciao
         </Badge>
         <Badge variant={"secondary"} className="text-xl  font-normal">
           你好
         </Badge>
       </div>
-      <div className="text-gray-800 my-7 font-normal">
-        My name is Tjandra and I am a student at Singapore Management University studying Information Systems. I'm
-        passionate in learning new technologies and software development. I'm also interested in UI/UX design and
-        product management.
-      </div>
+      <div
+        className="text-gray-800 my-7 font-normal whitespace-pre-line"
+        dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
+      />
       <div className="avatar-border border-4 border-[#000000] p-3 rounded-lg my-4">
         <img src="https://github.com/shadcn.png" alt="profile-img" className="w-full h-full rounded-lg" />
       </div>
