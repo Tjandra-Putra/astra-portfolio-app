@@ -33,9 +33,9 @@ const Collaborate = () => {
 
   return (
     <section className="collaborate my-12 text-center">
-      <div className="title text-xl font-semibold text-gray-700">Let's collaborate on your next project!</div>
+      <div className="title text-xl font-semibold text-gray-700">Let&apos;s collaborate on your next project!</div>
       <div className="description mt-3 text-gray-900 font-normal px-6">
-        I'm always open to discussing product design work or partnership opportunities.
+        I&apos;m always open to discussing product design work or partnership opportunities.
       </div>
 
       {loading ? (
