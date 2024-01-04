@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import {
   faDiagramProject,
   faCircle,
@@ -9,8 +11,34 @@ import {
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { setUserInfo } from "@/app/redux/features/user-slice";
 
 const ManagePage = () => {
+  // update redux when logged in so that nav home button can be updated with profile id
+  const dispatch = useDispatch();
+
+  const fetchProfile = () => {
+    axios.get(`/api/profile-with-clerk`).then((response) => {
+      console.log(response.data);
+      dispatch(
+        setUserInfo({
+          id: response.data.id,
+          role: response.data.role,
+          name: response.data.name,
+          domain: response.data.domain,
+          email: response.data.email,
+          workEmail: response.data.workEmail,
+        })
+      );
+    });
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
   return (
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3">
