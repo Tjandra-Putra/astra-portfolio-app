@@ -11,6 +11,7 @@ export default authMiddleware({
     "/",
     "/about",
     "/projects",
+    "/projects/(.*)",
     "/experiences",
     "/contact",
     "/profile/(.*)",
@@ -19,6 +20,7 @@ export default authMiddleware({
     "/api/uploadthing",
     "/api/profile/(.*)",
     "/api/projects/(.*)",
+    "/api/project/(.*)",
   ],
 });
 

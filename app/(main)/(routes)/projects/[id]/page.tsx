@@ -15,33 +15,34 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Projects from "@/components/projects";
 import { formatDate } from "@/lib/format-date";
+import { useSelector } from "react-redux";
 
 const Project = () => {
   // get id from url
   const params = useParams();
-  const id = params.id;
+  const projectId = params.id;
 
+  const userInfo = useSelector((state: any) => state.userReducer);
+  const [profile, setProfile] = useState<any>();
   const [project, setProject] = useState<any>();
   const [loading, setLoading] = useState(true);
 
-  const fetchProject = async () => {
-    try {
-      const response = await axios.get(`/api/manage/projects/${id}`);
-
-      setProject(response.data);
-      setLoading(false);
-    } catch (error: any) {
-      console.error("Error fetching data:", error.response.data);
-
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get(`/api/project/${projectId}`);
+
+        setProject(response.data);
+        setLoading(false);
+      } catch (error: any) {
+        console.error("Error fetching data:", error.response.data);
+
+        setLoading(false);
+      }
+    };
+
     fetchProject();
-    console.log(id);
-    console.log("project", project);
-  }, []);
+  }, [projectId]);
 
   return (
     <React.Fragment>
@@ -87,9 +88,11 @@ const Project = () => {
         {!project ? (
           <div className="h-full w-full my-6 rounded-lg bg-ash p-6">Loading...</div>
         ) : project?.thumbnailUrl ? (
-          <img
+          <Image
             src={project?.thumbnailUrl}
             alt={project?.name}
+            width={500}
+            height={500}
             className="thumbnail-img w-full h-full rounded-lg my-6 shadow-paper"
           />
         ) : (

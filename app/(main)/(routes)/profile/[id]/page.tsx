@@ -121,15 +121,15 @@ export default function Profile() {
                         toast.success("Copied to clipboard!");
                       }}
                     >
-                      <Button variant={"navy"}>
-                        <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+                      <Button variant={"secondary"}>
+                        <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
                         Copy Email
                       </Button>
                     </CopyToClipboard>
                   ) : (
                     <CopyToClipboard text={profile?.email} onCopy={() => {}}>
-                      <Button variant={"navy"}>
-                        <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+                      <Button variant={"secondary"}>
+                        <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
                         Copy Email
                       </Button>
                     </CopyToClipboard>

@@ -35,12 +35,14 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initia
   const onEditorStateChange = (newEditorState: EditorState) => {
     setEditorState(newEditorState);
 
-    // Convert the current content to Markdown and update the state
-    const contentState = newEditorState.getCurrentContent();
-    const markdownText = draftToMarkdown(convertToRaw(contentState));
-    setMarkdownContent(markdownText);
-
-    onMarkdownChange(markdownText);
+    // Use dynamic import for draftjs-to-markdown
+    import("draftjs-to-markdown").then((mod) => {
+      // Convert the current content to Markdown and update the state
+      const contentState = newEditorState.getCurrentContent();
+      const markdownText = mod.default(convertToRaw(contentState));
+      setMarkdownContent(markdownText);
+      onMarkdownChange(markdownText);
+    });
   };
 
   const uploadImageCallBack = async () => {

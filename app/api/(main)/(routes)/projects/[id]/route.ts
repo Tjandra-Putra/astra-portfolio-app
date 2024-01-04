@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 
-// get user profile base on domain name (profile id)
+// retrieve all projects for a profile base on profile id
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
   let projects;
 

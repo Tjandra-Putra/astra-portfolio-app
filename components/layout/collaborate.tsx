@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Loader from "./loader";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { toast } from "sonner";
 
 const Collaborate = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -55,10 +57,28 @@ const Collaborate = () => {
               Resume
             </Button>
           )}
-          <Button variant="secondary">
-            <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
-            Copy Email
-          </Button>
+
+          {profile?.workEmail ? (
+            // color="#183153"
+            <CopyToClipboard
+              text={profile?.workEmail}
+              onCopy={() => {
+                toast.success("Copied to clipboard!");
+              }}
+            >
+              <Button variant={"secondary"}>
+                <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
+                Copy Email
+              </Button>
+            </CopyToClipboard>
+          ) : (
+            <CopyToClipboard text={profile?.email} onCopy={() => {}}>
+              <Button variant={"secondary"}>
+                <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
+                Copy Email
+              </Button>
+            </CopyToClipboard>
+          )}
         </div>
       )}
     </section>
