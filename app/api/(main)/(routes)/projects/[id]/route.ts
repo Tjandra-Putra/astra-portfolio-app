@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
     // this is for public unauthenticated profile
     projects = await db.project.findMany({
       where: { profileId: context.params.id },
-      orderBy: { createdAt: "desc" },
+      orderBy: { startDate: "desc" },
     });
 
     // this is for authenticated profile
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
 
       projects = await db.project.findMany({
         where: { profileId: profile?.id },
-        orderBy: { createdAt: "desc" },
+        orderBy: { startDate: "desc" },
       });
     }
 
