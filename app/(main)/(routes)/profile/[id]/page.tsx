@@ -72,7 +72,7 @@ export default function Profile() {
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 text-lg">
+            <div className="job-title font-medium text-gray-800">
               {profile?.jobTitle ? profile.jobTitle : "Self Employed"}
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function Profile() {
           <Loader />
         ) : (
           <div className="grid md:grid-cols-12 gap-6 mb-5 text-center sm:text-left">
-            <div className="md:col-span-8">
+            <div className="md:col-span-8 sm:order-first order-last">
               <div className="w-full">
                 <div className="name text-4xl font-medium">
                   Hi, I&apos;m{" "}
@@ -137,12 +137,12 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            <div className="md:col-span-4 flex items-center">
-              <div className="w-full">
+            <div className="md:col-span-4 flex items-center justify-center">
+              <div className="w-36 sm:w-full">
                 <div className="avatar-border border-4 border-[#000000] p-2 rounded-full">
                   <Avatar>
                     {profile?.imageUrl ? (
-                      <AvatarImage src={profile.imageUrl} className="object-cover" />
+                      <AvatarImage src={profile.imageUrl} className="object-cover0" />
                     ) : (
                       <AvatarImage src="https://github.com/shadcn.png" className="object-cover" />
                     )}
