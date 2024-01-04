@@ -21,7 +21,6 @@ const ManagePage = () => {
 
   const fetchProfile = () => {
     axios.get(`/api/profile-with-clerk`).then((response) => {
-      console.log(response.data);
       dispatch(
         setUserInfo({
           id: response.data.id,
