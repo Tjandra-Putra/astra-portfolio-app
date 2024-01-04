@@ -27,22 +27,25 @@ const Project = () => {
   const [project, setProject] = useState<any>();
   const [loading, setLoading] = useState(true);
 
+  console.log("paramsId: ", projectId);
+
+  const fetchProject = async () => {
+    try {
+      const response = await axios.get(`/api/project/${projectId}`);
+      setProject(response.data);
+
+      console.log(response.data);
+      setLoading(false);
+    } catch (error: any) {
+      console.error("Error fetching data:", error.response.data);
+
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await axios.get(`/api/project/${projectId}`);
-
-        setProject(response.data);
-        setLoading(false);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.response.data);
-
-        setLoading(false);
-      }
-    };
-
     fetchProject();
-  }, [projectId]);
+  }, []);
 
   return (
     <React.Fragment>

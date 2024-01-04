@@ -4,13 +4,13 @@ import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 
 // get single project base on project id and user id
-export async function GET(req: NextRequest, context: { params: { projectId: string } }) {
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
   let project;
 
   try {
     // this is for public unauthenticated profile
     project = await db.project.findFirst({
-      where: { id: context.params.projectId },
+      where: { id: context.params.id },
     });
 
     return NextResponse.json(project);
