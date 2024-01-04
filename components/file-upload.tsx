@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { toast } from "sonner";
 // import "@uploadthing/react/styles.css";
 
 interface FileUploadProps {
@@ -66,6 +67,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       }}
       onUploadError={(error: Error) => {
         console.log(error);
+        toast.error("Error: File size too large.");
       }}
       className="bg-ash text-[#1d3554] p-5"
       appearance={{

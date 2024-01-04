@@ -67,7 +67,9 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll }) => {
           )}
       {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
       {projectsToDisplay.map((project) => (
-        <ProjectCard key={project.id} data={project} />
+        <Link href={`/projects/${project.id}`} key={project.id}>
+          <ProjectCard key={project.id} data={project} />
+        </Link>
       ))}
     </div>
   );
