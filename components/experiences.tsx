@@ -60,7 +60,9 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
             </div>
           )}
       {projectsToDisplay.map((project) => (
-        <ExperienceCard key={project.id} data={project} />
+        <Link href={`/projects/${project.id}`} key={project.id}>
+          <ExperienceCard key={project.id} data={project} />
+        </Link>
       ))}
     </div>
   );

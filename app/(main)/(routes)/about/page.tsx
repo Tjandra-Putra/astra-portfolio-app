@@ -29,8 +29,10 @@ const AboutPage = () => {
     fetchProfile();
   }, [userInfo.id]);
 
-  return (
-    <div className="">
+  return !profile ? (
+    <Loader />
+  ) : (
+    <>
       <div className="flex items-center gap-2 mb-7">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
         <div className="font-medium text-gray-800 text-lg">About</div>
@@ -55,23 +57,16 @@ const AboutPage = () => {
           你好
         </Badge>
       </div>
-      {loading ? (
-        <Loader />
-      ) : (
-        <div
-          className="text-gray-800 my-7 font-normal whitespace-pre-line"
-          dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
-        />
-      )}
 
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="avatar-border border-4 border-[#000000] p-3 rounded-lg my-4">
-          <img src={profile?.imageUrl} alt={profile?.imageUrl} className="w-full h-full rounded-lg" />
-        </div>
-      )}
-    </div>
+      <div
+        className="text-gray-800 my-7 font-normal whitespace-pre-line"
+        dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
+      />
+
+      <div className="avatar-border border-4 border-[#000000] p-3 rounded-lg my-4">
+        <img src={profile?.imageUrl} alt={profile?.imageUrl} className="w-full h-full rounded-lg" />
+      </div>
+    </>
   );
 };
 

@@ -17,6 +17,8 @@ import Projects from "@/components/projects";
 import { formatDate } from "@/lib/format-date";
 import { useSelector } from "react-redux";
 
+import Loader from "@/components/layout/loader";
+
 const Project = () => {
   // get id from url
   const params = useParams();
@@ -47,50 +49,44 @@ const Project = () => {
     fetchProject();
   }, []);
 
-  return (
+  return !project ? (
+    <Loader />
+  ) : (
     <React.Fragment>
       <section className="bg-ash rounded-lg p-6">
-        {!project ? (
-          "Loading..."
-        ) : (
-          <>
-            <div className="company">
-              <div className="flex mb-3">
-                <div className="text-[#1c3454] w-36">Company</div>
-                <div className="text-black w-full">{project?.company}</div>
-              </div>
-            </div>
+        <div className="company">
+          <div className="flex mb-3">
+            <div className="text-[#1c3454] w-36">Company</div>
+            <div className="text-black w-full">{project?.company}</div>
+          </div>
+        </div>
 
-            <div className="project-title">
-              <div className="flex mb-3">
-                <div className="text-[#1c3454] w-36">Title</div>
-                <div className="text-black w-full">{project?.name}</div>
-              </div>
-            </div>
+        <div className="project-title">
+          <div className="flex mb-3">
+            <div className="text-[#1c3454] w-36">Title</div>
+            <div className="text-black w-full">{project?.name}</div>
+          </div>
+        </div>
 
-            <div className="project-type">
-              <div className="flex mb-3">
-                <div className="text-[#1c3454] w-36">Category</div>
-                <div className="text-black w-full">{project?.category}</div>
-              </div>
-            </div>
+        <div className="project-type">
+          <div className="flex mb-3">
+            <div className="text-[#1c3454] w-36">Category</div>
+            <div className="text-black w-full">{project?.category}</div>
+          </div>
+        </div>
 
-            <div className="start-date">
-              <div className="flex">
-                <div className="text-[#1c3454] w-36">Date</div>
-                <div className="text-black w-full">
-                  {project?.startDate ? `${formatDate(project.startDate)} to ${formatDate(project.endDate)}` : "N/A"}{" "}
-                </div>
-              </div>
+        <div className="start-date">
+          <div className="flex">
+            <div className="text-[#1c3454] w-36">Date</div>
+            <div className="text-black w-full">
+              {project?.startDate ? `${formatDate(project.startDate)} to ${formatDate(project.endDate)}` : "N/A"}{" "}
             </div>
-          </>
-        )}
+          </div>
+        </div>
       </section>
 
       <section>
-        {!project ? (
-          <div className="h-full w-full my-6 rounded-lg bg-ash p-6">Loading...</div>
-        ) : project?.thumbnailUrl ? (
+        {project?.thumbnailUrl ? (
           <Image
             src={project?.thumbnailUrl}
             alt={project?.name}
@@ -107,6 +103,7 @@ const Project = () => {
             className="thumbnail-img w-full h-full rounded-lg my-6 shadow-paper"
           />
         )}
+
         <div className="title text-2xl font-semibold capitalize">{project?.name}</div>
         <div
           className="description capitalize my-3 leading-6"
@@ -126,6 +123,7 @@ const Project = () => {
             </Link>
           </Button>
         </div>
+
         <Separator className="my-6" />
 
         {/* Render Markdown Content Here*/}
