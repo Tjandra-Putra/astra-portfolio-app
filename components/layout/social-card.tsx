@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import * as SolidIcons from "@fortawesome/free-solid-svg-icons";
 import * as BrandIcons from "@fortawesome/free-brands-svg-icons";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -19,13 +20,13 @@ const SocialCard = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   // dynamic import of fontawesome icons
-  const iconList = Object.keys(SolidIcons)
+  const iconList: IconDefinition[] = Object.keys(SolidIcons)
     .filter((key) => key !== "fas" && key !== "prefix")
-    .map((icon) => SolidIcons[icon]);
+    .map((icon) => (SolidIcons as Record<string, IconDefinition>)[icon]);
 
-  const brandList = Object.keys(BrandIcons)
+  const brandList: IconDefinition[] = Object.keys(BrandIcons)
     .filter((key) => key !== "fas" && key !== "prefix")
-    .map((icon) => BrandIcons[icon]);
+    .map((icon) => (BrandIcons as Record<string, IconDefinition>)[icon]);
 
   library.add(...iconList, ...brandList);
 
@@ -62,7 +63,7 @@ const SocialCard = () => {
               <Link href={social.url} target="_blank" rel="noopener noreferrer" key={social.id}>
                 <Button variant={"white"} className="font-semibold rounded-full w-11 h-11">
                   {/* <FontAwesomeIcon icon={social.iconName} color="#000000" className="text-lg" /> */}
-                  <FontAwesomeIcon icon={`${social.iconType} ${social.iconName}`} />
+                  <FontAwesomeIcon icon={`${social.iconType} ${social.iconName}`} color="#000000" className="text-lg" />
                 </Button>
               </Link>
             );
