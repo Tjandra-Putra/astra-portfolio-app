@@ -50,11 +50,6 @@ export default function Profile() {
           workEmail: response.data.workEmail,
         })
       );
-
-      if (id != userInfo.id) {
-        // refresh
-        // window.location.reload();
-      }
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
     } finally {
