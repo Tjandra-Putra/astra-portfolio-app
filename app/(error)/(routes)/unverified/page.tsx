@@ -3,12 +3,11 @@ import { removeUserInfo } from "@/app/redux/features/user-slice";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { SignOutButton, useClerk } from "@clerk/clerk-react";
+import { SignOutButton } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 
 const UnverifiedPage = () => {
   const dispatch = useDispatch();
-  const { signOut } = useClerk();
 
   useEffect(() => {
     dispatch(removeUserInfo());

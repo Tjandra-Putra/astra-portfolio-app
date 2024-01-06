@@ -51,77 +51,77 @@ const ManagePage = () => {
       </div>
 
       <div className="bg-ash p-6 rounded-lg">
-        <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="avatar-border border-4 border-[#74c0fc] p-2 rounded-full">
-              <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-                <FontAwesomeIcon icon={faUser} color="#ffffff" />
+        <Link href={`/manage/profile`}>
+          <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+            <div className="flex items-center gap-4">
+              <div className="avatar-border border-4 border-[#74c0fc] p-2 rounded-full">
+                <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
+                  <FontAwesomeIcon icon={faUser} color="#ffffff" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className="project-title text-gray-800 font-medium text-lg">My Profile</div>
               </div>
             </div>
-            <div className="flex flex-col">
-              <div className="project-title text-gray-800 font-medium text-lg">My Profile</div>
+            <div className="view-more transition-transform transform hover:translate-x-1">
+              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
             </div>
           </div>
-          <div className="view-more transition-transform transform hover:translate-x-1">
-            <Link href={`/manage/profile`}>
-              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
-            </Link>
-          </div>
-        </div>
+        </Link>
 
-        <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="avatar-border border-4 border-[#63e6be] p-2 rounded-full">
-              <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-                <FontAwesomeIcon icon={faDiagramProject} color="#ffffff" />
+        <Link href={`/manage/projects`}>
+          <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+            <div className="flex items-center gap-4">
+              <div className="avatar-border border-4 border-[#63e6be] p-2 rounded-full">
+                <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
+                  <FontAwesomeIcon icon={faDiagramProject} color="#ffffff" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className="project-title text-gray-800 font-medium text-lg">My Projects</div>
               </div>
             </div>
-            <div className="flex flex-col">
-              <div className="project-title text-gray-800 font-medium text-lg">My Projects</div>
+            <div className="view-more transition-transform transform hover:translate-x-1">
+              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
             </div>
           </div>
-          <div className="view-more transition-transform transform hover:translate-x-1">
-            <Link href={`/manage/projects`}>
-              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
-            </Link>
-          </div>
-        </div>
+        </Link>
 
         {/* <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="avatar-border  border-4 border-[#e599f7] p-2 rounded-full">
-              <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-                <FontAwesomeIcon icon={faCertificate} color="#ffffff" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="project-title text-gray-800 font-medium text-lg">My Certificates</div>
-            </div>
+          <div className="avatar-border  border-4 border-[#e599f7] p-2 rounded-full">
+          <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
+          <FontAwesomeIcon icon={faCertificate} color="#ffffff" />
+          </div>
+          </div>
+          <div className="flex flex-col">
+          <div className="project-title text-gray-800 font-medium text-lg">My Certificates</div>
+          </div>
           </div>
           <div className="view-more transition-transform transform hover:translate-x-1">
-            <Link href={`/manage/experiences`}>
-              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
-            </Link>
+          <Link href={`/manage/experiences`}>
+          <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+          </Link>
           </div>
         </div> */}
         {/* 
         <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="avatar-border  border-4 border-[#ffd43b] p-2 rounded-full">
-              <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-                <FontAwesomeIcon icon={faBriefcase} color="#ffffff" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="project-title text-gray-800 font-medium text-lg">My Work Experience</div>
-            </div>
-          </div>
-          <div className="view-more transition-transform transform hover:translate-x-1">
-            <Link href={`/manage/experiences`}>
-              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
-            </Link>
-          </div>
-        </div> */}
+        <div className="flex items-center gap-4">
+        <div className="avatar-border  border-4 border-[#ffd43b] p-2 rounded-full">
+        <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
+        <FontAwesomeIcon icon={faBriefcase} color="#ffffff" />
+        </div>
+        </div>
+        <div className="flex flex-col">
+        <div className="project-title text-gray-800 font-medium text-lg">My Work Experience</div>
+        </div>
+        </div>
+        <div className="view-more transition-transform transform hover:translate-x-1">
+        <Link href={`/manage/experiences`}>
+        <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+        </Link>
+        </div>
+      </div> */}
       </div>
     </React.Fragment>
   );
