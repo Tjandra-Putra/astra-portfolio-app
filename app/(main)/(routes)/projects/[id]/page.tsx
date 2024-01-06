@@ -105,10 +105,7 @@ const Project = () => {
         )}
 
         <div className="title text-2xl font-semibold capitalize">{project?.name}</div>
-        <div
-          className="description capitalize my-3 leading-6"
-          dangerouslySetInnerHTML={{ __html: project?.description || "" }}
-        />
+        <div className="description my-3 leading-6" dangerouslySetInnerHTML={{ __html: project?.description || "" }} />
         <div className="buttons flex flex-row justify-end">
           <Button className="mr-3" variant={"navy"} disabled={!project?.projectUrl}>
             <Link href={project ? project.projectUrl : ""} target="_blank">
