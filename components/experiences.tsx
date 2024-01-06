@@ -52,7 +52,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
                 <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
                 <div className="font-medium text-gray-800 text-lg">{title || "Experiences"}</div>
               </div>
-              <Link href={"/projects"}>
+              <Link href={"/experiences"}>
                 <Button variant="white">
                   View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
                 </Button>

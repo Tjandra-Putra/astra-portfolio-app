@@ -27,9 +27,7 @@ const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
         </div>
       </div>
       <div className="view-more transition-transform transform hover:translate-x-1">
-        <Link href={`/experience/${data.id}`}>
-          <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
-        </Link>
+        <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
       </div>
     </div>
   );

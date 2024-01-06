@@ -27,10 +27,6 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll }) => {
 
       const response = await axios.get(`/api/projects/${userInfo?.id}`);
       setProjects(response.data);
-
-      console.log("projects: ", projects);
-
-      console.log(userInfo.id);
     } catch (error) {
       console.error("Error fetching projects:", error);
     } finally {
