@@ -22,11 +22,11 @@ const SocialCard = () => {
   // dynamic import of fontawesome icons
   const iconList: IconDefinition[] = Object.keys(SolidIcons)
     .filter((key) => key !== "fas" && key !== "prefix")
-    .map((icon) => (SolidIcons as Record<string, IconDefinition>)[icon]);
+    .map((icon) => (SolidIcons as any)[icon]);
 
   const brandList: IconDefinition[] = Object.keys(BrandIcons)
     .filter((key) => key !== "fas" && key !== "prefix")
-    .map((icon) => (BrandIcons as Record<string, IconDefinition>)[icon]);
+    .map((icon) => (BrandIcons as any)[icon]);
 
   library.add(...iconList, ...brandList);
 
