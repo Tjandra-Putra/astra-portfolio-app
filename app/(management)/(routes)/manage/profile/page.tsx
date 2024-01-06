@@ -29,6 +29,21 @@ const socialMediaPlatforms = [
   { value: "fa-c, fa-solid", label: "Credly" },
   { value: "fa-at, fa-solid", label: "Email" },
   { value: "fa-dribbble, fa-brands", label: "Dribbble" },
+  { value: "fa-twitter, fa-brands", label: "Twitter" },
+  { value: "fa-facebook, fa-brands", label: "Facebook" },
+  { value: "fa-instagram, fa-brands", label: "Instagram" },
+  { value: "fa-youtube, fa-brands", label: "YouTube" },
+  { value: "fa-twitch, fa-brands", label: "Twitch" },
+  { value: "fa-tiktok, fa-brands", label: "TikTok" },
+  { value: "fa-snapchat-ghost, fa-brands", label: "Snapchat" },
+  { value: "fa-reddit, fa-brands", label: "Reddit" },
+  { value: "fa-pinterest, fa-brands", label: "Pinterest" },
+  { value: "fa-medium-m, fa-brands", label: "Medium" },
+  { value: "fa-link, fa-solid", label: "Website" },
+  { value: "fa-behance, fa-brands", label: "Behance" },
+  { value: "fa-bitbucket, fa-brands", label: "Bitbucket" },
+  { value: "fa-codepen, fa-brands", label: "CodePen" },
+  { value: "fa-dev, fa-brands", label: "Dev.to" },
 ];
 
 const formSchema = z.object({
@@ -214,7 +229,7 @@ const EditProfilePage = () => {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} />
+                          <Input placeholder="First Name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
