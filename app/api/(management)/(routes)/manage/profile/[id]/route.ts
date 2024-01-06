@@ -30,20 +30,41 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
 
     const updatedProfileData = await req.json();
 
+    // Check if the profile has existing social media links
+    const existingSocialLinks = await db.userSocialLink.findMany({
+      where: {
+        profileId: profile.id,
+      },
+    });
+
+    // update existing social media links
+    if (existingSocialLinks.length > 0) {
+      // loop through social media links
+      for (const socialMedia of updatedProfileData.socialMedia) {
+        // check if social media link exists
+        const existingSocialLink = existingSocialLinks.find((link) => link.id === socialMedia.id);
+
+        // if social media link exists, update it
+        if (existingSocialLink) {
+          await db.userSocialLink.update({
+            where: {
+              id: existingSocialLink.id,
+            },
+            data: {
+              url: socialMedia.url,
+              iconName: socialMedia.platform.split(",")[0].trim(),
+              iconType: socialMedia.platform.split(",")[1].trim(),
+            },
+          });
+        }
+      }
+    }
+
     const updatedProfile = await db.profile.update({
       where: {
         id: profile.id,
       },
       data: {
-        // name: profile?.name,
-        // workEmail: profile?.workEmail,
-        // bio: profile?.bio,
-        // about: profile?.about,
-        // imageUrl: profile?.imageUrl,
-        // resumeUrl: profile?.resumeUrl,
-        // jobTitle: profile?.jobTitle,
-        // socialMedia: profile?.socialMedia,
-
         name: updatedProfileData.name,
         workEmail: updatedProfileData.workEmail,
         bio: updatedProfileData.bio,

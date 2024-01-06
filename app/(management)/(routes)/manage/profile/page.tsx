@@ -63,6 +63,7 @@ const formSchema = z.object({
   jobTitle: z.string().optional(), // profession
   socialMedia: z.array(
     z.object({
+      id: z.string(),
       platform: z.string().optional(),
       url: z.string().optional(),
     })
@@ -86,10 +87,10 @@ const EditProfilePage = () => {
       resumeUrl: "",
       jobTitle: "",
       socialMedia: [
-        { platform: "", url: "" },
-        { platform: "", url: "" },
-        { platform: "", url: "" },
-        { platform: "", url: "" },
+        { id: "", platform: "", url: "" },
+        { id: "", platform: "", url: "" },
+        { id: "", platform: "", url: "" },
+        { id: "", platform: "", url: "" },
       ],
     },
   });
@@ -110,6 +111,17 @@ const EditProfilePage = () => {
   // ensures the form is only populated when the project is fetched
   useEffect(() => {
     if (profile) {
+      // need to do this to match the format of the social media array
+      let formattedSocialLinks: any = [];
+
+      profile.socialLinks?.forEach((link: any) => {
+        const platform = `${link.iconName}, ${link.iconType}`;
+        const url = link.url;
+        const id = link.id;
+
+        formattedSocialLinks.push({ id, platform, url });
+      });
+
       form.reset({
         name: profile?.name ? profile.name : "",
         workEmail: profile?.workEmail ? profile.workEmail : profile.email,
@@ -118,7 +130,7 @@ const EditProfilePage = () => {
         imageUrl: profile?.imageUrl ? profile.imageUrl : "",
         resumeUrl: profile?.resumeUrl ? profile.resumeUrl : "",
         jobTitle: profile?.jobTitle ? profile.jobTitle : "",
-        socialMedia: profile?.socialMedia ? profile.socialMedia : [],
+        socialMedia: profile?.socialLinks ? formattedSocialLinks : [],
       });
     }
   }, [profile]);
@@ -191,17 +203,6 @@ const EditProfilePage = () => {
                 </div>
               </div>
             </section>
-
-            {/* 
-        <section className="mb-5">
-          <div className="grid gap-4">
-            <div className="col-span-1">
-              <Label htmlFor="domain">Domain Name</Label>
-              <Input id="domain" type="text" />
-              <p className="text-sm text-muted-foreground">This is the domain name for your portfolio.</p>
-            </div>
-          </div>
-        </section> */}
 
             <section className="mb-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -404,7 +405,7 @@ const EditProfilePage = () => {
                         <FormItem>
                           <FormLabel>Link</FormLabel>
                           <FormControl>
-                            <Input type="url" placeholder="E.g https://www.example.com" {...field} />
+                            <Input type="text" placeholder="E.g https://www.example.com" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

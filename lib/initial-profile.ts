@@ -13,6 +13,54 @@ export const initialProfile = async () => {
     where: { userId: user.id },
   });
 
+  if (profile) {
+    // Check if the profile has existing social media links
+    const existingSocialLinks = await db.userSocialLink.findMany({
+      where: {
+        profileId: profile.id,
+      },
+    });
+
+    if (existingSocialLinks.length === 0) {
+      //  create 4 social links
+      const newSocialLinks = [
+        {
+          iconName: "",
+          iconType: "",
+          url: "",
+        },
+        {
+          iconName: "",
+          iconType: "",
+          url: "",
+        },
+        {
+          iconName: "",
+          iconType: "",
+          url: "",
+        },
+        {
+          iconName: "",
+          iconType: "",
+          url: "",
+        },
+      ];
+
+      await Promise.all(
+        newSocialLinks.map(async (socialLink) => {
+          await db.userSocialLink.create({
+            data: {
+              profileId: profile.id,
+              iconName: socialLink.iconName,
+              iconType: socialLink.iconType,
+              url: socialLink.url,
+            },
+          });
+        })
+      );
+    }
+  }
+
   // If user already has a profile, return it
   if (profile) {
     return profile;

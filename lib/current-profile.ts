@@ -13,6 +13,9 @@ export const currentProfile = async () => {
     where: {
       userId,
     },
+    include: {
+      socialLinks: true,
+    },
   });
 
   return profile;
