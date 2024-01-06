@@ -17,12 +17,14 @@ import axios from "axios";
 import { toast } from "sonner";
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
   const params = useParams();
   const id = params.id;
 
+  const router = useRouter();
   const userInfo = useSelector((state: any) => state.userReducer);
   const [profile, setProfile] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,7 +53,7 @@ export default function Profile() {
 
       if (id != userInfo.id) {
         // refresh
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error: any) {
       console.error("Error fetching data:", error.response);

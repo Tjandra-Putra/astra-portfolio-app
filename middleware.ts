@@ -21,6 +21,10 @@ export default authMiddleware({
     "/api/profile/(.*)",
     "/api/projects/(.*)",
     "/api/project/(.*)",
+
+    // error pages
+    "/404",
+    "/unverified",
   ],
 });
 

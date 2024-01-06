@@ -34,7 +34,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll }) => {
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [userInfo]);
 
   const projectsToDisplay = showAll
     ? projects.filter((project) => project.isWorkExperience && project.visible)
