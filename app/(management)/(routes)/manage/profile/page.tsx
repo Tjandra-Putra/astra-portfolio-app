@@ -24,11 +24,11 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const socialMediaPlatforms = [
-  { value: "faLinkedin, free-brands-svg-icons", label: "LinkedIn" },
-  { value: "faGithub, free-brands-svg-icons", label: "GitHub" },
-  { value: "faC, free-solid-svg-icons", label: "Credly" },
-  { value: "faAt, free-solid-svg-icons", label: "Email" },
-  { value: "faDribbble, free-brands-svg-icons", label: "Dribbble" },
+  { value: "fa-linkedin, fa-brands", label: "LinkedIn" },
+  { value: "fa-github, fa-brands", label: "GitHub" },
+  { value: "fa-c, fa-solid", label: "Credly" },
+  { value: "fa-at, fa-solid", label: "Email" },
+  { value: "fa-dribbble, fa-brands", label: "Dribbble" },
 ];
 
 const formSchema = z.object({

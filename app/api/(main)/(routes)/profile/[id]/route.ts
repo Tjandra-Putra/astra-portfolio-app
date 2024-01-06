@@ -23,6 +23,9 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
         where: {
           userId: user.id,
         },
+        include: {
+          socialLinks: true,
+        },
       });
     }
 

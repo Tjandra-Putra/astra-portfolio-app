@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faFaceSmile, faSeedling } from "@fortawesome/free-solid-svg-icons";
-import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
+import { faCircle, faSeedling } from "@fortawesome/free-solid-svg-icons";
+import { faFile } from "@fortawesome/free-regular-svg-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Projects from "@/components/projects";
 import Experiences from "@/components/experiences";
@@ -16,16 +16,13 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 import { setUserInfo } from "@/app/redux/features/user-slice";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
   const params = useParams();
   const id = params.id;
 
-  const router = useRouter();
-  const userInfo = useSelector((state: any) => state.userReducer);
   const [profile, setProfile] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
