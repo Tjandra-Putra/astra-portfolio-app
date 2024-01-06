@@ -13,6 +13,9 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
       where: {
         id: context.params.id,
       },
+      include: {
+        socialLinks: true,
+      },
     });
 
     // this is for authenticated profile

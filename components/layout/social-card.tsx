@@ -31,9 +31,11 @@ const SocialCard = () => {
   library.add(...iconList, ...brandList);
 
   const fetchProfile = async () => {
+    console.log(userInfo.id);
     try {
       setLoading(true);
       const response = await axios.get(`/api/profile/${userInfo.id}`);
+
       setProfile(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -43,10 +45,12 @@ const SocialCard = () => {
   };
 
   useEffect(() => {
-    if (userInfo.id) {
+    if (userInfo) {
       fetchProfile();
     }
   }, [userInfo]);
+
+  console.log(profile);
 
   return loading ? (
     <Loader />
