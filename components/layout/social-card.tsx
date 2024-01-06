@@ -63,7 +63,7 @@ const SocialCard = () => {
               <Link href={social.url} target="_blank" rel="noopener noreferrer" key={social.id}>
                 <Button variant={"white"} className="font-semibold rounded-full w-11 h-11">
                   {/* <FontAwesomeIcon icon={social.iconName} color="#000000" className="text-lg" /> */}
-                  <FontAwesomeIcon icon={`${social.iconType} ${social.iconName}`} color="#000000" className="text-lg" />
+                  <FontAwesomeIcon icon={[social.iconType, social.iconName]} color="#000000" className="text-lg" />
                 </Button>
               </Link>
             );
