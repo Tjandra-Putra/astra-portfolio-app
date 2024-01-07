@@ -31,15 +31,24 @@ const ProjectsPage = () => {
   };
 
   const deleteProjectHandler = async (id: string) => {
-    console.log("CLICKED");
-    try {
-      setButtonLoading(true);
-      await axios.delete(`/api/manage/projects/${id}`);
-      toast.success("Project deleted successfully");
-    } catch (error) {
-      console.error("Error deleting project:", error);
-    } finally {
-      setButtonLoading(false);
+    // Display a confirmation prompt
+    const confirmed = window.confirm("Are you sure you want to delete this project?");
+
+    // If the user confirms, proceed with deletion
+    if (confirmed) {
+      console.log("DELETE CONFIRMED");
+      try {
+        setButtonLoading(true);
+        await axios.delete(`/api/manage/projects/${id}`);
+        toast.success("Project deleted successfully");
+      } catch (error) {
+        console.error("Error deleting project:", error);
+      } finally {
+        setButtonLoading(false);
+      }
+    } else {
+      console.log("DELETE CANCELLED");
+      // Optionally, you can handle the case where the user cancels the deletion.
     }
   };
 
