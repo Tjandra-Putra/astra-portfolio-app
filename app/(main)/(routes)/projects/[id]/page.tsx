@@ -127,11 +127,20 @@ const Project = () => {
         <Separator className="my-6" />
 
         {/* Render Markdown Content Here*/}
-        <div className="markdown-content">
+        <div className="markdown-content whitespace-pre-wrap">
           <ReactMarkdown
             components={{
               img: ({ node, ...props }) => {
                 return <img {...props} className="w-full h-full rounded-lg my-6 shadow-paper" />;
+              },
+              ul: ({ node, ...props }) => {
+                return <ul {...props} className="leading-none" />;
+              },
+              li: ({ node, ...props }) => {
+                return <li {...props} className="list-disc text-orange-700 list-inside" />;
+              },
+              ol: ({ node, ...props }) => {
+                return <ol {...props} className="list-decimal text-orange-700 list-inside" />;
               },
             }}
           >

@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Text Editor */
+.ql-container.ql-snow,
+.ql-toolbar.ql-snow {
+  border: none !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

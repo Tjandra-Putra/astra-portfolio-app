@@ -23,9 +23,10 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-import { TextEditor } from "@/components/text-editor";
+import { TextEditor } from "@/components/text-editors/text-editor";
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
+import QuillTextEditor from "@/components/text-editors/quill-text-editor";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -503,7 +504,8 @@ const AddProjectPage = () => {
 
           <div className="border bg-white p-0 rounded-lg">
             <section className="mb-5 bg-white">
-              <TextEditor onMarkdownChange={handleMarkdownChange} />
+              {/* <TextEditor onMarkdownChange={handleMarkdownChange} /> */}
+              <QuillTextEditor onMarkdownChange={handleMarkdownChange} />
             </section>
           </div>
 
