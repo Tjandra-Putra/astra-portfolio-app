@@ -149,7 +149,7 @@ const EditProjectPage = () => {
     setIsEditing(true);
 
     values.content = markDownContent;
-    values.description = values.description.replace(/\n/g, "<br />");
+    // values.description = values.description.replace(/\n/g, "<br />");
 
     // Convert date strings to Date objects
     values.startDate = new Date(values.startDate);
@@ -273,6 +273,7 @@ const EditProjectPage = () => {
                       <Textarea
                         placeholder="E.g This project aims to ..."
                         className="resize-none whitespace-pre-line"
+                        rows={10}
                         {...field}
                       />
                     </FormControl>
