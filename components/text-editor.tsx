@@ -25,7 +25,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({ onMarkdownChange, initia
   // Set the initial content when it exists
   useEffect(() => {
     if (initialContent) {
-      const rawData = markdownToDraft(initialContent);
+      const rawData = markdownToDraft(initialContent, { preserveNewlines: true });
       const contentState = convertFromRaw(rawData);
       const newEditorState = EditorState.createWithContent(contentState);
       setEditorState(newEditorState);
