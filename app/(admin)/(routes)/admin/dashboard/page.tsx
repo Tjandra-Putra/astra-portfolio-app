@@ -5,11 +5,20 @@ import { useEffect, useState } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
-import { profile } from "console";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const DashboardPage = () => {
   const [profiles, setProfiles] = useState<any[]>([]); // Use 'any[]' as the initial state type
   const userInfo = useSelector((state: any) => state.userReducer);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userInfo.role !== "ADMIN") {
+      toast.error("You are not authorized to access this page.");
+      return router.push("/manage");
+    }
+  }, []);
 
   const fetchProfiles = async () => {
     try {
