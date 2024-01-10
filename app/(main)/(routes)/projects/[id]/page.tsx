@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 
 import Loader from "@/components/layout/loader";
 import Experiences from "@/components/experiences";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Project = () => {
   // get id from url
@@ -168,7 +169,11 @@ const Project = () => {
         </div>
         <Separator className="my-6" />
 
-        {project?.isWorkExperience ? <Experiences title="Other Experiences" /> : <Projects title="Other Projects" />}
+        {project?.isWorkExperience ? (
+          <Experiences title="Other Experiences" showAll={true} detailedPage={true} />
+        ) : (
+          <Projects title="Other Projects" showAll={true} detailedPage={true} />
+        )}
       </section>
     </React.Fragment>
   );

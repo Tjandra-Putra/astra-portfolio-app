@@ -14,9 +14,10 @@ import Loader from "./layout/loader";
 interface ProjectsProps {
   title?: string;
   showAll?: boolean;
+  detailedPage?: boolean;
 }
 
-const Projects: React.FC<ProjectsProps> = ({ title, showAll }) => {
+const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage }) => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -62,6 +63,19 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll }) => {
             </div>
           )}
       {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
+      {detailedPage && (
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+            <div className="font-medium text-gray-800 text-lg">{title || "Projects"}</div>
+          </div>
+          <Link href={"/projects"}>
+            <Button variant="white">
+              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+            </Button>
+          </Link>
+        </div>
+      )}
       {projectsToDisplay.map((project) => (
         <Link href={`/projects/${project.id}`} key={project.id}>
           <ProjectCard key={project.id} data={project} />
