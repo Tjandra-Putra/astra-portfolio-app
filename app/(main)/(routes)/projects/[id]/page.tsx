@@ -18,6 +18,7 @@ import { formatDate } from "@/lib/format-date";
 import { useSelector } from "react-redux";
 
 import Loader from "@/components/layout/loader";
+import Experiences from "@/components/experiences";
 
 const Project = () => {
   // get id from url
@@ -142,6 +143,12 @@ const Project = () => {
               ol: ({ node, ...props }) => {
                 return <ol {...props} className="list-decimal text-orange-700 list-inside" />;
               },
+              h3: ({ node, ...props }) => {
+                return <h3 {...props} className="text-2xl font-semibold mb-[-1rem]" />;
+              },
+              h4: ({ node, ...props }) => {
+                return <h4 {...props} className="text-xl font-semibold mb-[-1rem]" />;
+              },
             }}
           >
             {project?.content || ""}
@@ -160,7 +167,8 @@ const Project = () => {
           </div>
         </div>
         <Separator className="my-6" />
-        <Projects title="Other Projects" />
+
+        {project?.isWorkExperience ? <Experiences title="Other Experiences" /> : <Projects title="Other Projects" />}
       </section>
     </React.Fragment>
   );
