@@ -112,22 +112,18 @@ const Project = () => {
           dangerouslySetInnerHTML={{ __html: project?.description || "" }}
         />
         <div className="buttons flex flex-row justify-end">
-          {project?.url && (
-            <Button className="mr-3" variant={"navy"}>
-              <Link href={project ? project.projectUrl : ""} target="_blank">
-                Visit Website
-                <FontAwesomeIcon icon={faArrowAltCircleRight} className="ms-2" />
-              </Link>
-            </Button>
-          )}
-          {project?.githubUrl && (
-            <Button className="mr-3" variant={"ash"}>
-              <Link href={project ? project.githubUrl : ""} target="_blank">
-                Github
-                <FontAwesomeIcon icon={faGithub} className="ms-2" />
-              </Link>
-            </Button>
-          )}
+          <Button className="mr-3" variant={"navy"} disabled={!project?.projectUrl}>
+            <Link href={project ? project.projectUrl : ""} target="_blank">
+              Visit Website
+              <FontAwesomeIcon icon={faArrowAltCircleRight} className="ms-2" />
+            </Link>
+          </Button>
+          <Button className="mr-3" variant={"ash"} disabled={!project?.githubUrl}>
+            <Link href={project ? project.githubUrl : ""} target="_blank">
+              Github
+              <FontAwesomeIcon icon={faGithub} className="ms-2" />
+            </Link>
+          </Button>
         </div>
 
         <Separator className="my-6" />
