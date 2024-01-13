@@ -145,10 +145,10 @@ const Project = () => {
                 return <ol {...props} className="list-decimal text-orange-700 list-inside" />;
               },
               h3: ({ node, ...props }) => {
-                return <h3 {...props} className="text-2xl font-semibold mb-[-1rem]" />;
+                return <h3 {...props} className="text-lg font-semibold mb-[-1rem]" />;
               },
               h4: ({ node, ...props }) => {
-                return <h4 {...props} className="text-xl font-semibold mb-[-1rem]" />;
+                return <h4 {...props} className="text-base font-semibold mb-[-1rem]" />;
               },
             }}
           >
