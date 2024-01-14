@@ -8,7 +8,15 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faCircleXmark, faEye, faSquareCheck, faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircle,
+  faCircleXmark,
+  faEye,
+  faSquareCheck,
+  faBan,
+  faCheck,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck, faClock } from "@fortawesome/free-regular-svg-icons";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
@@ -44,6 +52,8 @@ const DashboardPage = () => {
 
       if (Array.isArray(response.data)) {
         setProfiles(response.data);
+
+        toast.success("Profile accepted.");
       } else {
         console.error("Invalid data format received from the server after accepting profile.");
       }
@@ -60,8 +70,34 @@ const DashboardPage = () => {
 
       if (Array.isArray(response.data)) {
         setProfiles(response.data);
+
+        toast.success("Profile rejected.");
       } else {
         console.error("Invalid data format received from the server after rejecting profile.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteProfile = async (id: string) => {
+    try {
+      // Show confirmation prompt
+      const confirmed = window.confirm("Are you sure you want to delete this profile?");
+
+      if (!confirmed) {
+        // If user cancels, do nothing
+        return;
+      }
+
+      const response = await axios.delete(`/api/admin/profiles/${id}`);
+
+      if (Array.isArray(response.data)) {
+        setProfiles(response.data);
+
+        toast.success("Profile deleted.");
+      } else {
+        console.error("Invalid data format received from the server after deleting profile.");
       }
     } catch (error) {
       console.error(error);
@@ -117,7 +153,7 @@ const DashboardPage = () => {
                   )}
 
                   {profile.role === "GUEST" ? (
-                    <Button variant={"tomato"} onClick={() => rejectProfile(profile.id)}>
+                    <Button variant={"navy"} onClick={() => rejectProfile(profile.id)}>
                       <FontAwesomeIcon icon={faBan} />
                     </Button>
                   ) : (
@@ -138,6 +174,10 @@ const DashboardPage = () => {
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
+
+                  <Button variant={"tomato"} onClick={() => deleteProfile(profile.id)}>
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
