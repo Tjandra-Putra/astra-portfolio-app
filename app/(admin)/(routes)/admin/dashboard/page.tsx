@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle, faCircleXmark, faEye, faSquareCheck, faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faClock } from "@fortawesome/free-regular-svg-icons";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const DashboardPage = () => {
   const [profiles, setProfiles] = useState<any[]>([]); // Use 'any[]' as the initial state type
@@ -68,18 +74,18 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      {/* Render your profiles data here */}
-      <ul></ul>
+      <div className="flex items-center gap-2 mb-3">
+        <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+        <div className="job-title font-medium text-gray-800 text-lg">User Management</div>
+      </div>
 
       <Table>
         {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
         <TableHeader>
           <TableRow>
             <TableHead>Email</TableHead>
-            <TableHead className="w-[120px]">Name</TableHead>
             <TableHead>Role</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -88,19 +94,50 @@ const DashboardPage = () => {
             ?.map((profile) => (
               <TableRow key={profile.id}>
                 <TableCell>{profile.email}</TableCell>
-                <TableCell className="font-medium">{profile.name}</TableCell>
-                <TableCell>{profile.role}</TableCell>
-                <TableCell className="text-right flex gap-2">
+                <TableCell>
                   {profile.role === "MEMBER" ? (
-                    <Button variant={"diamond"}>Accepted</Button>
+                    <Badge variant={"sky"}>
+                      Member <FontAwesomeIcon icon={faCircleCheck} className="ps-1" />
+                    </Badge>
                   ) : (
+                    <Badge variant={"cheese"}>
+                      Guest <FontAwesomeIcon icon={faClock} className="ps-1" />
+                    </Badge>
+                  )}
+                </TableCell>
+                <TableCell className="text-right flex gap-2">
+                  {profile.role === "GUEST" ? (
                     <Button variant={"secondary"} onClick={() => acceptProfile(profile.id)}>
-                      Accept
+                      <FontAwesomeIcon icon={faCheck} />
+                    </Button>
+                  ) : (
+                    <Button variant={"diamond"}>
+                      <FontAwesomeIcon icon={faSquareCheck} />
                     </Button>
                   )}
-                  <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
-                    Remove
-                  </Button>
+
+                  {profile.role === "GUEST" ? (
+                    <Button variant={"tomato"} onClick={() => rejectProfile(profile.id)}>
+                      <FontAwesomeIcon icon={faBan} />
+                    </Button>
+                  ) : (
+                    <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
+                      <FontAwesomeIcon icon={faBan} />
+                    </Button>
+                  )}
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
+                          <FontAwesomeIcon icon={faEye} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{profile.id}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </TableCell>
               </TableRow>
             ))}
