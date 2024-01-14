@@ -32,7 +32,7 @@ const DashboardPage = () => {
       toast.error("You are not authorized to access this page.");
       return router.push("/manage");
     }
-  }, []);
+  }, [userInfo]);
 
   const fetchProfiles = async () => {
     try {
