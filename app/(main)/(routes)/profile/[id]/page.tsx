@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faSeedling } from "@fortawesome/free-solid-svg-icons";
-import { faFile } from "@fortawesome/free-regular-svg-icons";
+import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Projects from "@/components/projects";
 import Experiences from "@/components/experiences";
@@ -72,8 +72,13 @@ export default function Profile() {
           </div>
           <Link href="/contact" className="status uppercase tracking-wider text-end">
             <Badge variant={"diamond"} className="font-semibold">
-              <FontAwesomeIcon icon={faSeedling} className="me-2" color="#183153" />
-              Available for Hire
+              <FontAwesomeIcon
+                icon={faSeedling}
+                className="sm:me-2" // Hide on screens larger than sm (small)
+                color="#183153"
+              />
+
+              <span className="hidden sm:block">Available for Hire</span>
             </Badge>
           </Link>
         </div>
@@ -116,14 +121,14 @@ export default function Profile() {
                       }}
                     >
                       <Button variant={"secondary"}>
-                        <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
+                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
                         Copy Email
                       </Button>
                     </CopyToClipboard>
                   ) : (
                     <CopyToClipboard text={profile?.email} onCopy={() => {}}>
                       <Button variant={"secondary"}>
-                        <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
+                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
                         Copy Email
                       </Button>
                     </CopyToClipboard>

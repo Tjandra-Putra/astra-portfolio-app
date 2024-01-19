@@ -56,7 +56,7 @@ const SocialCard = () => {
     <Loader />
   ) : (
     <div className="bg-ocean rounded-lg mt-4 p-6 flex flex-col md:flex-row justify-between items-center">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 sm:mb-0 mb-2">
         <FontAwesomeIcon icon="circle" className="w-2 h-2" color="#ffffff" />
         <div className="job-title font-medium text-white text-lg">Follow Me</div>
       </div>

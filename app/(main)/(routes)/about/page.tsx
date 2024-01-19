@@ -41,19 +41,19 @@ const AboutPage = () => {
         <Badge variant={"navy"} className="text-3xl">
           👋
         </Badge>
-        <Badge variant={"cheese"} className="text-xl  font-normal">
+        <Badge variant={"navy"} className="text-xl  font-normal">
           Hello
         </Badge>
-        <Badge variant={"ocean"} className="text-xl  font-normal">
+        <Badge variant={"navy"} className="text-xl  font-normal">
           Hola
         </Badge>
-        <Badge variant={"diamond"} className="text-xl  font-normal">
+        <Badge variant={"navy"} className="text-xl  font-normal">
           Bonjour
         </Badge>
-        <Badge variant={"tomato"} className="text-xl  font-normal">
+        <Badge variant={"navy"} className="text-xl  font-normal">
           Ciao
         </Badge>
-        <Badge variant={"secondary"} className="text-xl  font-normal">
+        <Badge variant={"navy"} className="text-xl  font-normal">
           你好
         </Badge>
       </div>

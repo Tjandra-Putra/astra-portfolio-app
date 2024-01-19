@@ -67,14 +67,14 @@ const Collaborate = () => {
               }}
             >
               <Button variant={"secondary"}>
-                <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
+                <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
                 Copy Email
               </Button>
             </CopyToClipboard>
           ) : (
             <CopyToClipboard text={profile?.email} onCopy={() => {}}>
               <Button variant={"secondary"}>
-                <FontAwesomeIcon icon={faFile} className="me-2" color="#000000" />
+                <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
                 Copy Email
               </Button>
             </CopyToClipboard>
