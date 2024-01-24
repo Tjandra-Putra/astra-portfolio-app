@@ -157,8 +157,8 @@ const EditProfilePage = () => {
       setIsEditing(true);
       await axios.put(`/api/manage/profile/${userInfo?.id}`, {
         ...values,
-        about: values.about?.replace(/\n/g, "<br />"), // Replace line breaks with HTML <br /> for storage
-        bio: values.bio?.replace(/\n/g, "<br />"), // Replace line breaks with HTML <br /> for storage
+        about: values.about,
+        bio: values.bio,
       });
 
       fetchProfile();

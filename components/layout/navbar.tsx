@@ -7,10 +7,20 @@ import { faAddressCard, faEnvelope, faFolder, faPenToSquare } from "@fortawesome
 import { faCrown, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeUserInfo } from "@/app/redux/features/user-slice";
 
 const Navbar = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
+  const { userId } = useAuth();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!userId) {
+      // clear redux state
+      dispatch(removeUserInfo());
+    }
+  }, [userId]);
 
   return (
     <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
