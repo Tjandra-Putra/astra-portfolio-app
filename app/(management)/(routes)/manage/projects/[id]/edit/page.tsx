@@ -166,6 +166,8 @@ const EditProjectPage = () => {
     } finally {
       setIsEditing(false);
     }
+
+    console.log("clicked");
   };
 
   // fixes the bug when edit button is clicked it becomes empty for text editor
@@ -341,13 +343,7 @@ const EditProjectPage = () => {
                             </FormControl>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                              initialFocus
-                            />
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
                           </PopoverContent>
                         </Popover>
                         <FormMessage />
@@ -379,13 +375,7 @@ const EditProjectPage = () => {
                             </FormControl>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                              initialFocus
-                            />
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
                           </PopoverContent>
                         </Popover>
                         <FormMessage />
@@ -549,12 +539,6 @@ const EditProjectPage = () => {
               />
             </section>
           </div>
-
-          {/* <div className="flex flex-row justify-end mt-7">
-            <Button variant={"ghost"} onClick={() => clearContentHandler()}>
-              Clear Content
-            </Button>
-          </div> */}
 
           <Badge
             variant="navy"

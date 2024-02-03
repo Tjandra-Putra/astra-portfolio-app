@@ -136,13 +136,13 @@ const Project = () => {
                 return <img {...props} className="w-full h-full rounded-lg my-6 shadow-paper" />;
               },
               ul: ({ node, ...props }) => {
-                return <ul {...props} className="leading-none" />;
+                return <ul {...props} className="leading-1 space-y-[-10px] mt-[-20px]" />;
               },
               li: ({ node, ...props }) => {
-                return <li {...props} className="list-disc text-orange-700 list-inside" />;
+                return <li {...props} className="list-disc list-inside" />;
               },
               ol: ({ node, ...props }) => {
-                return <ol {...props} className="list-decimal text-orange-700 list-inside" />;
+                return <ol {...props} className="list-decimal list-inside" />;
               },
               h3: ({ node, ...props }) => {
                 return <h3 {...props} className="text-lg font-semibold mb-[-1rem]" />;

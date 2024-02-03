@@ -118,7 +118,7 @@ const QuillTextEditor: React.FC<QuillTextEditorProps> = ({ onMarkdownChange, ini
         onChange={handleEditorChange}
         modules={quillModules}
         formats={quillFormats}
-        className="w-full h-full whitespace-pre-wrap"
+        className="w-full h-full"
         style={{ border: "none !important" }}
       />
 
