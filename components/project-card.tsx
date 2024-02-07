@@ -23,13 +23,15 @@ const ProjectCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
         <div className="flex flex-col">
           <div className="project-title text-gray-800 font-medium text-lg">{data.name}</div>
           <div className="flex flex-wrap gap-2 mt-1 capitalize">
-            {displayedTags.map((tag: string, index: number) => (
-              <div key={index} className="project-tags">
-                <Badge variant="secondary" className="text-xs font-normal">
-                  {tag}
-                </Badge>
-              </div>
-            ))}
+            {displayedTags.length > 0 &&
+              displayedTags.some((tag: string) => tag.trim() !== "") &&
+              displayedTags.map((tag: string, index: number) => (
+                <div key={index} className="project-tags">
+                  <Badge variant="secondary" className="text-xs font-normal">
+                    {tag}
+                  </Badge>
+                </div>
+              ))}
             {data.tags.split(",").length > 3 && (
               <div className="project-tags">
                 <Badge variant="secondary" className="text-xs font-normal">
