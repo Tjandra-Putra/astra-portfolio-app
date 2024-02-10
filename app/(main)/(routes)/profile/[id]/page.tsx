@@ -70,7 +70,7 @@ export default function Profile() {
               {profile?.jobTitle ? profile.jobTitle : "Self Employed"}
             </div>
           </div>
-          <Link href="/contact" className="status uppercase tracking-wider text-end">
+          <div className="status uppercase tracking-wider text-end">
             <Badge variant={"diamond"} className="font-semibold">
               <FontAwesomeIcon
                 icon={faSeedling}
@@ -80,7 +80,7 @@ export default function Profile() {
 
               <span className="hidden sm:block">Available for Hire</span>
             </Badge>
-          </Link>
+          </div>
         </div>
 
         {loading ? (
