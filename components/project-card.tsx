@@ -13,7 +13,7 @@ const ProjectCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
   const displayedTags = data.tags.split(",").slice(0, 3);
 
   return (
-    <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+    <div className=" bg-white rounded-lg md:mt-5 mt-3 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
       <div className="flex items-center gap-4">
         <div className="avatar-border border-2 border-[#f0f1f3] p-2 rounded-full">
           <div className="avatar sm:h-14 sm:w-14 h-10 w-10 flex items-center justify-center bg-[#183153] text-[#ffffff] font-semibold rounded-full capitalize">

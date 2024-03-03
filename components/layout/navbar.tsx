@@ -23,7 +23,7 @@ const Navbar = () => {
   }, [userId]);
 
   return (
-    <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center px-6  overflow-x-auto z-10">
+    <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center md:px-6 px-3  overflow-x-auto z-10">
       <div className="nav-left flex gap-2">
         <Link href={`/profile/${userInfo?.id}`} className="nav-item">
           <Button variant="ash">
