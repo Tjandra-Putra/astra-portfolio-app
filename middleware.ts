@@ -2,7 +2,6 @@
 
 import { authMiddleware } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
-import { currentProfile } from "./lib/current-profile";
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
@@ -29,13 +28,21 @@ export default authMiddleware({
     "/unverified",
   ],
 
-  afterAuth(auth, req, evt) {
-    console.log("afterAuth: ", auth);
+  // afterAuth(auth, req, evt) {
+  //   console.log("afterAuth: ", auth);
 
-    console.log("========================");
-    const profile = currentProfile();
-    console.log(profile);
-  },
+  //   console.log("========================");
+  //   const profile = db.profile.findUnique({
+  //     where: {
+  //       userId: auth.userId ?? undefined,
+  //     },
+  //     include: {
+  //       socialLinks: true,
+  //     },
+  //   });
+
+  //   console.log(auth);
+  // },
 });
 
 export const config = {
