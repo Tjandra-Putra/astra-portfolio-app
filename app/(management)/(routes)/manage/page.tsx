@@ -11,13 +11,16 @@ import {
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setUserInfo } from "@/app/redux/features/user-slice";
+import { removeUserInfo, setUserInfo } from "@/app/redux/features/user-slice";
+import { useRouter } from "next/navigation";
 
 const ManagePage = () => {
   // update redux when logged in so that nav home button can be updated with profile id
   const dispatch = useDispatch();
+  const route = useRouter();
+  const userInfo = useSelector((state: any) => state.userReducer);
 
   const fetchProfile = () => {
     axios.get(`/api/profile-with-clerk`).then((response) => {
@@ -34,9 +37,17 @@ const ManagePage = () => {
     });
   };
 
+  console.log("----");
+  console.log(userInfo);
+
   useEffect(() => {
     fetchProfile();
-  }, []);
+
+    if (userInfo && userInfo.role === "GUEST") {
+      dispatch(removeUserInfo());
+      route.push("/unverified");
+    }
+  }, [userInfo]);
 
   return (
     <React.Fragment>

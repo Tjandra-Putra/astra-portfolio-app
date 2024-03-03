@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SignOutButton } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const UnverifiedPage = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(removeUserInfo());
@@ -21,7 +23,7 @@ const UnverifiedPage = () => {
         <p className="text-xl">Click the button below to redirect to the login page.</p>
         <div className="flex justify-center">
           <SignOutButton>
-            <Button variant={"white"} className="w-25">
+            <Button variant={"white"} className="w-25" onClick={() => router.push("/sign-in")}>
               Go to login page
             </Button>
           </SignOutButton>

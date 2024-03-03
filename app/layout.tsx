@@ -26,7 +26,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className, "bg-white dark:bg-[#313338]")}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="astra-theme">
-            <ReduxProvider>{currentUser?.role === "GUEST" ? <UnverifiedPage /> : children}</ReduxProvider>
+            <ReduxProvider>
+              {children}
+              {/* {currentUser?.role === "GUEST" ? <UnverifiedPage /> : children} */}
+            </ReduxProvider>
             <Toaster position="bottom-center" />
           </ThemeProvider>
         </body>
