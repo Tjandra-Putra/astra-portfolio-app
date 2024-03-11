@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Text Editor */
+/* Quill Text Editor */
 .ql-container.ql-snow,
 .ql-toolbar.ql-snow {
   border: none !important;
@@ -80,6 +80,10 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  ul,
+  ol {
+    list-style: revert;
   }
 }
 

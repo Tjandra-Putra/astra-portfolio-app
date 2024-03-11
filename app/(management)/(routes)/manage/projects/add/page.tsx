@@ -23,7 +23,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-import { TextEditor } from "@/components/text-editors/text-editor";
+import Tiptap from "@/components/text-editors/tiptap-text-editor";
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 import QuillTextEditor from "@/components/text-editors/quill-text-editor";
@@ -100,6 +100,8 @@ const AddProjectPage = () => {
   // get values from text editor child component
   const handleMarkdownChange = (markdown: string) => {
     setMarkdownContent(markdown);
+
+    console.log(markdown);
   };
 
   // submit handler.
@@ -491,8 +493,8 @@ const AddProjectPage = () => {
           </Badge>
 
           <div className="border bg-white p-0 rounded-lg">
-            <section className="mb-5 bg-white">
-              {/* <TextEditor onMarkdownChange={handleMarkdownChange} /> */}
+            <section className="bg-white">
+              {/* <Tiptap onMarkdownChange={handleMarkdownChange} /> */}
               <QuillTextEditor onMarkdownChange={handleMarkdownChange} />
             </section>
           </div>

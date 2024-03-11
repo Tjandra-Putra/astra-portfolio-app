@@ -28,12 +28,7 @@ const quillModules: QuillModules = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],
     ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      // { list: "ordered" },
-      // { list: "bullet" },
-      // { indent: "-1" },
-      // { indent: "+1" },
-    ],
+    [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
     [
       "link",
       //  "image",
@@ -118,7 +113,7 @@ const QuillTextEditor: React.FC<QuillTextEditorProps> = ({ onMarkdownChange, ini
         onChange={handleEditorChange}
         modules={quillModules}
         formats={quillFormats}
-        className="w-full h-full"
+        className="w-full h-full white"
         style={{ border: "none !important" }}
       />
 
