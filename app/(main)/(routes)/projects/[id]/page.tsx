@@ -136,13 +136,13 @@ const Project = () => {
                 return <img {...props} className="w-full h-full rounded-lg my-6 shadow-paper" />;
               },
               ul: ({ node, ...props }) => {
-                return <ul {...props} className="mt-[-28px] leading-[0.7]" />;
+                return <ul {...props} className="leading-tight space-y-[-10px] mt-[-20px]" />;
               },
               li: ({ node, ...props }) => {
                 return <li {...props} className="list-inside" />;
               },
               ol: ({ node, ...props }) => {
-                return <ol {...props} className="mt-[-28px] leading-[0.7] list-inside " />;
+                return <ol {...props} className="leading-tight space-y-[-10px] mt-[-20px]" />;
               },
               h3: ({ node, ...props }) => {
                 return <h3 {...props} className="text-lg font-semibold mb-[-1rem]" />;
@@ -154,7 +154,7 @@ const Project = () => {
                 return <h5 {...props} className="text-sm font-semibold mb-[-1rem]" />;
               },
               a: ({ node, ...props }) => {
-                return <a {...props} className="text-blue-500 hover:underline" />;
+                return <a {...props} className="text-blue-500 hover:underline underline" />;
               },
             }}
           >
