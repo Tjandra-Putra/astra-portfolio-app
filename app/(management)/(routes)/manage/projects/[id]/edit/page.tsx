@@ -24,7 +24,7 @@ import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 // import { TextEditor } from "@/components/text-editors/text-editor";
-import QuillTextEditor from "@/components/text-editors/quill-text-editor";
+import QuillTextEditor from "@/components/text-editors/quill-editor";
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 

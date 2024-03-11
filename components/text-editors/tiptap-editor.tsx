@@ -34,6 +34,8 @@ import rehypeParse from "rehype-parse";
 import rehypeRemark from "rehype-remark";
 import remarkStringify from "remark-stringify";
 
+import styles from "./styles.module.css";
+
 interface TiptapProps {
   content?: string;
   onMarkdownChange: (content: string) => void;
@@ -217,7 +219,10 @@ const Tiptap = ({ content, onMarkdownChange }: TiptapProps) => {
           <Redo className="w-4 h-4" />
         </Button>
       </div>
-      <EditorContent editor={editor} className="p-2 whitespace-pre-line" />
+
+      <div className={styles.editor}>
+        <EditorContent editor={editor} className="p-2 whitespace-pre-line" />
+      </div>
     </>
   );
 };
