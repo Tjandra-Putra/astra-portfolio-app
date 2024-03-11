@@ -494,8 +494,8 @@ const AddProjectPage = () => {
 
           <div className="border bg-white p-0 rounded-lg">
             <section className="bg-white">
-              <Tiptap onMarkdownChange={handleMarkdownChange} />
-              {/* <QuillTextEditor onMarkdownChange={handleMarkdownChange} /> */}
+              {/* <Tiptap onMarkdownChange={handleMarkdownChange} /> */}
+              <QuillTextEditor onMarkdownChange={handleMarkdownChange} />
             </section>
           </div>
 
