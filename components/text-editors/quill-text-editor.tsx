@@ -73,9 +73,9 @@ const QuillTextEditor: React.FC<QuillTextEditorProps> = ({ onMarkdownChange, ini
   const handleEditorChange = (newContent: string) => {
     setContent(newContent); // html text
     setMarkdownContent(HtmlToMarkdown(newContent)); // convert to markdown
-    onMarkdownChange(markdownContent!);
+    onMarkdownChange(HtmlToMarkdown(newContent) as string);
 
-    console.log(markdownContent);
+    console.log(HtmlToMarkdown(newContent));
   };
 
   const HtmlToMarkdown = (htmlContent: string): string | undefined => {
