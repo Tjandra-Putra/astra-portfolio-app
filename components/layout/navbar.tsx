@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUserInfo } from "@/app/redux/features/user-slice";
+import { CircleUserRound, Folder, FolderCog, Home, Mail, Square, SquareUser, User } from "lucide-react";
 
 const Navbar = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -27,40 +28,44 @@ const Navbar = () => {
       <div className="nav-left flex gap-2">
         <Link href={`/profile/${userInfo?.id}`} className="nav-item">
           <Button variant="ash">
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faFolder}
               className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300"
               color="#000000"
-            />
+            /> */}
+            <Folder className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
           </Button>
         </Link>
         <Link href="/about" className="nav-item">
           <Button variant="link">
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faAddressCard}
               className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
               color="#000000"
-            />
+            /> */}
+            <User className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
           </Button>
         </Link>
         {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
             <Button variant="link">
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faEnvelope}
                 className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
                 color="#000000"
-              />
+              /> */}
+              <Mail className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
             </Button>
           </Link>
         ) : (
           <Link href={`mailto:${userInfo?.email}`} className="nav-item">
             <Button variant="link">
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faEnvelope}
                 className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300"
                 color="#000000"
-              />
+              /> */}
+              <Mail className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
             </Button>
           </Link>
         )}
@@ -68,11 +73,12 @@ const Navbar = () => {
         <SignedIn>
           <Link href="/manage" className="nav-item">
             <Button variant="link">
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faPenToSquare}
                 className="w-[1.4rem] h-[1.4rem] transition duration-300"
                 color="#000000"
-              />
+              /> */}
+              <FolderCog className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
             </Button>
           </Link>
           <div className="nav-item me-2">
