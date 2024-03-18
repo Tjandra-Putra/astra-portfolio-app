@@ -26,27 +26,24 @@ const ManagePage = () => {
     axios.get(`/api/profile-with-clerk`).then((response) => {
       dispatch(
         setUserInfo({
-          id: response.data.id,
-          role: response.data.role,
-          name: response.data.name,
-          domain: response.data.domain,
-          email: response.data.email,
-          workEmail: response.data.workEmail,
+          id: response?.data?.id,
+          role: response?.data?.role,
+          name: response?.data?.name,
+          domain: response?.data?.domain,
+          email: response?.data?.email,
+          workEmail: response?.data?.workEmail,
         })
       );
     });
   };
 
-  console.log("----");
-  console.log(userInfo);
-
   useEffect(() => {
     fetchProfile();
 
-    if (userInfo && userInfo.role === "GUEST") {
-      dispatch(removeUserInfo());
-      route.push("/unverified");
-    }
+    // if (userInfo && userInfo.role === "GUEST") {
+    //   dispatch(removeUserInfo());
+    //   route.push("/unverified");
+    // }
   }, [userInfo]);
 
   return (

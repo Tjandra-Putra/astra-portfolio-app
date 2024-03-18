@@ -165,7 +165,7 @@ const DashboardPage = () => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
+                        <Button variant={"secondary"}>
                           <FontAwesomeIcon icon={faEye} />
                         </Button>
                       </TooltipTrigger>

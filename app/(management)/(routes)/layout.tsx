@@ -1,12 +1,27 @@
+"use client";
+
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
-import { initialProfile } from "@/lib/initial-profile";
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // This is the layout for the management page
 // It is for user to manage the content of the website
 const ManagementLayout = ({ children }: { children: any }) => {
-  const profile = initialProfile();
+  const router = useRouter();
+
+  useEffect(() => {
+    // check if user is verified base on the role of the user (GUEST or MEMBER)
+    axios.get("/api/auth/role").then((res) => {
+      console.log(res);
+
+      if (!res.data.isVerified) {
+        // redirect to unverified page
+        router.push("/unverified");
+      }
+    });
+  }, []);
 
   return (
     <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full">

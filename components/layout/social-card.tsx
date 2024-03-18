@@ -31,7 +31,6 @@ const SocialCard = () => {
   library.add(...iconList, ...brandList);
 
   const fetchProfile = async () => {
-    console.log(userInfo.id);
     try {
       setLoading(true);
       const response = await axios.get(`/api/profile/${userInfo.id}`);
@@ -49,8 +48,6 @@ const SocialCard = () => {
       fetchProfile();
     }
   }, [userInfo]);
-
-  console.log(profile);
 
   return loading ? (
     <Loader />

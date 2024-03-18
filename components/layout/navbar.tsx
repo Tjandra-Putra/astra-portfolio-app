@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUserInfo } from "@/app/redux/features/user-slice";
 import { CircleUserRound, Folder, FolderCog, Home, Mail, Square, SquareUser, User } from "lucide-react";
+import axios from "axios";
 
 const Navbar = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -24,7 +25,7 @@ const Navbar = () => {
   }, [userId]);
 
   return (
-    <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center md:px-6 px-3  overflow-x-auto z-10">
+    <nav className="sticky top-[1rem] h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center md:px-6 px-3 overflow-x-hidden z-10">
       <div className="nav-left flex gap-2">
         <Link href={`/profile/${userInfo?.id}`} className="nav-item">
           <Button variant="ash">
