@@ -317,6 +317,7 @@ const EditProfilePage = () => {
                           <Textarea
                             placeholder="Introduce yourself in detail."
                             className="resize-none whitespace-pre-line"
+                            rows={12}
                             {...field}
                           />
                         </FormControl>

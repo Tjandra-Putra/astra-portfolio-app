@@ -44,7 +44,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
   return loading ? (
     <Loader />
   ) : (
-    <div className="projects bg-ash md:p-6 p-3 rounded-lg mt-6">
+    <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3">
       {projectsToDisplay.length === 0
         ? "No project experiences available."
         : !showAll && (
