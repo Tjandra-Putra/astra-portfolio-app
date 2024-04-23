@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
   const profile = await initialProfile();
   const role = profile?.role;
 
-  if (role === "GUEST") {
+  if (!role) {
     // Unauthorized
     console.log(role);
     return NextResponse.json({ message: "Unauthorized", isVerified: false });
