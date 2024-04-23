@@ -7,9 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from "next/link";
-import projectsData from "@/data/data";
 import axios from "axios";
-import { formatDate } from "@/lib/format-date";
 import { toast } from "sonner";
 
 const ProjectsPage = () => {
@@ -48,7 +46,6 @@ const ProjectsPage = () => {
       }
     } else {
       console.log("DELETE CANCELLED");
-      // Optionally, you can handle the case where the user cancels the deletion.
     }
   };
 
@@ -70,15 +67,14 @@ const ProjectsPage = () => {
           </Button>
         </Link>
       </div>
+
       <div className="text-gray-800 mb-7 font-normal">
         Your projects are listed below. You can edit, delete, or hide them from your profile.
       </div>
 
-      {/* fetchProjects: {JSON.stringify(projects)} */}
-
       <Badge
         variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+        className="text-lg font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none"
       >
         Personal Projects
       </Badge>
@@ -88,7 +84,6 @@ const ProjectsPage = () => {
           <TableRow>
             <TableHead className="w-[300px]">Project Name</TableHead>
             <TableHead>Status</TableHead>
-            {/* <TableHead>Created</TableHead> */}
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -105,7 +100,6 @@ const ProjectsPage = () => {
                     <Badge variant={"cheese"}>Hidden</Badge>
                   )}
                 </TableCell>
-                {/* <TableCell>{project?.startDate ? formatDate(project.startDate) : "N/A"}</TableCell> */}
                 <TableCell className="text-right">
                   <div className="buttons flex gap-2">
                     <Link href={`/projects/${project.id}`}>
@@ -142,9 +136,9 @@ const ProjectsPage = () => {
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[300px]">Project Name</TableHead>
+            <TableHead className="w-[300rem]">Company</TableHead>
+            <TableHead>Role</TableHead>
             <TableHead>Status</TableHead>
-            {/* <TableHead>Created</TableHead> */}
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -153,7 +147,8 @@ const ProjectsPage = () => {
             ?.filter((project) => project.isWorkExperience)
             .map((project) => (
               <TableRow key={project.id}>
-                <TableCell className="font-medium">{project.name}</TableCell>
+                <TableCell className="font-medium">{project.company}</TableCell>
+                <TableCell>{project.workExperienceTitle}</TableCell>
                 <TableCell>
                   {project?.visible ? (
                     <Badge variant={"diamond"}>Visible</Badge>
@@ -161,7 +156,6 @@ const ProjectsPage = () => {
                     <Badge variant={"cheese"}>Hidden</Badge>
                   )}
                 </TableCell>
-                {/* <TableCell>{project?.startDate ? formatDate(project.startDate) : "N/A"}</TableCell> */}
                 <TableCell className="text-right">
                   <div className="buttons flex gap-2">
                     <Link href={`/projects/${project.id}`}>

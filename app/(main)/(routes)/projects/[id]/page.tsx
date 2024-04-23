@@ -19,12 +19,15 @@ import { useSelector } from "react-redux";
 
 import Loader from "@/components/layout/loader";
 import Experiences from "@/components/experiences";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { setUserInfo } from "@/app/redux/features/user-slice";
+import { useDispatch } from "react-redux";
 
 const Project = () => {
   // get id from url
   const params = useParams();
   const projectId = params.id;
+
+  const dispatch = useDispatch();
 
   const userInfo = useSelector((state: any) => state.userReducer);
   const [profile, setProfile] = useState<any>();
@@ -47,8 +50,28 @@ const Project = () => {
     }
   };
 
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(`/api/project/get-profile/${projectId}`);
+      console.log(response.data);
+
+      // redux
+      dispatch(
+        setUserInfo({
+          id: response.data.id,
+          role: response.data.role,
+          name: response.data.name,
+          domain: response.data.domain,
+          email: response.data.email,
+          workEmail: response.data.workEmail,
+        })
+      );
+    } catch (error: any) {}
+  };
+
   useEffect(() => {
     fetchProject();
+    fetchUserProfile();
   }, []);
 
   return !project ? (

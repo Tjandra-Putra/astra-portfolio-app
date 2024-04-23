@@ -1,7 +1,5 @@
-import { v4 as uuid } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { currentUser } from "@clerk/nextjs";
 
 // get single project base on project id and user id
 export async function GET(req: NextRequest, context: { params: { id: string } }) {

@@ -23,7 +23,7 @@ const ManagePage = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
 
   const fetchProfile = () => {
-    axios.get(`/api/profile-with-clerk`).then((response) => {
+    axios.get(`/api/profile/current`).then((response) => {
       dispatch(
         setUserInfo({
           id: response?.data?.id,
@@ -39,11 +39,6 @@ const ManagePage = () => {
 
   useEffect(() => {
     fetchProfile();
-
-    // if (userInfo && userInfo.role === "GUEST") {
-    //   dispatch(removeUserInfo());
-    //   route.push("/unverified");
-    // }
   }, [userInfo]);
 
   return (
@@ -68,7 +63,7 @@ const ManagePage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="project-title text-gray-800 font-medium text-lg">My Profile</div>
+                <div className="project-title text-gray-800 font-medium text-base">User Profile</div>
               </div>
             </div>
             <div className="view-more transition-transform transform hover:translate-x-1">
@@ -86,7 +81,7 @@ const ManagePage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="project-title text-gray-800 font-medium text-lg">My Projects</div>
+                <div className="project-title text-gray-800 font-medium text-base">Projects & Experiences</div>
               </div>
             </div>
             <div className="view-more transition-transform transform hover:translate-x-1">
@@ -95,23 +90,23 @@ const ManagePage = () => {
           </div>
         </Link>
 
-        {/* <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
+        <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-          <div className="avatar-border  border-4 border-[#e599f7] p-2 rounded-full">
-          <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-          <FontAwesomeIcon icon={faCertificate} color="#ffffff" />
-          </div>
-          </div>
-          <div className="flex flex-col">
-          <div className="project-title text-gray-800 font-medium text-lg">My Certificates</div>
-          </div>
+            <div className="avatar-border  border-4 border-[#e599f7] p-2 rounded-full">
+              <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
+                <FontAwesomeIcon icon={faCertificate} color="#ffffff" />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="project-title text-gray-800 font-medium text-base">Certificates & Awards</div>
+            </div>
           </div>
           <div className="view-more transition-transform transform hover:translate-x-1">
-          <Link href={`/manage/experiences`}>
-          <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
-          </Link>
+            <Link href={`/manage/experiences`}>
+              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+            </Link>
           </div>
-        </div> */}
+        </div>
         {/* 
         <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
         <div className="flex items-center gap-4">

@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-
-import { currentProfile } from "@/lib/current-profile";
-import { redirect } from "next/navigation";
 import { initialProfile } from "@/lib/initial-profile";
 
 // check if user's role is GUEST or MEMBER
