@@ -25,7 +25,7 @@ const UnverifiedPage = () => {
         className="mt-[18vh]"
       />
       <div className="flex flex-col gap-3 mt-[-5vh]">
-        <span className="sm:text-3xl font-semibold">Please wait for the admin to verify your account</span>
+        <span className="sm:text-3xl font-semibold">You are not authorized to access this page.</span>
         {/* <p className="text-xl">Click the button below to redirect to the login page.</p>
         <div className="flex justify-center">
           <SignOutButton>

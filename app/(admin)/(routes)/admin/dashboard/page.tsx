@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -10,22 +10,61 @@ import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircle,
-  faCircleXmark,
   faEye,
   faSquareCheck,
   faBan,
   faCheck,
   faTrashCan,
+  faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck, faClock } from "@fortawesome/free-regular-svg-icons";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+const formSchema = z.object({
+  email: z.string(),
+});
 
 const DashboardPage = () => {
   const [profiles, setProfiles] = useState<any[]>([]); // Use 'any[]' as the initial state type
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
+
+  // define form
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+
+    try {
+      const response = await axios.post("/api/admin/profiles/new", {
+        email: values.email,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (userInfo.role !== "ADMIN") {
@@ -110,13 +149,58 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-3">
-        <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="job-title font-medium text-gray-800 text-lg">User Management</div>
+      <div className="flex items-center justify-between gap-2 mb-3">
+        <div className="flex items-center gap-2">
+          <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+          <div className="job-title font-medium text-gray-800 text-lg">User Management</div>
+        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant={"navy"}>
+              <FontAwesomeIcon icon={faPlusCircle} className="w-3 h-3 pe-2" color="" type="button" />
+              Add
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Add User</DialogTitle>
+              <DialogDescription>Enter the email address of the user you want to add to the system.</DialogDescription>
+            </DialogHeader>
+
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="flex flex-col">
+                  <div className="mb-4">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" {...field} required />
+                          </FormControl>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <DialogFooter>
+                  <Button type="submit" variant={"diamond"}>
+                    Add User
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <Table>
-        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
         <TableHeader>
           <TableRow>
             <TableHead>Email</TableHead>

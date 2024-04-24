@@ -9,75 +9,22 @@ export const initialProfile = async () => {
   }
 
   // Check if user already has a profile
-  const profile = await db.profile.findUnique({
-    where: { userId: user.id },
+  const profile = await db.profile.findFirst({
+    where: { email: user.emailAddresses[0].emailAddress },
   });
 
-  // if (profile) {
-  //   // Check if the profile has existing social media links
-  //   const existingSocialLinks = await db.userSocialLink.findMany({
-  //     where: {
-  //       profileId: profile.id,
-  //     },
-  //   });
+  // check profile userId has login_pending_user in login_pending_user@d1e8v8
+  if (profile && profile.userId.includes("login_pending_user")) {
+    // update userId with user.id
 
-  //   if (existingSocialLinks.length === 0) {
-  //     //  create 4 social links
-  //     const newSocialLinks = [
-  //       {
-  //         iconName: "",
-  //         iconType: "",
-  //         url: "",
-  //       },
-  //       {
-  //         iconName: "",
-  //         iconType: "",
-  //         url: "",
-  //       },
-  //       {
-  //         iconName: "",
-  //         iconType: "",
-  //         url: "",
-  //       },
-  //       {
-  //         iconName: "",
-  //         iconType: "",
-  //         url: "",
-  //       },
-  //     ];
-
-  //     await Promise.all(
-  //       newSocialLinks.map(async (socialLink) => {
-  //         await db.userSocialLink.create({
-  //           data: {
-  //             profileId: profile.id,
-  //             iconName: socialLink.iconName,
-  //             iconType: socialLink.iconType,
-  //             url: socialLink.url,
-  //           },
-  //         });
-  //       })
-  //     );
-  //   }
-  // }
+    await db.profile.update({
+      where: { id: profile.id },
+      data: { userId: user.id },
+    });
+  }
 
   // If user already has a profile, return it
   if (profile) {
     return profile;
   }
-
-  // // Create a new profile
-  // const newProfile = await db.profile.create({
-  //   data: {
-  //     userId: user.id,
-  //     name: `${user.firstName} ${user.lastName}`,
-  //     imageUrl: user.imageUrl,
-  //     email: user.emailAddresses[0].emailAddress,
-  //     domain: user.id,
-  //     workEmail: user.emailAddresses[0].emailAddress,
-  //     role: "GUEST",
-  //   },
-  // });
-
-  // return newProfile;
 };
