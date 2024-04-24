@@ -6,8 +6,9 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
   const profile = await initialProfile();
   const role = profile?.role;
 
-  if (!role) {
-    // Unauthorized
+  // strangers do not have their profile stored in the db, hence role does not exist
+  if (!role || role == "GUEST") {
+    // Unauthorized 
     console.log(role);
     return NextResponse.json({ message: "Unauthorized", isVerified: false });
   }
