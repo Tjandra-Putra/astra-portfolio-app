@@ -218,8 +218,8 @@ const Navbar: React.FC = () => {
         <SignedIn>
           {userInfo?.role == "ADMIN" && (
             <Link href="/admin/dashboard" className="nav-item">
-              <Button variant={"ocean"}>
-                <FontAwesomeIcon icon={faCrown} className="me-2" color="#ffffff" />
+              <Button variant={"sky"}>
+                <FontAwesomeIcon icon={faCrown} className="me-2" color="#183153" />
                 Admin
               </Button>
             </Link>
