@@ -119,11 +119,11 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link>
-        <Link href="/certificate" className="nav-item">
+        {/* <Link href="/certificate" className="nav-item">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant={getButtonVariant("certificate")} disabled>
+                <Button variant={getButtonVariant("certificate")}>
                   <FontAwesomeIcon icon={faAward} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
                 </Button>
               </TooltipTrigger>
@@ -146,9 +146,9 @@ const Navbar: React.FC = () => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </Link>
+        </Link> */}
         {userInfo?.workEmail ? (
-          <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
+          <Link href={`mailto:${userInfo?.workEmail}`} className={userInfo?.role ? "" : "me-3"}>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -163,7 +163,7 @@ const Navbar: React.FC = () => {
             </TooltipProvider>
           </Link>
         ) : (
-          <Link href={`mailto:${userInfo?.email}`} className="nav-item">
+          <Link href={`mailto:${userInfo?.email}`} className={userInfo?.role ? "" : "me-3"}>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -193,7 +193,7 @@ const Navbar: React.FC = () => {
               </Tooltip>
             </TooltipProvider>
           </Link>
-          <div className="nav-item me-2">
+          <div className="nav-item">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -220,28 +220,34 @@ const Navbar: React.FC = () => {
         </SignedIn>
       </div>
 
-      <div className="nav-right flex gap-2">
+      <SignedIn>
+        <div className="px-3">
+          <div className="h-[15px] bg-gray-200 w-[2px]"></div>
+        </div>
+      </SignedIn>
+
+      <div className="nav-right flex gap-3">
         <SignedIn>
           {userInfo?.role == "ADMIN" && (
             <Link href="/admin/dashboard" className="nav-item">
               <Button variant={"sky"}>
-                <FontAwesomeIcon icon={faCrown} className="me-2" color="#183153" />
+                <FontAwesomeIcon icon={faCrown} color="#183153" className="me-3" />
                 Admin
               </Button>
             </Link>
           )}
         </SignedIn>
         {userInfo?.workEmail ? (
-          <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
+          <Link href={`mailto:${userInfo?.workEmail}`} className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : ""}>
             <Button variant={"ocean"}>
-              <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
+              <FontAwesomeIcon icon={faSquarePlus} className="me-3" color="#ffffff" />
               Collab
             </Button>
           </Link>
         ) : (
-          <Link href={`mailto:${userInfo?.email}`} className="nav-item">
+          <Link href={`mailto:${userInfo?.email}`} className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : ""}>
             <Button variant={"ocean"}>
-              <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
+              <FontAwesomeIcon icon={faSquarePlus} className="me-3" color="#ffffff" />
               Collab
             </Button>
           </Link>

@@ -15,6 +15,8 @@ export default authMiddleware({
     "/projects/(.*)",
     "/experiences",
     "/contact",
+    "/certificate",
+    "/education",
     "/profile/(.*)",
 
     // api routes

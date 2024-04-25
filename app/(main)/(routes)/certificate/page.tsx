@@ -50,7 +50,7 @@ const CertificatePage = () => {
           />
 
           <Link href="/certificate/1" target="_blank">
-            <Button variant={"navy"} size={"sm"} className="w-full sm:mt-6 mt-3">
+            <Button variant={"navy"} className="w-full sm:mt-6 mt-3">
               View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
             </Button>
           </Link>
@@ -84,7 +84,7 @@ const CertificatePage = () => {
             className="w-full sm:mt-6 mt-3 shadow-paper rounded-lg"
           />
 
-          <Button variant={"navy"} size={"sm"} className="w-full sm:mt-6 mt-3">
+          <Button variant={"navy"} className="w-full sm:mt-6 mt-3">
             View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
           </Button>
         </div>
