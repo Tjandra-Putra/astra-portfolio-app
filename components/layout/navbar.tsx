@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant={getButtonVariant(`/profile/${userInfo?.id}`)}>
+                <Button variant={getButtonVariant(`/profile/${userInfo?.id}` || `https://tjandra.xyz/${userInfo?.id}`)}>
                   <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
                 </Button>
               </TooltipTrigger>
@@ -151,7 +151,7 @@ const Navbar: React.FC = () => {
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Contact</p>
+                  <p>{userInfo?.workEmail}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -227,14 +227,14 @@ const Navbar: React.FC = () => {
         </SignedIn>
         {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
-            <Button variant={"navy"}>
+            <Button variant={"ocean"}>
               <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
               Collab
             </Button>
           </Link>
         ) : (
           <Link href={`mailto:${userInfo?.email}`} className="nav-item">
-            <Button variant={"navy"}>
+            <Button variant={"ocean"}>
               <FontAwesomeIcon icon={faSquarePlus} className="me-2" color="#ffffff" />
               Collab
             </Button>

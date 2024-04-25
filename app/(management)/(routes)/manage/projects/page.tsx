@@ -102,7 +102,7 @@ const ProjectsPage = () => {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="buttons flex gap-2">
-                    <Link href={`/projects/${project.id}`}>
+                    <Link href={`/projects/${project.id}`} target="_blank">
                       <Button variant="secondary">
                         <FontAwesomeIcon icon={faEye} />
                       </Button>

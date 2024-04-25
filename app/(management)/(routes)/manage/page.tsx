@@ -101,7 +101,7 @@ const ManagePage = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="project-title text-gray-800 font-medium text-base">Certificates & Awards</div>
+              <div className="project-title text-gray-800 font-medium text-base">Certificates</div>
             </div>
           </div>
           <div className="view-more transition-transform transform hover:translate-x-1">
@@ -119,7 +119,7 @@ const ManagePage = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="project-title text-gray-800 font-medium text-lg">My Work Experience</div>
+              <div className="project-title text-gray-800 font-medium">Education</div>
             </div>
           </div>
           <div className="view-more transition-transform transform hover:translate-x-1">
