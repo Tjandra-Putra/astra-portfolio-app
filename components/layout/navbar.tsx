@@ -16,6 +16,7 @@ import {
 import { faFolder, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUserInfo } from "@/app/redux/features/user-slice";
 import { CircleUserRound, Folder, FolderCog, Home, Mail, Square, SquareUser, User, GraduationCap } from "lucide-react";
@@ -85,58 +86,130 @@ const Navbar: React.FC = () => {
     >
       <div className="nav-left flex gap-3">
         <Link href={`/profile/${userInfo?.id}`} className="nav-item">
-          <Button variant={getButtonVariant(`/profile/${userInfo?.id}`)}>
-            <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant={getButtonVariant(`/profile/${userInfo?.id}`)}>
+                  <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Home</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Link>
         <Link href="/about" className="nav-item">
-          <Button variant={getButtonVariant("/about")}>
-            <FontAwesomeIcon icon={faUserAstronaut} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant={getButtonVariant("/about")}>
+                  <FontAwesomeIcon icon={faUserAstronaut} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>About</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Link>
         <Link href="/" className="nav-item">
-          <Button variant={getButtonVariant("/")}>
-            <FontAwesomeIcon icon={faAward} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant={getButtonVariant("/")}>
+                  <FontAwesomeIcon icon={faAward} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Certificate</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Link>
         <Link href="/" className="nav-item">
-          <Button variant={getButtonVariant("/")}>
-            <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant={getButtonVariant("/")}>
+                  <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Education</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </Link>
         {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
-            <Button variant="ash">
-              <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ash">
+                    <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Contact</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </Link>
         ) : (
           <Link href={`mailto:${userInfo?.email}`} className="nav-item">
-            <Button variant="ash">
-              <Mail className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ash">
+                    <Mail className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Contact</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </Link>
         )}
         <SignedIn>
           <Link href="/manage" className="nav-item">
-            <Button variant={getButtonVariant("/manage")}>
-              <FolderCog className="transition duration-300" strokeWidth={2.2} />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant={getButtonVariant("/manage")}>
+                    <FolderCog className="transition duration-300" strokeWidth={2.2} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Manage</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </Link>
           <div className="nav-item me-2">
-            <Button variant="ash">
-              <UserButton
-                appearance={{
-                  elements: {
-                    avatarBox: {
-                      width: "1.65rem",
-                      height: "1.65rem",
-                    },
-                  },
-                }}
-                afterSignOutUrl="/sign-in"
-              />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ash">
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: {
+                            width: "1.65rem",
+                            height: "1.65rem",
+                          },
+                        },
+                      }}
+                      afterSignOutUrl="/sign-in"
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Account</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </SignedIn>
       </div>
