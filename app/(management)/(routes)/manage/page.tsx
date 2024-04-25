@@ -111,9 +111,9 @@ const ManagePage = () => {
           </div>
         </div>
 
-        <div className=" bg-white rounded-lg my-5 p-6 flex items-center justify-between">
+        <div className=" bg-white rounded-lg md:mt-5 mt-3 md:p-6 p-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="avatar-border  border-4 border-[#ffd43b] p-2 rounded-full">
+            <div className="avatar-border border-4 border-[#ffd43b] p-2 rounded-full">
               <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
                 <FontAwesomeIcon icon={faGraduationCap} color="#ffffff" />
               </div>
