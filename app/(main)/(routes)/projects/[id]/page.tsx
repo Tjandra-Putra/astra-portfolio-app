@@ -81,28 +81,28 @@ const Project = () => {
       <section className="bg-ash rounded-lg p-6">
         <div className="company">
           <div className="flex mb-3">
-            <div className="text-[#1c3454] w-36">Company</div>
+            <div className="text-[#000000] w-36 font-semibold">Company</div>
             <div className="text-black w-full">{project?.company}</div>
           </div>
         </div>
 
         <div className="project-title">
           <div className="flex mb-3">
-            <div className="text-[#1c3454] w-36">Title</div>
+            <div className="text-[#000000] w-36 font-semibold">Title</div>
             <div className="text-black w-full">{project?.name}</div>
           </div>
         </div>
 
         <div className="project-type">
           <div className="flex mb-3">
-            <div className="text-[#1c3454] w-36">Category</div>
+            <div className="text-[#000000] w-36 font-semibold">Category</div>
             <div className="text-black w-full">{project?.category}</div>
           </div>
         </div>
 
         <div className="start-date">
           <div className="flex">
-            <div className="text-[#1c3454] w-36">Date</div>
+            <div className="text-[#000000] w-36 font-semibold">Date</div>
             <div className="text-black w-full">
               {project?.startDate ? `${formatDate(project.startDate)} to ${formatDate(project.endDate)}` : "N/A"}{" "}
             </div>
@@ -111,23 +111,42 @@ const Project = () => {
       </section>
 
       <section>
-        {project?.thumbnailUrl ? (
-          <Image
-            src={project?.thumbnailUrl}
-            alt={project?.name}
-            width={500}
-            height={500}
-            className="thumbnail-img w-full h-full rounded-lg my-6 shadow-paper"
-          />
-        ) : (
-          <Image
-            src="/assets/image/pexels-fauxels-3183186.jpg"
-            alt={project?.name}
-            width={500}
-            height={500}
-            className="thumbnail-img w-full h-full rounded-lg my-6 shadow-paper"
-          />
-        )}
+        <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
+          <div className="browser-bar bg-[#fbfbfb] w-full rounded-tl-lg rounded-tr-lg border-b border-gray-300 bg-opacity-60">
+            <div className="flex justify-end items-center h-6 mr-3">
+              <div>
+                <div className="circle w-2 h-2 rounded-full mr-2 mt-1/2 bg-red-500"></div>
+              </div>
+              <div>
+                <div className="circle w-2 h-2 rounded-full mr-2 mt-1/2 bg-orange-500"></div>
+              </div>
+              <div>
+                <div className="circle w-2 h-2 rounded-full mr-2 mt-1/2 bg-green-500"></div>
+              </div>
+            </div>
+          </div>
+          {project?.thumbnailUrl ? (
+            <div className="image-wrapper overflow-y-scroll max-h-[500px]">
+              <Image
+                src={project?.thumbnailUrl}
+                alt={project?.name}
+                width={500}
+                height={500}
+                className="thumbnail-img w-full h-full"
+              />
+            </div>
+          ) : (
+            <div className="image-wrapper overflow-y-scroll">
+              <Image
+                src="/assets/image/pexels-fauxels-3183186.jpg"
+                alt={project?.name}
+                width={500}
+                height={500}
+                className="thumbnail-img w-full h-full"
+              />
+            </div>
+          )}
+        </div>
 
         <div className="title text-2xl font-semibold capitalize">{project?.name}</div>
         <div
