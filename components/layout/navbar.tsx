@@ -120,7 +120,7 @@ const Navbar: React.FC = () => {
         <SignedIn>
           <Link href="/manage" className="nav-item">
             <Button variant={getButtonVariant("/manage")}>
-              <FolderCog className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
+              <FolderCog className="transition duration-300" strokeWidth={2.2} />
             </Button>
           </Link>
           <div className="nav-item me-2">
