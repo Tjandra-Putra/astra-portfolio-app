@@ -119,11 +119,11 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link>
-        {/* <Link href="/" className="nav-item">
+        <Link href="/certificate" className="nav-item">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant={getButtonVariant("/")}>
+                <Button variant={getButtonVariant("certificate")} disabled>
                   <FontAwesomeIcon icon={faAward} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
                 </Button>
               </TooltipTrigger>
@@ -133,11 +133,11 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link>
-        <Link href="/" className="nav-item">
+        <Link href="/education" className="nav-item">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant={getButtonVariant("/")}>
+                <Button variant={getButtonVariant("/education")}>
                   <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
                 </Button>
               </TooltipTrigger>
@@ -146,7 +146,7 @@ const Navbar: React.FC = () => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </Link> */}
+        </Link>
         {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
             <TooltipProvider>

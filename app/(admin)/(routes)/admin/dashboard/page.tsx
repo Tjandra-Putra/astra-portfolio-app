@@ -30,12 +30,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import Loader from "@/components/layout/loader";
+import { Loader2 } from "lucide-react";
 
 interface UserProfile {
   userId: string;
@@ -50,6 +51,7 @@ const DashboardPage = () => {
   const [profiles, setProfiles] = useState<any[]>([]); // Use 'any[]' as the initial state type
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
 
   // define form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,10 +61,13 @@ const DashboardPage = () => {
     },
   });
 
+  // add new users
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
 
     try {
+      setLoading(true);
+
       await axios.post("/api/admin/profiles/new", {
         email: values.email,
       });
@@ -74,6 +79,8 @@ const DashboardPage = () => {
     } catch (error: any) {
       console.error(error);
       toast.error(error.response.data);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,16 +93,22 @@ const DashboardPage = () => {
 
   const fetchProfiles = async () => {
     try {
+      setLoading(true);
+
       const response = await axios.get("/api/admin/profiles"); // Use 'await' to wait for the response
 
       setProfiles(response.data); // Access 'data' property of the response
     } catch (error) {
       console.error(error); // Use 'console.error' for better visibility of errors
+    } finally {
+      setLoading(false);
     }
   };
 
   const acceptProfile = async (id: string) => {
     try {
+      setLoading(true);
+
       const response = await axios.put(`/api/admin/profiles/${id}`, {
         role: "MEMBER",
       });
@@ -109,6 +122,8 @@ const DashboardPage = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -156,7 +171,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     fetchProfiles(); // Call the fetchProfiles function within useEffect
-  }, [profiles]); // Add an empty dependency array to run the effect only once on mount
+  }, []); // Add an empty dependency array to run the effect only once on mount
 
   const renderBadge = (profile: UserProfile) => {
     if (profile.userId.includes("login_pending_user")) {
@@ -223,8 +238,14 @@ const DashboardPage = () => {
                 </div>
 
                 <DialogFooter>
-                  <Button type="submit" variant={"diamond"}>
-                    Add User
+                  <Button type="submit" variant={"diamond"} disabled={loading}>
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Adding User
+                      </>
+                    ) : (
+                      "Add User"
+                    )}
                   </Button>
                 </DialogFooter>
               </form>
@@ -233,63 +254,67 @@ const DashboardPage = () => {
         </Dialog>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Email</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {profiles
-            ?.filter((profile) => profile.id != userInfo.id)
-            ?.map((profile) => (
-              <TableRow key={profile.id}>
-                <TableCell>{profile.email}</TableCell>
-                <TableCell>{renderBadge(profile)}</TableCell>
-                <TableCell className="text-right flex gap-2">
-                  {profile.role === "GUEST" ? (
-                    <Button variant={"secondary"} onClick={() => acceptProfile(profile.id)}>
-                      <FontAwesomeIcon icon={faCheck} />
-                    </Button>
-                  ) : (
-                    <Button variant={"navy"}>
-                      <FontAwesomeIcon icon={faSquareCheck} />
-                    </Button>
-                  )}
+      {loading ? (
+        <Loader />
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Email</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {profiles
+              ?.filter((profile) => profile.id != userInfo.id)
+              ?.map((profile) => (
+                <TableRow key={profile.id}>
+                  <TableCell>{profile.email}</TableCell>
+                  <TableCell>{renderBadge(profile)}</TableCell>
+                  <TableCell className="text-right flex gap-2">
+                    {profile.role === "GUEST" ? (
+                      <Button variant={"secondary"} onClick={() => acceptProfile(profile.id)}>
+                        <FontAwesomeIcon icon={faCheck} />
+                      </Button>
+                    ) : (
+                      <Button variant={"navy"}>
+                        <FontAwesomeIcon icon={faSquareCheck} />
+                      </Button>
+                    )}
 
-                  {profile.role === "GUEST" ? (
-                    <Button variant={"navy"} onClick={() => rejectProfile(profile.id)}>
-                      <FontAwesomeIcon icon={faBan} />
-                    </Button>
-                  ) : (
-                    <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
-                      <FontAwesomeIcon icon={faBan} />
-                    </Button>
-                  )}
+                    {profile.role === "GUEST" ? (
+                      <Button variant={"navy"} onClick={() => rejectProfile(profile.id)}>
+                        <FontAwesomeIcon icon={faBan} />
+                      </Button>
+                    ) : (
+                      <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
+                        <FontAwesomeIcon icon={faBan} />
+                      </Button>
+                    )}
 
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Button variant={"secondary"}>
-                          <FontAwesomeIcon icon={faEye} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{profile.id}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Button variant={"secondary"}>
+                            <FontAwesomeIcon icon={faEye} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{profile.id}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
 
-                  <Button variant={"secondary"} onClick={() => deleteProfile(profile.id)}>
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+                    <Button variant={"secondary"} onClick={() => deleteProfile(profile.id)}>
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };

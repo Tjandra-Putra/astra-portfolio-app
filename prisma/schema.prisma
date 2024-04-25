@@ -43,10 +43,11 @@ model Profile {
 model Certificate {
   id String @id @default(uuid())
   title String
-  description String? @db.Text
-  imageUrl String @db.Text
+  thumbnailUrl String? @db.Text
+  certificateId String? // this is the unique identifier of the certificate, e.g AZ-900
+  certificateImageUrl String @db.Text
   certificateUrl String? @db.Text
-  issuedBy String
+  issueingOrganisation String
   issueDate DateTime
   expirationDate DateTime? // this is optional because some certificates do not expire
 
