@@ -7,6 +7,9 @@ import {
   faChevronRight,
   faBriefcase,
   faCertificate,
+  faGraduationCap,
+  faTrophy,
+  faAward,
 } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -94,7 +97,7 @@ const ManagePage = () => {
           <div className="flex items-center gap-4">
             <div className="avatar-border  border-4 border-[#e599f7] p-2 rounded-full">
               <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-                <FontAwesomeIcon icon={faCertificate} color="#ffffff" />
+                <FontAwesomeIcon icon={faAward} color="#ffffff" />
               </div>
             </div>
             <div className="flex flex-col">
@@ -107,24 +110,24 @@ const ManagePage = () => {
             </Link>
           </div>
         </div>
-        {/* 
-        <div className=" bg-white rounded-lg my-5 p-3 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-        <div className="avatar-border  border-4 border-[#ffd43b] p-2 rounded-full">
-        <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
-        <FontAwesomeIcon icon={faBriefcase} color="#ffffff" />
+
+        <div className=" bg-white rounded-lg my-5 p-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="avatar-border  border-4 border-[#ffd43b] p-2 rounded-full">
+              <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
+                <FontAwesomeIcon icon={faGraduationCap} color="#ffffff" />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="project-title text-gray-800 font-medium text-lg">My Work Experience</div>
+            </div>
+          </div>
+          <div className="view-more transition-transform transform hover:translate-x-1">
+            <Link href={`/manage/experiences`}>
+              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+            </Link>
+          </div>
         </div>
-        </div>
-        <div className="flex flex-col">
-        <div className="project-title text-gray-800 font-medium text-lg">My Work Experience</div>
-        </div>
-        </div>
-        <div className="view-more transition-transform transform hover:translate-x-1">
-        <Link href={`/manage/experiences`}>
-        <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
-        </Link>
-        </div>
-      </div> */}
       </div>
     </React.Fragment>
   );

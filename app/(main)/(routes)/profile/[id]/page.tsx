@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faSeedling } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faSeedling, faRocket } from "@fortawesome/free-solid-svg-icons";
 import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Projects from "@/components/projects";
@@ -73,7 +73,8 @@ export default function Profile() {
           <div className="status uppercase tracking-wider text-end">
             <Badge variant={"diamond"} className="font-semibold">
               <FontAwesomeIcon
-                icon={faSeedling}
+                // icon={faSeedling}
+                icon={faRocket}
                 className="sm:me-2" // Hide on screens larger than sm (small)
                 color="#183153"
               />
