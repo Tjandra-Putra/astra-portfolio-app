@@ -58,11 +58,17 @@ const DashboardPage = () => {
     console.log(values);
 
     try {
-      const response = await axios.post("/api/admin/profiles/new", {
+      await axios.post("/api/admin/profiles/new", {
         email: values.email,
       });
-    } catch (error) {
+
+      // empty the form
+      form.reset();
+
+      toast.success("User added successfully.");
+    } catch (error: any) {
       console.error(error);
+      toast.error(error.response.data);
     }
   };
 
