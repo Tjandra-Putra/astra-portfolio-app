@@ -37,6 +37,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
+interface UserProfile {
+  userId: string;
+  role: string;
+}
+
 const formSchema = z.object({
   email: z.string(),
 });
@@ -153,6 +158,28 @@ const DashboardPage = () => {
     fetchProfiles(); // Call the fetchProfiles function within useEffect
   }, [profiles]); // Add an empty dependency array to run the effect only once on mount
 
+  const renderBadge = (profile: UserProfile) => {
+    if (profile.userId.includes("login_pending_user")) {
+      return (
+        <Badge variant={"sky"} className="min-w-[5.5rem] flex place-content-center">
+          Pending <FontAwesomeIcon icon={faClock} className="ps-1" />
+        </Badge>
+      );
+    } else if (profile.role === "MEMBER") {
+      return (
+        <Badge variant={"diamond"} className="min-w-[5.5rem] flex place-content-center">
+          Member <FontAwesomeIcon icon={faCircleCheck} className="ps-1" />
+        </Badge>
+      );
+    } else {
+      return (
+        <Badge variant={"cheese"} className="min-w-[5.5rem] flex place-content-center">
+          Guest <FontAwesomeIcon icon={faClock} className="ps-1" />
+        </Badge>
+      );
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between gap-2 mb-3">
@@ -162,7 +189,7 @@ const DashboardPage = () => {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant={"navy"}>
+            <Button variant={"ash"}>
               <FontAwesomeIcon icon={faPlusCircle} className="w-3 h-3 pe-2" color="" type="button" />
               Add
             </Button>
@@ -210,7 +237,7 @@ const DashboardPage = () => {
         <TableHeader>
           <TableRow>
             <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -220,24 +247,14 @@ const DashboardPage = () => {
             ?.map((profile) => (
               <TableRow key={profile.id}>
                 <TableCell>{profile.email}</TableCell>
-                <TableCell>
-                  {profile.role === "MEMBER" ? (
-                    <Badge variant={"sky"}>
-                      Member <FontAwesomeIcon icon={faCircleCheck} className="ps-1" />
-                    </Badge>
-                  ) : (
-                    <Badge variant={"cheese"}>
-                      Guest <FontAwesomeIcon icon={faClock} className="ps-1" />
-                    </Badge>
-                  )}
-                </TableCell>
+                <TableCell>{renderBadge(profile)}</TableCell>
                 <TableCell className="text-right flex gap-2">
                   {profile.role === "GUEST" ? (
                     <Button variant={"secondary"} onClick={() => acceptProfile(profile.id)}>
                       <FontAwesomeIcon icon={faCheck} />
                     </Button>
                   ) : (
-                    <Button variant={"diamond"}>
+                    <Button variant={"navy"}>
                       <FontAwesomeIcon icon={faSquareCheck} />
                     </Button>
                   )}
@@ -265,7 +282,7 @@ const DashboardPage = () => {
                     </Tooltip>
                   </TooltipProvider>
 
-                  <Button variant={"tomato"} onClick={() => deleteProfile(profile.id)}>
+                  <Button variant={"secondary"} onClick={() => deleteProfile(profile.id)}>
                     <FontAwesomeIcon icon={faTrashCan} />
                   </Button>
                 </TableCell>

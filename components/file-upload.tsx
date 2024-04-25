@@ -45,7 +45,9 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       <div className="relative">
         <div className="avatar-border rounded-sm">
           <Link href={value} target="_blank">
-            <div className="w-full h-10 bg-navy rounded-lg text-white flex items-center justify-center">View PDF</div>
+            <div className="w-full h-10 bg-navy rounded-lg text-white font-medium  flex items-center justify-center">
+              View PDF
+            </div>
           </Link>
           <button
             onClick={() => onChange("")}

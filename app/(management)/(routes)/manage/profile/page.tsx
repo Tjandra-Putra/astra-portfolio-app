@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -341,16 +342,16 @@ const EditProfilePage = () => {
                     <Label htmlFor="picture">
                       <p>Current Resume:</p>
                       {profile?.resumeUrl ? (
-                        <Badge variant={"diamond"} className="text-xs mt-2">
-                          Uploaded
+                        <Badge variant={"diamond"} className="text-xs my-4">
+                          Uploaded <FontAwesomeIcon icon={faCircleCheck} className="ps-1" />
                         </Badge>
                       ) : (
-                        <Badge variant={"ocean"} className="text-xs mt-2">
+                        <Badge variant={"ocean"} className="text-xs my-2">
                           Not Uploaded
                         </Badge>
                       )}
                     </Label>
-                    <div className="font-light text-sm mt-1">The file must be in PDF format and less than 5MB.</div>
+                    <div className="text-sm">The file must be in PDF format and less than 5MB.</div>
                   </div>
                 </div>
 
@@ -388,7 +389,7 @@ const EditProfilePage = () => {
                       name={`socialMedia.${index}.platform`}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>{`Social Media (${index})`}</FormLabel>
+                          <FormLabel>{`Social Media (${index + 1})`}</FormLabel>
                           <Select onValueChange={field.onChange} value={field.value || ""}>
                             <FormControl>
                               <SelectTrigger>
@@ -416,7 +417,12 @@ const EditProfilePage = () => {
                         <FormItem>
                           <FormLabel>Link</FormLabel>
                           <FormControl>
-                            <Input type="text" placeholder="E.g https://www.example.com" {...field} />
+                            <Input
+                              type="text"
+                              placeholder="E.g https://www.example.com"
+                              {...field}
+                              className="text-[#007bff]"
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

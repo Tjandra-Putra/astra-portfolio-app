@@ -61,7 +61,7 @@ const ProjectsPage = () => {
           <div className="job-title font-medium text-gray-800 text-lg">Manage Projects</div>
         </div>
         <Link href="/manage/projects/add">
-          <Button variant="navy">
+          <Button variant="ash">
             <FontAwesomeIcon icon={faPlusCircle} className="w-3 h-3 pe-2" color="" />
             Add
           </Button>

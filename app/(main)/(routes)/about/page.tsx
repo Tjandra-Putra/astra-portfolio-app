@@ -37,24 +37,24 @@ const AboutPage = () => {
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
         <div className="font-medium text-gray-800 text-lg">About</div>
       </div>
-      <div className="flex flex-row flex-wrap gap-2 justify">
+      <div className="flex flex-row flex-wrap gap-2 sm:justify-evenly">
         <Badge variant={"navy"} className="text-3xl">
           👋
         </Badge>
-        <Badge variant={"navy"} className="text-xl  font-normal">
-          Hello
+        <Badge variant={"navy"} className="text-xl font-semi-bold">
+          Hello.
         </Badge>
-        <Badge variant={"navy"} className="text-xl  font-normal">
-          Hola
+        <Badge variant={"navy"} className="text-xl font-semi-bold">
+          Hola.
         </Badge>
-        <Badge variant={"navy"} className="text-xl  font-normal">
-          Bonjour
+        <Badge variant={"navy"} className="text-xl font-semi-bold">
+          Bonjour.
         </Badge>
-        <Badge variant={"navy"} className="text-xl  font-normal">
-          Ciao
+        <Badge variant={"navy"} className="text-xl font-semi-bold">
+          Ciao.
         </Badge>
-        <Badge variant={"navy"} className="text-xl  font-normal">
-          你好
+        <Badge variant={"navy"} className="text-xl font-semi-bold">
+          你好.
         </Badge>
       </div>
 
@@ -63,7 +63,8 @@ const AboutPage = () => {
         dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
       />
 
-      <div className="avatar-border border-4 border-[#000000] p-3 rounded-lg my-4">
+      {/* avatar-border border-4 border-[#1c3454] p-3  */}
+      <div className="rounded-lg my-4">
         <img src={profile?.imageUrl} alt={profile?.imageUrl} className="w-full h-full rounded-lg" />
       </div>
     </>
