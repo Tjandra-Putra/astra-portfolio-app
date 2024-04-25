@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant={getButtonVariant(`/profile/${userInfo?.id}` || `https://tjandra.xyz`)}>
+                <Button variant={getButtonVariant(`/profile/${userInfo?.id}` || `https://www.tjandra.xyz`)}>
                   <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
                 </Button>
               </TooltipTrigger>
