@@ -12,17 +12,14 @@ const NotFound: React.FC = () => {
   };
 
   return (
-    <div
-      id="oopss"
-      className="bg-gradient-to-b from-yellow-300 to-yellow-500 w-full h-full min-h-screen text-center flex items-center flex-col p-6"
-    >
-      <Image src="https://cdn.rawgit.com/ahmedhosna95/upload/1731955f/sad404.svg" alt="404" width={400} height={400} />
-      <div className="flex flex-col gap-8">
-        <span className="sm:text-8xl text-4xl font-bold">404 PAGE</span>
-        <p className="text-xl">The page you were looking for could not be found</p>
-        <Button variant="secondary" onClick={goBack}>
+    <div className="bg-gradient-to-b from-yellow-300 to-yellow-500 w-full h-full min-h-screen flex justify-center items-center flex-col p-6">
+      <Image src="/assets/image/error-404.png" alt="404" width={400} height={400} />
+      <div className="flex flex-col items-center gap-8 text-center">
+        <span className="sm:text-6xl text-2xl font-bold uppercase">Not Found</span>
+        <p className="text:l sm:text-xl">The page you were looking for could not be found</p>
+        {/* <Button variant="secondary" onClick={goBack}>
           Back to previous page
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
