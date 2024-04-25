@@ -17,7 +17,7 @@ const UnverifiedPage = () => {
 
   return (
     <div className="p-6 bg-gradient-to-b from-yellow-300 to-yellow-500 w-full h-full min-h-screen text-center flex flex-col items-center justify-center">
-      <Image src="/assets/image/layout.png" alt="404" width={400} height={400} />
+      <Image src="/assets/image/locked.png" alt="404" width={400} height={400} />
       <div className="flex flex-col gap-3">
         <span className="sm:text-6xl text-2xl font-bold uppercase">Unauthorised</span>
         <p className="text:l sm:text-xl">Click the button below to redirect back.</p>

@@ -34,6 +34,7 @@ model Profile {
   socialLinks UserSocialLink[]
   projects Project[]
   certificates Certificate[]
+  educations Education[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -41,13 +42,35 @@ model Profile {
 
 model Certificate {
   id String @id @default(uuid())
-  name String
-  description String
+  title String
+  description String? @db.Text
   imageUrl String @db.Text
-  certificateUrl String @db.Text
+  certificateUrl String? @db.Text
   issuedBy String
   issueDate DateTime
   expirationDate DateTime? // this is optional because some certificates do not expire
+
+  // relationships
+  profileId String
+  profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+}
+
+model Education{
+  id String @id @default(uuid())
+  schoolName String
+  degree String
+  fieldOfStudy String
+  startDate DateTime
+  endDate DateTime
+  grade String?
+  activities String? @db.Text
+  description String? @db.Text
+  skills String? @db.Text // this is a comma separated string of skills, e.g React, Node, etc
 
   // relationships
   profileId String
@@ -92,12 +115,12 @@ model Project{
   endDate DateTime?
   isWorkExperience Boolean? @default(false) // this is used to determine if this project is a work experience or not
   workExperienceTitle String? // this is used to display the title of the work experience
+  tags String? @db.Text // this is a comma separated string of tags, e.g React, Node, etc
   
   // relationships
   profileId String  // [hidden] it is the foreign key that connects to the Profile model
   profile Profile@relation(fields: [profileId], references: [id], onDelete: Cascade) // explanation: https://www.prisma.io/docs/concepts/components/prisma-schema/relations#cascade
 
-  tags String? @db.Text // this is a comma separated string of tags, e.g React, Node, etc
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
