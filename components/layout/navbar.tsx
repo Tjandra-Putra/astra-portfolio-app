@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link>
-        <Link href="/" className="nav-item">
+        {/* <Link href="/" className="nav-item">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -140,7 +140,7 @@ const Navbar: React.FC = () => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </Link>
+        </Link> */}
         {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className="nav-item">
             <TooltipProvider>
