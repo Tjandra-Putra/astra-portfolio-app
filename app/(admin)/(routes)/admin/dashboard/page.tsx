@@ -130,7 +130,7 @@ const DashboardPage = () => {
       );
 
       toast.success("Profile accepted.");
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       toast.error(error.response);
     } finally {
