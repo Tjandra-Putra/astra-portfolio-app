@@ -37,6 +37,7 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import Loader from "@/components/layout/loader";
 import { Loader2 } from "lucide-react";
+import { set } from "date-fns";
 
 interface UserProfile {
   userId: string;
@@ -51,7 +52,7 @@ const DashboardPage = () => {
   const [profiles, setProfiles] = useState<any[]>([]); // Use 'any[]' as the initial state type
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // define form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -68,9 +69,12 @@ const DashboardPage = () => {
     try {
       setLoading(true);
 
-      await axios.post("/api/admin/profiles/new", {
+      const response = await axios.post("/api/admin/profiles/new", {
         email: values.email,
       });
+
+      // update the state
+      setProfiles((profiles) => [response.data, ...profiles]);
 
       // empty the form
       form.reset();
@@ -113,15 +117,21 @@ const DashboardPage = () => {
         role: "MEMBER",
       });
 
-      if (Array.isArray(response.data)) {
-        setProfiles(response.data);
+      // update state
+      setProfiles((prevProfiles) =>
+        prevProfiles.map((profile) => {
+          if (profile.id === id) {
+            return { ...profile, role: "MEMBER" };
+          }
 
-        toast.success("Profile accepted.");
-      } else {
-        console.error("Invalid data format received from the server after accepting profile.");
-      }
+          return profile;
+        })
+      );
+
+      toast.success("Profile accepted.");
     } catch (error) {
       console.error(error);
+      toast.error(error.response);
     } finally {
       setLoading(false);
     }
@@ -133,15 +143,23 @@ const DashboardPage = () => {
         role: "GUEST",
       });
 
-      if (Array.isArray(response.data)) {
-        setProfiles(response.data);
+      console.log(response);
 
-        toast.success("Profile rejected.");
-      } else {
-        console.error("Invalid data format received from the server after rejecting profile.");
-      }
-    } catch (error) {
+      // update state
+      setProfiles((prevProfiles) =>
+        prevProfiles.map((profile) => {
+          if (profile.id === id) {
+            return { ...profile, role: "GUEST" };
+          }
+
+          return profile;
+        })
+      );
+
+      toast.success("Profile rejected.");
+    } catch (error: any) {
       console.error(error);
+      toast.error(error.response);
     }
   };
 
@@ -157,21 +175,18 @@ const DashboardPage = () => {
 
       const response = await axios.delete(`/api/admin/profiles/${id}`);
 
-      if (Array.isArray(response.data)) {
-        setProfiles(response.data);
+      setProfiles((prevProfiles) => prevProfiles.filter((profile) => profile.id !== id));
 
-        toast.success("Profile deleted.");
-      } else {
-        console.error("Invalid data format received from the server after deleting profile.");
-      }
-    } catch (error) {
+      toast.success("Profile deleted.");
+    } catch (error: any) {
+      toast.error(error.response);
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchProfiles(); // Call the fetchProfiles function within useEffect
-  }, []); // Add an empty dependency array to run the effect only once on mount
+    fetchProfiles();
+  }, []);
 
   const renderBadge = (profile: UserProfile) => {
     if (profile.userId.includes("login_pending_user")) {

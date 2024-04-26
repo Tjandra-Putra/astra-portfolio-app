@@ -23,7 +23,7 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
       },
     });
 
-    return NextResponse.json(updatedProfile);
+    return new NextResponse(JSON.stringify(updatedProfile), { status: 200 });
   } catch (error) {
     console.error("[PROFILE_PUT_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });
@@ -45,7 +45,7 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
       },
     });
 
-    return new NextResponse("Deleted", { status: 200 });
+    return new NextResponse(context.params.id, { status: 200 });
   } catch (error) {
     console.error("[PROFILE_DELETE_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });
