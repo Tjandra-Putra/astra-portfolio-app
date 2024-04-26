@@ -16,6 +16,7 @@ import {
   faCheck,
   faTrashCan,
   faPlusCircle,
+  faCrown,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck, faClock } from "@fortawesome/free-regular-svg-icons";
 import { Badge } from "@/components/ui/badge";
@@ -201,6 +202,12 @@ const DashboardPage = () => {
           Member <FontAwesomeIcon icon={faCircleCheck} className="ps-1" />
         </Badge>
       );
+    } else if (profile.role === "ADMIN") {
+      return (
+        <Badge variant={"navy"} className="min-w-[5.5rem] flex place-content-center">
+          Admin <FontAwesomeIcon icon={faCrown} className="ps-1" />
+        </Badge>
+      );
     } else {
       return (
         <Badge variant={"cheese"} className="min-w-[5.5rem] flex place-content-center">
@@ -281,52 +288,56 @@ const DashboardPage = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {profiles
-              ?.filter((profile) => profile.id != userInfo.id)
-              ?.map((profile) => (
-                <TableRow key={profile.id}>
-                  <TableCell>{profile.email}</TableCell>
-                  <TableCell>{renderBadge(profile)}</TableCell>
-                  <TableCell className="text-right flex gap-2">
-                    {profile.role === "GUEST" ? (
-                      <Button variant={"secondary"} onClick={() => acceptProfile(profile.id)}>
-                        <FontAwesomeIcon icon={faCheck} />
-                      </Button>
-                    ) : (
-                      <Button variant={"navy"}>
-                        <FontAwesomeIcon icon={faSquareCheck} />
-                      </Button>
-                    )}
+            {profiles?.map((profile) => (
+              <TableRow key={profile.id}>
+                <TableCell>{profile.email}</TableCell>
+                <TableCell>{renderBadge(profile)}</TableCell>
+                <TableCell className="text-right flex gap-2">
+                  {profile.role !== "ADMIN" && ( // Check if profile role is not ADMIN
+                    <>
+                      {profile.role === "GUEST" ? (
+                        <Button variant={"secondary"} onClick={() => acceptProfile(profile.id)}>
+                          <FontAwesomeIcon icon={faCheck} />
+                        </Button>
+                      ) : (
+                        <Button variant={"navy"}>
+                          <FontAwesomeIcon icon={faSquareCheck} />
+                        </Button>
+                      )}
 
-                    {profile.role === "GUEST" ? (
-                      <Button variant={"navy"} onClick={() => rejectProfile(profile.id)}>
-                        <FontAwesomeIcon icon={faBan} />
-                      </Button>
-                    ) : (
-                      <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
-                        <FontAwesomeIcon icon={faBan} />
-                      </Button>
-                    )}
+                      {profile.role === "GUEST" ? (
+                        <Button variant={"navy"} onClick={() => rejectProfile(profile.id)}>
+                          <FontAwesomeIcon icon={faBan} />
+                        </Button>
+                      ) : (
+                        <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
+                          <FontAwesomeIcon icon={faBan} />
+                        </Button>
+                      )}
+                    </>
+                  )}
 
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Button variant={"secondary"}>
-                            <FontAwesomeIcon icon={faEye} />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{profile.id}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button variant={"secondary"}>
+                          <FontAwesomeIcon icon={faEye} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{profile.id}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
 
+                  {profile.role !== "ADMIN" && ( // Check if profile role is not ADMIN
                     <Button variant={"secondary"} onClick={() => deleteProfile(profile.id)}>
                       <FontAwesomeIcon icon={faTrashCan} />
                     </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       )}
