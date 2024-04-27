@@ -24,9 +24,8 @@ export default authMiddleware({
     "/api/profile/(.*)",
     "/api/projects/(.*)",
     "/api/project/(.*)",
+    "/api/certificate/(.*)",
     "/api/education/(.*)",
-
-    "/api/manage/certificate",
 
     // error pages
     "/404",

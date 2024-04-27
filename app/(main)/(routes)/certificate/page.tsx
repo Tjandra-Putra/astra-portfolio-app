@@ -9,16 +9,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import axios from "axios";
 import Loader from "@/components/layout/loader";
+import { useSelector } from "react-redux";
 
 const CertificatePage = () => {
   const [certificates, setCertificates] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const userInfo = useSelector((state: any) => state.userReducer);
 
   const fetchCertificates = async () => {
     try {
       setLoading(true);
 
-      const response = await axios.get("/api/manage/certificate");
+      const response = await axios.get(`/api/certificate/${userInfo.id}`);
       setCertificates(response.data);
     } catch (error) {
       console.error("Error fetching certificates:", error);
