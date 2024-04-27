@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { faChevronRight, faCircle, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faAward, faCertificate, faChevronRight, faCircle, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";
@@ -24,20 +24,16 @@ const CertificatePage = () => {
         <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3">
           <div className="header grid sm:grid-cols-[3fr,9fr] grid-cols-[3fr,9fr] gap-4 items-center">
             <div>
-              <img
-                src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
-                alt="AWS"
-                className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg"
-              />
+              <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
+                <FontAwesomeIcon icon={faAward} className="text-white w-10 h-10" />
+              </div>
             </div>
             <div className="flex flex-col">
               <div className="certification-title font-semibold text-xs sm:text-base leading-4">
                 Microsoft Azure Fundamentals (AZ-900)
               </div>
-              <div className="certification-title text-gray-600 font-medium text-xs sm:text-base sm:mt-0 mt-1">
-                Microsoft
-              </div>
-              <div className="certification-title text-gray-500 font-normal text-xs sm:text-base">Issued Jul 2023</div>
+              <div className="issuer text-gray-600 font-medium text-xs sm:text-base sm:mt-0 mt-1">Microsoft</div>
+              <div className="duration text-gray-500 font-normal text-xs sm:text-base">Issued Jul 2023</div>
             </div>
           </div>
 
@@ -54,39 +50,6 @@ const CertificatePage = () => {
               View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
             </Button>
           </Link>
-        </div>
-
-        <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3">
-          <div className="header grid sm:grid-cols-[3fr,9fr] grid-cols-[3fr,9fr] gap-4 items-center">
-            <div>
-              <img
-                src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
-                alt="AWS"
-                className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg"
-              />
-            </div>
-            <div className="flex flex-col">
-              <div className="certification-title font-semibold text-xs sm:text-base leading-4">
-                Microsoft Azure Fundamentals (AZ-900)
-              </div>
-              <div className="certification-title text-gray-600 font-medium text-xs sm:text-base sm:mt-0 mt-1">
-                Microsoft
-              </div>
-              <div className="certification-title text-gray-500 font-normal text-xs sm:text-base">Issued Jul 2023</div>
-            </div>
-          </div>
-
-          <Separator className="sm:mt-6 mt-3" />
-
-          <img
-            src="https://miro.medium.com/v2/resize:fit:1128/1*EWttqrihTanNGjRlorbpZg.png"
-            alt="certificate"
-            className="w-full sm:mt-6 mt-3 shadow-paper rounded-lg"
-          />
-
-          <Button variant={"navy"} className="w-full sm:mt-6 mt-3">
-            View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
-          </Button>
         </div>
       </div>
     </React.Fragment>

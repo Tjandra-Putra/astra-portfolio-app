@@ -110,7 +110,7 @@ const Navbar: React.FC = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant={getButtonVariant("/about")}>
-                  <FontAwesomeIcon icon={faUserAstronaut} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                  <FontAwesomeIcon icon={faUserAstronaut} className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -119,12 +119,13 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link>
+
         {/* <Link href="/certificate" className="nav-item">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant={getButtonVariant("certificate")}>
-                  <FontAwesomeIcon icon={faAward} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                <Button variant={getButtonVariant("/certificate")}>
+                  <FontAwesomeIcon icon={faAward} className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -133,12 +134,13 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link>
+
         <Link href="/education" className="nav-item">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant={getButtonVariant("/education")}>
-                  <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                  <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -147,6 +149,7 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link> */}
+
         {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className={userInfo?.role ? "" : "me-3"}>
             <TooltipProvider>

@@ -43,7 +43,6 @@ model Profile {
 model Certificate {
   id String @id @default(uuid())
   title String
-  thumbnailUrl String? @db.Text
   certificateId String? // this is the unique identifier of the certificate, e.g AZ-900
   certificateImageUrl String @db.Text
   certificateUrl String? @db.Text
@@ -64,12 +63,11 @@ model Certificate {
 model Education{
   id String @id @default(uuid())
   schoolName String
-  degree String
-  fieldOfStudy String
-  startDate DateTime
+  degree String // e.g BSc, MSc, etc
+  fieldOfStudy String // e.g Computer Science, Information Technology, etc
+  startDate DateTime 
   endDate DateTime
   grade String?
-  activities String? @db.Text
   description String? @db.Text
   skills String? @db.Text // this is a comma separated string of skills, e.g React, Node, etc
 

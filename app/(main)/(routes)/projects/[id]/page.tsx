@@ -126,7 +126,7 @@ const Project = () => {
             </div>
           </div>
           {project?.thumbnailUrl ? (
-            <div className="image-wrapper overflow-y-scroll max-h-[500px]">
+            <div className="image-wrapper overflow-y-scroll sm:max-h-[51vh] max-h-[30vh]">
               <Image
                 src={project?.thumbnailUrl}
                 alt={project?.name}
@@ -208,7 +208,7 @@ const Project = () => {
           <div className="badges flex flex-row flex-wrap gap-3 my-6">
             {project?.tags
               ? project?.tags.split(",").map((tag: string, index: number) => (
-                  <Badge key={index} variant={"diamond"}>
+                  <Badge key={index} variant={"navy"}>
                     {tag.trim()}
                   </Badge>
                 ))
