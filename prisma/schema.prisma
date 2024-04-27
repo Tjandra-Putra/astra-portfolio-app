@@ -47,8 +47,9 @@ model Certificate {
   certificateImageUrl String @db.Text
   certificateUrl String? @db.Text
   issueingOrganisation String
-  issueDate DateTime
+  issuedDate DateTime
   expirationDate DateTime? // this is optional because some certificates do not expire
+  visible Boolean? @default(true)
 
   // relationships
   profileId String
@@ -70,6 +71,7 @@ model Education{
   grade String?
   description String? @db.Text
   skills String? @db.Text // this is a comma separated string of skills, e.g React, Node, etc
+  visible Boolean? @default(true)
 
   // relationships
   profileId String

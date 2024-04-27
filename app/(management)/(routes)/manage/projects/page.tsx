@@ -74,7 +74,7 @@ const ProjectsPage = () => {
 
       <Badge
         variant="navy"
-        className="text-lg font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none"
+        className="text-base font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none"
       >
         Personal Projects
       </Badge>
@@ -128,7 +128,7 @@ const ProjectsPage = () => {
 
       <Badge
         variant="navy"
-        className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+        className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
       >
         Work Experiences
       </Badge>

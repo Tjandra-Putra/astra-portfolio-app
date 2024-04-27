@@ -184,7 +184,7 @@ const EditProfilePage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Basic Information
           </Badge>
@@ -329,7 +329,7 @@ const EditProfilePage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Files
           </Badge>
@@ -374,7 +374,7 @@ const EditProfilePage = () => {
 
           <Badge
             variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
+            className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
             Social Media
           </Badge>

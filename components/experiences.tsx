@@ -18,6 +18,8 @@ interface ExperiencesProps {
 
 const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage }) => {
   const [projects, setProjects] = useState<any[]>([]);
+  const [allProjects, setAllProjects] = useState<any[]>([]);
+
   const [loading, setLoading] = useState(true);
   const userInfo = useSelector((state: any) => state.userReducer);
 
@@ -25,7 +27,12 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
     try {
       setLoading(true);
       const response = await axios.get(`/api/projects/${userInfo?.id}`);
+      // Only show 3 projects on the home page
       setProjects(response.data);
+
+      // Projects exclusive of non work experience
+      const allProjects = response.data.filter((project: any) => project.isWorkExperience && project.visible);
+      setAllProjects(allProjects);
     } catch (error) {
       console.error("Error fetching projects:", error);
     } finally {
@@ -51,7 +58,9 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
                 <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-                <div className="font-medium text-gray-800 text-lg">{title || "Experiences"}</div>
+                <div className="font-medium text-gray-800 text-lg">
+                  {title || `Experiences (${allProjects.length})`}
+                </div>
               </div>
               <Link href={"/experiences"}>
                 <Button variant="white">

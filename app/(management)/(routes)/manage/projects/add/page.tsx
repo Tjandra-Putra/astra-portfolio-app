@@ -150,14 +150,14 @@ const AddProjectPage = () => {
           <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid grid-cols-12 items-center justify-center">
-                <div className="col-span-6 col-start-1">
-                  <div className="leading-7">
+                <div className="col-span-12 sm:col-span-6">
+                  <div className="leading-7 sm:text-start text-center mb-5">
                     <Label htmlFor="picture">Project Thumbnail</Label>
                     <div className="font-light text-sm">Recommended size: any</div>
                   </div>
                 </div>
 
-                <div className="col-span-6 text-center">
+                <div className="col-span-12 sm:col-span-6 text-center">
                   <FormField
                     control={form.control}
                     name="thumbnailUrl"
@@ -497,7 +497,7 @@ const AddProjectPage = () => {
             </section>
           </div>
 
-          <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit" disabled={isAdding}>
+          <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
             {isAdding ? "Adding Project..." : "Add Project"}
           </Button>
         </form>
