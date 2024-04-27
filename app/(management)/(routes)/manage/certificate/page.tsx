@@ -82,12 +82,7 @@ const ManageCertificatePage = () => {
               <TableCell>{certificate.issuedDate}</TableCell>
               <TableCell>
                 <div className="buttons flex gap-2">
-                  <Link href={`/certificate/${certificate.id}`} target="_blank">
-                    <Button variant="secondary">
-                      <FontAwesomeIcon icon={faEye} />
-                    </Button>
-                  </Link>
-                  <Link href={`/manage/projects/${certificate.id}/edit`}>
+                  <Link href={`/manage/certificate/${certificate.id}/edit`}>
                     <Button variant="secondary">
                       <FontAwesomeIcon icon={faPen} />
                     </Button>
