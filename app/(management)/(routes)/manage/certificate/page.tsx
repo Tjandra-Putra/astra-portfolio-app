@@ -15,7 +15,7 @@ const ManageCertificatePage = () => {
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  const fetchProjects = async () => {
+  const fetchCertificates = async () => {
     try {
       setLoading(true);
 
@@ -28,9 +28,30 @@ const ManageCertificatePage = () => {
     }
   };
 
+  const deleteCertificateHandler = async (id: string) => {
+    // Display a confirmation prompt
+    const confirmed = window.confirm("Are you sure you want to delete this certificate?");
+
+    // If the user confirms, proceed with deletion
+    if (confirmed) {
+      console.log("DELETE CONFIRMED");
+      try {
+        setButtonLoading(true);
+        await axios.delete(`/api/manage/certificate/${id}`);
+        toast.success("Certificate deleted successfully");
+      } catch (error) {
+        console.error("Error deleting certificate:", error);
+      } finally {
+        setButtonLoading(false);
+      }
+    } else {
+      console.log("DELETE CANCELLED");
+    }
+  };
+
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    fetchCertificates();
+  }, [certificates]);
   return (
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3 justify-between">
@@ -87,7 +108,11 @@ const ManageCertificatePage = () => {
                       <FontAwesomeIcon icon={faPen} />
                     </Button>
                   </Link>
-                  <Button variant="secondary" disabled={buttonLoading}>
+                  <Button
+                    variant="secondary"
+                    disabled={buttonLoading}
+                    onClick={() => deleteCertificateHandler(certificate.id)}
+                  >
                     <FontAwesomeIcon icon={faTrash} />
                   </Button>
                 </div>

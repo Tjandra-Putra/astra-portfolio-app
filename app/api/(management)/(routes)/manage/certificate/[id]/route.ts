@@ -70,3 +70,36 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+// delete certificate by id for this user profile
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+  try {
+    const profile = await currentProfile();
+
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const certificate = await db.certificate.findFirst({
+      where: {
+        id: context.params.id,
+        profileId: profile.id,
+      },
+    });
+
+    if (!certificate) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+
+    await db.certificate.delete({
+      where: {
+        id: context.params.id,
+      },
+    });
+
+    return new NextResponse(context.params.id, { status: 204 });
+  } catch (error) {
+    console.error("[PROJECTS_DELETE_ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
