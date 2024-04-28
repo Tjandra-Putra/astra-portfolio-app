@@ -97,7 +97,7 @@ const AddCertificatePage = () => {
             variant="navy"
             className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
           >
-            Introduction
+            Details
           </Badge>
 
           <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">

@@ -126,13 +126,15 @@ const Project = () => {
             </div>
           </div>
           {project?.thumbnailUrl ? (
-            <div className="image-wrapper overflow-y-scroll sm:max-h-[51vh] max-h-[30vh]">
+            <div className="image-wrapper overflow-y-scroll sm:max-h-[50vh] max-h-[30vh]">
               <Image
                 src={project?.thumbnailUrl}
                 alt={project?.name}
-                width={500}
-                height={500}
-                className="thumbnail-img w-full h-full"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "100%", height: "auto" }} // optional
+                className="thumbnail-img w-full h-full rounded-lg"
               />
             </div>
           ) : (

@@ -67,7 +67,7 @@ model Education{
   degree String // e.g BSc, MSc, etc
   fieldOfStudy String // e.g Computer Science, Information Technology, etc
   startDate DateTime 
-  endDate DateTime
+  endDate DateTime?
   grade String?
   description String? @db.Text
   skills String? @db.Text // this is a comma separated string of skills, e.g React, Node, etc
