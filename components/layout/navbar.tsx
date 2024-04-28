@@ -12,6 +12,7 @@ import {
   faSquarePlus,
   faAward,
   faGraduationCap,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFolder, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
@@ -150,7 +151,7 @@ const Navbar: React.FC = () => {
           </TooltipProvider>
         </Link>
 
-        {userInfo?.workEmail ? (
+        {/* {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className={"me-3"}>
             <TooltipProvider>
               <Tooltip>
@@ -180,7 +181,7 @@ const Navbar: React.FC = () => {
               </Tooltip>
             </TooltipProvider>
           </Link>
-        )}
+        )} */}
 
         <SignedIn>
           <Link href="/manage" className="nav-item">
@@ -235,30 +236,22 @@ const Navbar: React.FC = () => {
           {userInfo?.role == "ADMIN" && (
             <Link href="/admin/dashboard" className="nav-item">
               <Button variant={"sky"}>
-                <FontAwesomeIcon icon={faCrown} color="#183153" className="me-3" />
+                <FontAwesomeIcon icon={faCrown} color="#183153" className="me-2" />
                 Admin
               </Button>
             </Link>
           )}
         </SignedIn>
-        {userInfo?.workEmail ? (
-          <Link
-            href={`mailto:${userInfo?.workEmail}`}
-            className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : "ms-0"}
-          >
-            <Button variant={"ocean"} className="font-semibold">
-              <FontAwesomeIcon icon={faSquarePlus} className="me-3" color="#ffffff" />
-              Collab
-            </Button>
-          </Link>
-        ) : (
-          <Link href={`mailto:${userInfo?.email}`} className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : "ms-0"}>
-            <Button variant={"ocean"} className="font-semibold">
-              <FontAwesomeIcon icon={faSquarePlus} className="me-3" color="#ffffff" />
-              Collab
-            </Button>
-          </Link>
-        )}
+
+        <Link
+          href={`mailto:${userInfo?.workEmail ? userInfo?.workEmail : userInfo?.email}`}
+          className={userInfo?.role !== "ADMIN" ? "ms-3" : ""}
+        >
+          <Button variant={"ocean"} className="font-semibold">
+            <FontAwesomeIcon icon={faPaperPlane} className="mx-2" color="#ffffff" />
+            Contact
+          </Button>
+        </Link>
       </div>
     </nav>
   );
