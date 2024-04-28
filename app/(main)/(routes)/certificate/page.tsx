@@ -52,10 +52,10 @@ const CertificatePage = () => {
         Here are some of the licenses and certificates that I have acquired over the years.
       </div>
 
-      {certificates && certificates.length > 0 ? (
-        certificates?.map((certificate) => (
-          <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg" key={certificate.id}>
-            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3">
+      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg">
+        {certificates && certificates.length > 0 ? (
+          certificates?.map((certificate) => (
+            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3" key={certificate.id}>
               <div className="header grid sm:grid-cols-[3fr,9fr] grid-cols-[3fr,9fr] gap-4 items-center">
                 <div>
                   <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
@@ -103,11 +103,11 @@ const CertificatePage = () => {
                 </Link>
               )}
             </div>
-          </div>
-        ))
-      ) : (
-        <div className="certificates bg-ash md:p-6 p-3 rounded-lg">No certificates available.</div>
-      )}
+          ))
+        ) : (
+          <div className="certificates bg-ash md:p-6 p-3 rounded-lg">No certificates available.</div>
+        )}
+      </div>
     </React.Fragment>
   );
 };
