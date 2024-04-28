@@ -243,10 +243,7 @@ const Navbar: React.FC = () => {
           )}
         </SignedIn>
 
-        <Link
-          href={`mailto:${userInfo?.workEmail ? userInfo?.workEmail : userInfo?.email}`}
-          className={userInfo?.role !== "ADMIN" ? "ms-3" : ""}
-        >
+        <Link href={`mailto:${userInfo?.workEmail ? userInfo?.workEmail : userInfo?.email}`} className="ms-3">
           <Button variant={"ocean"} className="font-semibold">
             <FontAwesomeIcon icon={faPaperPlane} className="mx-2" color="#ffffff" />
             Contact
