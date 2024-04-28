@@ -79,7 +79,10 @@ export default function Profile() {
                 color="#183153"
               />
 
-              <span className="hidden sm:block">Available for Hire</span>
+              <span className="hidden sm:block">
+                {/* Available for Hire */}
+                Astra Portfolio
+              </span>
             </Badge>
           </div>
         </div>

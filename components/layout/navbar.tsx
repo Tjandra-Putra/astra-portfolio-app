@@ -151,7 +151,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         {userInfo?.workEmail ? (
-          <Link href={`mailto:${userInfo?.workEmail}`} className={userInfo?.role ? "" : "me-3"}>
+          <Link href={`mailto:${userInfo?.workEmail}`} className={"me-3"}>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -166,7 +166,7 @@ const Navbar: React.FC = () => {
             </TooltipProvider>
           </Link>
         ) : (
-          <Link href={`mailto:${userInfo?.email}`} className={userInfo?.role ? "" : "me-3"}>
+          <Link href={`mailto:${userInfo?.email}`} className={"me-3"}>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -181,6 +181,7 @@ const Navbar: React.FC = () => {
             </TooltipProvider>
           </Link>
         )}
+
         <SignedIn>
           <Link href="/manage" className="nav-item">
             <TooltipProvider>
@@ -241,15 +242,18 @@ const Navbar: React.FC = () => {
           )}
         </SignedIn>
         {userInfo?.workEmail ? (
-          <Link href={`mailto:${userInfo?.workEmail}`} className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : ""}>
-            <Button variant={"ocean"}>
+          <Link
+            href={`mailto:${userInfo?.workEmail}`}
+            className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : "ms-0"}
+          >
+            <Button variant={"ocean"} className="font-semibold">
               <FontAwesomeIcon icon={faSquarePlus} className="me-3" color="#ffffff" />
               Collab
             </Button>
           </Link>
         ) : (
-          <Link href={`mailto:${userInfo?.email}`} className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : ""}>
-            <Button variant={"ocean"}>
+          <Link href={`mailto:${userInfo?.email}`} className={userInfo?.role !== "ADMIN" ? "nav-item me-3" : "ms-0"}>
+            <Button variant={"ocean"} className="font-semibold">
               <FontAwesomeIcon icon={faSquarePlus} className="me-3" color="#ffffff" />
               Collab
             </Button>
