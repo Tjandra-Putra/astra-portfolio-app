@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Loader } from "lucide-react";
+import Loader from "@/components/layout/loader";
 
 const EducationPage = () => {
   const [educations, setEducations] = React.useState<any[]>([]);
