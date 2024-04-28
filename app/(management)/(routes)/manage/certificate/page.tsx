@@ -100,7 +100,7 @@ const ManageCertificatePage = () => {
                 )}
               </TableCell>
               <TableCell>{certificate.issueingOrganisation}</TableCell>
-              <TableCell>{certificate.issuedDate}</TableCell>
+              <TableCell>{new Date(certificate.issuedDate).toLocaleDateString("en-SG")}</TableCell>
               <TableCell>
                 <div className="buttons flex gap-2">
                   <Link href={`/manage/certificate/${certificate.id}/edit`}>

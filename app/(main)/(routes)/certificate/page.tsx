@@ -70,7 +70,7 @@ const CertificatePage = () => {
                     {certificate.issueingOrganisation}
                   </div>
                   <div className="duration text-gray-500 font-normal text-xs sm:text-base">
-                    Issued on {new Date(certificate.issuedDate).toLocaleDateString()}
+                    Issued on {new Date(certificate.issuedDate).toLocaleDateString("en-SG")}
                   </div>
                 </div>
               </div>

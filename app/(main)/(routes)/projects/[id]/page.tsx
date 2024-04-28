@@ -104,7 +104,8 @@ const Project = () => {
           <div className="flex">
             <div className="text-[#000000] w-36 font-semibold">Date</div>
             <div className="text-black w-full">
-              {project?.startDate ? `${formatDate(project.startDate)} to ${formatDate(project.endDate)}` : "N/A"}{" "}
+              {new Date(project.startDate).toLocaleDateString("en-SG")} to{" "}
+              {new Date(project.endDate).toLocaleDateString("en-SG")}
             </div>
           </div>
         </div>

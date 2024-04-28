@@ -27,6 +27,28 @@ const ManageEducationPage = () => {
       setLoading(false);
     }
   };
+
+  const deleteEducationHandler = async (id: string) => {
+    // Display a confirmation prompt
+    const confirmed = window.confirm("Are you sure you want to delete this certificate?");
+
+    // If the user confirms, proceed with deletion
+    if (confirmed) {
+      console.log("DELETE CONFIRMED");
+      try {
+        setButtonLoading(true);
+        await axios.delete(`/api/manage/education/${id}`);
+        toast.success("Education deleted successfully");
+      } catch (error) {
+        console.error("Error deleting education:", error);
+      } finally {
+        setButtonLoading(false);
+      }
+    } else {
+      console.log("DELETE CANCELLED");
+    }
+  };
+
   useEffect(() => {
     fetchEducations();
   }, [educations]);
@@ -87,7 +109,7 @@ const ManageEducationPage = () => {
                   <Button
                     variant="secondary"
                     disabled={buttonLoading}
-                    // onClick={() => deleteCertificateHandler(certificate.id)}
+                    onClick={() => deleteEducationHandler(education.id)}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </Button>
