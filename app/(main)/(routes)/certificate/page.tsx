@@ -10,6 +10,7 @@ import Link from "next/link";
 import axios from "axios";
 import Loader from "@/components/layout/loader";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 const CertificatePage = () => {
   const [certificates, setCertificates] = React.useState<any[]>([]);
@@ -21,7 +22,12 @@ const CertificatePage = () => {
       setLoading(true);
 
       const response = await axios.get(`/api/certificate/${userInfo.id}`);
-      setCertificates(response.data);
+
+      // show only visible certificates and sort in latest order
+      const visibleCertificates = response.data.filter((certificate: any) => certificate.visible);
+      visibleCertificates.sort((a: any, b: any) => new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime());
+
+      setCertificates(visibleCertificates);
     } catch (error) {
       console.error("Error fetching certificates:", error);
     } finally {
@@ -46,46 +52,62 @@ const CertificatePage = () => {
         Here are some of the licenses and certificates that I have acquired over the years.
       </div>
 
-      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg">
-        {certificates?.map((certificate) => (
-          <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3" key={certificate.id}>
-            <div className="header grid sm:grid-cols-[3fr,9fr] grid-cols-[3fr,9fr] gap-4 items-center">
-              <div>
-                <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
-                  <FontAwesomeIcon icon={faAward} className="text-white w-10 h-10" />
+      {certificates && certificates.length > 0 ? (
+        certificates?.map((certificate) => (
+          <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg" key={certificate.id}>
+            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3">
+              <div className="header grid sm:grid-cols-[3fr,9fr] grid-cols-[3fr,9fr] gap-4 items-center">
+                <div>
+                  <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
+                    <FontAwesomeIcon icon={faAward} className="text-white w-10 h-10" />
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="certification-title font-semibold text-xs sm:text-base leading-4">
+                    {certificate.title}
+                  </div>
+                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base sm:mt-0 mt-1">
+                    {certificate.issueingOrganisation}
+                  </div>
+                  <div className="duration text-gray-500 font-normal text-xs sm:text-base">
+                    Issued on {new Date(certificate.issuedDate).toLocaleDateString()}
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col">
-                <div className="certification-title font-semibold text-xs sm:text-base leading-4">
-                  {certificate.title}
+
+              <Separator className="sm:mt-6 mt-3" />
+
+              <Image
+                src={certificate.certificateImageUrl}
+                alt="certificate"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "100%", height: "auto" }} // optional
+                className="w-full sm:mt-6 mt-3 shadow-paper rounded-lg"
+              />
+
+              {certificate.certificateId && (
+                <div className="certificate-id flex justify-end">
+                  <Badge variant={"navy"} className="text-xs text-white font-medium sm:mt-6 mt-3 text-end">
+                    Certificate ID: {certificate.certificateId}
+                  </Badge>
                 </div>
-                <div className="issuer text-gray-600 font-medium text-xs sm:text-base sm:mt-0 mt-1">Microsoft</div>
-                <div className="duration text-gray-500 font-normal text-xs sm:text-base">Issued Jul 2023</div>
-              </div>
+              )}
+
+              {certificate.certificateUrl && (
+                <Link href={certificate.certificateUrl} target="_blank">
+                  <Button variant={"ash"} className="w-full sm:mt-6 mt-3 font-medium">
+                    View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
+                  </Button>
+                </Link>
+              )}
             </div>
-
-            <Separator className="sm:mt-6 mt-3" />
-
-            <img
-              src={certificate.certificateImageUrl}
-              alt="certificate"
-              className="w-full sm:mt-6 mt-3 shadow-paper rounded-lg"
-            />
-
-            <div className="certificate-id flex justify-end">
-              <Badge variant={"sky"} className="text-xs text-gray-900 font-medium sm:mt-6 mt-3 text-end">
-                Certificate ID: {certificate.certificateId}
-              </Badge>
-            </div>
-
-            <Link href={certificate.certificateUrl} target="_blank">
-              <Button variant={"navy"} className="w-full sm:mt-6 mt-3 font-medium">
-                View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
-              </Button>
-            </Link>
           </div>
-        ))}
-      </div>
+        ))
+      ) : (
+        <div className="certificates bg-ash md:p-6 p-3 rounded-lg">No certificates available.</div>
+      )}
     </React.Fragment>
   );
 };
