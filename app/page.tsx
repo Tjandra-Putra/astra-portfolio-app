@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -79,6 +80,7 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     </div>
