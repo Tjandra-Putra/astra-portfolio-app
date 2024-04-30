@@ -90,15 +90,9 @@ const Navbar: React.FC = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                {pathname === "https://www.tjandra.xyz/" ? (
-                  <Button variant="navy">
-                    <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-                  </Button>
-                ) : (
-                  <Button variant={getButtonVariant(`/profile/${userInfo?.id}`)}>
-                    <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-                  </Button>
-                )}
+                <Button variant={getButtonVariant(`/profile/${userInfo?.id}`)}>
+                  <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Home</p>

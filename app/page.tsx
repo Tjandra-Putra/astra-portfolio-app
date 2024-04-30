@@ -12,7 +12,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/layout/loader";
-import { set } from "date-fns";
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
