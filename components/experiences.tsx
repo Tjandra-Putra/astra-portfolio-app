@@ -52,23 +52,28 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3">
-      {projectsToDisplay.length === 0
-        ? "No project experiences available."
-        : !showAll && (
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-                <div className="font-medium text-gray-800 text-lg">
-                  {title || `Experiences (${allProjects.length})`}
-                </div>
-              </div>
-              <Link href={"/experiences"}>
-                <Button variant="white">
-                  View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
-                </Button>
-              </Link>
-            </div>
-          )}
+      {projectsToDisplay.length === 0 ? (
+        "No project experiences available."
+      ) : !showAll ? (
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+            <div className="font-medium text-gray-800 text-lg">{title || `Experiences (${allProjects?.length})`}</div>
+          </div>
+          <Link href={"/experiences"}>
+            <Button variant="white">
+              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+            <div className="font-medium text-gray-800 text-lg">All Experiences ({allProjects?.length})</div>
+          </div>
+        </div>
+      )}
 
       {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
       {detailedPage && (

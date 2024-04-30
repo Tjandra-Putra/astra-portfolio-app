@@ -53,21 +53,28 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage }) => 
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg">
-      {projectsToDisplay.length === 0
-        ? "No projects available."
-        : !showAll && (
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-                <div className="font-medium text-gray-800 text-lg">{title || `Projects (${allProjects.length})`}</div>
-              </div>
-              <Link href={"/projects"}>
-                <Button variant="white">
-                  View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
-                </Button>
-              </Link>
-            </div>
-          )}
+      {projectsToDisplay.length === 0 ? (
+        "No projects available."
+      ) : !showAll ? (
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+            <div className="font-medium text-gray-800 text-lg">{title || `Projects (${allProjects?.length})`}</div>
+          </div>
+          <Link href={"/projects"}>
+            <Button variant="white">
+              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+            <div className="font-medium text-gray-800 text-lg">All Projects ({allProjects?.length})</div>
+          </div>
+        </div>
+      )}
 
       {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
       {detailedPage && (
@@ -85,6 +92,7 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage }) => 
           </Link>
         </div>
       )}
+
       {projectsToDisplay.map((project) => (
         <Link href={`/projects/${project.id}`} key={project.id}>
           <ProjectCard key={project.id} data={project} />

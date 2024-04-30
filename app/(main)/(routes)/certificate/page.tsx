@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { faAward, faCertificate, faChevronRight, faCircle, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faAward, faCertificate, faChevronRight, faCircle, faKey, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import axios from "axios";
@@ -63,10 +63,8 @@ const CertificatePage = () => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <div className="certification-title font-semibold text-xs sm:text-base leading-4">
-                    {certificate.title}
-                  </div>
-                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base sm:mt-0 mt-1">
+                  <div className="certification-title font-semibold text-xs sm:text-base">{certificate.title}</div>
+                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base sm:mt-0">
                     {certificate.issueingOrganisation}
                   </div>
                   <div className="duration text-gray-500 font-normal text-xs sm:text-base">
@@ -89,8 +87,8 @@ const CertificatePage = () => {
 
               {certificate.certificateId && (
                 <div className="certificate-id flex justify-end">
-                  <Badge variant={"navy"} className="text-xs text-white font-medium sm:mt-6 mt-3 text-end">
-                    Certificate ID: {certificate.certificateId}
+                  <Badge variant={"secondary"} className="text-xs text-black font-medium sm:mt-6 mt-3 text-end">
+                    Credential ID: {certificate.certificateId}
                   </Badge>
                 </div>
               )}

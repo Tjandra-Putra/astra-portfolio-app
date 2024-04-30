@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
   return (
     <nav
       ref={navbarRef}
-      className="sticky top-2 h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center md:px-3 px-3 overflow-x-hidden z-10"
+      className="sticky top-3 h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center md:px-3 px-3 overflow-x-hidden z-10"
     >
       <div className="nav-left flex gap-3">
         <Link href={`/profile/${userInfo?.id}`} className="nav-item">

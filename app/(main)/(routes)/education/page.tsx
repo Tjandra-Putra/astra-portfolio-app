@@ -72,27 +72,31 @@ const EducationPage = () => {
                     {education.endDate ? new Date(education.endDate).toLocaleDateString("en-SG") : "Current"}
                   </div>
                   {education.grade && (
-                    <div className="duration text-gray-500 font-normal text-xs sm:text-base">
+                    <div className="duration text-gray-900 font-normal text-xs sm:text-base">
                       Grade: {education.grade}
                     </div>
                   )}
                 </div>
               </div>
 
-              <Separator className="sm:mt-6 mt-3" />
+              {education?.description || (education?.skills && <Separator className="sm:mt-6 mt-3" />)}
 
-              <div
-                className="education font-normal text-xs sm:text-base sm:mt-3 mt-3 leading-5 whitespace-pre-line"
-                dangerouslySetInnerHTML={{ __html: education.description || "No description available." }}
-              />
+              {education?.description && (
+                <div
+                  className="education font-normal text-xs sm:text-base sm:mt-3 mt-3 leading-5 whitespace-pre-line"
+                  dangerouslySetInnerHTML={{ __html: education.description }}
+                />
+              )}
 
-              <div className="badges flex flex-row flex-wrap sm:gap-3 gap-2 sm:mt-6 mt-3">
-                {education.skills?.split(",").map((skill: any) => (
-                  <Badge key={education.id} variant="secondary" className="text-xs sm:text-xs font-medium">
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
+              {education?.skills && (
+                <div className="badges flex flex-row flex-wrap sm:gap-3 gap-2 sm:mt-6 mt-3">
+                  {education.skills?.split(",").map((skill: any) => (
+                    <Badge key={education.id} variant="secondary" className="text-xs sm:text-xs font-medium">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              )}
             </div>
           ))
         ) : (

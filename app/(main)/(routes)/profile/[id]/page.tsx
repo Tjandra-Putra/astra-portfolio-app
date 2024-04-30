@@ -62,7 +62,7 @@ export default function Profile() {
 
   return (
     <>
-      <section className="introduction pb-5">
+      <section className="introduction sm:pb-6 pb-3">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
@@ -90,19 +90,19 @@ export default function Profile() {
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid md:grid-cols-12 gap-6 mb-5 text-center sm:text-left">
+          <div className="grid md:grid-cols-12 gap-6 mb-6 text-center sm:text-left">
             <div className="md:col-span-8 sm:order-first order-last">
               <div className="w-full">
-                <div className="name text-4xl font-medium">
+                <div className="name sm:text-4xl text-2xl font-medium">
                   Hi, I&apos;m{" "}
                   <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
                 </div>
-                <div className="description mt-3 text-gray-900 font-normal">
+                <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base">
                   {profile?.bio
                     ? profile.bio
                     : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
                 </div>
-                <div className="buttons mt-5 space-x-3">
+                <div className="buttons mt-6 space-x-3">
                   {profile?.resumeUrl ? (
                     <Link href={profile.resumeUrl} target="_blank">
                       <Button variant={"navy"}>
