@@ -68,7 +68,7 @@ const ProjectsPage = () => {
         </Link>
       </div>
 
-      <div className="text-gray-800 mb-7 font-normal">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
         Your projects are listed below. You can edit, delete, or hide them from your profile.
       </div>
 

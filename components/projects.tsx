@@ -59,7 +59,9 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage }) => 
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 text-lg">{title || `Projects (${allProjects?.length})`}</div>
+            <div className="font-medium text-gray-800 sm:text-lg text-base">
+              {title || `Projects (${allProjects?.length})`}
+            </div>
           </div>
           <Link href={"/projects"}>
             <Button variant="white">
@@ -71,7 +73,7 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage }) => 
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 text-lg">All Projects ({allProjects?.length})</div>
+            <div className="font-medium text-gray-800 sm:text-lg text-base">All Projects ({allProjects?.length})</div>
           </div>
         </div>
       )}
@@ -81,7 +83,7 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage }) => 
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 text-lg">
+            <div className="font-medium text-gray-800 sm:text-lg text-base">
               {`${title}` || `Projects ${projectsToDisplay?.length}`}
             </div>
           </div>

@@ -51,7 +51,7 @@ const ManagePage = () => {
         <div className="job-title font-medium text-gray-800 text-lg">Manage Platform</div>
       </div>
 
-      <div className="text-gray-800 mb-7 font-normal">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
         This page allows you to effortlessly manage your projects, profile, and work experiences. Update, showcase, and
         organize your professional journey with ease.
       </div>

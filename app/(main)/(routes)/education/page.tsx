@@ -48,7 +48,7 @@ const EducationPage = () => {
         <div className="job-title font-medium text-gray-800 text-lg">Education</div>
       </div>
 
-      <div className="text-gray-800 mb-7 font-normal">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
         Here are some of the educational qualifications that I have acquired over the years.
       </div>
 
@@ -56,16 +56,16 @@ const EducationPage = () => {
         {educations && educations.length > 0 ? (
           educations?.map((education) => (
             <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3" key={education.id}>
-              <div className="header grid sm:grid-cols-[3fr,9fr] grid-cols-[3fr,9fr] gap-4 items-center">
+              <div className="header flex sm:flex-row sm:gap-6 gap-3 items-center">
                 <div>
                   <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
                     <FontAwesomeIcon icon={faGraduationCap} className="text-white w-10 h-10" />
                   </div>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1">
                   <div className="education font-semibold text-xs sm:text-base leading-4">{education.schoolName}</div>
-                  <div className="degree text-gray-600 font-medium text-xs sm:text-base sm:mt-0 mt-1">
-                    {education.degree}, <span className="field-of-study">{education.fieldOfStudy}</span>
+                  <div className="degree text-gray-600 font-medium text-xs sm:text-base leading-4">
+                    <span className="field-of-study">{education.fieldOfStudy}</span>, {education.degree}
                   </div>
                   <div className="duration text-gray-500 font-normal text-xs sm:text-base">
                     {new Date(education.startDate).toLocaleDateString("en-SG")} -{" "}
@@ -79,19 +79,17 @@ const EducationPage = () => {
                 </div>
               </div>
 
-              {education?.description || (education?.skills && <Separator className="sm:mt-6 mt-3" />)}
+              <Separator className="sm:mt-6 mt-3" />
 
-              {education?.description && (
-                <div
-                  className="education font-normal text-xs sm:text-base sm:mt-3 mt-3 leading-5 whitespace-pre-line"
-                  dangerouslySetInnerHTML={{ __html: education.description }}
-                />
-              )}
+              <div
+                className="education font-normal text-xs sm:text-base sm:mt-3 mt-1 leading-5 whitespace-pre-line"
+                dangerouslySetInnerHTML={{ __html: education.description || "" }}
+              />
 
               {education?.skills && (
                 <div className="badges flex flex-row flex-wrap sm:gap-3 gap-2 sm:mt-6 mt-3">
                   {education.skills?.split(",").map((skill: any) => (
-                    <Badge key={education.id} variant="secondary" className="text-xs sm:text-xs font-medium">
+                    <Badge key={education.id} variant="secondary" className="text-xs font-normal">
                       {skill}
                     </Badge>
                   ))}

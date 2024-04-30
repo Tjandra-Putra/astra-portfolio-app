@@ -67,7 +67,7 @@ const ManageCertificatePage = () => {
         </Link>
       </div>
 
-      <div className="text-gray-800 mb-7 font-normal">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
         Manage your certificates here. You can add, edit, and delete certificates.
       </div>
 

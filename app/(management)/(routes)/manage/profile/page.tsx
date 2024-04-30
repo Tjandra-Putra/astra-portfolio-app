@@ -177,7 +177,7 @@ const EditProfilePage = () => {
             <div className="job-title font-medium text-gray-800 text-lg">Manage Profile</div>
           </div>
 
-          <div className="text-gray-800 font-normal">
+          <div className="text-gray-800 font-normal text-sm sm:text-base">
             Leave the field blank if you do not want to update the information. If you want to update the information,
             please fill in the field.
           </div>

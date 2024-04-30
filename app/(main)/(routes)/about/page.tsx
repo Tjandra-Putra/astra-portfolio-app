@@ -37,29 +37,38 @@ const AboutPage = () => {
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
         <div className="font-medium text-gray-800 text-lg">About</div>
       </div>
-      <div className="flex flex-row flex-wrap gap-2 sm:justify-evenly">
-        <Badge variant={"navy"} className="text-3xl">
+      <div className="flex flex-row flex-wrap gap-3 ">
+        <Badge variant={"navy"} className="sm:text-xl text-sm">
           👋
         </Badge>
-        <Badge variant={"navy"} className="text-xl font-semi-bold">
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
           Hello.
         </Badge>
-        <Badge variant={"navy"} className="text-xl font-semi-bold">
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
           Hola.
         </Badge>
-        <Badge variant={"navy"} className="text-xl font-semi-bold">
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
           Bonjour.
         </Badge>
-        <Badge variant={"navy"} className="text-xl font-semi-bold">
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
           Ciao.
         </Badge>
-        <Badge variant={"navy"} className="text-xl font-semi-bold">
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
           你好.
+        </Badge>
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
+          안녕하세요.
+        </Badge>
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
+          こんにちは.
+        </Badge>
+        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
+          Olá.
         </Badge>
       </div>
 
       <div
-        className="text-gray-800 my-7 font-normal whitespace-pre-line"
+        className="text-gray-800 sm:my-6 my-3 font-normal whitespace-pre-line sm:text-base text-sm"
         dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
       />
 

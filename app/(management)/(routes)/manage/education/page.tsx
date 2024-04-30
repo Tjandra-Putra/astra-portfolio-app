@@ -68,7 +68,7 @@ const ManageEducationPage = () => {
         </Link>
       </div>
 
-      <div className="text-gray-800 mb-7 font-normal">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
         Manage your educations here. You can add, edit, and delete educations.
       </div>
 

@@ -48,7 +48,7 @@ const CertificatePage = () => {
         <div className="job-title font-medium text-gray-800 text-lg">Licenses and Certificates</div>
       </div>
 
-      <div className="text-gray-800 mb-6 font-normal">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
         Here are some of the licenses and certificates that I have acquired over the years.
       </div>
 
@@ -56,7 +56,7 @@ const CertificatePage = () => {
         {certificates && certificates.length > 0 ? (
           certificates?.map((certificate) => (
             <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3" key={certificate.id}>
-              <div className="header grid sm:grid-cols-[3fr,9fr] grid-cols-[3fr,9fr] gap-4 items-center">
+              <div className="header flex sm:flex-row sm:gap-6 gap-3 items-center">
                 <div>
                   <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
                     <FontAwesomeIcon icon={faAward} className="text-white w-10 h-10" />
@@ -64,7 +64,7 @@ const CertificatePage = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="certification-title font-semibold text-xs sm:text-base">{certificate.title}</div>
-                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base sm:mt-0">
+                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base">
                     {certificate.issueingOrganisation}
                   </div>
                   <div className="duration text-gray-500 font-normal text-xs sm:text-base">
@@ -73,7 +73,7 @@ const CertificatePage = () => {
                 </div>
               </div>
 
-              <Separator className="sm:mt-6 mt-3" />
+              <Separator className="sm:mt-6 mt-2" />
 
               <Image
                 src={certificate.certificateImageUrl}
