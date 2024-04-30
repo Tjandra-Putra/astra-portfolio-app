@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/profile/35c89c6b-98ab-487f-a295-959a18090bc6"
+    }
+  ]
+}
