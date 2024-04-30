@@ -1,0 +1,22 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/your-home-page",
+      "has": [
+        {
+          "type": "host",
+          "value": "tjandra.xyz"
+        },
+        {
+          "type": "host",
+          "value": "www.tjandra.xyz"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "destination": "https://astra-portfolio.vercel.app/profile/35c89c6b-98ab-487f-a295-959a18090bc6"
+    }
+  ]
+}
