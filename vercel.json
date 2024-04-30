@@ -1,8 +1,9 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
-      "destination": "/profile/35c89c6b-98ab-487f-a295-959a18090bc6"
+      "destination": "https://astra-portfolio.vercel.app/profile/35c89c6b-98ab-487f-a295-959a18090bc6",
+      "statusCode": 301
     }
   ]
 }
