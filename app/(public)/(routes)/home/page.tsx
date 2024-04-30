@@ -6,12 +6,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { faArrowRight, faCircle, faRocket, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faArrowRightToBracket,
+  faCircle,
+  faRightToBracket,
+  faRocket,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/layout/loader";
+import { SignInButton } from "@clerk/nextjs";
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -68,9 +76,16 @@ const LandingPage = () => {
     <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full">
       <div className="w-full sm:w-[570px]">
         <div className="min-h-[100vh] h-full shadow-paper bg-white rounded-xl sm:p-6 p-3">
-          <Badge variant="sky" className="text-base flex justify-center w-full rounded-lg sm:mb-6 mb-3 h-10 p-6">
-            <FontAwesomeIcon icon={faRocket} className="w-4 h-4 me-2" color="#183153" />
-            Astra Portfolio
+          <Badge variant="sky" className="text-base flex justify-between w-full rounded-lg sm:mb-6 mb-3 h-10 p-6">
+            <div>
+              <FontAwesomeIcon icon={faRocket} className="w-4 h-4 me-2" color="#183153" />
+              Astra Portfolio
+            </div>
+
+            <Button variant="secondary" size="sm" className="rounded-full">
+              <SignInButton />
+              <FontAwesomeIcon icon={faArrowRightToBracket} className="w-4 h-4 ms-2" color="#000000" />
+            </Button>
           </Badge>
 
           <div className="bg-ash shadow-paper sm:p-6 p-3 sm:mb-6 mb-3 rounded-lg">

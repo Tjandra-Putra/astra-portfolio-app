@@ -10,6 +10,7 @@ export default authMiddleware({
   publicRoutes: [
     // nextjs routes
     "/",
+    "/home",
     "/about",
     "/projects",
     "/projects/(.*)",
