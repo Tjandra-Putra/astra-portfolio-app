@@ -70,21 +70,23 @@ export default function Profile() {
               {profile?.jobTitle ? profile.jobTitle : "Self Employed"}
             </div>
           </div>
-          <div className="status uppercase tracking-wider text-end">
-            <Badge variant={"diamond"} className="font-semibold">
-              <FontAwesomeIcon
-                // icon={faSeedling}
-                icon={faRocket}
-                className="sm:me-2" // Hide on screens larger than sm (small)
-                color="#183153"
-              />
+          <Link href={"/home"}>
+            <div className="status uppercase tracking-wider text-end">
+              <Badge variant={"diamond"} className="font-semibold">
+                <FontAwesomeIcon
+                  // icon={faSeedling}
+                  icon={faRocket}
+                  className="sm:me-2" // Hide on screens larger than sm (small)
+                  color="#183153"
+                />
 
-              <span className="hidden sm:block">
-                {/* Available for Hire */}
-                Astra Portfolio
-              </span>
-            </Badge>
-          </div>
+                <span className="hidden sm:block">
+                  {/* Available for Hire */}
+                  Astra Portfolio
+                </span>
+              </Badge>
+            </div>
+          </Link>
         </div>
 
         {loading ? (
