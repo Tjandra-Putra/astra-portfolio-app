@@ -206,7 +206,7 @@ const Navbar: React.FC = () => {
                           },
                         },
                       }}
-                      afterSignOutUrl="/sign-in"
+                      afterSignOutUrl="/home"
                     />
                   </Button>
                 </TooltipTrigger>

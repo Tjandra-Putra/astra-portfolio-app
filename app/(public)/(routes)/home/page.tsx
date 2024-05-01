@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/layout/footer";
-import Navbar from "@/components/layout/navbar";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,8 @@ import {
   faRightToBracket,
   faRocket,
   faSearch,
+  faSeedling,
+  faUserAstronaut,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -85,12 +87,20 @@ const LandingPage = () => {
               Astra Portfolio
             </div>
 
-            <Link href="/sign-in">
-              <Button variant="secondary" className="rounded-full">
-                Sign In
-                <FontAwesomeIcon icon={faArrowRightToBracket} className="w-4 h-4 ms-2" color="#000000" />
+            <SignedOut>
+              <Link href="/sign-in">
+                <Button variant="secondary" className="rounded-full">
+                  Sign In
+                  <FontAwesomeIcon icon={faArrowRightToBracket} className="w-4 h-4 ms-2" color="#000000" />
+                </Button>
+              </Link>
+            </SignedOut>
+            <SignedIn>
+              <Button variant="navy" className="rounded-full">
+                Welcome Back
+                <FontAwesomeIcon icon={faSeedling} className="w-4 h-4 ms-2" color="#ffffff" />
               </Button>
-            </Link>
+            </SignedIn>
           </Badge>
 
           <div className="shadow-paper sm:p-6 p-3 sm:mb-6 mb-3 rounded-lg">
