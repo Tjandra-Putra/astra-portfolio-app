@@ -79,7 +79,7 @@ const EducationPage = () => {
                 </div>
               </div>
 
-              <Separator className="sm:mt-6 mt-3" />
+              {(education?.description || education?.skills) && <Separator className="sm:mt-6 mt-3" />}
 
               <div
                 className="education font-normal text-xs sm:text-base sm:mt-3 mt-1 leading-5 whitespace-pre-line"

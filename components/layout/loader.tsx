@@ -1,11 +1,19 @@
+import React from "react";
 import BarLoader from "react-spinners/BarLoader";
-import BeatLoader from "react-spinners/BeatLoader";
-import ClipLoader from "react-spinners/ClipLoader";
 
-const Loader = () => {
+interface LoaderProps {
+  className?: string;
+}
+
+const Loader: React.FC<LoaderProps> = ({ className }) => {
+  // Define the existing classes
+  const existingClasses = "projects bg-ash p-6 my-6 rounded-lg w-full text-center flex justify-center items-center";
+
+  // Merge the existing classes with the provided className, if any
+  const mergedClasses = className ? `${existingClasses} ${className}` : existingClasses;
+
   return (
-    <div className="projects bg-ash p-6 my-6 rounded-lg w-full text-center flex justify-center items-center">
-      {/* <p>Loading...</p> */}
+    <div className={mergedClasses}>
       <BarLoader loading={true} color="#1d3455" />
     </div>
   );

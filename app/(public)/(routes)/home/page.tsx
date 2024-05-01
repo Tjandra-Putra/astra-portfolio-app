@@ -10,6 +10,7 @@ import {
   faArrowRight,
   faArrowRightToBracket,
   faCircle,
+  faMeteor,
   faRightToBracket,
   faRocket,
   faSearch,
@@ -19,7 +20,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/layout/loader";
-import { SignInButton } from "@clerk/nextjs";
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -76,22 +76,27 @@ const LandingPage = () => {
     <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full">
       <div className="w-full sm:w-[570px]">
         <div className="min-h-[100vh] h-full shadow-paper bg-white rounded-xl sm:p-6 p-3">
-          <Badge variant="sky" className="text-base flex justify-between w-full rounded-lg sm:mb-6 mb-3 h-10 p-6">
+          <Badge
+            variant="sky"
+            className="text-base flex justify-between w-full rounded-lg sm:mb-6 mb-3 h-15 p-6 hover:bg-[#74c0fc]"
+          >
             <div>
               <FontAwesomeIcon icon={faRocket} className="w-4 h-4 me-2" color="#183153" />
               Astra Portfolio
             </div>
 
-            <Button variant="secondary" size="sm" className="rounded-full">
-              <SignInButton />
-              <FontAwesomeIcon icon={faArrowRightToBracket} className="w-4 h-4 ms-2" color="#000000" />
-            </Button>
+            <Link href="/sign-in">
+              <Button variant="secondary" className="rounded-full">
+                Sign In
+                <FontAwesomeIcon icon={faArrowRightToBracket} className="w-4 h-4 ms-2" color="#000000" />
+              </Button>
+            </Link>
           </Badge>
 
-          <div className="bg-ash shadow-paper sm:p-6 p-3 sm:mb-6 mb-3 rounded-lg">
+          <div className="shadow-paper sm:p-6 p-3 sm:mb-6 mb-3 rounded-lg">
             <div className="flex flex-col justify-center">
               <div className="sm:text-3xl text-xl text-center font-semibold text-[#1d3554]">
-                Discover inspiration and connect with exception <span className="text-[#fab306]">talent.</span>
+                Discover inspiration and connect with exceptional <span className="text-[#fab306]">talent.</span>
               </div>
 
               <div className="sm:text-base text-sm text-center text-[#1d3554] sm:mt-6 mt-3 sm:mb-8 mb-5">
@@ -100,12 +105,15 @@ const LandingPage = () => {
                 globally.
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
                 <Input
-                  placeholder="Search for individuals"
-                  className="w-full h-[6vh] rounded-full text-center"
+                  placeholder="
+                  Search for profiles by name"
+                  className="w-full h-[6vh] rounded-full text-center border-2 border-[#1d3554] text-[#1d3554]"
+                  style={{ outline: "none" }}
                   onChange={(e) => handleSearch(e)}
                 />
+
                 <Button variant="navy" className="w-full rounded-full" size="lg" onClick={() => handleFormSubmit()}>
                   <FontAwesomeIcon icon={faSearch} className="w-4 h-4 me-2" color="#ffffff" />
                   Search
@@ -118,12 +126,12 @@ const LandingPage = () => {
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
                 <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#1d3554]" />
-                <div className="font-medium text-gray-800 sm:text-lg text-base">Individuals</div>
+                <div className="font-medium text-gray-800 sm:text-lg text-base">Profiles</div>
               </div>
             </div>
 
             {loading ? (
-              <Loader />
+              <Loader className="bg-white" />
             ) : (
               filteredProfiles
                 ?.filter((profile) => profile.role === "MEMBER" || "ADMIN")
@@ -148,9 +156,9 @@ const LandingPage = () => {
                         </div>
                       </div>
                       <Link href={`/profile/${profile.id}`}>
-                        <Button variant={"navy"} className="sm:mt-0 mt-3">
+                        <Button variant={"navy"} className="sm:mt-0 mt-3 rounded-full">
                           View Profile
-                          <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ms-2" />
+                          <FontAwesomeIcon icon={faMeteor} className="w-4 h-4 ms-2" />
                         </Button>
                       </Link>
                     </div>
