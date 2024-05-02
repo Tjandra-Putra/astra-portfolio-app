@@ -68,7 +68,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
             </Button>
           </Link>
         </div>
-      ) : (
+      ) : !showAll || !detailedPage ? (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
@@ -77,7 +77,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
             </div>
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
       {detailedPage && (
@@ -86,7 +86,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="font-medium text-gray-800 sm:text-lg text-base">{title || "Projects"}</div>
           </div>
-          <Link href={"/projects"}>
+          <Link href={"/experiences"}>
             <Button variant="white">
               View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
             </Button>
