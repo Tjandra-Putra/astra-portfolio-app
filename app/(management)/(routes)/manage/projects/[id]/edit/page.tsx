@@ -23,8 +23,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-// import { TextEditor } from "@/components/text-editors/text-editor";
-import QuillTextEditor from "@/components/text-editors/quill-editor";
+// import QuillTextEditor from "@/components/text-editors/quill-editor";
+import { Editor } from "@/components/text-editors/blocknote-editor";
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 
@@ -549,7 +549,7 @@ const EditProjectPage = () => {
 
           <div className="border bg-white p-0 rounded-lg">
             <section className="mb-5 bg-white">
-              <QuillTextEditor onMarkdownChange={handleMarkdownChange} initialContent={project?.content} />
+              <Editor onParentEditorChange={handleMarkdownChange} initialContent={project?.content} />
             </section>
           </div>
 

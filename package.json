@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@blocknote/core": "^0.12.4",
+    "@blocknote/react": "^0.12.4",
     "@clerk/nextjs": "^4.28.1",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
@@ -37,12 +39,6 @@
     "@reduxjs/toolkit": "^2.0.1",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-table": "^8.11.2",
-    "@tiptap/extension-color": "^2.2.4",
-    "@tiptap/extension-list-item": "^2.2.4",
-    "@tiptap/extension-text-style": "^2.2.4",
-    "@tiptap/pm": "^2.2.4",
-    "@tiptap/react": "^2.2.4",
-    "@tiptap/starter-kit": "^2.2.4",
     "@types/markdown-draft-js": "^2.2.7",
     "@types/react-redux": "^7.1.33",
     "@uploadthing/react": "^6.0.2",

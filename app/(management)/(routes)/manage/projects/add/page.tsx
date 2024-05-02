@@ -25,7 +25,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
-import QuillTextEditor from "@/components/text-editors/quill-editor";
+import { Editor } from "@/components/text-editors/blocknote-editor";
+// import QuillTextEditor from "@/components/text-editors/quill-editor";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -490,12 +491,15 @@ const AddProjectPage = () => {
           >
             Main Content
           </Badge>
+          <div className="border  p-5 rounded-bl-lg rounded-br-lg">
+            <Editor onParentEditorChange={handleMarkdownChange} />
+          </div>
 
-          <div className="border bg-white p-0 rounded-lg">
+          {/* <div className="border bg-white p-3 rounded-lg h-[50vh]">
             <section className="bg-white">
               <QuillTextEditor onMarkdownChange={handleMarkdownChange} />
             </section>
-          </div>
+          </div> */}
 
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
             {isAdding ? "Adding Project..." : "Add Project"}
