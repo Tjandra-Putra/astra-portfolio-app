@@ -3,9 +3,7 @@
 import { BlockNoteEditor, Block, PartialBlock } from "@blocknote/core";
 import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
-import "./styles.css";
 import { useEffect, useState } from "react";
-import classNames from "classnames";
 
 interface EditorProps {
   onParentEditorChange?: (value: string) => void;
@@ -25,9 +23,14 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
     }
   };
 
+  const handleUpload = async (file: File): Promise<string> => {
+    return "https://m.media-amazon.com/images/I/51y8GUVKJoL.jpg";
+  };
+
   const editor: BlockNoteEditor = useCreateBlockNote({
     initialContent:
       typeof initialContent === "string" && isValidJSON(initialContent) ? JSON.parse(initialContent) : initialContent,
+    uploadFile: handleUpload,
   });
 
   const onEditorChange = () => {
