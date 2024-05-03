@@ -166,23 +166,23 @@ const Project = () => {
             </Link>
           </Button>
         </div>
+
         <Separator className="my-6" />
+
         <Editor initialContent={project?.content} editable={false} />
 
-        {project.badges && (
-          <div className="badges flex flex-row flex-wrap gap-3 my-6">
-            <div className="badges flex flex-row flex-wrap gap-3 my-6">
-              {project?.tags
-                ? project?.tags.split(",").map((tag: string, index: number) => (
-                    <Badge key={index} variant={"navy"}>
-                      {tag.trim()}
-                    </Badge>
-                  ))
-                : null}
-            </div>
-          </div>
-        )}
+        <div className="badges flex flex-row flex-wrap gap-3 my-6">
+          {project.tags
+            ? project.tags.split(",").map((tag: string, index: number) => (
+                <Badge key={index} variant="navy">
+                  {tag.trim()}
+                </Badge>
+              ))
+            : null}
+        </div>
+
         <Separator className="my-6" />
+
         {project?.isWorkExperience ? (
           <Experiences title="Other Experiences" showAll={true} detailedPage={true} />
         ) : (
