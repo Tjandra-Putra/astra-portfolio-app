@@ -39,6 +39,13 @@ const LandingPage = () => {
       setFilteredProfiles(profiles); // If search term is empty, show all profiles
     } else {
       const filtered = profiles.filter((profile) => profile.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      if (filtered.length === 0) {
+        toast.error("No profiles found with the given search term.");
+      } else {
+        toast.success("Profiles found with the given search term.");
+      }
+
       setFilteredProfiles(filtered);
     }
   };
@@ -119,12 +126,17 @@ const LandingPage = () => {
                 <Input
                   placeholder="
                   Search for profiles by name"
-                  className="w-full h-[6vh] rounded-full text-center border-2 border-[#1d3554] text-[#1d3554]"
+                  className="w-full h-[45px] rounded-full text-center border-2 border-[#1d3554] text-[#1d3554]"
                   style={{ outline: "none" }}
                   onChange={(e) => handleSearch(e)}
                 />
 
-                <Button variant="navy" className="w-full rounded-full" size="lg" onClick={() => handleFormSubmit()}>
+                <Button
+                  variant="navy"
+                  className="w-full h-[45px] rounded-full"
+                  size="lg"
+                  onClick={() => handleFormSubmit()}
+                >
                   <FontAwesomeIcon icon={faSearch} className="w-4 h-4 me-2" color="#ffffff" />
                   Search
                 </Button>
@@ -144,7 +156,7 @@ const LandingPage = () => {
               <Loader className="bg-white" />
             ) : (
               filteredProfiles
-                ?.filter((profile) => profile.role === "MEMBER" || "ADMIN")
+                ?.filter((profile) => !profile.userId.includes("login_pending_user"))
                 .map((profile) => (
                   <div className="individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3" key={profile.id}>
                     <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">

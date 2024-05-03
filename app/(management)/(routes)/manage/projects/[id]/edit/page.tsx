@@ -138,8 +138,6 @@ const EditProjectPage = () => {
     }
   }, [project]);
 
-  // console.log(project);
-
   // get values from text editor child component
   const handleMarkdownChange = (markdown: string) => {
     setMarkdownContent(markdown);
@@ -150,7 +148,6 @@ const EditProjectPage = () => {
     setIsEditing(true);
 
     values.content = markDownContent;
-    // values.description = values.description.replace(/\n/g, "<br />");
 
     // Convert date strings to Date objects
     values.startDate = new Date(values.startDate);
