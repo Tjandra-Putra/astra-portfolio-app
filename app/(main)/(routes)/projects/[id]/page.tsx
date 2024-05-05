@@ -22,6 +22,7 @@ import Experiences from "@/components/experiences";
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
 import { Editor } from "@/components/text-editors/blocknote-editor";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Project = () => {
   // get id from url
@@ -75,6 +76,12 @@ const Project = () => {
     <Loader />
   ) : (
     <React.Fragment>
+      <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm" onClick={() => window.history.back()}>
+        <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
+        Go Back
+      </Button>
+      {/* Next Button */}
+
       <section className="bg-ash rounded-lg p-6">
         <div className="company">
           <div className="flex mb-3">
@@ -107,7 +114,6 @@ const Project = () => {
           </div>
         </div>
       </section>
-
       <section>
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
           <div className="browser-bar bg-[#fbfbfb] w-full rounded-tl-lg rounded-tr-lg border-b border-gray-300 bg-opacity-60">

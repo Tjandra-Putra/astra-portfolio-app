@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faFolder } from "@fortawesome/free-solid-svg-icons";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
       <div className="flex items-center gap-4">
         <div className="avatar-border border-2 border-[#f0f1f3] p-2 rounded-full">
           <div className="avatar sm:h-14 sm:w-14 h-10 w-10 flex items-center justify-center bg-[#183153] text-[#ffffff] font-semibold rounded-full capitalize">
-            {data.workExperienceTitle[0]}
+            <FontAwesomeIcon icon={faFolder} />
           </div>
         </div>
         <div className="flex flex-col">
