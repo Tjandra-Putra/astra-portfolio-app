@@ -132,7 +132,7 @@ const Project = () => {
                 height={0}
                 sizes="100vw"
                 style={{ width: "100%", height: "auto" }} // optional
-                className="thumbnail-img w-full h-full rounded-lg"
+                className="thumbnail-img w-full h-full rounded-bl-lg rounded-br-lg"
               />
             </div>
           ) : (
