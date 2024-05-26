@@ -67,6 +67,43 @@ const Project = () => {
     } catch (error: any) {}
   };
 
+  const calculateDuration = (startDate: string, endDate: string): string => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const startYear = start.getFullYear();
+    const startMonth = start.getMonth();
+    const startDay = start.getDate();
+    const endYear = end.getFullYear();
+    const endMonth = end.getMonth();
+    const endDay = end.getDate();
+
+    let totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth);
+
+    if (endDay >= startDay) {
+      totalMonths++;
+    }
+
+    if (totalMonths === 1) {
+      return "1 month";
+    }
+
+    if (totalMonths < 12) {
+      return `${totalMonths} months`;
+    }
+
+    const years = Math.floor(totalMonths / 12);
+    const remainingMonths = totalMonths % 12;
+
+    if (remainingMonths === 0) {
+      return `${years} ${years === 1 ? "year" : "years"}`;
+    }
+
+    return `${years} ${years === 1 ? "year" : "years"}, ${remainingMonths} ${
+      remainingMonths === 1 ? "month" : "months"
+    }`;
+  };
+
   useEffect(() => {
     fetchProject();
     fetchUserProfile();
@@ -110,13 +147,40 @@ const Project = () => {
             <div className="text-black w-full">
               {new Date(project.startDate).toLocaleDateString("en-SG")} to{" "}
               {new Date(project.endDate).toLocaleDateString("en-SG")}
+              <br />
+              <Badge variant="navy" className="mt-2">
+                {calculateDuration(project.startDate, project.endDate)}
+              </Badge>
             </div>
           </div>
         </div>
       </section>
       <section>
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
-          <div className="browser-bar bg-[#fbfbfb] w-full rounded-tl-lg rounded-tr-lg border-b border-gray-300 bg-opacity-60">
+          {project?.thumbnailUrl ? (
+            <div className="image-wrapper overflow-y-scroll">
+              <Image
+                src={project?.thumbnailUrl}
+                alt={project?.name}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "100%", height: "auto" }} // optional
+                className="thumbnail-img w-full h-full rounded-lg"
+              />
+            </div>
+          ) : (
+            <div className="image-wrapper overflow-y-scroll">
+              <Image
+                src="/assets/image/pexels-fauxels-3183186.jpg"
+                alt={project?.name}
+                width={500}
+                height={500}
+                className="thumbnail-img w-full h-full"
+              />
+            </div>
+          )}
+          {/* <div className="browser-bar bg-[#fbfbfb] w-full rounded-tl-lg rounded-tr-lg border-b border-gray-300 bg-opacity-60">
             <div className="flex justify-end items-center h-6 mr-3">
               <div>
                 <div className="circle w-2 h-2 rounded-full mr-2 mt-1/2 bg-red-500"></div>
@@ -151,7 +215,7 @@ const Project = () => {
                 className="thumbnail-img w-full h-full"
               />
             </div>
-          )}
+          )} */}
         </div>
         <div className="title text-2xl font-semibold capitalize">{project?.name}</div>
         <div
@@ -200,4 +264,3 @@ const Project = () => {
 };
 
 export default Project;
-4;
