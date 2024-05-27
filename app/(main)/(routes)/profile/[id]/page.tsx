@@ -17,6 +17,8 @@ import axios from "axios";
 import { toast } from "sonner";
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css"; // optional
 
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
@@ -79,11 +81,12 @@ export default function Profile() {
                   className="sm:me-2" // Hide on screens larger than sm (small)
                   color="#183153"
                 />
-
-                <span className="hidden sm:block">
-                  {/* Available for Hire */}
-                  Astra Portfolio
-                </span>
+                <Tippy content={"Redirect to Home"} placement="bottom">
+                  <span className="hidden sm:block">
+                    {/* Available for Hire */}
+                    Astra Portfolio
+                  </span>
+                </Tippy>
               </Badge>
             </div>
           </Link>

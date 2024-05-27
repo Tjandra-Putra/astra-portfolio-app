@@ -22,6 +22,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import Loader from "@/components/layout/loader";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -29,6 +31,11 @@ const LandingPage = () => {
   const [filteredProfiles, setFilteredProfiles] = useState<any[]>([]); // New state for filtered profiles
   const [loading, setLoading] = useState<boolean>(false);
 
+  const userInfo = useSelector((state: any) => state.userReducer);
+  const router = useRouter();
+
+  console.log("userInfo", userInfo);
+  // get profile form redux
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
@@ -103,7 +110,7 @@ const LandingPage = () => {
               </Link>
             </SignedOut>
             <SignedIn>
-              <Button variant="navy" className="rounded-full">
+              <Button variant="navy" className="rounded-full" onClick={() => router.push(`/profile/${userInfo?.id}`)}>
                 Welcome Back
                 <FontAwesomeIcon icon={faSeedling} className="w-4 h-4 ms-2" color="#ffffff" />
               </Button>
