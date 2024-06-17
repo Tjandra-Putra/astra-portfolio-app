@@ -128,7 +128,7 @@ const CertificatePage = () => {
                     className={certificate.certificateImageUrl ? "flex-1" : "w-full"}
                   >
                     <Button variant={"ocean"} className="w-full sm:mt-6 mt-3 font-medium">
-                      View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
+                      View Source <FontAwesomeIcon icon={faLink} className="ml-2" />
                     </Button>
                   </Link>
                 )}
