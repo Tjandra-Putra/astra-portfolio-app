@@ -4,7 +4,15 @@ import React, { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { faAward, faCertificate, faChevronRight, faCircle, faKey, faLink } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faAward,
+  faCertificate,
+  faChevronRight,
+  faCircle,
+  faKey,
+  faLink,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import axios from "axios";
@@ -75,7 +83,11 @@ const CertificatePage = () => {
 
               <Separator className="sm:mt-6 mt-2" />
 
-              <Image
+              <iframe
+                src={certificate.certificateImageUrl}
+                className="w-full h-[47.5vh] sm:mt-6 mt-3 shadow-paper rounded-none"
+              />
+              {/* <Image
                 src={certificate.certificateImageUrl}
                 alt="certificate"
                 width={0}
@@ -83,7 +95,7 @@ const CertificatePage = () => {
                 sizes="100vw"
                 style={{ width: "100%", height: "auto" }} // optional
                 className="w-full sm:mt-6 mt-3 shadow-paper rounded-lg"
-              />
+              /> */}
 
               {certificate.certificateId && (
                 <div className="certificate-id flex justify-end">
@@ -93,13 +105,34 @@ const CertificatePage = () => {
                 </div>
               )}
 
-              {certificate.certificateUrl && (
-                <Link href={certificate.certificateUrl} target="_blank">
-                  <Button variant={"ash"} className="w-full sm:mt-6 mt-3 font-medium">
-                    View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
-                  </Button>
-                </Link>
-              )}
+              <div
+                className={`flex ${
+                  certificate.certificateImageUrl && certificate.certificateUrl ? "flex-row" : "flex-col"
+                } gap-4`}
+              >
+                {certificate.certificateImageUrl && (
+                  <Link
+                    href={certificate.certificateImageUrl}
+                    target="_blank"
+                    className={certificate.certificateUrl ? "flex-1" : "w-full"}
+                  >
+                    <Button variant={"sky"} className="w-full sm:mt-6 mt-3 font-medium">
+                      View PDF <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="ml-2" />
+                    </Button>
+                  </Link>
+                )}
+                {certificate.certificateUrl && (
+                  <Link
+                    href={certificate.certificateUrl}
+                    target="_blank"
+                    className={certificate.certificateImageUrl ? "flex-1" : "w-full"}
+                  >
+                    <Button variant={"ocean"} className="w-full sm:mt-6 mt-3 font-medium">
+                      View Certificate <FontAwesomeIcon icon={faLink} className="ml-2" />
+                    </Button>
+                  </Link>
+                )}
+              </div>
             </div>
           ))
         ) : (

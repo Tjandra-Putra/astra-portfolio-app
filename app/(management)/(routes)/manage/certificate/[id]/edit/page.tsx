@@ -133,7 +133,7 @@ const AddCertificatePage = () => {
                 {/* For mobile view, set the column spans to occupy the full width */}
                 <div className="col-span-12 sm:col-span-6">
                   <div className="leading-7 sm:text-start text-center mb-5">
-                    <Label htmlFor="picture">Certificate Image</Label>
+                    <Label htmlFor="picture">Certificate File (.pdf)</Label>
                     <div className="font-light text-sm">Recommended size: any</div>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ const AddCertificatePage = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <FileUpload endpoint="serverImage" value={field.value || ""} onChange={field.onChange} />
+                          <FileUpload endpoint="messageFile" value={field.value || ""} onChange={field.onChange} />
                         </FormControl>
                       </FormItem>
                     )}

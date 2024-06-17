@@ -186,8 +186,8 @@ const LandingPage = () => {
                       </div>
                       <Link href={`/profile/${profile.id}`}>
                         <Button variant={"navy"} className="sm:mt-0 mt-3 rounded-full">
-                          View Profile
-                          <FontAwesomeIcon icon={faMeteor} className="w-4 h-4 ms-2" />
+                          View
+                          <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ms-2" />
                         </Button>
                       </Link>
                     </div>
