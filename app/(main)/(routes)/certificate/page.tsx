@@ -83,7 +83,7 @@ const CertificatePage = () => {
 
               <Separator className="sm:mt-6 mt-2" />
 
-              <iframe
+              <embed
                 src={certificate.certificateImageUrl}
                 className="w-full h-[47.5vh] sm:mt-6 mt-3 shadow-paper rounded-none"
               />
