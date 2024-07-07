@@ -95,7 +95,7 @@ export default function Profile() {
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid md:grid-cols-12 gap-6 mb-6 text-center sm:text-left">
+          <div className="grid md:grid-cols-12 gap-6 sm:mb-0 mb-4 text-center sm:text-left">
             <div className="md:col-span-8 sm:order-first order-last">
               <div className="w-full">
                 <div className="name sm:text-4xl text-2xl font-medium">
@@ -142,6 +142,9 @@ export default function Profile() {
                       </Button>
                     </CopyToClipboard>
                   )}
+                </div>
+                <div className="text-sm mt-6 text-blue-600">
+                  Recently updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}
                 </div>
               </div>
             </div>
