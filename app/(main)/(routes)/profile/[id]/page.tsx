@@ -72,7 +72,7 @@ export default function Profile() {
               {profile?.jobTitle ? profile.jobTitle : "Self Employed"}
             </div>
           </div>
-          <Link href={"/home"}>
+          <Link href={"/"}>
             <div className="status uppercase tracking-wider text-end">
               <Badge variant={"diamond"} className="font-semibold">
                 <FontAwesomeIcon
