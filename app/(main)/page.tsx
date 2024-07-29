@@ -6,17 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  faArrowRight,
-  faArrowRightToBracket,
-  faCircle,
-  faMeteor,
-  faRightToBracket,
-  faRocket,
-  faSearch,
-  faSeedling,
-  faUserAstronaut,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faArrowRightToBracket, faCircle, faRocket, faSearch, faSeedling } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -24,35 +14,40 @@ import { toast } from "sonner";
 import Loader from "@/components/layout/loader";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Confetti from "react-confetti"; // Import Confetti component
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
   const [profiles, setProfiles] = useState<any[]>([]);
-  const [filteredProfiles, setFilteredProfiles] = useState<any[]>([]); // New state for filtered profiles
+  const [filteredProfiles, setFilteredProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [showConfetti, setShowConfetti] = useState<boolean>(true); // State to control confetti display
 
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
 
-  console.log("userInfo", userInfo);
-  // get profile form redux
+  useEffect(() => {
+    // Fetch profiles on page load
+    fetchProfiles();
+
+    // Automatically trigger confetti for demonstration
+    setTimeout(() => setShowConfetti(false), 4000); // Hide confetti after 3 seconds
+  }, []);
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  // Function to filter profiles based on search term
   const filterProfiles = (searchTerm: string) => {
     if (!searchTerm) {
-      setFilteredProfiles(profiles); // If search term is empty, show all profiles
+      setFilteredProfiles(profiles);
     } else {
       const filtered = profiles.filter((profile) => profile.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
       if (filtered.length === 0) {
         toast.error("No profiles found with the given search term.");
       } else {
         toast.success("Profiles found with the given search term.");
       }
-
       setFilteredProfiles(filtered);
     }
   };
@@ -64,11 +59,10 @@ const LandingPage = () => {
   const fetchProfiles = async () => {
     try {
       setLoading(true);
-
       const res = await fetch("/api/profile");
       const data = await res.json();
       setProfiles(data);
-      setFilteredProfiles(data); // Initialize filteredProfiles with all profiles
+      setFilteredProfiles(data);
     } catch (error) {
       console.error("[PROFILE_GET_ERROR]", error);
     } finally {
@@ -76,26 +70,11 @@ const LandingPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (filteredProfiles.length === 0) {
-  //     toast.error("No profiles found with the given search term.");
-  //   } else {
-  //     toast.success("Profiles found with the given search term.");
-  //   }
-  // }, [filteredProfiles]);
-
-  useEffect(() => {
-    fetchProfiles();
-  }, []);
-
   return (
     <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full">
       <div className="w-full sm:w-[570px]">
         <div className="min-h-[100vh] h-full shadow-paper bg-white rounded-xl sm:p-6 p-3">
-          <Badge
-            variant="sky"
-            className="text-base flex justify-between w-full rounded-lg sm:mb-6 mb-3 h-15 p-6 hover:bg-[#74c0fc]"
-          >
+          <Badge variant="sky" className="text-base flex justify-between w-full rounded-lg sm:mb-6 mb-3 h-15 p-6 hover:bg-[#74c0fc]">
             <div>
               <FontAwesomeIcon icon={faRocket} className="w-4 h-4 me-2" color="#183153" />
               Astra Portfolio
@@ -124,26 +103,19 @@ const LandingPage = () => {
               </div>
 
               <div className="sm:text-base text-sm text-center text-[#1d3554] sm:mt-6 mt-3 sm:mb-8 mb-5">
-                <span className="font-semibold">Astra Portfolio</span> offers a platform to showcase your projects,
-                experiences, and skills, enabling connections with like-minded individuals and sharing your journey
-                globally.
+                <span className="font-semibold">Astra Portfolio</span> offers a platform to showcase your projects, experiences, and skills, enabling
+                connections with like-minded individuals and sharing your journey globally.
               </div>
 
               <div className="flex flex-col gap-2">
                 <Input
-                  placeholder="
-                  Search for profiles by name"
+                  placeholder="Search for profiles by name"
                   className="w-full h-[45px] rounded-full text-center border-2 border-[#1d3554] text-[#1d3554]"
                   style={{ outline: "none" }}
                   onChange={(e) => handleSearch(e)}
                 />
 
-                <Button
-                  variant="navy"
-                  className="w-full h-[45px] rounded-full"
-                  size="lg"
-                  onClick={() => handleFormSubmit()}
-                >
+                <Button variant="navy" className="w-full h-[45px] rounded-full" size="lg" onClick={() => handleFormSubmit()}>
                   <FontAwesomeIcon icon={faSearch} className="w-4 h-4 me-2" color="#ffffff" />
                   Search
                 </Button>
@@ -195,6 +167,10 @@ const LandingPage = () => {
                 ))
             )}
           </div>
+
+          {/* Conditionally render Confetti */}
+          {showConfetti && <Confetti />}
+
           <Footer />
         </div>
       </div>
