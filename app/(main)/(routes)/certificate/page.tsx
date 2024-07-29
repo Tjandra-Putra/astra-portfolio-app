@@ -4,15 +4,7 @@ import React, { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  faArrowUpRightFromSquare,
-  faAward,
-  faCertificate,
-  faChevronRight,
-  faCircle,
-  faKey,
-  faLink,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faAward, faCertificate, faChevronRight, faCircle, faKey, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import axios from "axios";
@@ -72,9 +64,7 @@ const CertificatePage = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="certification-title font-semibold text-xs sm:text-base">{certificate.title}</div>
-                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base">
-                    {certificate.issueingOrganisation}
-                  </div>
+                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base">{certificate.issueingOrganisation}</div>
                   <div className="duration text-gray-500 font-normal text-xs sm:text-base">
                     Issued on {new Date(certificate.issuedDate).toLocaleDateString("en-SG")}
                   </div>
@@ -85,9 +75,10 @@ const CertificatePage = () => {
 
               <iframe
                 src={certificate.certificateImageUrl}
-                className="w-full h-[47.5vh] sm:mt-6 mt-3 shadow-paper rounded-none"
+                className="w-full h-[47.5vh] sm:h-[48vh] mt-3 shadow-paper rounded-none transform scale-100 origin-top-left"
                 allowFullScreen
-                />
+              />
+
               {/* <Image
                 src={certificate.certificateImageUrl}
                 alt="certificate"
@@ -106,28 +97,16 @@ const CertificatePage = () => {
                 </div>
               )}
 
-              <div
-                className={`flex ${
-                  certificate.certificateImageUrl && certificate.certificateUrl ? "flex-row" : "flex-col"
-                } gap-4`}
-              >
+              <div className={`flex ${certificate.certificateImageUrl && certificate.certificateUrl ? "flex-row" : "flex-col"} gap-4`}>
                 {certificate.certificateImageUrl && (
-                  <Link
-                    href={certificate.certificateImageUrl}
-                    target="_blank"
-                    className={certificate.certificateUrl ? "flex-1" : "w-full"}
-                  >
+                  <Link href={certificate.certificateImageUrl} target="_blank" className={certificate.certificateUrl ? "flex-1" : "w-full"}>
                     <Button variant={"sky"} className="w-full sm:mt-6 mt-3 font-medium">
                       View PDF <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="ml-2" />
                     </Button>
                   </Link>
                 )}
                 {certificate.certificateUrl && (
-                  <Link
-                    href={certificate.certificateUrl}
-                    target="_blank"
-                    className={certificate.certificateImageUrl ? "flex-1" : "w-full"}
-                  >
+                  <Link href={certificate.certificateUrl} target="_blank" className={certificate.certificateImageUrl ? "flex-1" : "w-full"}>
                     <Button variant={"ocean"} className="w-full sm:mt-6 mt-3 font-medium">
                       View Source <FontAwesomeIcon icon={faLink} className="ml-2" />
                     </Button>
