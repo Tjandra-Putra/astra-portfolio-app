@@ -19,6 +19,7 @@ import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
+import confetti from "canvas-confetti"; // Import canvas-confetti
 
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
@@ -60,7 +61,23 @@ export default function Profile() {
     if (id) {
       fetchProfile();
     }
+
+    // Automatically trigger confetti for demonstration
+    triggerConfetti();
+    setTimeout(() => stopConfetti(), 4000); // Hide confetti after 4 seconds
   }, [id]);
+
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 400,
+      spread: 130,
+      origin: { y: 0.3 },
+    });
+  };
+
+  const stopConfetti = () => {
+    confetti.reset();
+  };
 
   return (
     <>
@@ -68,9 +85,7 @@ export default function Profile() {
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800">
-              {profile?.jobTitle ? profile.jobTitle : "Self Employed"}
-            </div>
+            <div className="job-title font-medium text-gray-800">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
           </div>
           <Link href={"/"}>
             <div className="status uppercase tracking-wider text-end">
@@ -99,13 +114,10 @@ export default function Profile() {
             <div className="md:col-span-8 sm:order-first order-last">
               <div className="w-full">
                 <div className="name sm:text-4xl text-2xl font-medium">
-                  Hi, I&apos;m{" "}
-                  <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
+                  Hi, I&apos;m <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
                 </div>
                 <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base">
-                  {profile?.bio
-                    ? profile.bio
-                    : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
+                  {profile?.bio ? profile.bio : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
                 </div>
                 <div className="buttons mt-6 space-x-3">
                   {profile?.resumeUrl ? (
@@ -143,9 +155,7 @@ export default function Profile() {
                     </CopyToClipboard>
                   )}
                 </div>
-                <div className="text-sm mt-6 text-blue-600">
-                  Recently updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}
-                </div>
+                <div className="text-sm mt-6 text-blue-600">Recently updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}</div>
               </div>
             </div>
             <div className="md:col-span-4 flex items-center justify-center">
