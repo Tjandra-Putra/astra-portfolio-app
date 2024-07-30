@@ -64,15 +64,39 @@ export default function Profile() {
 
     // Automatically trigger confetti for demonstration
     triggerConfetti();
-    setTimeout(() => stopConfetti(), 4000); // Hide confetti after 4 seconds
   }, [id]);
 
   const triggerConfetti = () => {
-    confetti({
-      particleCount: 400,
-      spread: 130,
-      origin: { y: 0.3 },
-    });
+    var end = Date.now() + 1 * 1000;
+
+    // go Buckeyes!
+    var colors = ["#bb0000", "#ffffff"];
+
+    (function frame() {
+      confetti({
+        particleCount: 2,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: colors,
+      });
+      confetti({
+        particleCount: 2,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: colors,
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+    // confetti({
+    //   particleCount: 400,
+    //   spread: 130,
+    //   origin: { y: 0.3 },
+    // });
   };
 
   const stopConfetti = () => {
