@@ -14,14 +14,13 @@ import { toast } from "sonner";
 import Loader from "@/components/layout/loader";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import Confetti from "react-confetti"; // Import Confetti component
+import confetti from "canvas-confetti"; // Import canvas-confetti
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
   const [profiles, setProfiles] = useState<any[]>([]);
   const [filteredProfiles, setFilteredProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [showConfetti, setShowConfetti] = useState<boolean>(true); // State to control confetti display
 
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
@@ -31,7 +30,8 @@ const LandingPage = () => {
     fetchProfiles();
 
     // Automatically trigger confetti for demonstration
-    setTimeout(() => setShowConfetti(false), 4000); // Hide confetti after 3 seconds
+    triggerConfetti();
+    setTimeout(() => stopConfetti(), 4000); // Hide confetti after 4 seconds
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +68,18 @@ const LandingPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 400,
+      spread: 130,
+      origin: { y: 0.3 },
+    });
+  };
+
+  const stopConfetti = () => {
+    confetti.reset();
   };
 
   return (
@@ -167,9 +179,6 @@ const LandingPage = () => {
                 ))
             )}
           </div>
-
-          {/* Conditionally render Confetti */}
-          {showConfetti && <Confetti />}
 
           <Footer />
         </div>
