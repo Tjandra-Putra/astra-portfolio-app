@@ -27,11 +27,11 @@ const LandingPage = () => {
 
   useEffect(() => {
     // Fetch profiles on page load
-    fetchProfiles();
-
-    // Automatically trigger confetti for demonstration
-    triggerConfetti();
-    setTimeout(() => stopConfetti(), 4000); // Hide confetti after 4 seconds
+    fetchProfiles().then(() => {
+      // Automatically trigger confetti for demonstration
+      triggerConfetti();
+      setTimeout(() => stopConfetti(), 4000); // Hide confetti after 4 seconds
+    });
   }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +73,7 @@ const LandingPage = () => {
   const triggerConfetti = () => {
     confetti({
       particleCount: 400,
-      spread: 130,
+      spread: 150,
       origin: { y: 0.3 },
     });
   };
