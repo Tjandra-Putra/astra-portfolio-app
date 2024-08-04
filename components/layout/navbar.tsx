@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
     >
       <div className="nav-left flex gap-3">
         <Link href={`/profile/${userInfo?.id}`} className="nav-item">
-          <TooltipProvider>
+          <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant={getButtonVariant(`/profile/${userInfo?.id}`)}>
@@ -101,7 +101,7 @@ const Navbar: React.FC = () => {
           </TooltipProvider>
         </Link>
         <Link href="/about" className="nav-item">
-          <TooltipProvider>
+          <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant={getButtonVariant("/about")}>
@@ -116,7 +116,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         <Link href="/certificate" className="nav-item">
-          <TooltipProvider>
+          <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant={getButtonVariant("/certificate")}>
@@ -131,7 +131,7 @@ const Navbar: React.FC = () => {
         </Link>
 
         <Link href="/education" className="nav-item">
-          <TooltipProvider>
+          <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant={getButtonVariant("/education")}>
@@ -147,7 +147,7 @@ const Navbar: React.FC = () => {
 
         {/* {userInfo?.workEmail ? (
           <Link href={`mailto:${userInfo?.workEmail}`} className={"me-3"}>
-            <TooltipProvider>
+            <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ash">
@@ -162,7 +162,7 @@ const Navbar: React.FC = () => {
           </Link>
         ) : (
           <Link href={`mailto:${userInfo?.email}`} className={"me-3"}>
-            <TooltipProvider>
+            <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ash">
@@ -179,7 +179,7 @@ const Navbar: React.FC = () => {
 
         <SignedIn>
           <Link href="/manage" className="nav-item">
-            <TooltipProvider>
+            <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant={getButtonVariant("/manage")}>
@@ -193,7 +193,7 @@ const Navbar: React.FC = () => {
             </TooltipProvider>
           </Link>
           <div className="nav-item">
-            <TooltipProvider>
+            <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="ash">
