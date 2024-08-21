@@ -14,9 +14,10 @@ interface ExperiencesProps {
   title?: string;
   showAll?: boolean;
   detailedPage?: boolean;
+  currentExperienceId?: string | string[];
 }
 
-const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage }) => {
+const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage, currentExperienceId }) => {
   const [projects, setProjects] = useState<any[]>([]);
   const [allProjects, setAllProjects] = useState<any[]>([]);
 
@@ -45,7 +46,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
   }, [userInfo]);
 
   const projectsToDisplay = showAll
-    ? projects.filter((project) => project.isWorkExperience && project.visible)
+    ? projects.filter((project) => project.isWorkExperience && project.visible && project.id !== currentExperienceId)
     : projects.filter((project) => project.isWorkExperience && project.visible).slice(0, 3);
 
   return loading ? (
@@ -58,9 +59,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">
-              {title || `Experiences (${allProjects?.length})`}
-            </div>
+            <div className="font-medium text-gray-800 sm:text-lg text-base">{title || `Experiences (${allProjects?.length})`}</div>
           </div>
           <Link href={"/experiences"}>
             <Button variant="white">
@@ -72,9 +71,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage 
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">
-              All Experiences ({allProjects?.length})
-            </div>
+            <div className="font-medium text-gray-800 sm:text-lg text-base">All Experiences ({allProjects?.length})</div>
           </div>
         </div>
       ) : null}

@@ -22,7 +22,7 @@ import Experiences from "@/components/experiences";
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
 import { Editor } from "@/components/text-editors/blocknote-editor";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const Project = () => {
   // get id from url
@@ -99,9 +99,7 @@ const Project = () => {
       return `${years} ${years === 1 ? "year" : "years"}`;
     }
 
-    return `${years} ${years === 1 ? "year" : "years"}, ${remainingMonths} ${
-      remainingMonths === 1 ? "month" : "months"
-    }`;
+    return `${years} ${years === 1 ? "year" : "years"}, ${remainingMonths} ${remainingMonths === 1 ? "month" : "months"}`;
   };
 
   useEffect(() => {
@@ -113,11 +111,17 @@ const Project = () => {
     <Loader />
   ) : (
     <React.Fragment>
-      <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm" onClick={() => window.history.back()}>
-        <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
-        Go Back
-      </Button>
-      {/* Next Button */}
+      <div className="flex justify-between">
+        <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm" onClick={() => window.history.back()}>
+          <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
+          Previous
+        </Button>
+        {/* Next Button */}
+        {/* <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm">
+          Next
+          <FontAwesomeIcon icon={faArrowRight} className="ms-2" />
+        </Button> */}
+      </div>
 
       <section className="bg-ash rounded-lg p-6">
         <div className="company">
@@ -145,8 +149,7 @@ const Project = () => {
           <div className="flex">
             <div className="text-[#000000] w-36 font-semibold">Date</div>
             <div className="text-black w-full">
-              {new Date(project.startDate).toLocaleDateString("en-SG")} to{" "}
-              {new Date(project.endDate).toLocaleDateString("en-SG")}
+              {new Date(project.startDate).toLocaleDateString("en-SG")} to {new Date(project.endDate).toLocaleDateString("en-SG")}
               <br />
               <Badge variant="navy" className="mt-2">
                 {calculateDuration(project.startDate, project.endDate)}
@@ -180,48 +183,9 @@ const Project = () => {
               />
             </div>
           )}
-          {/* <div className="browser-bar bg-[#fbfbfb] w-full rounded-tl-lg rounded-tr-lg border-b border-gray-300 bg-opacity-60">
-            <div className="flex justify-end items-center h-6 mr-3">
-              <div>
-                <div className="circle w-2 h-2 rounded-full mr-2 mt-1/2 bg-red-500"></div>
-              </div>
-              <div>
-                <div className="circle w-2 h-2 rounded-full mr-2 mt-1/2 bg-orange-500"></div>
-              </div>
-              <div>
-                <div className="circle w-2 h-2 rounded-full mr-2 mt-1/2 bg-green-500"></div>
-              </div>
-            </div>
-          </div>
-          {project?.thumbnailUrl ? (
-            <div className="image-wrapper overflow-y-scroll sm:max-h-[50vh] max-h-[30vh]">
-              <Image
-                src={project?.thumbnailUrl}
-                alt={project?.name}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: "100%", height: "auto" }} // optional
-                className="thumbnail-img w-full h-full rounded-bl-lg rounded-br-lg"
-              />
-            </div>
-          ) : (
-            <div className="image-wrapper overflow-y-scroll">
-              <Image
-                src="/assets/image/pexels-fauxels-3183186.jpg"
-                alt={project?.name}
-                width={500}
-                height={500}
-                className="thumbnail-img w-full h-full"
-              />
-            </div>
-          )} */}
         </div>
         <div className="title text-2xl font-semibold capitalize">{project?.name}</div>
-        <div
-          className="description my-3 leading-6 whitespace-pre-wrap"
-          dangerouslySetInnerHTML={{ __html: project?.description || "" }}
-        />
+        <div className="description my-3 leading-6 whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: project?.description || "" }} />
         <div className="buttons flex flex-row justify-end">
           <Button className="mr-3" variant={"navy"} disabled={!project?.projectUrl}>
             <Link href={project ? project.projectUrl : ""} target="_blank">
@@ -254,9 +218,9 @@ const Project = () => {
         <Separator className="my-6" />
 
         {project?.isWorkExperience ? (
-          <Experiences title="Other Experiences" showAll={true} detailedPage={true} />
+          <Experiences title="Other Experiences" showAll={true} detailedPage={true} currentExperienceId={projectId} />
         ) : (
-          <Projects title="Other Projects" showAll={true} detailedPage={true} />
+          <Projects title="Other Projects" showAll={true} detailedPage={true} currentProjectId={projectId} />
         )}
       </section>
     </React.Fragment>
