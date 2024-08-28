@@ -201,11 +201,11 @@ const Project = () => {
           </Button>
         </div>
 
-        <Separator className="my-6" />
+        <Separator className="mt-6 mb-3" />
 
-        <Editor initialContent={project?.content} editable={false} />
+        {project?.content ? <Editor initialContent={project?.content} editable={false} /> : null}
 
-        <div className="badges flex flex-row flex-wrap gap-3 my-6">
+        <div className="badges flex flex-row flex-wrap gap-3">
           {project.tags
             ? project.tags.split(",").map((tag: string, index: number) => (
                 <Badge key={index} variant="navy">
