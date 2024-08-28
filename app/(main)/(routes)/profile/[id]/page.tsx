@@ -176,7 +176,7 @@ export default function Profile() {
                     </CopyToClipboard>
                   )}
                 </div>
-                <div className="text-sm mt-6 text-blue-600">Last updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}</div>
+                <div className="text-sm mt-6 text-blue-500">Last updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}</div>
               </div>
             </div>
             <div className="md:col-span-4 flex items-center justify-center">

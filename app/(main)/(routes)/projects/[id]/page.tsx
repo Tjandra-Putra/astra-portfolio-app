@@ -201,9 +201,9 @@ const Project = () => {
           </Button>
         </div>
 
-        <Separator className="mt-6 mb-3" />
+        <Separator className="mt-6 mb-6" />
 
-        {project?.content ? <Editor initialContent={project?.content} editable={false} /> : null}
+        {project?.content?.length > 351 ? <Editor initialContent={project?.content} editable={false} /> : null}
 
         <div className="badges flex flex-row flex-wrap gap-3">
           {project.tags
