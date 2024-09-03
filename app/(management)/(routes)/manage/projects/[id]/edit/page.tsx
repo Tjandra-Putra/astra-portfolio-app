@@ -10,7 +10,7 @@ import * as z from "zod";
 import { useParams, useRouter } from "next/navigation";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -182,6 +182,13 @@ const EditProjectPage = () => {
 
   return (
     <React.Fragment>
+      <div className="flex justify-between">
+        <Button className="sm:mb-3 mb-3" variant={"secondary"} size="sm" onClick={() => window.history.back()}>
+          <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
+          Previous
+        </Button>
+      </div>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex items-center gap-2 mb-3">
@@ -189,14 +196,9 @@ const EditProjectPage = () => {
             <div className="job-title font-medium text-gray-800 text-lg">Edit Project </div>
           </div>
 
-          <div className="text-gray-800 font-normal">
-            Add a project to your portfolio. This will be displayed on your profile page.
-          </div>
+          <div className="text-gray-800 font-normal">Add a project to your portfolio. This will be displayed on your profile page.</div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Introduction
           </Badge>
 
@@ -270,12 +272,7 @@ const EditProjectPage = () => {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="E.g This project aims to ..."
-                        className="resize-none whitespace-pre-line"
-                        rows={10}
-                        {...field}
-                      />
+                      <Textarea placeholder="E.g This project aims to ..." className="resize-none whitespace-pre-line" rows={10} {...field} />
                     </FormControl>
                     <FormDescription>This is a summary of what your project is about.</FormDescription>
                     <FormMessage />
@@ -285,10 +282,7 @@ const EditProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Details
           </Badge>
 
@@ -329,10 +323,7 @@ const EditProjectPage = () => {
                             <FormControl>
                               <Button
                                 variant={"outline"}
-                                className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
+                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                               >
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -361,10 +352,7 @@ const EditProjectPage = () => {
                             <FormControl>
                               <Button
                                 variant={"outline"}
-                                className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
+                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                               >
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -387,12 +375,9 @@ const EditProjectPage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">
-                    Your project is visible to everyone{" "}
-                    <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                    Your project is visible to everyone <span className="text-sm text-gray-600 font-light">(Optional)</span>
                   </Label>
-                  <div className="text-sm text-gray-600 font-light">
-                    Turning on this option will hide this project from your profile.
-                  </div>
+                  <div className="text-sm text-gray-600 font-light">Turning on this option will hide this project from your profile.</div>
                 </div>
                 <div>
                   <FormField
@@ -414,9 +399,7 @@ const EditProjectPage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">Is this a work experience?</Label>
-                  <div className="text-sm text-gray-600 font-light">
-                    Turning on this option will consider this project as a work experience.
-                  </div>
+                  <div className="text-sm text-gray-600 font-light">Turning on this option will consider this project as a work experience.</div>
                 </div>
                 <div>
                   <FormField
@@ -457,10 +440,7 @@ const EditProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Links
           </Badge>
 
@@ -510,10 +490,7 @@ const EditProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Tags
           </Badge>
           <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
@@ -537,10 +514,7 @@ const EditProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-between mt-7 rounded-lg rounded-bl-none rounded-br-none flex "
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-between mt-7 rounded-lg rounded-bl-none rounded-br-none flex ">
             Main Content
           </Badge>
 

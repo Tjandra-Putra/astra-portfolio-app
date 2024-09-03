@@ -116,11 +116,6 @@ const Project = () => {
           <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
           Previous
         </Button>
-        {/* Next Button */}
-        {/* <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm">
-          Next
-          <FontAwesomeIcon icon={faArrowRight} className="ms-2" />
-        </Button> */}
       </div>
 
       <section className="bg-ash rounded-lg p-6">
