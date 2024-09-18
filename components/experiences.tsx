@@ -53,28 +53,27 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3">
-      {projectsToDisplay.length === 0 && !loading ? (
-        "No project experiences available."
-      ) : !showAll ? (
+      {loading ? (
+        <Loader /> // Show your loading component here
+      ) : projectsToDisplay?.length === 0 ? (
+        <div>No project experiences available.</div>
+      ) : (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">{title || `Experiences (${allProjects?.length})`}</div>
+            <div className="font-medium text-gray-800 sm:text-lg text-base">
+              {showAll || detailedPage ? `All Experiences (${allProjects?.length})` : title || `Experiences (${projectsToDisplay.length})`}
+            </div>
           </div>
-          <Link href={"/experiences"}>
-            <Button variant="white">
-              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
-            </Button>
-          </Link>
+          {!showAll && (
+            <Link href={"/experiences"}>
+              <Button variant="white">
+                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+              </Button>
+            </Link>
+          )}
         </div>
-      ) : !showAll || !detailedPage ? (
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">All Experiences ({allProjects?.length})</div>
-          </div>
-        </div>
-      ) : null}
+      )}
 
       {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
       {detailedPage && (

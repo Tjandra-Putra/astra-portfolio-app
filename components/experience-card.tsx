@@ -23,7 +23,7 @@ const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
             {data.company && (
               <Badge variant="ocean" className="text-xs font-semibold">
                 {data.company}
-              </Badge>
+              </Badge>  
             )}
           </div>
         </div>

@@ -67,33 +67,31 @@ export default function Profile() {
   }, [id]);
 
   const triggerConfetti = () => {
-    // var end = Date.now() + 1 * 600;
-    // // go Buckeyes!
-    // var colors = ["#bb0000", "#ffffff"];
-    // (function frame() {
-    //   confetti({
-    //     particleCount: 7,
-    //     angle: 60,
-    //     spread: 50,
-    //     origin: { x: 0 },
-    //     // colors: colors,
-    //   });
-    //   confetti({
-    //     particleCount: 7,
-    //     angle: 120,
-    //     spread: 50,
-    //     origin: { x: 1 },
-    //     // colors: colors,
-    //   });
-    //   if (Date.now() < end) {
-    //     requestAnimationFrame(frame);
-    //   }
-    // })();
-    confetti({
-      particleCount: 400,
-      spread: 150,
-      origin: { y: 0.3 },
-    });
+    var end = Date.now() + 1 * 600;
+    // go Buckeyes!
+    var colors = ["#bb0000", "#ffffff"];
+    (function frame() {
+      confetti({
+        particleCount: 7,
+        angle: 60,
+        spread: 50,
+        origin: { x: 0 },
+      });
+      confetti({
+        particleCount: 7,
+        angle: 120,
+        spread: 50,
+        origin: { x: 1 },
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+    // confetti({
+    //   particleCount: 400,
+    //   spread: 150,
+    //   origin: { y: 0.3 },
+    // });
   };
 
   const stopConfetti = () => {

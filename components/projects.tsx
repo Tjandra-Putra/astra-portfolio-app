@@ -54,28 +54,27 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg">
-      {projectsToDisplay.length === 0 && !loading ? (
-        "No projects available."
-      ) : !showAll ? (
+      {loading ? (
+        <Loader /> // Show your loading component here
+      ) : projectsToDisplay?.length === 0 ? (
+        <div>No projects available.</div>
+      ) : (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">{title || `Projects (${allProjects?.length})`}</div>
+            <div className="font-medium text-gray-800 sm:text-lg text-base">
+              {showAll || detailedPage ? `All Projects (${allProjects?.length})` : title || `Projects (${projectsToDisplay.length})`}
+            </div>
           </div>
-          <Link href={"/projects"}>
-            <Button variant="white">
-              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
-            </Button>
-          </Link>
+          {!showAll && (
+            <Link href={"/projects"}>
+              <Button variant="white">
+                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+              </Button>
+            </Link>
+          )}
         </div>
-      ) : !showAll || !detailedPage ? (
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">All Projects ({allProjects?.length})</div>
-          </div>
-        </div>
-      ) : null}
+      )}
 
       {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
       {detailedPage && (
