@@ -59,10 +59,11 @@ export default function Profile() {
 
   useEffect(() => {
     if (id) {
-      fetchProfile().then(() => {
-        // Automatically trigger confetti for demonstration
-        triggerConfetti();
-      });
+      fetchProfile();
+      // .then(() => {
+      //   // Automatically trigger confetti for demonstration
+      //   triggerConfetti();
+      // });
     }
   }, [id]);
 
