@@ -215,7 +215,7 @@ const Project = () => {
         {project?.isWorkExperience ? (
           <Experiences title="Other Experiences" showAll={true} detailedPage={true} currentExperienceId={projectId} />
         ) : (
-          <Projects title="Other Projects" showAll={true} detailedPage={true} currentProjectId={projectId} />
+          <Projects title="Other Projects" showAll={true} detailedPage={false} currentProjectId={projectId} />
         )}
       </section>
     </React.Fragment>
