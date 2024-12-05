@@ -53,7 +53,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3">
-      {projectsToDisplay?.length === 0 ? (
+      {projectsToDisplay?.length === 0 && !loading ? (
         <div>No project experiences available.</div>
       ) : (
         <div className="flex justify-between">

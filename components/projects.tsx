@@ -54,7 +54,7 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg">
-      {projectsToDisplay?.length === 0 ? (
+      {projectsToDisplay?.length === 0 && !loading ? (
         <div>No projects available.</div>
       ) : (
         <div className="flex justify-between">
