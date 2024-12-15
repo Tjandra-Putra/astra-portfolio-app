@@ -5,7 +5,7 @@ const Footer = () => {
         <span className="text-white">© 2023 Astra Portfolio</span>
         <br />
         <a href="https://www.linkedin.com/in/tjandra-putra/" target="_blank" className="font-semibold">
-          Developed by <a>Tjandra</a>
+          Developed by Tjandra
         </a>
       </div>
     </div>

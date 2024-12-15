@@ -42,7 +42,9 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
   };
 
   useEffect(() => {
-    fetchProjects();
+    if (userInfo?.id) {
+      fetchProjects();
+    }
   }, [userInfo]);
 
   const projectsToDisplay = showAll
@@ -53,14 +55,14 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3">
-      {projectsToDisplay?.length === 0 && !loading ? (
+      {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
         <div>No project experiences available.</div>
       ) : (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="font-medium text-gray-800 sm:text-lg text-base">
-              {showAll || detailedPage ? `All Experiences (${allProjects?.length})` : title || `Experiences (${projectsToDisplay.length})`}
+              {showAll || detailedPage ? `Other Experiences (${allProjects?.length - 1})` : title || `Experiences (${projectsToDisplay.length})`}
             </div>
           </div>
           {!showAll && (

@@ -23,6 +23,7 @@ import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
 import { Editor } from "@/components/text-editors/blocknote-editor";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { calculateDuration } from "@/lib/format-date";
 
 const Project = () => {
   // get id from url
@@ -35,6 +36,7 @@ const Project = () => {
   const [profile, setProfile] = useState<any>();
   const [project, setProject] = useState<any>();
   const [loading, setLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(true);
 
   const fetchProject = async () => {
     try {
@@ -65,41 +67,6 @@ const Project = () => {
         })
       );
     } catch (error: any) {}
-  };
-
-  const calculateDuration = (startDate: string, endDate: string): string => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    const startYear = start.getFullYear();
-    const startMonth = start.getMonth();
-    const startDay = start.getDate();
-    const endYear = end.getFullYear();
-    const endMonth = end.getMonth();
-    const endDay = end.getDate();
-
-    let totalMonths = (endYear - startYear) * 12 + (endMonth - startMonth);
-
-    if (endDay >= startDay) {
-      totalMonths++;
-    }
-
-    if (totalMonths === 1) {
-      return "1 month";
-    }
-
-    if (totalMonths < 12) {
-      return `${totalMonths} months`;
-    }
-
-    const years = Math.floor(totalMonths / 12);
-    const remainingMonths = totalMonths % 12;
-
-    if (remainingMonths === 0) {
-      return `${years} ${years === 1 ? "year" : "years"}`;
-    }
-
-    return `${years} ${years === 1 ? "year" : "years"}, ${remainingMonths} ${remainingMonths === 1 ? "month" : "months"}`;
   };
 
   useEffect(() => {
@@ -155,16 +122,23 @@ const Project = () => {
       </section>
       <section>
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
+          {loadingImage && (
+            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg">
+              <Loader />
+            </div>
+          )}
           {project?.thumbnailUrl ? (
             <div className="image-wrapper overflow-y-scroll">
               <Image
                 src={project?.thumbnailUrl}
                 alt={project?.name}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: "100%", height: "auto" }} // optional
-                className="thumbnail-img w-full h-full rounded-lg"
+                width={800}
+                height={450}
+                layout="responsive"
+                priority={true}
+                onLoad={() => setLoadingImage(false)}
+                onError={() => setLoadingImage(false)}
+                className={`thumbnail-img w-full h-full rounded-lg ${loadingImage ? "hidden" : ""}`}
               />
             </div>
           ) : (
@@ -172,13 +146,17 @@ const Project = () => {
               <Image
                 src="/assets/image/pexels-fauxels-3183186.jpg"
                 alt={project?.name}
-                width={500}
-                height={500}
-                className="thumbnail-img w-full h-full"
+                width={800}
+                height={450}
+                layout="responsive"
+                onLoad={() => setLoadingImage(false)}
+                onError={() => setLoadingImage(false)}
+                className={`thumbnail-img w-full h-full ${loadingImage ? "hidden" : ""}`}
               />
             </div>
           )}
         </div>
+
         <div className="title text-2xl font-semibold capitalize">{project?.name}</div>
         <div className="description my-3 leading-6 whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: project?.description || "" }} />
         <div className="buttons flex flex-row justify-end">
@@ -213,7 +191,7 @@ const Project = () => {
         <Separator className="my-6" />
 
         {project?.isWorkExperience ? (
-          <Experiences title="Other Experiences" showAll={true} detailedPage={true} currentExperienceId={projectId} />
+          <Experiences title="Other Experiences" showAll={true} detailedPage={false} currentExperienceId={projectId} />
         ) : (
           <Projects title="Other Projects" showAll={true} detailedPage={false} currentProjectId={projectId} />
         )}

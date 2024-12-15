@@ -196,8 +196,7 @@ export default function Profile() {
         )}
       </section>
 
-      <Projects showAll={false} />
-
+      <Projects />
       <Experiences />
     </>
   );

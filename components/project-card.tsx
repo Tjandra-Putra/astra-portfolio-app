@@ -28,14 +28,14 @@ const ProjectCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
               displayedTags.some((tag: string) => tag.trim() !== "") &&
               displayedTags.map((tag: string, index: number) => (
                 <div key={index} className="project-tags">
-                  <Badge variant="secondary" className="text-xs font-normal">
+                  <Badge variant="secondary" className="text-xs font-semibold">
                     {tag}
                   </Badge>
                 </div>
               ))}
             {data.tags.split(",").length > 3 && (
               <div className="project-tags">
-                <Badge variant="secondary" className="text-xs font-normal">
+                <Badge variant="secondary" className="text-xs font-semibold">
                   ...
                 </Badge>
               </div>

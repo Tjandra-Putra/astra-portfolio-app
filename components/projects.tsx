@@ -43,7 +43,9 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
   };
 
   useEffect(() => {
-    fetchProjects();
+    if (userInfo?.id) {
+      fetchProjects();
+    }
   }, [userInfo]);
 
   const filteredProjects = projects.filter((project) => !project.isWorkExperience && project.visible && project.id !== currentProjectId);
@@ -54,14 +56,14 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
     <Loader />
   ) : (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg">
-      {projectsToDisplay?.length === 0 && !loading ? (
+      {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
         <div>No projects available.</div>
       ) : (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="font-medium text-gray-800 sm:text-lg text-base">
-              {showAll || detailedPage ? `All Projects (${allProjects?.length})` : title || `Projects (${filteredProjects.length})`}
+              {showAll || detailedPage ? `Other Projects (${allProjects?.length - 1})` : title || `Projects (${filteredProjects.length})`}
             </div>
           </div>
           {!showAll && (

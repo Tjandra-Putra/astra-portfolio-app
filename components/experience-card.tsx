@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faFolder } from "@fortawesome/free-solid-svg-icons";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
+import { calculateDuration, formatDate, formatDateRange } from "@/lib/format-date";
 
 interface ProjectCardComponentProps {
   data: { [key: string]: any };
@@ -21,10 +22,17 @@ const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
           <div className="project-title text-gray-800 font-medium sm:text-lg text-base leading-5 mb-1">{data.workExperienceTitle}</div>
           <div className="flex flex-wrap gap-2 mt-1 capitalize">
             {data.company && (
-              <Badge variant="ocean" className="text-xs font-semibold">
+              <Badge variant="navy" className="text-xs font-semibold">
                 {data.company}
-              </Badge>  
+              </Badge>
             )}
+            {/* work duration in months */}
+            {/* <Badge variant="sky" className="text-xs font-semibold">
+              {calculateDuration(data.startDate, data.endDate)}
+            </Badge> */}
+            <Badge variant="secondary" className="text-xs font-semibold">
+              {`${formatDateRange(data.startDate, data.endDate)}`}
+            </Badge>
           </div>
         </div>
       </div>
