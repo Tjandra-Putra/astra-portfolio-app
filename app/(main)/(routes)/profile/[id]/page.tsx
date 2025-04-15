@@ -35,8 +35,12 @@ export default function Profile() {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-
       const response = await axios.get(`/api/profile/${id}`);
+
+      if (!response?.data?.id) {
+        throw new Error("Invalid profile data: missing user ID");
+      }
+
       setProfile(response.data);
 
       // redux
@@ -51,7 +55,8 @@ export default function Profile() {
         })
       );
     } catch (error: any) {
-      console.error("Error fetching data:", error.response);
+      console.error("Error fetching data:", error?.response || error.message);
+      toast.error("Unable to load profile. Please try again later.");
     } finally {
       setLoading(false);
     }

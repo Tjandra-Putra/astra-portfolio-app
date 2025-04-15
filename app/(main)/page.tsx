@@ -101,7 +101,17 @@ const LandingPage = () => {
               </Link>
             </SignedOut>
             <SignedIn>
-              <Button variant="navy" className="rounded-full" onClick={() => router.push(`/profile/${userInfo?.id}`)}>
+              <Button
+                variant="navy"
+                className="rounded-full"
+                onClick={() => {
+                  if (userInfo?.id) {
+                    router.push(`/profile/${userInfo.id}`);
+                  } else {
+                    toast.error("User ID not found.");
+                  }
+                }}
+              >
                 Welcome Back
                 <FontAwesomeIcon icon={faSeedling} className="w-4 h-4 ms-2" color="#ffffff" />
               </Button>
