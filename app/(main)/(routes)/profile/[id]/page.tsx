@@ -63,16 +63,13 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    if (typeof id === "string" && id.trim() !== "") {
+    if (id) {
       fetchProfile();
       // .then(() => {
       //   // Automatically trigger confetti for demonstration
       //   triggerConfetti();
       // });
     }
-
-    console.log("id:", id);
-    console.log("fetching from", `/api/profile/${id}`);
   }, [id]);
 
   const triggerConfetti = () => {
