@@ -51,7 +51,7 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     fetchProjects();
-  }, [projects]);
+  }, []);
 
   return (
     <React.Fragment>

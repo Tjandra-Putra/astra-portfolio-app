@@ -158,7 +158,7 @@ const LandingPage = () => {
             ) : (
               Array.isArray(filteredProfiles) &&
               filteredProfiles
-                .filter((profile) => !profile.userId.includes("login_pending_user"))
+                // .filter((profile) => !profile.userId.includes("login_pending_user"))
                 .map((profile) => (
                   <div className="individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3" key={profile.id}>
                     <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
