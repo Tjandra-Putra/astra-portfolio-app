@@ -67,7 +67,7 @@ const formSchema = z.object({
   projectUrl: z.string().optional(),
   githubUrl: z.string().optional(),
   tags: z.string().optional(),
-  content: z.string().optional(),
+  content: z.string().optional().nullable(),
 });
 
 const EditProjectPage = () => {
@@ -190,18 +190,19 @@ const EditProjectPage = () => {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            console.error("Validation errors:", errors);
+          })}
+        >
           <div className="flex items-center gap-2 mb-3">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="job-title font-medium text-gray-800 text-lg">Edit Project </div>
           </div>
-
           <div className="text-gray-800 font-normal">Add a project to your portfolio. This will be displayed on your profile page.</div>
-
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Introduction
           </Badge>
-
           <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid grid-cols-12 items-center justify-center">
@@ -281,11 +282,9 @@ const EditProjectPage = () => {
               />
             </section>
           </div>
-
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Details
           </Badge>
-
           <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid gap-4">
@@ -439,11 +438,9 @@ const EditProjectPage = () => {
               </div>
             </section>
           </div>
-
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Links
           </Badge>
-
           <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid gap-4">
@@ -489,7 +486,6 @@ const EditProjectPage = () => {
               </div>
             </section>
           </div>
-
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Tags
           </Badge>
@@ -513,17 +509,14 @@ const EditProjectPage = () => {
               />
             </section>
           </div>
-
           <Badge variant="navy" className="text-lg font-semibold w-full justify-between mt-7 rounded-lg rounded-bl-none rounded-br-none flex ">
             Main Content
           </Badge>
-
           <div className="border bg-white p-0 rounded-lg">
             <section className="mb-5 bg-white">
               <Editor onParentEditorChange={handleMarkdownChange} initialContent={project?.content} />
             </section>
           </div>
-
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isEditing}>
             {isEditing ? "Saving Changes..." : "Save Changes"}
           </Button>
