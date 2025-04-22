@@ -156,8 +156,9 @@ const LandingPage = () => {
             {loading ? (
               <Loader className="bg-white" />
             ) : (
+              Array.isArray(filteredProfiles) &&
               filteredProfiles
-                ?.filter((profile) => !profile.userId.includes("login_pending_user"))
+                .filter((profile) => !profile.userId.includes("login_pending_user"))
                 .map((profile) => (
                   <div className="individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3" key={profile.id}>
                     <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
@@ -174,7 +175,7 @@ const LandingPage = () => {
                         </div>
 
                         <div className="flex flex-col">
-                          <div className="font-semibold text-base text-[#1d3554]">{profile.name}</div>
+                          <div className="font-semibold text-base text-[#1d3554]">{profile?.name}</div>
                           <div className="text-base text-gray-500">{profile.jobTitle}</div>
                         </div>
                       </div>
