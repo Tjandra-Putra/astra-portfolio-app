@@ -51,7 +51,7 @@ const ManageEducationPage = () => {
 
   useEffect(() => {
     fetchEducations();
-  }, [educations]);
+  }, []);
 
   return (
     <React.Fragment>

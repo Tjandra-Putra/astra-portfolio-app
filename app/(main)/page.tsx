@@ -82,6 +82,8 @@ const LandingPage = () => {
     confetti.reset();
   };
 
+  console.log("Profiles:", profiles);
+
   return (
     <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full">
       <div className="w-full sm:w-[570px]">

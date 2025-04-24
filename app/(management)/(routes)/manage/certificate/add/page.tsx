@@ -83,7 +83,11 @@ const AddCertificatePage = () => {
   return (
     <React.Fragment>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            console.error("Validation errors:", errors);
+          })}
+        >
           <div className="flex items-center gap-2 mb-3">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="job-title font-medium text-gray-800 text-lg">Add Certificate </div>
@@ -93,10 +97,7 @@ const AddCertificatePage = () => {
             Fill in the details of the certificate you have achieved. This will be displayed on your profile.
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Details
           </Badge>
 
@@ -176,10 +177,7 @@ const AddCertificatePage = () => {
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
+                              <Button variant={"outline"} className={cn("text-left font-normal", !field.value && "text-muted-foreground")}>
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -238,12 +236,9 @@ const AddCertificatePage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">
-                    Your project is visible to everyone{" "}
-                    <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                    Your project is visible to everyone <span className="text-sm text-gray-600 font-light">(Optional)</span>
                   </Label>
-                  <div className="text-sm text-gray-600 font-light">
-                    Turning on this option will hide this project from your profile.
-                  </div>
+                  <div className="text-sm text-gray-600 font-light">Turning on this option will hide this project from your profile.</div>
                 </div>
                 <div>
                   <FormField
