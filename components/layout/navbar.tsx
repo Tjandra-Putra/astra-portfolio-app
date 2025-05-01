@@ -18,6 +18,7 @@ import { faFolder, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ModeToggle } from "@/components/mode-toggle";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUserInfo } from "@/app/redux/features/user-slice";
 import { CircleUserRound, Folder, FolderCog, Home, Mail, Square, SquareUser, User, GraduationCap } from "lucide-react";
@@ -83,7 +84,7 @@ const Navbar: React.FC = () => {
   return (
     <nav
       ref={navbarRef}
-      className="sticky top-3 h-16 shadow-paper bg-white rounded-xl flex flex-row justify-between items-center md:px-3 px-3 overflow-x-hidden z-10"
+      className="sticky top-3 h-16 shadow-paper bg-white dark:bg-[#0D0D0D] dark:border dark: border-[#333335] rounded-xl flex flex-row justify-between items-center md:px-3 px-3 overflow-x-hidden z-10"
     >
       <div className="nav-left flex gap-3">
         <Link href={`/profile/${userInfo?.id}`} className="nav-item">
@@ -237,7 +238,10 @@ const Navbar: React.FC = () => {
           )}
         </SignedIn>
 
-        <Link href={`mailto:${userInfo?.workEmail ? userInfo?.workEmail : userInfo?.email}`} className="ms-3">
+        <div className="ms-3"></div>
+        <ModeToggle />
+
+        <Link href={`mailto:${userInfo?.workEmail ? userInfo?.workEmail : userInfo?.email}`}>
           <Button variant={"ocean"} className="font-semibold">
             <FontAwesomeIcon icon={faPaperPlane} className="mx-2" color="#ffffff" />
             Contact

@@ -19,8 +19,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={cn(font.className, "bg-white dark:bg-[#313338]")}>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="astra-theme">
+        <body>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem storageKey="astra-theme" disableTransitionOnChange>
             <ReduxProvider>{children}</ReduxProvider>
             <Toaster position="bottom-center" />
           </ThemeProvider>
