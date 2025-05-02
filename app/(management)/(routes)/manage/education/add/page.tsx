@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   schoolName: z.string().min(1, {
@@ -339,7 +340,12 @@ const ManageEducationPage = () => {
           </div>
 
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
-            {isAdding ? "Adding Education..." : "Add Education"}
+            {isAdding ? 
+              <span className="flex items-center justify-center">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Adding...
+              </span>
+            : "Add Education"}
           </Button>
         </form>
       </Form>

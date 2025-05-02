@@ -27,6 +27,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Editor } from "@/components/text-editors/blocknote-editor";
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -518,7 +519,14 @@ const EditProjectPage = () => {
             </section>
           </div>
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isEditing}>
-            {isEditing ? "Saving Changes..." : "Save Changes"}
+            {isEditing ? (
+              <span className="flex items-center justify-center">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </span>
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </form>
       </Form>

@@ -35,6 +35,10 @@ const CertificatePage = () => {
     }
   };
 
+  const isPdf = (url: string) => {
+    return url.toLowerCase().endsWith(".pdf");
+  };
+
   useEffect(() => {
     fetchCertificates();
   }, []);
@@ -73,21 +77,17 @@ const CertificatePage = () => {
 
               <Separator className="sm:mt-6 mt-2" />
 
-              <iframe
-                src={certificate.certificateImageUrl}
-                className="w-full h-[47.5vh] sm:h-[48vh] mt-3 shadow-paper rounded-none transform scale-100 origin-top-left"
-                allowFullScreen
-              />
-
-              {/* <Image
-                src={certificate.certificateImageUrl}
-                alt="certificate"
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: "100%", height: "auto" }} // optional
-                className="w-full sm:mt-6 mt-3 shadow-paper rounded-lg"
-              /> */}
+              {isPdf(certificate.certificateImageUrl) ? (
+                <iframe src={certificate.certificateImageUrl} className="w-full h-[60vh] mt-3 shadow-paper rounded-lg" allowFullScreen />
+              ) : (
+                <Image
+                  src={certificate.certificateImageUrl}
+                  alt="certificate"
+                  width={800}
+                  height={600}
+                  className="w-full sm:mt-6 mt-3 shadow-paper rounded-lg object-contain"
+                />
+              )}
 
               {certificate.certificateId && (
                 <div className="certificate-id flex justify-end">

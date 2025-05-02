@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -93,15 +94,21 @@ const AddCertificatePage = () => {
   // submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.put(`/api/manage/certificate/${id}`, values);
+      setIsAdding(true);
 
-      toast.success("Certificate updated successfully");
+      const response = await axios.put(`/api/manage/certificate/${id}`, values);
 
-      // reset form
-      form.reset();
+      // ✅ Optional: update local state manually
+      setCertificate(response.data); // assuming your PUT returns updated cert
+
+      // ✅ Reset the form with new values
+      form.reset(values);
+
+      // ✅ Toast
+      toast.success("Certificate updated!");
     } catch (error: any) {
-      console.log(error);
-      toast.error(error.message);
+      console.error(error);
+      toast.error(error.message || "Something went wrong");
     } finally {
       setIsAdding(false);
     }
@@ -110,20 +117,19 @@ const AddCertificatePage = () => {
   return (
     <React.Fragment>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            console.error("Validation errors:", errors);
+          })}
+        >
           <div className="flex items-center gap-2 mb-3">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
             <div className="job-title font-medium text-gray-800 text-lg">Edit Certificate</div>
           </div>
 
-          <div className="text-gray-800 font-normal">
-            Here you can add your certificates. You can add, edit, and delete certificates.
-          </div>
+          <div className="text-gray-800 font-normal">Here you can add your certificates. You can add, edit, and delete certificates.</div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Introduction
           </Badge>
 
@@ -203,10 +209,7 @@ const AddCertificatePage = () => {
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
+                              <Button variant={"outline"} className={cn("text-left font-normal", !field.value && "text-muted-foreground")}>
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -265,12 +268,9 @@ const AddCertificatePage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">
-                    Your project is visible to everyone{" "}
-                    <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                    Your project is visible to everyone <span className="text-sm text-gray-600 font-light">(Optional)</span>
                   </Label>
-                  <div className="text-sm text-gray-600 font-light">
-                    Turning on this option will hide this project from your profile.
-                  </div>
+                  <div className="text-sm text-gray-600 font-light">Turning on this option will hide this project from your profile.</div>
                 </div>
                 <div>
                   <FormField
@@ -290,7 +290,14 @@ const AddCertificatePage = () => {
           </div>
 
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
-            {isAdding ? "Updating Certificate..." : "Update Certificate"}
+            {isAdding ? (
+              <span className="flex items-center justify-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Updating Certificate...
+              </span>
+            ) : (
+              "Update Certificate"
+            )}
           </Button>
         </form>
       </Form>

@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Loader2 } from "lucide-react";
 
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
@@ -502,7 +503,12 @@ const AddProjectPage = () => {
           </div> */}
 
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
-            {isAdding ? "Adding Project..." : "Add Project"}
+            {isAdding ? 
+              <span className="flex items-center justify-center">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Adding...
+              </span>
+             : "Add Project"}
           </Button>
         </form>
       </Form>

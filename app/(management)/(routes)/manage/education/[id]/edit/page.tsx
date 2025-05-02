@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   schoolName: z.string().min(1, {
@@ -136,10 +137,7 @@ const EditEducationPage = () => {
             Edit your education to showcase your academic achievements. You can add multiple education entries.
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Basic Information
           </Badge>
 
@@ -220,10 +218,7 @@ const EditEducationPage = () => {
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
+                              <Button variant={"outline"} className={cn("text-left font-normal", !field.value && "text-muted-foreground")}>
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -248,10 +243,7 @@ const EditEducationPage = () => {
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
+                              <Button variant={"outline"} className={cn("text-left font-normal", !field.value && "text-muted-foreground")}>
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
@@ -273,9 +265,7 @@ const EditEducationPage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">Your education is visible to everyone</Label>
-                  <div className="text-sm text-gray-600 font-light">
-                    Turning on this option will hide this education from your profile.
-                  </div>
+                  <div className="text-sm text-gray-600 font-light">Turning on this option will hide this education from your profile.</div>
                 </div>
                 <div>
                   <FormField
@@ -294,10 +284,7 @@ const EditEducationPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Additional Information
           </Badge>
 
@@ -317,9 +304,7 @@ const EditEducationPage = () => {
                         <FormControl>
                           <Textarea className="resize-none" {...field} rows={12} />
                         </FormControl>
-                        <FormDescription>
-                          This is a summary of what you achieved during your education such as CCA and competition.
-                        </FormDescription>
+                        <FormDescription>This is a summary of what you achieved during your education such as CCA and competition.</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -373,7 +358,14 @@ const EditEducationPage = () => {
           </div>
 
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
-            {isAdding ? "Saving Changes..." : "Save Changes"}
+            {isAdding ? (
+              <span className="flex items-center justify-center">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </span>
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </form>
       </Form>

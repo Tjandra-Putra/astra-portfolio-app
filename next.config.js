@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["utfs.io"],
+    domains: ["utfs.io", "vutz38vdur.ufs.sh"],
   },
 };
 
