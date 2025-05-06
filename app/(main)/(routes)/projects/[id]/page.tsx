@@ -123,7 +123,7 @@ const Project = () => {
       <section>
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
           {loadingImage && (
-            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg">
+            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-black/50">
               <Loader />
             </div>
           )}

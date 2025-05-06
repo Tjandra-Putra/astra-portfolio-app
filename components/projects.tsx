@@ -10,6 +10,7 @@ import projectsData from "@/data/data";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Loader from "./layout/loader";
+import { useTheme } from "next-themes";
 
 interface ProjectsProps {
   title?: string;
@@ -23,6 +24,15 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
   const [allProjects, setAllProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const userInfo = useSelector((state: any) => state.userReducer);
+
+  const { resolvedTheme } = useTheme();
+
+  const getButtonVariant = () => {
+    if (resolvedTheme === "dark") {
+      return "secondary";
+    }
+    return "white";
+  };
 
   const fetchProjects = async () => {
     try {
@@ -68,8 +78,8 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
           </div>
           {!showAll && (
             <Link href={"/projects"}>
-              <Button variant="white">
-                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+              <Button variant={getButtonVariant()}>
+                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
               </Button>
             </Link>
           )}

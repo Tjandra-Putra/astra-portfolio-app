@@ -78,18 +78,18 @@ const CertificatePage = () => {
               <Separator className="sm:mt-6 mt-2" />
 
               {isPdf(certificate.certificateImageUrl) ? (
-                <iframe
-                  src={certificate.certificateImageUrl}
-                  className="w-full h-[60vh] mt-3 shadow-paper rounded-lg"
-                  style={{
-                    width: "100%",
-                    height: "60vh",
-                    border: "none",
-                    overflow: "hidden",
-                    zoom: 1, // ensures no extra scaling
-                  }}
-                  allowFullScreen
-                />
+                <div className="w-full mt-3 shadow-paper rounded-lg overflow-hidden">
+                  <iframe
+                    src={certificate.certificateImageUrl}
+                    className="w-full aspect-[4/3] sm:h-[60vh] h-[50vh] rounded-lg"
+                    style={{
+                      border: "none",
+                      transform: "scale(1)",
+                      transformOrigin: "top left",
+                    }}
+                    allowFullScreen
+                  />
+                </div>
               ) : (
                 <Image
                   src={certificate.certificateImageUrl}

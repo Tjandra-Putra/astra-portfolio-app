@@ -68,13 +68,13 @@ const AboutPage = () => {
       </div>
 
       <div
-        className="text-gray-800 sm:my-6 my-3 font-normal whitespace-pre-line sm:text-base text-sm dark:text-zinc-400" 
+        className="text-gray-800 sm:my-6 my-3 font-normal whitespace-pre-line sm:text-base text-sm dark:text-zinc-400"
         dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
       />
 
       {/* avatar-border border-4 border-[#1c3454] p-3  */}
-      <div className="rounded-lg my-4">
-        <img src={profile?.imageUrl} alt={profile?.imageUrl} className="w-full h-full rounded-lg" />
+      <div className="flex justify-center items-center mt-5 mb-3">
+        <img src={profile?.imageUrl} alt="Profile" className="w-28 h-28 rounded-full border-4 border-white shadow-md object-cover" />
       </div>
     </>
   );

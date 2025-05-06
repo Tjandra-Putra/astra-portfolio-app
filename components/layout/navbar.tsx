@@ -154,6 +154,8 @@ const Navbar: React.FC = () => {
           </TooltipProvider>
         </Link>
 
+        <ModeToggle />
+
         <SignedIn>
           <Link href="/manage" className="nav-item">
             <TooltipProvider delayDuration={100}>
@@ -221,8 +223,6 @@ const Navbar: React.FC = () => {
             Contact
           </Button>
         </Link>
-
-        <ModeToggle />
       </div>
     </nav>
   );

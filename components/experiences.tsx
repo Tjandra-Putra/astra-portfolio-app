@@ -9,6 +9,7 @@ import ExperienceCard from "./experience-card";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Loader from "./layout/loader";
+import { useTheme } from "next-themes";
 
 interface ExperiencesProps {
   title?: string;
@@ -23,6 +24,15 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
 
   const [loading, setLoading] = useState(true);
   const userInfo = useSelector((state: any) => state.userReducer);
+
+  const { resolvedTheme } = useTheme();
+
+  const getButtonVariant = () => {
+    if (resolvedTheme === "dark") {
+      return "secondary";
+    }
+    return "white";
+  };
 
   const fetchProjects = async () => {
     try {
@@ -67,8 +77,8 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
           </div>
           {!showAll && (
             <Link href={"/experiences"}>
-              <Button variant="white">
-                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+              <Button variant={getButtonVariant()}>
+                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
               </Button>
             </Link>
           )}
@@ -84,7 +94,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
           </div>
           <Link href={"/experiences"}>
             <Button variant="white">
-              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2" color="#000000" />
+              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
             </Button>
           </Link>
         </div>
