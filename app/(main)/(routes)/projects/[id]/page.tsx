@@ -85,32 +85,32 @@ const Project = () => {
         </Button>
       </div>
 
-      <section className="bg-ash rounded-lg p-6">
+      <section className="bg-ash rounded-lg p-6 dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
         <div className="company">
           <div className="flex mb-3">
-            <div className="text-[#000000] w-36 font-semibold">Company</div>
-            <div className="text-black w-full">{project?.company}</div>
+            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-300">Company</div>
+            <div className="text-black w-full dark:text-zinc-400">{project?.company}</div>
           </div>
         </div>
 
         <div className="project-title">
           <div className="flex mb-3">
-            <div className="text-[#000000] w-36 font-semibold">Title</div>
-            <div className="text-black w-full">{project?.name}</div>
+            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-300">Title</div>
+            <div className="text-black w-full dark:text-zinc-400">{project?.name}</div>
           </div>
         </div>
 
         <div className="project-type">
           <div className="flex mb-3">
-            <div className="text-[#000000] w-36 font-semibold">Category</div>
-            <div className="text-black w-full">{project?.category}</div>
+            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-300">Category</div>
+            <div className="text-black w-full dark:text-zinc-400">{project?.category}</div>
           </div>
         </div>
 
         <div className="start-date">
           <div className="flex">
-            <div className="text-[#000000] w-36 font-semibold">Date</div>
-            <div className="text-black w-full">
+            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-300">Date</div>
+            <div className="text-black w-full dark:text-zinc-400">
               {new Date(project.startDate).toLocaleDateString("en-SG")} to {new Date(project.endDate).toLocaleDateString("en-SG")}
               <br />
               <Badge variant="navy" className="mt-2">
@@ -157,8 +157,11 @@ const Project = () => {
           )}
         </div>
 
-        <div className="title text-2xl font-semibold capitalize">{project?.name}</div>
-        <div className="description my-3 leading-6 whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: project?.description || "" }} />
+        <div className="title text-2xl font-semibold capitalize dark:text-zinc-300">{project?.name}</div>
+        <div
+          className="description my-3 leading-6 whitespace-pre-wrap dark:text-zinc-400"
+          dangerouslySetInnerHTML={{ __html: project?.description || "" }}
+        />
         <div className="buttons flex flex-row justify-end">
           <Button className="mr-3" variant={"navy"} disabled={!project?.projectUrl}>
             <Link href={project ? project.projectUrl : ""} target="_blank">
@@ -178,7 +181,19 @@ const Project = () => {
 
         {project?.content?.length > 351 ? <Editor initialContent={project?.content} editable={false} /> : null}
 
-        <div className="badges flex flex-row flex-wrap gap-3">
+        <div className="badges flex flex-row flex-wrap gap-3 my-6">
+          {project.tags
+            ? project.tags.split(",").map((tag: string, index: number) => (
+                <Badge key={index} variant="sky">
+                  {tag.trim()}
+                </Badge>
+              ))
+            : null}
+        </div>
+
+        {/* <Separator className="mt-6 mb-6" />
+
+        <div className="badges flex flex-row flex-wrap gap-3 my-6">
           {project.tags
             ? project.tags.split(",").map((tag: string, index: number) => (
                 <Badge key={index} variant="navy">
@@ -188,7 +203,7 @@ const Project = () => {
             : null}
         </div>
 
-        <Separator className="my-6" />
+        <Separator className="my-6" /> */}
 
         {project?.isWorkExperience ? (
           <Experiences title="Other Experiences" showAll={true} detailedPage={false} currentExperienceId={projectId} />

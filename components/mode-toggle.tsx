@@ -9,11 +9,15 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
+  const getButtonVariant = () => {
+    return resolvedTheme === "dark" ? "secondary2" : "ash"; // or any other variant for dark
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ash" size="icon" className="w-[3.4rem]">
+        <Button variant={getButtonVariant()} size="icon" className="w-[3.4rem]">
           <Sun className="w-6 h-6 sm:w-6 sm:h-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute w-6 h-6 sm:w-6 sm:h-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>

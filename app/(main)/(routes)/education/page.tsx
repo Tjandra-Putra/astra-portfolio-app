@@ -92,7 +92,9 @@ const EducationPage = () => {
             </div>
           ))
         ) : (
-          <div className="certificates bg-ash md:p-6 p-3 rounded-lg">No educations available.</div>
+          <div className="certificates bg-ash md:p-6 p-3 rounded-lg dark:bg-black/50 dark:backdrop-blur-md dark:border-white/10">
+            No educations available.
+          </div>
         )}
       </div>
     </React.Fragment>

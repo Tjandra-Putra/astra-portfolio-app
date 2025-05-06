@@ -78,7 +78,18 @@ const CertificatePage = () => {
               <Separator className="sm:mt-6 mt-2" />
 
               {isPdf(certificate.certificateImageUrl) ? (
-                <iframe src={certificate.certificateImageUrl} className="w-full h-[60vh] mt-3 shadow-paper rounded-lg" allowFullScreen />
+                <iframe
+                  src={certificate.certificateImageUrl}
+                  className="w-full h-[60vh] mt-3 shadow-paper rounded-lg"
+                  style={{
+                    width: "100%",
+                    height: "60vh",
+                    border: "none",
+                    overflow: "hidden",
+                    zoom: 1, // ensures no extra scaling
+                  }}
+                  allowFullScreen
+                />
               ) : (
                 <Image
                   src={certificate.certificateImageUrl}
@@ -116,7 +127,9 @@ const CertificatePage = () => {
             </div>
           ))
         ) : (
-          <div className="certificates bg-ash md:p-6 p-3 rounded-lg">No certificates available.</div>
+          <div className="certificates bg-ash md:p-6 p-3 rounded-lg dark:bg-black/50 dark:backdrop-blur-md dark:border-white/10">
+            No certificates available.
+          </div>
         )}
       </div>
     </React.Fragment>

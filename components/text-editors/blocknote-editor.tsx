@@ -4,6 +4,7 @@ import { BlockNoteEditor, Block, PartialBlock } from "@blocknote/core";
 import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 interface EditorProps {
   onParentEditorChange?: (value: string) => void;
@@ -13,6 +14,17 @@ interface EditorProps {
 }
 
 export const Editor = ({ onParentEditorChange, initialContent, editable = true, className }: EditorProps) => {
+  const { theme, resolvedTheme } = useTheme(); // resolvedTheme accounts for "system"
+  const [clientTheme, setClientTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    if (theme === "system") {
+      setClientTheme(resolvedTheme === "dark" ? "dark" : "light");
+    } else {
+      setClientTheme(theme === "dark" ? "dark" : "light");
+    }
+  }, [theme, resolvedTheme]);
+
   const isValidJSON = (content: string): boolean => {
     try {
       JSON.parse(content);
@@ -28,8 +40,7 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
   };
 
   const editor: BlockNoteEditor = useCreateBlockNote({
-    initialContent:
-      typeof initialContent === "string" && isValidJSON(initialContent) ? JSON.parse(initialContent) : initialContent,
+    initialContent: typeof initialContent === "string" && isValidJSON(initialContent) ? JSON.parse(initialContent) : initialContent,
     uploadFile: handleUpload,
   });
 
@@ -60,13 +71,7 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
           `}
         </style>
       )}
-      <BlockNoteView
-        editor={editor}
-        onChange={() => onEditorChange()}
-        theme="light"
-        editable={editable}
-        data-theming-css-demo
-      />
+      <BlockNoteView editor={editor} onChange={() => onEditorChange()} theme={clientTheme} editable={editable} data-theming-css-demo />
     </>
   );
 };

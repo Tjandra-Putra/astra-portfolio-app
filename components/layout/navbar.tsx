@@ -23,6 +23,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeUserInfo } from "@/app/redux/features/user-slice";
 import { CircleUserRound, Folder, FolderCog, Home, Mail, Square, SquareUser, User, GraduationCap } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const Navbar: React.FC = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -31,9 +32,16 @@ const Navbar: React.FC = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
 
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
 
   const getButtonVariant = (path: string) => {
-    return pathname === path ? "navy" : "ash";
+    const isActive = pathname === path;
+
+    if (isActive) {
+      return resolvedTheme === "dark" ? "sky" : "navy";
+    }
+
+    return resolvedTheme === "dark" ? "secondary2" : "ash";
   };
 
   useEffect(() => {
@@ -145,38 +153,6 @@ const Navbar: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </Link>
-
-        {/* {userInfo?.workEmail ? (
-          <Link href={`mailto:${userInfo?.workEmail}`} className={"me-3"}>
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ash">
-                    <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{userInfo?.workEmail}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </Link>
-        ) : (
-          <Link href={`mailto:${userInfo?.email}`} className={"me-3"}>
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ash">
-                    <Mail className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" strokeWidth={2.2} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Contact</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </Link>
-        )} */}
 
         <SignedIn>
           <Link href="/manage" className="nav-item">
