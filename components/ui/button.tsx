@@ -12,17 +12,18 @@ const buttonVariants = cva(
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 dark:text-white",
         ash: "bg-[#f0f1f3] text-black hover:bg-[#f0f1f3]/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         white: "bg-white text-black hover:bg-white/80",
-        navy: "bg-[#1c3454] text-primary-foreground hover:bg-[#1c3454]/90",
+        navy: "bg-[#1c3454] text-primary-foreground hover:bg-[#1c3454]/90 dark:text-white",
         cheese: "bg-cheese text-black hover:bg-cheese/90",
         sky: "bg-[#74c0fc] text-[#183153] hover:bg-strawberry/90",
         ocean: "bg-[#3e6392] text-[#ffffff] hover:bg-[#3e6392]/90",
         diamond: "bg-[#63e6be] text-[#183153] hover:bg-[#63e6be]/90",
         tomato: "bg-[#ff8787] text-[#1b3254] hover:bg-[#ff8787]/90",
+        orange: "bg-[#ef8114] text-[#183153] hover:bg-[#ffb74d]/90",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -38,18 +39,14 @@ const buttonVariants = cva(
   }
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
-  }
-);
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button";
+  return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+});
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

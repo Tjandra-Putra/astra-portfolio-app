@@ -14,7 +14,7 @@ const ProjectCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
   const displayedTags = data.tags.split(",").slice(0, 3);
 
   return (
-    <div className="min-h-28 bg-white rounded-lg md:mt-5 mt-3 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+    <div className="min-h-28 bg-white rounded-lg md:mt-5 mt-3 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#0D0D0D] dark:border">
       <div className="flex items-center gap-4">
         <div className="avatar-border border-2 border-[#f0f1f3] p-2 rounded-full">
           <div className="avatar sm:h-14 sm:w-14 h-10 w-10 flex items-center justify-center bg-[#183153] text-[#ffffff] font-semibold rounded-full capitalize">
@@ -22,13 +22,13 @@ const ProjectCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="project-title text-gray-800 font-medium sm:text-lg text-base leading-5 mb-1">{data.name}</div>
+          <div className="project-title text-gray-800 font-medium sm:text-lg text-base leading-5 mb-1 dark:text-zinc-300">{data.name}</div>
           <div className="flex flex-wrap gap-2 mt-1 capitalize">
             {displayedTags.length > 0 &&
               displayedTags.some((tag: string) => tag.trim() !== "") &&
               displayedTags.map((tag: string, index: number) => (
                 <div key={index} className="project-tags">
-                  <Badge variant="secondary" className="text-xs font-semibold">
+                  <Badge variant="secondary" className="text-xs font-semibold dark:text-zinc-300">
                     {tag}
                   </Badge>
                 </div>

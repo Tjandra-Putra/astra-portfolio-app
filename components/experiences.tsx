@@ -54,14 +54,14 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
   return loading ? (
     <Loader />
   ) : (
-    <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3">
+    <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3 dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
       {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
         <div>No project experiences available.</div>
       ) : (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">
+            <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-400">
               {showAll || detailedPage ? `Other Experiences (${allProjects?.length - 1})` : title || `Experiences (${projectsToDisplay.length})`}
             </div>
           </div>

@@ -49,17 +49,17 @@ const CertificatePage = () => {
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="job-title font-medium text-gray-800 text-lg">Licenses and Certificates</div>
+        <div className="job-title font-medium text-gray-800 text-lg dark:text-zinc-300">Licenses and Certificates</div>
       </div>
 
-      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base dark:text-zinc-400">
         Here are some of the licenses and certificates that I have acquired over the years.
       </div>
 
-      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg">
+      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
         {certificates && certificates.length > 0 ? (
           certificates?.map((certificate) => (
-            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3" key={certificate.id}>
+            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3 dark:bg-[#0D0D0D] dark:border" key={certificate.id}>
               <div className="header flex sm:flex-row sm:gap-6 gap-3 items-center">
                 <div>
                   <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
@@ -67,9 +67,9 @@ const CertificatePage = () => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <div className="certification-title font-semibold text-xs sm:text-base">{certificate.title}</div>
-                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base">{certificate.issueingOrganisation}</div>
-                  <div className="duration text-gray-500 font-normal text-xs sm:text-base">
+                  <div className="certification-title font-semibold text-xs sm:text-base dark:text-zinc-300">{certificate.title}</div>
+                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base dark:text-zinc-400">{certificate.issueingOrganisation}</div>
+                  <div className="duration text-gray-500 font-normal text-xs sm:text-base dark:text-zinc-500">
                     Issued on {new Date(certificate.issuedDate).toLocaleDateString("en-SG")}
                   </div>
                 </div>

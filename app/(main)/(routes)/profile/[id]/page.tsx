@@ -110,7 +110,7 @@ export default function Profile() {
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 dark:text-[#a5acae]">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
+            <div className="job-title font-medium text-gray-800 dark:text-zinc-400">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
           </div>
           <Link href={"/"}>
             <div className="status uppercase tracking-wider text-end">
@@ -141,7 +141,7 @@ export default function Profile() {
                 <div className="name sm:text-4xl text-2xl font-medium dark:text-white">
                   Hi, I&apos;m <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
                 </div>
-                <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base dark:text-white">
+                <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base dark:text-zinc-400">
                   {profile?.bio ? profile.bio : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
                 </div>
                 <div className="buttons mt-6 space-x-3">
@@ -167,25 +167,27 @@ export default function Profile() {
                       }}
                     >
                       <Button variant={"secondary"}>
-                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
+                        <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
                         Copy Email
                       </Button>
                     </CopyToClipboard>
                   ) : (
                     <CopyToClipboard text={profile?.email} onCopy={() => {}}>
                       <Button variant={"secondary"}>
-                        <FontAwesomeIcon icon={faCopy} className="me-2" color="#000000" />
+                        <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
                         Copy Email
                       </Button>
                     </CopyToClipboard>
                   )}
                 </div>
-                <div className="text-sm mt-6 text-blue-500">Last updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}</div>
+                <div className="text-sm mt-6 text-blue-500 dark:text-zinc-400">
+                  Last updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}
+                </div>
               </div>
             </div>
             <div className="md:col-span-4 flex items-center justify-center">
               <div className="w-36 sm:w-full">
-                <div className="avatar-border border-4 border-[#1c3454] p-2 rounded-full">
+                <div className="avatar-border border-4 border-[#1c3454] dark:border-white p-2 rounded-full">
                   <Avatar>
                     {profile?.imageUrl ? (
                       <AvatarImage src={profile.imageUrl} className="object-cover" />

@@ -239,14 +239,14 @@ const Navbar: React.FC = () => {
         </SignedIn>
 
         <div className="ms-3"></div>
-        <ModeToggle />
-
         <Link href={`mailto:${userInfo?.workEmail ? userInfo?.workEmail : userInfo?.email}`}>
           <Button variant={"ocean"} className="font-semibold">
             <FontAwesomeIcon icon={faPaperPlane} className="mx-2" color="#ffffff" />
             Contact
           </Button>
         </Link>
+
+        <ModeToggle />
       </div>
     </nav>
   );
