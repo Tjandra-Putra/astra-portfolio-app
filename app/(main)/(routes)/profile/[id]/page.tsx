@@ -203,8 +203,8 @@ export default function Profile() {
         )}
       </section>
 
-      <Projects />
       <Experiences />
+      <Projects />
     </>
   );
 }

@@ -64,7 +64,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
   return loading ? (
     <Loader />
   ) : (
-    <div className="projects bg-ash md:p-6 p-3 rounded-lg sm:mt-6 mt-3 dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
+    <div className="projects bg-ash md:p-6 p-3 mb-3 sm:mb-6 rounded-lg sm:mt-6 mt-3 dark:bg-[#0c0c0c] dark:border dark:border-white/10">
       {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
         <div>No project experiences available.</div>
       ) : (

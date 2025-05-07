@@ -52,10 +52,10 @@ const EducationPage = () => {
         Here are some of the educational qualifications that I have acquired over the years.
       </div>
 
-      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
+      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg dark:bg-[#0c0c0c]">
         {educations && educations.length > 0 ? (
           educations?.map((education) => (
-            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3 dark:bg-[#0D0D0D] dark:border" key={education.id}>
+            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3 dark:bg-[#171717] dark:border" key={education.id}>
               <div className="header flex sm:flex-row sm:gap-6 gap-3 items-center">
                 <div>
                   <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
@@ -92,9 +92,7 @@ const EducationPage = () => {
             </div>
           ))
         ) : (
-          <div className="certificates bg-ash md:p-6 p-3 rounded-lg dark:bg-black/50 dark:backdrop-blur-md dark:border-white/10">
-            No educations available.
-          </div>
+          <div className="certificates bg-ash md:p-6 p-3 rounded-lg dark:bg-[#171717] dark:border-white/10">No educations available.</div>
         )}
       </div>
     </React.Fragment>

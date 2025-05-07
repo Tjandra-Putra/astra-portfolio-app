@@ -65,7 +65,7 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
   return loading ? (
     <Loader />
   ) : (
-    <div className="projects bg-ash md:p-6 p-3 rounded-lg dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
+    <div className="projects bg-ash md:p-6 p-3 rounded-lg dark:bg-[#0c0c0c] dark:border dark:border-white/10">
       {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
         <div>No projects available.</div>
       ) : (

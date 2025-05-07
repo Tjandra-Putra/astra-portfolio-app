@@ -85,7 +85,7 @@ const Project = () => {
         </Button>
       </div>
 
-      <section className="bg-ash rounded-lg p-6 dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
+      <section className="bg-ash rounded-lg p-6 dark:bg-[#0c0c0c] dark:border dark:border-white/10">
         <div className="company">
           <div className="flex mb-3">
             <div className="text-[#000000] w-36 font-semibold dark:text-zinc-300">Company</div>
@@ -123,7 +123,7 @@ const Project = () => {
       <section>
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
           {loadingImage && (
-            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-black/50">
+            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717]">
               <Loader />
             </div>
           )}
