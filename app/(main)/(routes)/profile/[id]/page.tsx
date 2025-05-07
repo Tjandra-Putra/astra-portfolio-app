@@ -109,8 +109,8 @@ export default function Profile() {
       <section className="introduction sm:pb-6 pb-3">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 dark:text-zinc-400">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
+            <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
+            <div className="job-title font-medium text-gray-800 dark:text-sky">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
           </div>
           <Link href={"/"}>
             <div className="status uppercase tracking-wider text-end">
@@ -187,7 +187,7 @@ export default function Profile() {
             </div>
             <div className="md:col-span-4 flex items-center justify-center">
               <div className="w-36 sm:w-full">
-                <div className="avatar-border border-4 border-[#1c3454] dark:border-white p-2 rounded-full">
+                <div className="avatar-border border-4 border-[#1c3454] dark:border-zinc-400 p-2 rounded-full shadow-[0_0_10px_#1c3454] dark:shadow-[0_0_10px_#a1a1aa]">
                   <Avatar>
                     {profile?.imageUrl ? (
                       <AvatarImage src={profile.imageUrl} className="object-cover" />
