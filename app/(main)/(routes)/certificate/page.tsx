@@ -56,10 +56,10 @@ const CertificatePage = () => {
         Here are some of the licenses and certificates that I have acquired over the years.
       </div>
 
-      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10">
+      <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg dark:bg-[#0c0c0c] dark:border dark:border-white/10">
         {certificates && certificates.length > 0 ? (
           certificates?.map((certificate) => (
-            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3 dark:bg-[#0D0D0D] dark:border" key={certificate.id}>
+            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3 dark:bg-[#171717] dark:border" key={certificate.id}>
               <div className="header flex sm:flex-row sm:gap-6 gap-3 items-center">
                 <div>
                   <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
