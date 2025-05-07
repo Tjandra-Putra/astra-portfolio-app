@@ -187,7 +187,7 @@ export default function Profile() {
             </div>
             <div className="md:col-span-4 flex items-center justify-center">
               <div className="w-36 sm:w-full">
-                <div className="avatar-border border-4 border-[#1c3454] dark:border-zinc-400 p-2 rounded-full shadow-[0_0_10px_#1c3454] dark:shadow-[0_0_10px_#a1a1aa]">
+                <div className="border-4 border-black dark:border-[#00ffcc] p-2 rounded-full dark:shadow-[0_0_5px_#00ffcc,0_0_10px_#00ffcc,0_0_20px_#00ffcc,0_0_40px_#00ffcc]">
                   <Avatar>
                     {profile?.imageUrl ? (
                       <AvatarImage src={profile.imageUrl} className="object-cover" />
