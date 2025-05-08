@@ -134,7 +134,7 @@ const LandingPage = () => {
               <div className="flex flex-col gap-2">
                 <Input
                   placeholder="Search for profiles by name"
-                  className="w-full h-[45px] rounded-full text-center border-2 border-[#1d3554] text-[#1d3554]"
+                  className="w-full h-[45px] rounded-full text-center border-2 border-[#1d3554] text-[#1d3554] dark:border-zinc-300 dark:text-zinc-200"
                   style={{ outline: "none" }}
                   onChange={(e) => handleSearch(e)}
                 />
@@ -151,7 +151,7 @@ const LandingPage = () => {
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
                 <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#1d3554]" />
-                <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-300">Profiles</div>
+                <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">Profiles</div>
               </div>
             </div>
 

@@ -43,6 +43,7 @@
     "@types/markdown-draft-js": "^2.2.7",
     "@types/react-redux": "^7.1.33",
     "@uploadthing/react": "^6.0.2",
+    "@vercel/analytics": "^1.5.0",
     "autoprefixer": "^10.4.21",
     "axios": "^1.6.3",
     "canvas-confetti": "^1.9.3",
