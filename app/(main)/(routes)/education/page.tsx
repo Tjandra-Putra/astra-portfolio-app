@@ -71,7 +71,9 @@ const EducationPage = () => {
                     {new Date(education.startDate).toLocaleDateString("en-SG")} -{" "}
                     {education.endDate ? new Date(education.endDate).toLocaleDateString("en-SG") : "Current"}
                   </div>
-                  {education.grade && <div className="duration text-gray-900 font-normal text-xs sm:text-xs">Grade: {education.grade}</div>}
+                  {education.grade && (
+                    <div className="duration text-gray-900 dark:text-zinc-400 font-normal text-xs sm:text-xs">Grade: {education.grade}</div>
+                  )}
                 </div>
               </div>
 
