@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
       className="sticky top-3 h-16 shadow-paper bg-white dark:bg-[#0D0D0D] dark:border dark: border-[#333335] rounded-xl flex flex-row justify-between items-center md:px-3 px-3 overflow-x-hidden z-10"
     >
       <div className="nav-left flex gap-3">
-        <Link href={`/profile/${userInfo?.id}`} className="nav-item">
+        <Link href={userInfo?.id ? `/profile/${userInfo.id}` : "/"} className="nav-item">
           <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger asChild>

@@ -11,11 +11,21 @@ import axios from "axios";
 import Loader from "@/components/layout/loader";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const CertificatePage = () => {
   const [certificates, setCertificates] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const userInfo = useSelector((state: any) => state.userReducer);
+  const { theme } = useTheme();
+
+  const getButtonVariant = () => {
+    if (theme === "dark") {
+      return "cheese";
+    }
+
+    return "secondary";
+  };
 
   const fetchCertificates = async () => {
     try {
@@ -49,10 +59,10 @@ const CertificatePage = () => {
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="job-title font-medium text-gray-800 text-lg dark:text-zinc-300">Licenses and Certificates</div>
+        <div className="job-title font-medium text-gray-800 text-lg dark:text-zinc-200">Licenses and Certificates</div>
       </div>
 
-      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base dark:text-zinc-400">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base dark:text-zinc-300">
         Here are some of the licenses and certificates that I have acquired over the years.
       </div>
 
@@ -67,9 +77,9 @@ const CertificatePage = () => {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <div className="certification-title font-semibold text-xs sm:text-base dark:text-zinc-300">{certificate.title}</div>
-                  <div className="issuer text-gray-600 font-medium text-xs sm:text-base dark:text-zinc-400">{certificate.issueingOrganisation}</div>
-                  <div className="duration text-gray-500 font-normal text-xs sm:text-base dark:text-zinc-500">
+                  <div className="certification-title font-semibold text-xs sm:text-base dark:text-zinc-200">{certificate.title}</div>
+                  <div className="issuer text-gray-600 font-medium text-xs sm:text-xs dark:text-zinc-300">{certificate.issueingOrganisation}</div>
+                  <div className="duration text-gray-500 font-normal text-xs sm:text-xs dark:text-zinc-400">
                     Issued on {new Date(certificate.issuedDate).toLocaleDateString("en-SG")}
                   </div>
                 </div>
@@ -102,7 +112,7 @@ const CertificatePage = () => {
 
               {certificate.certificateId && (
                 <div className="certificate-id flex justify-end">
-                  <Badge variant={"secondary"} className="text-xs text-black font-medium sm:mt-6 mt-3 text-end">
+                  <Badge variant={getButtonVariant()} className="text-xs text-black font-medium sm:mt-6 mt-3 text-end">
                     Credential ID: {certificate.certificateId}
                   </Badge>
                 </div>

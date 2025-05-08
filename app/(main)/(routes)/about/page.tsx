@@ -35,9 +35,9 @@ const AboutPage = () => {
     <>
       <div className="flex items-center gap-2 mb-7">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="font-medium text-gray-800 text-lg dark:text-zinc-300">About</div>
+        <div className="font-medium text-gray-800 text-lg dark:text-zinc-200">About</div>
       </div>
-      <div className="flex flex-row flex-wrap gap-3 ">
+      <div className="flex flex-row flex-wrap gap-3">
         <Badge variant={"navy"} className="sm:text-xl text-sm">
           👋
         </Badge>
@@ -68,7 +68,7 @@ const AboutPage = () => {
       </div>
 
       <div
-        className="text-gray-800 sm:my-6 my-3 font-normal whitespace-pre-line sm:text-base text-sm dark:text-zinc-400"
+        className="text-gray-800 sm:my-6 my-3 font-normal whitespace-pre-line sm:text-base text-sm dark:text-zinc-300"
         dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
       />
 

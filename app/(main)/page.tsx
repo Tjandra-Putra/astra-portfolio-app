@@ -122,11 +122,11 @@ const LandingPage = () => {
 
           <div className="shadow-paper sm:p-6 p-3 sm:mb-6 mb-3 rounded-lg">
             <div className="flex flex-col justify-center">
-              <div className="sm:text-3xl text-xl text-center font-semibold text-[#1d3554] dark:text-zinc-300">
+              <div className="sm:text-3xl text-xl text-center font-semibold text-[#1d3554] dark:text-zinc-200">
                 Discover inspiration and connect with exceptional <span className="text-[#fab306]">talent.</span>
               </div>
 
-              <div className="sm:text-base text-sm text-center text-[#1d3554] sm:mt-6 mt-3 sm:mb-8 mb-5 dark:text-zinc-400">
+              <div className="sm:text-base text-sm text-center text-[#1d3554] sm:mt-6 mt-3 sm:mb-8 mb-5 dark:text-zinc-300">
                 <span className="font-semibold">Astra Portfolio</span> offers a platform to showcase your projects, experiences, and skills, enabling
                 connections with like-minded individuals and sharing your journey globally.
               </div>
@@ -168,7 +168,7 @@ const LandingPage = () => {
                   >
                     <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
                       <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-3">
-                        <div className="">
+                        <div className="border-2 border-zinc-300 dark:border-white p-2 rounded-full">
                           <Avatar>
                             {profile?.imageUrl ? (
                               <AvatarImage src={profile.imageUrl} className="object-cover w-12 h-12" />
@@ -180,8 +180,8 @@ const LandingPage = () => {
                         </div>
 
                         <div className="flex flex-col">
-                          <div className="font-semibold text-base text-[#1d3554] dark:text-zinc-300">{profile?.name}</div>
-                          <div className="text-base text-gray-500 dark:text-zinc-400">{profile.jobTitle}</div>
+                          <div className="font-semibold text-base text-[#1d3554] dark:text-zinc-200">{profile?.name}</div>
+                          <div className="text-xs text-gray-500 dark:text-zinc-300">{profile.jobTitle}</div>
                         </div>
                       </div>
                       <Link href={`/profile/${profile.id}`}>

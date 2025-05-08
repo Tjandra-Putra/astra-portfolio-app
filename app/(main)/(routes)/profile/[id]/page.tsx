@@ -138,10 +138,10 @@ export default function Profile() {
           <div className="grid md:grid-cols-12 gap-6 sm:mb-0 mb-4 text-center sm:text-left">
             <div className="md:col-span-8 sm:order-first order-last">
               <div className="w-full">
-                <div className="name sm:text-4xl text-2xl font-medium dark:text-white">
+                <div className="name sm:text-4xl text-2xl font-medium dark:text-zinc-200">
                   Hi, I&apos;m <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
                 </div>
-                <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base dark:text-zinc-400">
+                <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base dark:text-zinc-300">
                   {profile?.bio ? profile.bio : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
                 </div>
                 <div className="buttons mt-6 space-x-3">
@@ -187,7 +187,8 @@ export default function Profile() {
             </div>
             <div className="md:col-span-4 flex items-center justify-center">
               <div className="w-36 sm:w-full">
-                <div className="border-4 border-black dark:border-[#00ffcc] p-2 rounded-full dark:shadow-[0_0_5px_#00ffcc,0_0_10px_#00ffcc,0_0_20px_#00ffcc,0_0_40px_#00ffcc]">
+                {/* <div className="border-4 border-black dark:border-[#00ffcc] p-2 rounded-full dark:shadow-[0_0_5px_#00ffcc,0_0_10px_#00ffcc,0_0_20px_#00ffcc,0_0_40px_#00ffcc]"> */}
+                <div className="border-4 border-navy dark:border-zinc-300 p-2 rounded-full">
                   <Avatar>
                     {profile?.imageUrl ? (
                       <AvatarImage src={profile.imageUrl} className="object-cover" />

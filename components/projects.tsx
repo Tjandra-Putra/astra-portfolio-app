@@ -72,7 +72,7 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-400">
+            <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">
               {showAll || detailedPage ? `Other Projects (${allProjects?.length - 1})` : title || `Projects (${filteredProjects.length})`}
             </div>
           </div>

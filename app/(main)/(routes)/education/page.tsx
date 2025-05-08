@@ -45,10 +45,10 @@ const EducationPage = () => {
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="job-title font-medium text-gray-800 text-lg dark:text-zinc-300">Education</div>
+        <div className="job-title font-medium text-gray-800 text-lg dark:text-zinc-200">Education</div>
       </div>
 
-      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base dark:text-zinc-400">
+      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base dark:text-zinc-300">
         Here are some of the educational qualifications that I have acquired over the years.
       </div>
 
@@ -63,20 +63,20 @@ const EducationPage = () => {
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="education font-semibold text-xs sm:text-base leading-4 dark:text-zinc-300">{education.schoolName}</div>
-                  <div className="degree text-gray-600 font-medium text-xs sm:text-base leading-4 dark:text-zinc-400">
+                  <div className="education font-semibold text-xs sm:text-base leading-4 dark:text-zinc-200">{education.schoolName}</div>
+                  <div className="degree text-gray-600 font-normal text-xs sm:text-xs leading-4 dark:text-zinc-300">
                     <span className="field-of-study">{education.fieldOfStudy}</span>, {education.degree}
                   </div>
-                  <div className="duration text-gray-500 font-normal text-xs sm:text-base dark:text-zinc-500">
+                  <div className="duration text-gray-500 font-light text-xs sm:text-xs dark:text-zinc-400">
                     {new Date(education.startDate).toLocaleDateString("en-SG")} -{" "}
                     {education.endDate ? new Date(education.endDate).toLocaleDateString("en-SG") : "Current"}
                   </div>
-                  {education.grade && <div className="duration text-gray-900 font-normal text-xs sm:text-base">Grade: {education.grade}</div>}
+                  {education.grade && <div className="duration text-gray-900 font-normal text-xs sm:text-xs">Grade: {education.grade}</div>}
                 </div>
               </div>
 
               <div
-                className="education font-normal text-xs sm:text-base sm:mt-3 mt-1 leading-5 whitespace-pre-line dark:text-zinc-400"
+                className="education font-normal text-xs sm:text-xs sm:mt-3 mt-1 leading-7 whitespace-pre-line dark:text-zinc-400"
                 dangerouslySetInnerHTML={{ __html: education.description || "" }}
               />
 
@@ -92,7 +92,7 @@ const EducationPage = () => {
             </div>
           ))
         ) : (
-          <div className="certificates bg-ash md:p-6 p-3 rounded-lg dark:bg-[#171717] dark:border-white/10">No educations available.</div>
+          <div className="certificates bg-ash md:p-6 p-3 rounded-lg dark:bg-[#0c0c0c] dark:border-white/10">No educations available.</div>
         )}
       </div>
     </React.Fragment>
