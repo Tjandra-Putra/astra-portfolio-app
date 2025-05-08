@@ -166,7 +166,7 @@ const LandingPage = () => {
                     className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] ${
                       profile?.id === "35c89c6b-98ab-487f-a295-959a18090bc6"
                         ? "border-2 dark:border-sky border-navy"
-                        : "dark:border dark:border-cheese"
+                        : "dark:border dark:border-white"
                     }`}
                     key={profile.id}
                   >
