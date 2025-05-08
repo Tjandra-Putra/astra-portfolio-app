@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const NotFound: React.FC = () => {
   const router = useRouter();
@@ -12,15 +13,28 @@ const NotFound: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-yellow-300 to-yellow-500 w-full h-full min-h-screen flex justify-center items-center flex-col p-6">
-      <Image src="/assets/image/error-404.png" alt="404" width={400} height={400} />
-      <div className="flex flex-col items-center gap-8 text-center">
-        <span className="sm:text-6xl text-2xl font-bold uppercase">Not Found</span>
-        <p className="text:l sm:text-xl">The page you were looking for could not be found</p>
-        {/* <Button variant="secondary" onClick={goBack}>
-          Back to previous page
-        </Button> */}
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 p-4 text-center">
+      <Card className="w-full max-w-lg bg-white dark:bg-gray-900 shadow-lg rounded-2xl">
+        <CardHeader>
+          <Image src="/assets/image/error-404.png" alt="404" width={200} height={200} className="mx-auto mb-4" />
+          <CardTitle className="text-3xl font-bold text-gray-800 dark:text-white">Page Not Found</CardTitle>
+        </CardHeader>
+        <CardContent className="text-center flex flex-col items-center">
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
+            Sorry, the page you are looking for does not exist. Please check the URL or go back to the homepage.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button variant="secondary" className="w-full  py-2 rounded-full" onClick={goBack}>
+              Go Back
+            </Button>
+            <Link href="/">
+              <Button variant="secondary" className="w-full bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-full">
+                Go to Home
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
