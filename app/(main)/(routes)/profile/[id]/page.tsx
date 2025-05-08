@@ -112,7 +112,7 @@ export default function Profile() {
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
             <div className="job-title font-medium text-gray-800 dark:text-sky">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
           </div>
-          <Link href={"/"}>
+          <Link href={process.env.NODE_ENV === "production" ? "https://astra-portfolio.vercel.app" : "/"}>
             <div className="status uppercase tracking-wider text-end">
               <Badge variant={"diamond"} className="font-semibold">
                 <FontAwesomeIcon
