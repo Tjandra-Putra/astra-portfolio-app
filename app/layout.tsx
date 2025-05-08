@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem storageKey="astra-theme" disableTransitionOnChange>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem storageKey="astra-theme" disableTransitionOnChange>
             <ReduxProvider>{children}</ReduxProvider>
             <Toaster position="bottom-center" />
           </ThemeProvider>
