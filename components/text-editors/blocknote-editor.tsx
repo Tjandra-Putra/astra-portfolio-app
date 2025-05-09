@@ -3,8 +3,8 @@
 import { PartialBlock, BlockNoteEditor } from "@blocknote/core";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
-
-import "@blocknote/react/style.css";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/mantine/style.css";
 import { useEffect, useState, useMemo } from "react";
 import { useTheme } from "next-themes";
 import { uploadFiles } from "@/lib/uploadthing";
