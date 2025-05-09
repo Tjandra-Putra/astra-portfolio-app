@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -22,7 +21,7 @@ import Experiences from "@/components/experiences";
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
 import { Editor } from "@/components/text-editors/blocknote-editor";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { calculateDuration } from "@/lib/format-date";
 
 const Project = () => {
@@ -36,17 +35,18 @@ const Project = () => {
   const [profile, setProfile] = useState<any>();
   const [project, setProject] = useState<any>();
   const [loading, setLoading] = useState(true);
+
+  // Improved image loading/error state
   const [loadingImage, setLoadingImage] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   const fetchProject = async () => {
     try {
       const response = await axios.get(`/api/project/${projectId}`);
       setProject(response.data);
-
       setLoading(false);
     } catch (error: any) {
-      console.error("Error fetching data:", error.response.data);
-
+      console.error("Error fetching data:", error.response?.data);
       setLoading(false);
     }
   };
@@ -54,7 +54,6 @@ const Project = () => {
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(`/api/project/get-profile/${projectId}`);
-
       // redux
       dispatch(
         setUserInfo({
@@ -73,6 +72,23 @@ const Project = () => {
     fetchProject();
     fetchUserProfile();
   }, []);
+
+  // Image source logic
+  const imageSrc = project?.thumbnailUrl || "/assets/image/pexels-fauxels-3183186.jpg";
+  const isFallback = !project?.thumbnailUrl;
+
+  // Handle image error: if main fails, try fallback; if fallback fails, show message
+  const handleImageError = () => {
+    if (isFallback) {
+      setImageError(true);
+      setLoadingImage(false);
+    } else {
+      setLoadingImage(true);
+      setImageError(false);
+      // Switch to fallback image by clearing thumbnailUrl
+      setProject((prev: any) => ({ ...prev, thumbnailUrl: null }));
+    }
+  };
 
   return !project ? (
     <Loader />
@@ -122,37 +138,28 @@ const Project = () => {
       </section>
       <section>
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
-          {loadingImage && (
+          {loadingImage && !imageError && (
             <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717]">
               <Loader />
             </div>
           )}
-          {project?.thumbnailUrl ? (
+          {!imageError ? (
             <div className="image-wrapper overflow-y-scroll">
               <Image
-                src={project?.thumbnailUrl}
+                src={imageSrc}
                 alt={project?.name}
                 width={800}
                 height={450}
                 layout="responsive"
                 priority={true}
                 onLoad={() => setLoadingImage(false)}
-                onError={() => setLoadingImage(false)}
+                onError={handleImageError}
                 className={`thumbnail-img w-full h-full rounded-lg ${loadingImage ? "hidden" : ""}`}
               />
             </div>
           ) : (
-            <div className="image-wrapper overflow-y-scroll">
-              <Image
-                src="/assets/image/pexels-fauxels-3183186.jpg"
-                alt={project?.name}
-                width={800}
-                height={450}
-                layout="responsive"
-                onLoad={() => setLoadingImage(false)}
-                onError={() => setLoadingImage(false)}
-                className={`thumbnail-img w-full h-full ${loadingImage ? "hidden" : ""}`}
-              />
+            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717] text-zinc-500">
+              <span>No image available</span>
             </div>
           )}
         </div>
@@ -190,20 +197,6 @@ const Project = () => {
               ))
             : null}
         </div>
-
-        {/* <Separator className="mt-6 mb-6" />
-
-        <div className="badges flex flex-row flex-wrap gap-3 my-6">
-          {project.tags
-            ? project.tags.split(",").map((tag: string, index: number) => (
-                <Badge key={index} variant="navy">
-                  {tag.trim()}
-                </Badge>
-              ))
-            : null}
-        </div>
-
-        <Separator className="my-6" /> */}
 
         {project?.isWorkExperience ? (
           <Experiences title="Other Experiences" showAll={true} detailedPage={false} currentExperienceId={projectId} />

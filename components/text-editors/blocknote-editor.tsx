@@ -1,11 +1,21 @@
 "use client";
 
-import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
+import { PartialBlock, BlockNoteEditor } from "@blocknote/core";
 import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
 import { useEffect, useState, useMemo } from "react";
 import { useTheme } from "next-themes";
 import { uploadFiles } from "@/lib/uploadthing";
+
+// Helper function to check if the string is valid JSON
+const isValidJSON = (str: string) => {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
 interface EditorProps {
   onParentEditorChange?: (value: string) => void;
@@ -26,35 +36,34 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
     }
   }, [theme, resolvedTheme]);
 
-  // Helper to safely parse JSON
-  const isValidJSON = (content: string): boolean => {
-    try {
-      JSON.parse(content);
-      return true;
-    } catch {
-      return false;
-    }
+  const handleUpload = async (file: File) => {
+    const [res] = await uploadFiles("imageUploader", { files: [file] });
+    return res.url;
   };
 
-  // Prepare initial content as a string for keying and parsing
-  const initialContentString = useMemo(() => {
-    if (!initialContent) return "";
-    return typeof initialContent === "string" ? initialContent : JSON.stringify(initialContent);
+  // Conditionally parse the initial content if it's a string
+  const initialEditorContent = useMemo(() => {
+    if (typeof initialContent === "string" && isValidJSON(initialContent)) {
+      return JSON.parse(initialContent);
+    }
+    return initialContent;
   }, [initialContent]);
 
-  // Key for remounting editor when content changes
-  const editorKey = initialContentString;
-
-  // Create the editor only when initial content changes
-  const editor = useCreateBlockNote({
-    initialContent: initialContentString && isValidJSON(initialContentString) ? JSON.parse(initialContentString) : [],
-    uploadFile: async (file: File) => {
-      const [res] = await uploadFiles("imageUploader", { files: [file] });
-      return res.url;
-    },
+  const editor: BlockNoteEditor = useCreateBlockNote({
+    initialContent: initialEditorContent,
+    uploadFile: handleUpload,
   });
 
-  // Handle editor changes
+  useEffect(() => {
+    if (initialContent && typeof initialContent === "string" && isValidJSON(initialContent)) {
+      try {
+        editor.replaceBlocks(editor.document, JSON.parse(initialContent) as PartialBlock[]);
+      } catch (error) {
+        console.error("Error parsing initial content JSON:", error);
+      }
+    }
+  }, [initialContent, editor]);
+
   const onEditorChange = () => {
     if (onParentEditorChange) {
       onParentEditorChange(JSON.stringify(editor.document));
@@ -72,15 +81,7 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
           `}
         </style>
       )}
-      <BlockNoteView
-        key={editorKey}
-        editor={editor}
-        onChange={onEditorChange}
-        theme={clientTheme}
-        editable={editable}
-        data-theming-css-demo
-        className={className}
-      />
+      <BlockNoteView editor={editor} onChange={onEditorChange} theme={clientTheme} editable={editable} data-theming-css-demo className={className} />
     </>
   );
 };
