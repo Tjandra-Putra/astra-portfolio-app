@@ -25,6 +25,7 @@ const ManagePage = () => {
   const route = useRouter();
   const userInfo = useSelector((state: any) => state.userReducer);
 
+
   const fetchProfile = () => {
     axios.get(`/api/profile/current`).then((response) => {
       dispatch(

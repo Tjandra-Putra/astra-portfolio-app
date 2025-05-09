@@ -25,6 +25,8 @@ const LandingPage = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
 
+  console.log(`window.hostname`, window.location.hostname);
+
   useEffect(() => {
     // Fetch profiles on page load
     fetchProfiles().then(() => {

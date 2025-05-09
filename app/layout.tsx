@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   description: "Portfolio App",
 };
 
+
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
