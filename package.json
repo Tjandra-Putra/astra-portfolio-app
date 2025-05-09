@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@blocknote/core": "^0.12.4",
+    "@blocknote/mantine": "^0.30.0",
     "@blocknote/react": "^0.12.4",
     "@clerk/nextjs": "^4.28.1",
     "@fortawesome/fontawesome": "^1.1.8",
