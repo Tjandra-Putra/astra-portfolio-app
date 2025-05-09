@@ -5,6 +5,7 @@ import { BlockNoteView, useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { uploadFiles } from "@/lib/uploadthing";
 
 interface EditorProps {
   onParentEditorChange?: (value: string) => void;
@@ -35,8 +36,9 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
     }
   };
 
-  const handleUpload = async (file: File): Promise<string> => {
-    return "https://m.media-amazon.com/images/I/51y8GUVKJoL.jpg";
+  const handleUpload = async (file: File) => {
+    const [res] = await uploadFiles("imageUploader", { files: [file] });
+    return res.url;
   };
 
   const editor: BlockNoteEditor = useCreateBlockNote({

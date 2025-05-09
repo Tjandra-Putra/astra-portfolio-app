@@ -27,11 +27,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
             <AvatarImage src={value} className="object-cover" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <button
-            onClick={() => onChange("")}
-            className="bg-rose-500 text-white p-1 rounded-full absolute top-2 right-2 shadow-sm"
-            type="button"
-          >
+          <button onClick={() => onChange("")} className="bg-rose-500 text-white p-1 rounded-full absolute top-2 right-2 shadow-sm" type="button">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -45,9 +41,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       <div className="relative">
         <div className="avatar-border rounded-sm">
           <Link href={value} target="_blank">
-            <div className="w-full h-10 bg-navy rounded-lg text-white font-medium  flex items-center justify-center">
-              View PDF
-            </div>
+            <div className="w-full h-10 bg-navy rounded-lg text-white font-medium  flex items-center justify-center">View PDF</div>
           </Link>
           <button
             onClick={() => onChange("")}
@@ -69,7 +63,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       }}
       onUploadError={(error: Error) => {
         console.log(error);
-        toast.error("Error: File size too large.");
+        toast.error(`Upload failed: ${error.message}`);
       }}
       className="bg-ash text-[#1d3554] p-5"
       appearance={{
