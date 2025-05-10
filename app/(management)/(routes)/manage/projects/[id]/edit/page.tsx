@@ -132,13 +132,14 @@ const EditProjectPage = () => {
         company: project?.company,
         workExperienceTitle: project?.workExperienceTitle,
         category: project?.category,
-        content: project?.content,
+        content: project?.content || "",
         startDate: new Date(project?.startDate),
         endDate: new Date(project?.endDate),
         isWorkExperience: project?.isWorkExperience,
         visible: project?.visible,
         tags: project?.tags,
       });
+      setMarkdownContent(project.content || "");
     }
   }, [project]);
 
