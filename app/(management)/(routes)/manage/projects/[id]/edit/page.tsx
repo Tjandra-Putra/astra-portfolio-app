@@ -80,7 +80,6 @@ const EditProjectPage = () => {
   const id = params.id;
 
   const [project, setProject] = useState<any>();
-  const [loading, setLoading] = React.useState<boolean>(false);
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -114,7 +113,11 @@ const EditProjectPage = () => {
   };
 
   useEffect(() => {
-    fetchProject();
+    if (id) {
+      fetchProject();
+    } else {
+      console.error("Project ID is missing.");
+    }
   }, [id]);
 
   // ensures the form is only populated when the project is fetched

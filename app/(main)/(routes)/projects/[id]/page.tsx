@@ -186,7 +186,7 @@ const Project = () => {
 
         <Separator className="mt-6 mb-6" />
 
-        <Editor initialContent={project?.content} editable={false} />
+        {project?.content?.length > 351 ? <Editor initialContent={project?.content} editable={false} /> : null}
 
         <div className="badges flex flex-row flex-wrap gap-3 my-6">
           {project.tags

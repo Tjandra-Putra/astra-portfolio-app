@@ -15,16 +15,7 @@ interface EditorProps {
 }
 
 export const Editor = ({ onParentEditorChange, initialContent, editable = true, className }: EditorProps) => {
-  const { theme, resolvedTheme } = useTheme(); // resolvedTheme accounts for "system"
-  const [clientTheme, setClientTheme] = useState<"light" | "dark">("light");
-
-  useEffect(() => {
-    if (theme === "system") {
-      setClientTheme(resolvedTheme === "dark" ? "dark" : "light");
-    } else {
-      setClientTheme(theme === "dark" ? "dark" : "light");
-    }
-  }, [theme, resolvedTheme]);
+  const { resolvedTheme } = useTheme();
 
   const isValidJSON = (content: string): boolean => {
     try {
@@ -73,7 +64,14 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
           `}
         </style>
       )}
-      <BlockNoteView editor={editor} onChange={() => onEditorChange()} theme={clientTheme} editable={editable} data-theming-css-demo />
+      <BlockNoteView
+        editor={editor}
+        onChange={() => onEditorChange()}
+        editable={editable}
+        data-theming-css-demo
+        theme={resolvedTheme === "dark" || resolvedTheme === "light" ? resolvedTheme : "light"} // default to "light" if undefined or invalid
+      />
+      {/* theme={clientTheme}  */}
     </>
   );
 };
