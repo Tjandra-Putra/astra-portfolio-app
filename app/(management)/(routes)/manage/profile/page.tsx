@@ -18,6 +18,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { FileUpload } from "@/components/file-upload";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 const socialMediaPlatforms = [
   { value: "fa-linkedin, fa-brands", label: "LinkedIn" },
@@ -178,14 +179,10 @@ const EditProfilePage = () => {
           </div>
 
           <div className="text-gray-800 font-normal text-sm sm:text-base">
-            Leave the field blank if you do not want to update the information. If you want to update the information,
-            please fill in the field.
+            Leave the field blank if you do not want to update the information. If you want to update the information, please fill in the field.
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Basic Information
           </Badge>
 
@@ -264,9 +261,7 @@ const EditProfilePage = () => {
                         <FormControl>
                           <Input type="email" placeholder="E.g tjandrap.work@gmail.com" {...field} />
                         </FormControl>
-                        <FormDescription>
-                          If no email is provided, the email used to sign up will be used.
-                        </FormDescription>
+                        <FormDescription>If no email is provided, the email used to sign up will be used.</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -285,11 +280,7 @@ const EditProfilePage = () => {
                       <FormItem>
                         <FormLabel>Bio</FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="Introduce yourself in a few words."
-                            className="resize-none whitespace-pre-line"
-                            {...field}
-                          />
+                          <Textarea placeholder="Introduce yourself in a few words." className="resize-none whitespace-pre-line" {...field} />
                         </FormControl>
                         <FormDescription>Introduce yourself in a few words for the main page</FormDescription>
                         <FormMessage />
@@ -310,12 +301,7 @@ const EditProfilePage = () => {
                       <FormItem>
                         <FormLabel>About</FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="Introduce yourself in detail."
-                            className="resize-none whitespace-pre-line"
-                            rows={12}
-                            {...field}
-                          />
+                          <Textarea placeholder="Introduce yourself in detail." className="resize-none whitespace-pre-line" rows={12} {...field} />
                         </FormControl>
                         <FormDescription>Introduce yourself in details for the about page.</FormDescription>
                         <FormMessage />
@@ -327,10 +313,7 @@ const EditProfilePage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Files
           </Badge>
 
@@ -372,10 +355,7 @@ const EditProfilePage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Social Media
           </Badge>
 
@@ -417,12 +397,7 @@ const EditProfilePage = () => {
                         <FormItem>
                           <FormLabel>Link</FormLabel>
                           <FormControl>
-                            <Input
-                              type="text"
-                              placeholder="E.g https://www.example.com"
-                              {...field}
-                              className="text-[#007bff]"
-                            />
+                            <Input type="text" placeholder="E.g https://www.example.com" {...field} className="text-[#007bff]" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -435,7 +410,14 @@ const EditProfilePage = () => {
           </div>
 
           <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit" disabled={isEditing}>
-            {isEditing ? "Saving Changes..." : "Save Changes"}
+            {isEditing ? (
+              <span className="flex items-center justify-center">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </span>
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </form>
       </Form>

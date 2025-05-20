@@ -7,6 +7,8 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+
 // import "@uploadthing/react/styles.css";
 
 interface FileUploadProps {
@@ -71,7 +73,14 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       }}
       content={{
         button({ isUploading }) {
-          return isUploading ? "Uploading..." : "Upload files";
+          return isUploading ? (
+            <span className="flex items-center justify-center">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Uploading...
+            </span>
+          ) : (
+            "Upload File"
+          );
         },
       }}
     />
