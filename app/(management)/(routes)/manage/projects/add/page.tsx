@@ -27,6 +27,7 @@ import { Loader2 } from "lucide-react";
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 import { Editor } from "@/components/text-editors/blocknote-editor";
+import { DatePicker } from "@/components/ui/date-picker";
 // import QuillTextEditor from "@/components/text-editors/quill-editor";
 
 const formSchema = z.object({
@@ -138,14 +139,9 @@ const AddProjectPage = () => {
             <div className="job-title font-medium text-gray-800 text-lg">Add Project </div>
           </div>
 
-          <div className="text-gray-800 font-normal">
-            Add a project to your portfolio. This will be displayed on your profile page.
-          </div>
+          <div className="text-gray-800 font-normal">Add a project to your portfolio. This will be displayed on your profile page.</div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Introduction
           </Badge>
 
@@ -219,12 +215,7 @@ const AddProjectPage = () => {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="E.g This project aims to ..."
-                        className="resize-none whitespace-pre-line"
-                        rows={10}
-                        {...field}
-                      />
+                      <Textarea placeholder="E.g This project aims to ..." className="resize-none whitespace-pre-line" rows={10} {...field} />
                     </FormControl>
                     <FormDescription>This is a summary of what your project is about.</FormDescription>
                     <FormMessage />
@@ -234,10 +225,7 @@ const AddProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Details
           </Badge>
 
@@ -273,15 +261,27 @@ const AddProjectPage = () => {
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel>Start Date</FormLabel>
+                        <FormControl>
+                          <div className="w-full">
+                            <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* <FormField
+                    control={form.control}
+                    name="startDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Start Date</FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
                               <Button
                                 variant={"outline"}
-                                className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
+                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                               >
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -295,11 +295,26 @@ const AddProjectPage = () => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                 </div>
 
                 <div className="col-span-1">
                   <FormField
+                    control={form.control}
+                    name="endDate"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>End Date</FormLabel>
+                        <FormControl>
+                          <div className="w-full">
+                            <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* <FormField
                     control={form.control}
                     name="endDate"
                     render={({ field }) => (
@@ -310,10 +325,7 @@ const AddProjectPage = () => {
                             <FormControl>
                               <Button
                                 variant={"outline"}
-                                className={cn(
-                                  "w-[240px] pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground"
-                                )}
+                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                               >
                                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -327,7 +339,7 @@ const AddProjectPage = () => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                 </div>
               </div>
             </section>
@@ -336,12 +348,9 @@ const AddProjectPage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">
-                    Your project is visible to everyone{" "}
-                    <span className="text-sm text-gray-600 font-light">(Optional)</span>
+                    Your project is visible to everyone <span className="text-sm text-gray-600 font-light">(Optional)</span>
                   </Label>
-                  <div className="text-sm text-gray-600 font-light">
-                    Turning on this option will hide this project from your profile.
-                  </div>
+                  <div className="text-sm text-gray-600 font-light">Turning on this option will hide this project from your profile.</div>
                 </div>
                 <div>
                   <FormField
@@ -363,9 +372,7 @@ const AddProjectPage = () => {
               <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">Is this a work experience?</Label>
-                  <div className="text-sm text-gray-600 font-light">
-                    Turning on this option will consider this project as a work experience.
-                  </div>
+                  <div className="text-sm text-gray-600 font-light">Turning on this option will consider this project as a work experience.</div>
                 </div>
                 <div>
                   <FormField
@@ -406,10 +413,7 @@ const AddProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Links
           </Badge>
 
@@ -459,10 +463,7 @@ const AddProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Tags
           </Badge>
           <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
@@ -486,10 +487,7 @@ const AddProjectPage = () => {
             </section>
           </div>
 
-          <Badge
-            variant="navy"
-            className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-          >
+          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Main Content
           </Badge>
           <div className="border  p-5 rounded-bl-lg rounded-br-lg">
@@ -503,12 +501,14 @@ const AddProjectPage = () => {
           </div> */}
 
           <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
-            {isAdding ? 
+            {isAdding ? (
               <span className="flex items-center justify-center">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Adding...
               </span>
-             : "Add Project"}
+            ) : (
+              "Add Project"
+            )}
           </Button>
         </form>
       </Form>

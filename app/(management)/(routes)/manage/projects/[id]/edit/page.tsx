@@ -29,6 +29,7 @@ import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import Loader from "@/components/layout/loader";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -329,22 +330,11 @@ const EditProjectPage = () => {
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel>Start Date</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
-                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                          </PopoverContent>
-                        </Popover>
+                        <FormControl>
+                          <div className="w-full">
+                            <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                          </div>
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -358,22 +348,11 @@ const EditProjectPage = () => {
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel>End Date</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
-                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                          </PopoverContent>
-                        </Popover>
+                        <FormControl>
+                          <div className="w-full">
+                            <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                          </div>
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
