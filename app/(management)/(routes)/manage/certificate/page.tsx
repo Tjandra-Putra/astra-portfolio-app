@@ -9,6 +9,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ManageCertificatePage = () => {
   const [certificates, setCertificates] = useState<any[]>([]);
@@ -23,7 +24,7 @@ const ManageCertificatePage = () => {
       setCertificates(response.data);
     } catch (error) {
       console.error("Error fetching certificates:", error);
-
+    } finally {
       setLoading(false);
     }
   };
@@ -51,7 +52,7 @@ const ManageCertificatePage = () => {
 
   useEffect(() => {
     fetchCertificates();
-  }, [certificates]);
+  }, []);
   return (
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3 justify-between">
@@ -71,10 +72,7 @@ const ManageCertificatePage = () => {
         Manage your certificates here. You can add, edit, and delete certificates.
       </div>
 
-      <Badge
-        variant="navy"
-        className="text-base font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none"
-      >
+      <Badge variant="navy" className="text-base font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none">
         Certificates
       </Badge>
       <Table>
@@ -89,36 +87,53 @@ const ManageCertificatePage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {certificates?.map((certificate) => (
-            <TableRow key={certificate.id}>
-              <TableCell className="font-medium">{certificate.title}</TableCell>
-              <TableCell>
-                {certificate?.visible ? (
-                  <Badge variant={"diamond"}>Visible</Badge>
-                ) : (
-                  <Badge variant={"cheese"}>Hidden</Badge>
-                )}
-              </TableCell>
-              <TableCell>{certificate.issueingOrganisation}</TableCell>
-              <TableCell>{new Date(certificate.issuedDate).toLocaleDateString("en-SG")}</TableCell>
-              <TableCell>
-                <div className="buttons flex gap-2">
-                  <Link href={`/manage/certificate/${certificate.id}/edit`}>
-                    <Button variant="secondary">
-                      <FontAwesomeIcon icon={faPen} />
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="secondary"
-                    disabled={buttonLoading}
-                    onClick={() => deleteCertificateHandler(certificate.id)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {loading
+            ? // Skeleton rows while loading
+              Array.from({ length: 3 }).map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[80px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[180px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[120px]" />
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex gap-2 justify-end">
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            : // Actual data sorted by issuedDate (latest first)
+              certificates
+                ?.sort((a, b) => new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime())
+                .map((certificate) => (
+                  <TableRow key={certificate.id}>
+                    <TableCell className="font-medium">{certificate.title}</TableCell>
+                    <TableCell>{certificate?.visible ? <Badge variant="diamond">Visible</Badge> : <Badge variant="cheese">Hidden</Badge>}</TableCell>
+                    <TableCell>{certificate.issueingOrganisation}</TableCell>
+                    <TableCell>{new Date(certificate.issuedDate).toLocaleDateString("en-SG")}</TableCell>
+                    <TableCell>
+                      <div className="buttons flex gap-2">
+                        <Link href={`/manage/certificate/${certificate.id}/edit`}>
+                          <Button variant="secondary">
+                            <FontAwesomeIcon icon={faPen} />
+                          </Button>
+                        </Link>
+                        <Button variant="secondary" disabled={buttonLoading} onClick={() => deleteCertificateHandler(certificate.id)}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
         </TableBody>
       </Table>
     </React.Fragment>

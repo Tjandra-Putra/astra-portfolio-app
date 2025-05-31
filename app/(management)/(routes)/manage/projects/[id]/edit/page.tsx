@@ -28,6 +28,7 @@ import { Editor } from "@/components/text-editors/blocknote-editor";
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import Loader from "@/components/layout/loader";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -81,6 +82,7 @@ const EditProjectPage = () => {
 
   const [project, setProject] = useState<any>();
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -104,11 +106,14 @@ const EditProjectPage = () => {
 
   const fetchProject = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`/api/manage/projects/${id}`);
 
       setProject(response.data);
     } catch (error: any) {
       console.error("Error fetching data:", error.response.data);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -185,7 +190,9 @@ const EditProjectPage = () => {
   //   form.setValue("content", "");
   // };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <React.Fragment>
       <div className="flex justify-between">
         <Button className="sm:mb-3 mb-3" variant={"secondary"} size="sm" onClick={() => window.history.back()}>

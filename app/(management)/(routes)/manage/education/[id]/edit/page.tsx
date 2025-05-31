@@ -26,6 +26,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import Loader from "@/components/layout/loader";
 
 const formSchema = z.object({
   schoolName: z.string().min(1, {
@@ -50,6 +51,7 @@ const formSchema = z.object({
 const EditEducationPage = () => {
   const router = useRouter();
   const [isAdding, setIsAdding] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [education, setEducation] = React.useState<any>(null);
 
   // get id from url
@@ -74,10 +76,13 @@ const EditEducationPage = () => {
 
   const fetchEducation = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`/api/manage/education/${id}`);
       setEducation(response.data);
     } catch (error: any) {
       console.error("Error fetching data:", error.response.data);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,7 +129,9 @@ const EditEducationPage = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <React.Fragment>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>

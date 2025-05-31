@@ -19,6 +19,7 @@ import { FileUpload } from "@/components/file-upload";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import Loader from "@/components/layout/loader";
 
 const socialMediaPlatforms = [
   { value: "fa-linkedin, fa-brands", label: "LinkedIn" },
@@ -86,6 +87,7 @@ const EditProfilePage = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [profile, setProfile] = useState<any>({});
   const userInfo = useSelector((state: any) => state.userReducer);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // define form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -109,10 +111,13 @@ const EditProfilePage = () => {
 
   const fetchProfile = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`/api/manage/profile/${userInfo?.id}`);
       setProfile(response.data);
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -169,7 +174,9 @@ const EditProfilePage = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <React.Fragment>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>

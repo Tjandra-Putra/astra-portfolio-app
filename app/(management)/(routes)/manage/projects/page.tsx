@@ -9,6 +9,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -72,10 +73,7 @@ const ProjectsPage = () => {
         Your projects are listed below. You can edit, delete, or hide them from your profile.
       </div>
 
-      <Badge
-        variant="navy"
-        className="text-base font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none"
-      >
+      <Badge variant="navy" className="text-base font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none">
         Personal Projects
       </Badge>
       <Table>
@@ -88,48 +86,56 @@ const ProjectsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {projects
-            ?.filter((project) => !project.isWorkExperience)
-            .map((project) => (
-              <TableRow key={project.id}>
-                <TableCell className="font-medium">{project.name}</TableCell>
-                <TableCell>
-                  {project?.visible ? (
-                    <Badge variant={"diamond"}>Visible</Badge>
-                  ) : (
-                    <Badge variant={"cheese"}>Hidden</Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="buttons flex gap-2">
-                    <Link href={`/projects/${project.id}`} target="_blank">
-                      <Button variant="secondary">
-                        <FontAwesomeIcon icon={faEye} />
-                      </Button>
-                    </Link>
-                    <Link href={`/manage/projects/${project.id}/edit`}>
-                      <Button variant="secondary">
-                        <FontAwesomeIcon icon={faPen} />
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="secondary"
-                      onClick={() => deleteProjectHandler(project.id)}
-                      disabled={buttonLoading}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+          {loading
+            ? // Skeletons while loading
+              Array.from({ length: 3 }).map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[150px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[100px]" />
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex gap-2 justify-end">
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            : // Actual content
+              projects
+                ?.filter((project) => !project.isWorkExperience)
+                .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()) // 👈 Sort by latest date
+                .map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell className="font-medium">{project.name}</TableCell>
+                    <TableCell>{project?.visible ? <Badge variant="diamond">Visible</Badge> : <Badge variant="cheese">Hidden</Badge>}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="buttons flex gap-2">
+                        <Link href={`/projects/${project.id}`} target="_blank">
+                          <Button variant="secondary">
+                            <FontAwesomeIcon icon={faEye} />
+                          </Button>
+                        </Link>
+                        <Link href={`/manage/projects/${project.id}/edit`}>
+                          <Button variant="secondary">
+                            <FontAwesomeIcon icon={faPen} />
+                          </Button>
+                        </Link>
+                        <Button variant="secondary" onClick={() => deleteProjectHandler(project.id)} disabled={buttonLoading}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
         </TableBody>
       </Table>
 
-      <Badge
-        variant="navy"
-        className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none"
-      >
+      <Badge variant="navy" className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
         Work Experiences
       </Badge>
       <Table>
@@ -143,42 +149,56 @@ const ProjectsPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {projects
-            ?.filter((project) => project.isWorkExperience)
-            .map((project) => (
-              <TableRow key={project.id}>
-                <TableCell className="font-medium">{project.company}</TableCell>
-                <TableCell>{project.workExperienceTitle}</TableCell>
-                <TableCell>
-                  {project?.visible ? (
-                    <Badge variant={"diamond"}>Visible</Badge>
-                  ) : (
-                    <Badge variant={"cheese"}>Hidden</Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="buttons flex gap-2">
-                    <Link href={`/projects/${project.id}`}>
-                      <Button variant="secondary">
-                        <FontAwesomeIcon icon={faEye} />
-                      </Button>
-                    </Link>
-                    <Link href={`/manage/projects/${project.id}/edit`}>
-                      <Button variant="secondary">
-                        <FontAwesomeIcon icon={faPen} />
-                      </Button>
-                    </Link>
-                    <Button
-                      variant="secondary"
-                      onClick={() => deleteProjectHandler(project.id)}
-                      disabled={buttonLoading}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+          {loading
+            ? // Render 3 skeleton rows while loading
+              Array.from({ length: 3 }).map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[150px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[80px]" />
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex gap-2 justify-end">
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            : // Actual data after loading
+              projects
+                ?.filter((project) => project.isWorkExperience)
+                .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()) // 👈 Sort by latest date
+                .map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell className="font-medium">{project.company}</TableCell>
+                    <TableCell>{project.workExperienceTitle}</TableCell>
+                    <TableCell>{project?.visible ? <Badge variant="diamond">Visible</Badge> : <Badge variant="cheese">Hidden</Badge>}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="buttons flex gap-2">
+                        <Link href={`/projects/${project.id}`}>
+                          <Button variant="secondary">
+                            <FontAwesomeIcon icon={faEye} />
+                          </Button>
+                        </Link>
+                        <Link href={`/manage/projects/${project.id}/edit`}>
+                          <Button variant="secondary">
+                            <FontAwesomeIcon icon={faPen} />
+                          </Button>
+                        </Link>
+                        <Button variant="secondary" onClick={() => deleteProjectHandler(project.id)} disabled={buttonLoading}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
         </TableBody>
       </Table>
     </React.Fragment>

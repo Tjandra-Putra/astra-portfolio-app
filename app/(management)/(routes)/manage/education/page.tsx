@@ -9,6 +9,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ManageEducationPage = () => {
   const [educations, setEducations] = useState<any[]>([]);
@@ -23,7 +24,7 @@ const ManageEducationPage = () => {
       setEducations(response.data);
     } catch (error) {
       console.error("Error fetching educations:", error);
-
+    } finally {
       setLoading(false);
     }
   };
@@ -72,10 +73,7 @@ const ManageEducationPage = () => {
         Manage your educations here. You can add, edit, and delete educations.
       </div>
 
-      <Badge
-        variant="navy"
-        className="text-base font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none"
-      >
+      <Badge variant="navy" className="text-base font-semibold w-full justify-start rounded-lg rounded-bl-none rounded-br-none">
         Educations
       </Badge>
       <Table>
@@ -88,35 +86,45 @@ const ManageEducationPage = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {educations?.map((education) => (
-            <TableRow key={education.id}>
-              <TableCell className="font-medium">{education.schoolName}</TableCell>
-
-              <TableCell>
-                {education?.visible ? (
-                  <Badge variant={"diamond"}>Visible</Badge>
-                ) : (
-                  <Badge variant={"cheese"}>Hidden</Badge>
-                )}
-              </TableCell>
-              <TableCell>
-                <div className="buttons flex gap-2">
-                  <Link href={`/manage/education/${education.id}/edit`}>
-                    <Button variant="secondary">
-                      <FontAwesomeIcon icon={faPen} />
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="secondary"
-                    disabled={buttonLoading}
-                    onClick={() => deleteEducationHandler(education.id)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {loading
+            ? // Skeleton rows while loading
+              Array.from({ length: 3 }).map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-[80px]" />
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex gap-2 justify-end">
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                      <Skeleton className="h-8 w-8 rounded-md" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            : // Actual content
+              educations
+                .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+                .map((education) => (
+                  <TableRow key={education.id}>
+                    <TableCell className="font-medium">{education.schoolName}</TableCell>
+                    <TableCell>{education?.visible ? <Badge variant="diamond">Visible</Badge> : <Badge variant="cheese">Hidden</Badge>}</TableCell>
+                    <TableCell>
+                      <div className="buttons flex gap-2">
+                        <Link href={`/manage/education/${education.id}/edit`}>
+                          <Button variant="secondary">
+                            <FontAwesomeIcon icon={faPen} />
+                          </Button>
+                        </Link>
+                        <Button variant="secondary" disabled={buttonLoading} onClick={() => deleteEducationHandler(education.id)}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
         </TableBody>
       </Table>
     </React.Fragment>

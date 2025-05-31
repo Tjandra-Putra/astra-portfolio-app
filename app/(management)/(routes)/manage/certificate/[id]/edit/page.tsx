@@ -26,6 +26,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { FileUpload } from "@/components/file-upload";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import Loader from "@/components/layout/loader";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -45,6 +46,7 @@ const AddCertificatePage = () => {
   const router = useRouter();
   const [isAdding, setIsAdding] = React.useState<boolean>(false);
   const [certificate, setCertificate] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   // get id from url
   const params = useParams();
@@ -66,10 +68,13 @@ const AddCertificatePage = () => {
 
   const fetchCertificate = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`/api/manage/certificate/${id}`);
       setCertificate(response.data);
     } catch (error) {
       console.error("Error fetching certificate:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,7 +119,9 @@ const AddCertificatePage = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <React.Fragment>
       <Form {...form}>
         <form
