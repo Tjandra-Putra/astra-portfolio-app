@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import confetti from "canvas-confetti"; // Import canvas-confetti
+import { Skeleton } from "@/components/ui/skeleton";
 
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
@@ -109,8 +110,14 @@ export default function Profile() {
       <section className="introduction sm:pb-6 pb-3">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
-            <div className="job-title font-medium text-gray-800 dark:text-sky">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
+            {loading ? (
+              <Skeleton className="h-[26px] w-[100px] rounded-full" />
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
+                <div className="job-title font-medium text-gray-800 dark:text-sky">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
+              </>
+            )}
           </div>
           <Link href={process.env.NODE_ENV === "production" ? "https://astra-portfolio.vercel.app" : "/"}>
             <div className="status uppercase tracking-wider text-end">
