@@ -65,30 +65,33 @@ export default function Profile() {
 
   useEffect(() => {
     if (id) {
-      fetchProfile();
-      // .then(() => {
-      //   // Automatically trigger confetti for demonstration
-      //   triggerConfetti();
-      // });
+      fetchProfile().then(() => {
+        // Automatically trigger confetti for demonstration
+        triggerConfetti();
+      });
     }
   }, [id]);
 
   const triggerConfetti = () => {
-    var end = Date.now() + 1 * 600;
+    var end = Date.now() + 1 * 300;
     // go Buckeyes!
-    var colors = ["#bb0000", "#ffffff"];
+    // var colors = ["#bb0000", "#ffffff"];
+    var colors = ["#38251e", "#f3b74d", "#e47a54", "#a4422c"];
+
     (function frame() {
       confetti({
-        particleCount: 7,
+        particleCount: 4,
         angle: 60,
-        spread: 50,
+        spread: 100,
         origin: { x: 0 },
+        colors: colors,
       });
       confetti({
-        particleCount: 7,
+        particleCount: 4,
         angle: 120,
-        spread: 50,
+        spread: 100,
         origin: { x: 1 },
+        colors: colors,
       });
       if (Date.now() < end) {
         requestAnimationFrame(frame);
@@ -98,6 +101,12 @@ export default function Profile() {
     //   particleCount: 400,
     //   spread: 150,
     //   origin: { y: 0.3 },
+    // });
+    // confetti({
+    //   particleCount: 100,
+    //   spread: 70,
+    //   origin: { y: 0.6 },
+    //   colors: colors,
     // });
   };
 
@@ -194,16 +203,15 @@ export default function Profile() {
             </div>
             <div className="md:col-span-4 flex items-center justify-center">
               <div className="w-36 sm:w-full">
-                {/* <div className="border-4 border-black dark:border-[#00ffcc] p-2 rounded-full dark:shadow-[0_0_5px_#00ffcc,0_0_10px_#00ffcc,0_0_20px_#00ffcc,0_0_40px_#00ffcc]"> */}
                 <div className="border-4 border-navy dark:border-zinc-300 p-2 rounded-full">
-                  <Avatar>
-                    {profile?.imageUrl ? (
-                      <AvatarImage src={profile.imageUrl} className="object-cover" />
-                    ) : (
-                      <AvatarImage src="https://github.com/shadcn.png" className="object-cover" />
-                    )}
-                    <AvatarFallback>{profile?.name}</AvatarFallback>
-                  </Avatar>
+                  {loading ? (
+                    <Skeleton className="h-32 w-32 rounded-full" />
+                  ) : (
+                    <Avatar>
+                      <AvatarImage src={profile?.imageUrl || "https://github.com/shadcn.png"} className="object-cover" />
+                      <AvatarFallback>{profile?.name}</AvatarFallback>
+                    </Avatar>
+                  )}
                 </div>
               </div>
             </div>
