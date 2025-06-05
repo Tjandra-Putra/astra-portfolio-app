@@ -15,6 +15,7 @@ import Loader from "@/components/layout/loader";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import confetti from "canvas-confetti"; // Import canvas-confetti
+import { ModeToggle } from "@/components/mode-toggle";
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -24,8 +25,6 @@ const LandingPage = () => {
 
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
-
-  console.log(`window.hostname`, window.location.hostname);
 
   useEffect(() => {
     // Fetch profiles on page load
@@ -96,14 +95,19 @@ const LandingPage = () => {
               Astra Portfolio
             </div>
 
-            <SignedOut>
-              <Link href="/sign-in">
-                <Button variant="secondary" className="rounded-full">
-                  Sign In
-                  <FontAwesomeIcon icon={faArrowRightToBracket} className="w-4 h-4 ms-2 dark:text-white" />
-                </Button>
-              </Link>
-            </SignedOut>
+            <div className="flex justify-end gap-2">
+              <SignedOut>
+                <Link href="/sign-in">
+                  <Button variant="secondary" className="rounded-lg">
+                    Sign In
+                    <FontAwesomeIcon icon={faArrowRightToBracket} className="w-4 h-4 ms-2 dark:text-white" />
+                  </Button>
+                </Link>
+              </SignedOut>
+
+              <ModeToggle />
+            </div>
+
             <SignedIn>
               <Button
                 variant="navy"
