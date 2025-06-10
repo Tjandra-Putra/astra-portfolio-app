@@ -154,10 +154,10 @@ const ProjectsPage = () => {
               Array.from({ length: 3 }).map((_, i) => (
                 <TableRow key={i}>
                   <TableCell>
-                    <Skeleton className="h-4 w-[150px]" />
+                    <Skeleton className="h-4 w-[50px]" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-4 w-[200px]" />
+                    <Skeleton className="h-4 w-[50px]" />
                   </TableCell>
                   <TableCell>
                     <Skeleton className="h-4 w-[80px]" />

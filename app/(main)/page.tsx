@@ -106,24 +106,23 @@ const LandingPage = () => {
               </SignedOut>
 
               <ModeToggle />
+              <SignedIn>
+                <Button
+                  variant="navy"
+                  className="rounded-lg"
+                  onClick={() => {
+                    if (userInfo?.id) {
+                      router.push(`/profile/${userInfo.id}`);
+                    } else {
+                      toast.error("User ID not found.");
+                    }
+                  }}
+                >
+                  Welcome Back
+                  <FontAwesomeIcon icon={faSeedling} className="w-4 h-4 ms-2" color="#ffffff" />
+                </Button>
+              </SignedIn>
             </div>
-
-            <SignedIn>
-              <Button
-                variant="navy"
-                className="rounded-full"
-                onClick={() => {
-                  if (userInfo?.id) {
-                    router.push(`/profile/${userInfo.id}`);
-                  } else {
-                    toast.error("User ID not found.");
-                  }
-                }}
-              >
-                Welcome Back
-                <FontAwesomeIcon icon={faSeedling} className="w-4 h-4 ms-2" color="#ffffff" />
-              </Button>
-            </SignedIn>
           </Badge>
 
           <div className="shadow-paper sm:p-6 p-3 sm:mb-6 mb-3 rounded-lg">
