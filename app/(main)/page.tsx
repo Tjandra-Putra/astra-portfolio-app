@@ -163,23 +163,11 @@ const LandingPage = () => {
                 <div
                   className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] dark:border dark:border-white"
                   }`}
-                  // className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] ${
-                  //   profile?.id === "35c89c6b-98ab-487f-a295-959a18090bc6" ? "border-2 dark:border-sky border-navy" : "dark:border dark:border-white"
-                  // }`}
                   key={profile.id}
                 >
                   <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
                     <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-3">
-                      <div
-                        className={`p-2 rounded-full ${loading ? "" : "border-2 border-zinc-300 dark:border-white"}`}
-                        // className={`p-2 rounded-full ${
-                        //   loading
-                        //     ? ""
-                        //     : profile?.id === "35c89c6b-98ab-487f-a295-959a18090bc6"
-                        //     ? "border-2 dark:border-sky border-navy"
-                        //     : "border-2 border-zinc-300 dark:border-white"
-                        // }`}
-                      >
+                      <div className={`p-2 rounded-full ${loading ? "" : "border-2 border-zinc-300 dark:border-white"}`}>
                         <Avatar>
                           {loading ? (
                             <Skeleton className="w-12 h-12 rounded-full" />
@@ -203,12 +191,17 @@ const LandingPage = () => {
                         )}
                       </div>
                     </div>
-                    <Link href={`/profile/${profile.id}`}>
-                      <Button variant={"navy"} className="sm:mt-0 mt-3 rounded-full">
-                        View
-                        <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ms-2" />
-                      </Button>
-                    </Link>
+
+                    {loading ? (
+                      <Skeleton className="w-20 h-10 rounded-full" />
+                    ) : (
+                      <Link href={`/profile/${profile.id}`}>
+                        <Button variant={"navy"} className="sm:mt-0 mt-3 rounded-full">
+                          View
+                          <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ms-2" />
+                        </Button>
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}
