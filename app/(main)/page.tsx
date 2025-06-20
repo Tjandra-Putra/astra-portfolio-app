@@ -14,24 +14,24 @@ import { toast } from "sonner";
 import Loader from "@/components/layout/loader";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import confetti from "canvas-confetti"; // Import canvas-confetti
+import confetti from "canvas-confetti";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const LandingPage = () => {
   const [search, setSearch] = useState<string>("");
   const [profiles, setProfiles] = useState<any[]>([]);
   const [filteredProfiles, setFilteredProfiles] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const defaultImageUrl = "https://github.com/shadcn.png";
 
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch profiles on page load
     fetchProfiles().then(() => {
-      // Automatically trigger confetti for demonstration
       triggerConfetti();
-      setTimeout(() => stopConfetti(), 4000); // Hide confetti after 4 seconds
+      setTimeout(() => stopConfetti(), 4000);
     });
   }, []);
 
@@ -82,8 +82,6 @@ const LandingPage = () => {
   const stopConfetti = () => {
     confetti.reset();
   };
-
-  console.log("Profiles:", profiles);
 
   return (
     <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full dark:bg-[#0c0c0c] dark:border dark:border-white/10">
@@ -160,55 +158,60 @@ const LandingPage = () => {
               </div>
             </div>
 
-            {loading ? (
-              <Loader className="bg-white" />
-            ) : (
-              Array.isArray(filteredProfiles) &&
-              filteredProfiles
-                // .filter((profile) => !profile.userId.includes("login_pending_user"))
-                .map((profile) => (
-                  <div
-                    className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] ${
-                      profile?.id === "35c89c6b-98ab-487f-a295-959a18090bc6"
-                        ? "border-2 dark:border-sky border-navy"
-                        : "dark:border dark:border-white"
-                    }`}
-                    key={profile.id}
-                  >
-                    <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
-                      <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-3">
-                        <div
-                          className={`${
-                            profile?.id === "35c89c6b-98ab-487f-a295-959a18090bc6"
-                              ? "border-2 dark:border-sky border-navy"
-                              : "border-2 border-zinc-300 dark:border-white"
-                          } p-2 rounded-full`}
-                        >
-                          <Avatar>
-                            {profile?.imageUrl ? (
-                              <AvatarImage src={profile.imageUrl} className="object-cover w-12 h-12" />
-                            ) : (
-                              <AvatarImage src="https://github.com/shadcn.png" className="object-cover w-12 h-12" />
-                            )}
-                            <AvatarFallback>{profile?.name}</AvatarFallback>
-                          </Avatar>
-                        </div>
-
-                        <div className="flex flex-col">
-                          <div className="font-semibold text-base text-[#1d3554] dark:text-zinc-200">{profile?.name}</div>
-                          <div className="text-xs text-gray-500 dark:text-zinc-300">{profile.jobTitle}</div>
-                        </div>
+            {Array.isArray(filteredProfiles) &&
+              filteredProfiles.map((profile) => (
+                <div
+                  className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] dark:border dark:border-white"
+                  }`}
+                  // className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] ${
+                  //   profile?.id === "35c89c6b-98ab-487f-a295-959a18090bc6" ? "border-2 dark:border-sky border-navy" : "dark:border dark:border-white"
+                  // }`}
+                  key={profile.id}
+                >
+                  <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
+                    <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-3">
+                      <div
+                        className={`p-2 rounded-full ${loading ? "" : "border-2 border-zinc-300 dark:border-white"}`}
+                        // className={`p-2 rounded-full ${
+                        //   loading
+                        //     ? ""
+                        //     : profile?.id === "35c89c6b-98ab-487f-a295-959a18090bc6"
+                        //     ? "border-2 dark:border-sky border-navy"
+                        //     : "border-2 border-zinc-300 dark:border-white"
+                        // }`}
+                      >
+                        <Avatar>
+                          {loading ? (
+                            <Skeleton className="w-12 h-12 rounded-full" />
+                          ) : (
+                            <AvatarImage src={profile.imageUrl} alt={profile?.name} className="object-cover w-12 h-12" />
+                          )}
+                        </Avatar>
                       </div>
-                      <Link href={`/profile/${profile.id}`}>
-                        <Button variant={"navy"} className="sm:mt-0 mt-3 rounded-full">
-                          View
-                          <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ms-2" />
-                        </Button>
-                      </Link>
+
+                      <div className="flex flex-col">
+                        {loading ? (
+                          <>
+                            <Skeleton className="w-32 h-4 mb-2 rounded" />
+                            <Skeleton className="w-20 h-3 rounded" />
+                          </>
+                        ) : (
+                          <>
+                            <div className="font-semibold text-base text-[#1d3554] dark:text-zinc-200">{profile?.name}</div>
+                            <div className="text-xs text-gray-500 dark:text-zinc-300">{profile.jobTitle}</div>
+                          </>
+                        )}
+                      </div>
                     </div>
+                    <Link href={`/profile/${profile.id}`}>
+                      <Button variant={"navy"} className="sm:mt-0 mt-3 rounded-full">
+                        View
+                        <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 ms-2" />
+                      </Button>
+                    </Link>
                   </div>
-                ))
-            )}
+                </div>
+              ))}
           </div>
 
           <Footer />
