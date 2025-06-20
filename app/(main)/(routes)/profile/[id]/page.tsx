@@ -154,7 +154,7 @@ export default function Profile() {
               <div className="w-full">
                 {loading ? (
                   <div>
-                    <Skeleton className="h-10 max-w-52 rounded-full mx-auto sm:mx-0" />
+                    <Skeleton className="h-8 max-w-52 rounded-full mx-auto sm:mx-0" />
                   </div>
                 ) : (
                   <div className="name sm:text-4xl text-2xl font-medium dark:text-zinc-200">
