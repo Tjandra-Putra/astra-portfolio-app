@@ -11,7 +11,7 @@ import Loader from "@/components/layout/loader";
 const AboutPage = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
   const [profile, setProfile] = useState<any>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchProfile = async () => {
     try {

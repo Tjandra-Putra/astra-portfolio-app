@@ -1,6 +1,7 @@
 import React from "react";
 import BarLoader from "react-spinners/BarLoader";
 import PulseLoader from "react-spinners/PulseLoader";
+import BounceLoader from "react-spinners/BounceLoader";
 import { useTheme } from "next-themes";
 
 interface LoaderProps {
@@ -20,8 +21,9 @@ const Loader: React.FC<LoaderProps> = ({ className }) => {
 
   return (
     <div className={mergedClasses}>
-      <BarLoader loading={true} color={loaderColor} />
+      {/* <BarLoader loading={true} color={loaderColor} /> */}
       {/* <PulseLoader loading={true} color={loaderColor} size={5} /> */}
+      <BounceLoader loading={true} color={loaderColor} size={40} />
     </div>
   );
 };
