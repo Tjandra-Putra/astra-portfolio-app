@@ -22,8 +22,8 @@ const Loader: React.FC<LoaderProps> = ({ className }) => {
   return (
     <div className={mergedClasses}>
       {/* <BarLoader loading={true} color={loaderColor} /> */}
-      {/* <PulseLoader loading={true} color={loaderColor} size={5} /> */}
-      <BounceLoader loading={true} color={loaderColor} size={40} />
+      <PulseLoader loading={true} color={loaderColor} size={5} />
+      {/* <BounceLoader loading={true} color={loaderColor} size={40} /> */}
     </div>
   );
 };
