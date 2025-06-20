@@ -11,6 +11,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Loader from "./layout/loader";
 import { useTheme } from "next-themes";
+import ProjectCardSkeleton from "@/components/skeleton/project-card-skeleton";
 
 interface ProjectsProps {
   title?: string;
@@ -62,9 +63,7 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
 
   const projectsToDisplay = showAll ? filteredProjects : filteredProjects.slice(0, 3);
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return (
     <div className="projects bg-ash md:p-6 p-3 rounded-lg dark:bg-[#0c0c0c] dark:border dark:border-white/10">
       {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
         <div>No projects available.</div>
@@ -100,12 +99,20 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
           </Link>
         </div>
       )}
-
+      {/* 
       {projectsToDisplay.map((project) => (
         <Link href={`/projects/${project.id}`} key={project.id}>
           <ProjectCard key={project.id} data={project} />
         </Link>
-      ))}
+      ))} */}
+
+      {loading
+        ? Array.from({ length: 3 }).map((_, i) => <ProjectCardSkeleton key={`skeleton-${i}`} />)
+        : projectsToDisplay.map((project) => (
+            <Link href={`/projects/${project.id}`} key={project.id}>
+              <ProjectCard data={project} />
+            </Link>
+          ))}
     </div>
   );
 };

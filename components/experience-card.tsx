@@ -29,9 +29,9 @@ const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
               </Badge>
             )}
             {/* work duration in months */}
-            {/* <Badge variant="sky" className="text-xs font-semibold">
+            <Badge variant="secondary" className="text-xs font-semibold">
               {calculateDuration(data.startDate, data.endDate)}
-            </Badge> */}
+            </Badge>
             <Badge variant="secondary" className="text-xs font-semibold dark:text-zinc-300">
               {`${formatDateRange(data.startDate, data.endDate)}`}
             </Badge>

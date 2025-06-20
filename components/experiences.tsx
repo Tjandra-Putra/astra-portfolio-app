@@ -10,6 +10,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Loader from "./layout/loader";
 import { useTheme } from "next-themes";
+import { Skeleton } from "@/components/ui/skeleton";
+import ExperienceCardSkeleton from "@/components/skeleton/experience-card-skeleton";
 
 interface ExperiencesProps {
   title?: string;
@@ -61,9 +63,7 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
     ? projects.filter((project) => project.isWorkExperience && project.visible && project.id !== currentExperienceId)
     : projects.filter((project) => project.isWorkExperience && project.visible).slice(0, 3);
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return (
     <div className="projects bg-ash md:p-6 p-3 mb-3 sm:mb-6 rounded-lg sm:mt-6 mt-3 dark:bg-[#0c0c0c] dark:border dark:border-white/10">
       {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
         <div>No project experiences available.</div>
@@ -99,11 +99,13 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
           </Link>
         </div>
       )}
-      {projectsToDisplay.map((project) => (
-        <Link href={`/projects/${project.id}`} key={project.id}>
-          <ExperienceCard key={project.id} data={project} />
-        </Link>
-      ))}
+      {loading
+        ? Array.from({ length: 3 }).map((_, i) => <ExperienceCardSkeleton key={`skeleton-${i}`} />)
+        : projectsToDisplay.map((project) => (
+            <Link href={`/projects/${project.id}`} key={project.id}>
+              <ExperienceCard data={project} />
+            </Link>
+          ))}
     </div>
   );
 };
