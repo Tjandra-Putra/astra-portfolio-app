@@ -120,7 +120,7 @@ export default function Profile() {
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
             {loading ? (
-              <Skeleton className="h-[26px] w-[100px] rounded-full" />
+              <Skeleton className="h-[26px] w-[100px] rounded-full mx-auto" />
             ) : (
               <>
                 <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
@@ -148,75 +148,111 @@ export default function Profile() {
           </Link>
         </div>
 
-        {loading ? (
-          <Loader />
-        ) : (
+        {
           <div className="grid md:grid-cols-12 gap-6 sm:mb-0 mb-4 text-center sm:text-left">
             <div className="md:col-span-8 sm:order-first order-last">
               <div className="w-full">
-                <div className="name sm:text-4xl text-2xl font-medium dark:text-zinc-200">
-                  Hi, I&apos;m <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
-                </div>
-                <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base dark:text-zinc-300">
-                  {profile?.bio ? profile.bio : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
-                </div>
+                {loading ? (
+                  <div>
+                    <Skeleton className="h-10 max-w-52 rounded-full mx-auto sm:mx-0" />
+                  </div>
+                ) : (
+                  <div className="name sm:text-4xl text-2xl font-medium dark:text-zinc-200">
+                    Hi, I&apos;m <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
+                  </div>
+                )}
+                {loading ? (
+                  <div className="flex flex-col items-center sm:items-start justify-start">
+                    <Skeleton className="h-4 w-64 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
+                    <Skeleton className="h-4 w-72 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
+                    <Skeleton className="h-4 w-80 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
+                    <Skeleton className="h-4 w-72 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
+                    <Skeleton className="h-4 w-64 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
+                  </div>
+                ) : (
+                  <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base dark:text-zinc-300">
+                    {profile?.bio
+                      ? profile.bio
+                      : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
+                  </div>
+                )}
                 <div className="buttons mt-6 space-x-3">
-                  {profile?.resumeUrl ? (
-                    <Link href={profile.resumeUrl} target="_blank">
-                      <Button variant={"navy"}>
-                        <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-                        Resume
-                      </Button>
-                    </Link>
+                  {loading ? (
+                    <>
+                      <Skeleton className="inline-block w-28 h-10 rounded-md" />
+                      <Skeleton className="inline-block w-28 h-10 rounded-md" />
+                    </>
                   ) : (
-                    <Button variant={"navy"} disabled>
-                      <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-                      Resume
-                    </Button>
-                  )}
-                  {profile?.workEmail ? (
-                    // color="#183153"
-                    <CopyToClipboard
-                      text={profile?.workEmail}
-                      onCopy={() => {
-                        toast.success("Copied to clipboard!");
-                      }}
-                    >
-                      <Button variant={"secondary"}>
-                        <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
-                        Copy Email
-                      </Button>
-                    </CopyToClipboard>
-                  ) : (
-                    <CopyToClipboard text={profile?.email} onCopy={() => {}}>
-                      <Button variant={"secondary"}>
-                        <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
-                        Copy Email
-                      </Button>
-                    </CopyToClipboard>
+                    <>
+                      {profile?.resumeUrl ? (
+                        <Link href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
+                          <Button variant={"navy"}>
+                            <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+                            Resume
+                          </Button>
+                        </Link>
+                      ) : (
+                        <Button variant={"navy"} disabled>
+                          <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+                          Resume
+                        </Button>
+                      )}
+
+                      {profile?.workEmail ? (
+                        <CopyToClipboard
+                          text={profile?.workEmail}
+                          onCopy={() => {
+                            toast.success("Copied to clipboard!");
+                          }}
+                        >
+                          <Button variant={"secondary"}>
+                            <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
+                            Copy Email
+                          </Button>
+                        </CopyToClipboard>
+                      ) : (
+                        <CopyToClipboard text={profile?.email} onCopy={() => {}}>
+                          <Button variant={"secondary"}>
+                            <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
+                            Copy Email
+                          </Button>
+                        </CopyToClipboard>
+                      )}
+                    </>
                   )}
                 </div>
+
                 <div className="text-sm mt-6 text-blue-500 dark:text-zinc-400">
-                  Last updated on: {new Date(profile?.updatedAt).toLocaleDateString("en-SG")}
+                  {loading ? (
+                    <div className="flex items-center justify-center sm:justify-start">
+                      <Skeleton className="h-4 w-52 rounded-lg sm:text-base text-base dark:text-zinc-300" />
+                    </div>
+                  ) : (
+                    `Last updated on: ${new Date(profile?.updatedAt).toLocaleDateString("en-SG")}`
+                  )}
                 </div>
               </div>
             </div>
             <div className="md:col-span-4 flex items-center justify-center">
-              <div className="w-36 sm:w-full">
-                <div className="border-4 border-navy dark:border-zinc-300 p-2 rounded-full">
-                  {loading ? (
-                    <Skeleton className="h-32 w-32 rounded-full" />
-                  ) : (
-                    <Avatar>
-                      <AvatarImage src={profile?.imageUrl || "https://github.com/shadcn.png"} className="object-cover" />
+              <div className="w-36 h-36">
+                {loading ? (
+                  <Skeleton className="w-full h-full rounded-full" />
+                ) : (
+                  <div className="border-4 border-navy dark:border-zinc-300 p-2 rounded-full w-full h-full">
+                    <Avatar className="w-full h-full rounded-full overflow-hidden">
+                      <AvatarImage
+                        src={profile?.imageUrl || "https://github.com/shadcn.png"}
+                        alt={profile?.name}
+                        className="object-cover w-full h-full"
+                      />
                       <AvatarFallback>{profile?.name}</AvatarFallback>
                     </Avatar>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-        )}
+        }
       </section>
 
       <Experiences />
