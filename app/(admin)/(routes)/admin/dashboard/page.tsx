@@ -101,13 +101,25 @@ const DashboardPage = () => {
     }
   };
 
-  const acceptProfile = async (id: string) => {
+  const acceptProfile = async (id: string, userId: string) => {
+    // userId refers to the clerk userId
+    // id refers to the database id
     try {
       setLoading(true);
 
       const response = await axios.put(`/api/admin/profiles/${id}`, {
         role: "MEMBER",
       });
+
+      // update the clerk metadata role by calling auth role
+      const auth_role_response = await axios
+        .post(`/api/auth/role`, {
+          dbId: userId,
+          dbRole: "MEMBER",
+        })
+        .then((res) => {
+          console.log(res.data);
+        });
 
       // update state
       setProfiles((prevProfiles) =>
@@ -129,11 +141,23 @@ const DashboardPage = () => {
     }
   };
 
-  const rejectProfile = async (id: string) => {
+  const rejectProfile = async (id: string, userId: string) => {
+    // userId refers to the clerk userId
+    // id refers to the database id
     try {
       const response = await axios.put(`/api/admin/profiles/${id}`, {
         role: "GUEST",
       });
+
+      // update the clerk metadata role by calling auth role
+      const auth_role_response = await axios
+        .post(`/api/auth/role`, {
+          dbId: userId,
+          dbRole: "GUEST",
+        })
+        .then((res) => {
+          console.log(res.data);
+        });
 
       console.log(response);
 
@@ -287,7 +311,7 @@ const DashboardPage = () => {
                   {profile.role !== "ADMIN" && ( // Check if profile role is not ADMIN
                     <>
                       {profile.role === "GUEST" ? (
-                        <Button variant={"secondary"} onClick={() => acceptProfile(profile.id)}>
+                        <Button variant={"secondary"} onClick={() => acceptProfile(profile.id, profile.userId)}>
                           <FontAwesomeIcon icon={faCheck} />
                         </Button>
                       ) : (
@@ -297,11 +321,11 @@ const DashboardPage = () => {
                       )}
 
                       {profile.role === "GUEST" ? (
-                        <Button variant={"navy"} onClick={() => rejectProfile(profile.id)}>
+                        <Button variant={"navy"} onClick={() => rejectProfile(profile.id, profile.userId)}>
                           <FontAwesomeIcon icon={faBan} />
                         </Button>
                       ) : (
-                        <Button variant={"secondary"} onClick={() => rejectProfile(profile.id)}>
+                        <Button variant={"secondary"} onClick={() => rejectProfile(profile.id, profile.userId)}>
                           <FontAwesomeIcon icon={faBan} />
                         </Button>
                       )}
