@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "./loader";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const SocialCard = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -49,27 +50,27 @@ const SocialCard = () => {
     }
   }, [userInfo]);
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return (
     <div className="bg-ocean rounded-lg mt-4 p-6 flex flex-col md:flex-row justify-between items-center">
       <div className="flex items-center gap-2 sm:mb-0 mb-2">
-        <FontAwesomeIcon icon="circle" className="w-2 h-2" color="#ffffff" />
-        <div className="job-title font-medium text-white text-lg">Follow Me</div>
+        {loading ? <Skeleton className="w-4 h-4 rounded-full" /> : <FontAwesomeIcon icon="circle" className="w-2 h-2" color="#ffffff" />}
+        {loading ? <Skeleton className="h-6 w-24 rounded-md" /> : <div className="job-title font-medium text-white text-lg">Follow Me</div>}
       </div>
+
       <div className="socials flex gap-3 lg:mt-0">
-        {profile?.socialLinks?.map((social: any) => {
-          if (social.iconName !== "" && social.iconType !== "") {
-            return (
-              <Link href={social.url} target="_blank" rel="noopener noreferrer" key={social.id}>
-                <Button variant={"white"} className="font-semibold rounded-full w-11 h-11">
-                  {/* <FontAwesomeIcon icon={social.iconName} color="#000000" className="text-lg" /> */}
-                  <FontAwesomeIcon icon={[social.iconType, social.iconName]} color="#000000" className="text-lg" />
-                </Button>
-              </Link>
-            );
-          }
-        })}
+        {loading
+          ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={`social-skeleton-${i}`} className="rounded-full w-11 h-11" />)
+          : profile?.socialLinks?.map((social: any) => {
+              if (social.iconName !== "" && social.iconType !== "") {
+                return (
+                  <Link href={social.url} target="_blank" rel="noopener noreferrer" key={social.id}>
+                    <Button variant={"white"} className="font-semibold rounded-full w-11 h-11">
+                      <FontAwesomeIcon icon={[social.iconType, social.iconName]} color="#000000" className="text-lg" />
+                    </Button>
+                  </Link>
+                );
+              }
+            })}
       </div>
     </div>
   );
