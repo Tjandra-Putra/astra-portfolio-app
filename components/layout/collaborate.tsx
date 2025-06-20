@@ -11,6 +11,7 @@ import Link from "next/link";
 import Loader from "./loader";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Collaborate = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -40,47 +41,46 @@ const Collaborate = () => {
         I&apos;m always open to discussing product design work or partnership opportunities.
       </div>
 
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="buttons flex justify-center mt-5 space-x-3">
-          {profile?.resumeUrl ? (
-            <Link href={profile.resumeUrl} target="_blank">
-              <Button variant={"navy"}>
-                <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-                Resume
-              </Button>
-            </Link>
-          ) : (
-            <Button variant={"navy"} disabled>
+      <div className="buttons flex justify-center mt-5 space-x-3">
+        {loading ? (
+          <Skeleton className="h-10 w-28 rounded-lg" />
+        ) : profile?.resumeUrl ? (
+          <Link href={profile.resumeUrl} target="_blank">
+            <Button variant={"navy"}>
               <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
               Resume
             </Button>
-          )}
+          </Link>
+        ) : (
+          <Button variant={"navy"} disabled>
+            <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
+            Resume
+          </Button>
+        )}
 
-          {profile?.workEmail ? (
-            // color="#183153"
-            <CopyToClipboard
-              text={profile?.workEmail}
-              onCopy={() => {
-                toast.success("Copied to clipboard!");
-              }}
-            >
-              <Button variant={"secondary"}>
-                <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" />
-                Copy Email
-              </Button>
-            </CopyToClipboard>
-          ) : (
-            <CopyToClipboard text={profile?.email} onCopy={() => {}}>
-              <Button variant={"secondary"}>
-                <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" />
-                Copy Email
-              </Button>
-            </CopyToClipboard>
-          )}
-        </div>
-      )}
+        {loading ? (
+          <Skeleton className="h-10 w-28 rounded-lg" />
+        ) : profile?.workEmail ? (
+          <CopyToClipboard
+            text={profile?.workEmail}
+            onCopy={() => {
+              toast.success("Copied to clipboard!");
+            }}
+          >
+            <Button variant={"secondary"}>
+              <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" />
+              Copy Email
+            </Button>
+          </CopyToClipboard>
+        ) : (
+          <CopyToClipboard text={profile?.email} onCopy={() => {}}>
+            <Button variant={"secondary"}>
+              <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" />
+              Copy Email
+            </Button>
+          </CopyToClipboard>
+        )}
+      </div>
     </section>
   );
 };
