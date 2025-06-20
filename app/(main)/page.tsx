@@ -1,7 +1,7 @@
 "use client";
 
 import Footer from "@/components/layout/footer";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,11 @@ const LandingPage = () => {
   const [profiles, setProfiles] = useState<any[]>([]);
   const [filteredProfiles, setFilteredProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const defaultImageUrl = "https://github.com/shadcn.png";
+  const defaultImageUrl = "https://vutz38vdur.ufs.sh/f/O8iVoUnKSnAlP7J3LDxbvrzVStD23fJj4xZMB9eRcLgWuknX";
 
   const userInfo = useSelector((state: any) => state.userReducer);
   const router = useRouter();
+  const { user } = useUser();
 
   useEffect(() => {
     fetchProfiles().then(() => {
@@ -161,8 +162,7 @@ const LandingPage = () => {
             {Array.isArray(filteredProfiles) &&
               filteredProfiles.map((profile) => (
                 <div
-                  className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] dark:border dark:border-white"
-                  }`}
+                  className={`individual-container rounded-lg bg-white sm:p-6 p-6 sm:mt-6 mt-3 dark:bg-[#171717] dark:border dark:border-white"}`}
                   key={profile.id}
                 >
                   <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
@@ -172,11 +172,14 @@ const LandingPage = () => {
                           {loading ? (
                             <Skeleton className="w-12 h-12 rounded-full" />
                           ) : (
-                            <AvatarImage src={profile.imageUrl} alt={profile?.name} className="object-cover w-12 h-12" />
+                            <AvatarImage
+                              src={profile.imageUrl || (user && profile.id === user.publicMetadata.userId && user.imageUrl) || defaultImageUrl}
+                              alt={profile?.name}
+                              className="object-cover w-12 h-12"
+                            />
                           )}
                         </Avatar>
                       </div>
-
                       <div className="flex flex-col">
                         {loading ? (
                           <>

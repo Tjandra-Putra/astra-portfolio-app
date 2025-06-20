@@ -30,6 +30,8 @@ export default function Profile() {
   const [profile, setProfile] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
+  const defaultProfileImage = "https://vutz38vdur.ufs.sh/f/O8iVoUnKSnAlP7J3LDxbvrzVStD23fJj4xZMB9eRcLgWuknX";
+
   // redux
   const dispatch = useDispatch();
 
@@ -240,11 +242,7 @@ export default function Profile() {
                 ) : (
                   <div className="border-4 border-navy dark:border-zinc-300 p-2 rounded-full w-full h-full">
                     <Avatar className="w-full h-full rounded-full overflow-hidden">
-                      <AvatarImage
-                        src={profile?.imageUrl || "https://github.com/shadcn.png"}
-                        alt={profile?.name}
-                        className="object-cover w-full h-full"
-                      />
+                      <AvatarImage src={profile?.imageUrl || defaultProfileImage} alt={profile?.name} className="object-cover w-full h-full" />
                       <AvatarFallback>{profile?.name}</AvatarFallback>
                     </Avatar>
                   </div>
