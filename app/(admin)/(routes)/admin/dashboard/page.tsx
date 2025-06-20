@@ -8,16 +8,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircle,
-  faEye,
-  faSquareCheck,
-  faBan,
-  faCheck,
-  faTrashCan,
-  faPlusCircle,
-  faCrown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faEye, faSquareCheck, faBan, faCheck, faTrashCan, faPlusCircle, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck, faClock } from "@fortawesome/free-regular-svg-icons";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -89,12 +80,12 @@ const DashboardPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (userInfo.role !== "ADMIN") {
-      toast.error("You are not authorized to access this page.");
-      return router.push("/manage");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (userInfo.role !== "ADMIN") {
+  //     toast.error("You are not authorized to access this page.");
+  //     return router.push("/manage");
+  //   }
+  // }, []);
 
   const fetchProfiles = async () => {
     try {

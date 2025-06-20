@@ -8,6 +8,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ReduxProvider } from "./redux/provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { initialProfile } from "@/lib/initial-profile";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Initialize the user profile on the server side
+  initialProfile();
+
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>

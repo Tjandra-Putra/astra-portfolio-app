@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const UnverifiedPage = () => {
+const UnauthorisedPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -21,11 +21,11 @@ const UnverifiedPage = () => {
       <Card className="w-full max-w-lg bg-white dark:bg-gray-900 shadow-lg rounded-2xl">
         <CardHeader>
           <Image src="/assets/image/locked.png" alt="Locked" width={200} height={200} className="mx-auto mb-4" />
-          <CardTitle className="text-3xl font-bold text-gray-800 dark:text-white">Access Denied (403 Forbidden)</CardTitle>
+          <CardTitle className="text-3xl font-bold text-gray-800 dark:text-white">Unauthorized Access (401)</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Your account is not verified. Please wait for an administrator to approve your access. You will be notified once your account is verified.
+            You do not have permission to access this page. Please contact the administrator if you believe this is an error.
           </p>
           <SignOutButton>
             <Button variant="default" className="w-full bg-sky-600 hover:bg-sky-700 text-white py-2 rounded-full" onClick={() => router.push("/")}>
@@ -38,4 +38,4 @@ const UnverifiedPage = () => {
   );
 };
 
-export default UnverifiedPage;
+export default UnauthorisedPage;

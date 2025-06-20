@@ -1,14 +1,8 @@
-// clerk authentication middleware
+import { authMiddleware } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-import { authMiddleware } from "@clerk/nextjs";
-import { NextRequest, NextResponse } from "next/server";
-
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
   publicRoutes: [
-    // nextjs routes
     "/",
     "/home",
     "/about",
@@ -19,8 +13,6 @@ export default authMiddleware({
     "/certificate",
     "/education",
     "/profile/(.*)",
-
-    // api routes
     "/api/uploadthing",
     "/api/profile",
     "/api/profile/(.*)",
@@ -28,11 +20,38 @@ export default authMiddleware({
     "/api/project/(.*)",
     "/api/certificate/(.*)",
     "/api/education/(.*)",
-
-    // error pages
     "/404",
     "/unverified",
   ],
+
+  async afterAuth(auth, req) {
+    const { pathname } = req.nextUrl;
+
+    // If user is signed in but have no role
+    if (pathname.startsWith("/manage")) {
+      const role = auth.sessionClaims?.metadata?.role;
+
+      // If not signed in or not an admin, redirect to home
+      if (!auth.userId || (role !== "MEMBER" && role !== "ADMIN")) {
+        const url = new URL("/unverified", req.url);
+        return NextResponse.redirect(url);
+      }
+    }
+
+    // If user is visiting an /admin route
+    if (pathname.startsWith("/admin")) {
+      const role = auth.sessionClaims?.metadata?.role;
+
+      // If not signed in or not an admin, redirect to home
+      if (!auth.userId || role !== "ADMIN") {
+        const url = new URL("/unauthorised", req.url);
+        return NextResponse.redirect(url);
+      }
+    }
+
+    // Allow request to continue normally
+    return NextResponse.next();
+  },
 });
 
 export const config = {

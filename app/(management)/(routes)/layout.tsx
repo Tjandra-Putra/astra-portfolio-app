@@ -13,22 +13,22 @@ const ManagementLayout = ({ children }: { children: any }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
 
-  useEffect(() => {
-    // check if user is verified base on the role of the user (GUEST or MEMBER)
-    axios
-      .get("/api/auth/role")
-      .then((res) => {
-        if (!res.data.isVerified) {
-          router.push("/unverified");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [router]);
+  // useEffect(() => {
+  //   // check if user is verified base on the role of the user (GUEST or MEMBER)
+  //   axios
+  //     .get("/api/auth/role")
+  //     .then((res) => {
+  //       if (!res.data.isVerified) {
+  //         router.push("/unverified");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }, [router]);
 
   return (
     <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full">

@@ -8,7 +8,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
 
   // strangers do not have their profile stored in the db, hence role does not exist
   if (!role || role == "GUEST") {
-    // Unauthorized 
+    // Unauthorized
     console.log(role);
     return NextResponse.json({ message: "Unauthorized", isVerified: false });
   }
