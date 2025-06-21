@@ -145,7 +145,7 @@ const Project = () => {
             </div>
           )}
           {!imageError ? (
-            <div className="image-wrapper overflow-y-scroll">
+            <div className="image-wrapper overflow-y-hidden">
               <Image
                 src={imageSrc}
                 alt={project?.name}
