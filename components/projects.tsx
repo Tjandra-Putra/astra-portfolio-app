@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import Loader from "./layout/loader";
 import { useTheme } from "next-themes";
 import ProjectCardSkeleton from "@/components/skeleton/project-card-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectsProps {
   title?: string;
@@ -70,12 +71,25 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
       ) : (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">
-              {showAll || detailedPage ? `Other Projects (${allProjects?.length})` : title || `Projects (${filteredProjects.length})`}
-            </div>
+            {loading ? (
+              <>
+                <Skeleton className="w-2 h-2" />
+                <Skeleton className="w-36 h-6" />
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+                <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">
+                  {showAll || detailedPage ? `Other Projects (${allProjects?.length})` : title || `Projects (${filteredProjects.length})`}
+                </div>
+              </>
+            )}
           </div>
-          {!showAll && (
+          {!showAll && loading ? (
+            <>
+              <Skeleton className="w-28 h-10" />
+            </>
+          ) : (
             <Link href={"/projects"}>
               <Button variant={getButtonVariant()}>
                 View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
@@ -99,12 +113,6 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
           </Link>
         </div>
       )}
-      {/* 
-      {projectsToDisplay.map((project) => (
-        <Link href={`/projects/${project.id}`} key={project.id}>
-          <ProjectCard key={project.id} data={project} />
-        </Link>
-      ))} */}
 
       {loading
         ? Array.from({ length: 3 }).map((_, i) => <ProjectCardSkeleton key={`skeleton-${i}`} />)

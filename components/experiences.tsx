@@ -70,12 +70,23 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
       ) : (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">
-              {showAll || detailedPage ? `Other Experiences (${allProjects?.length})` : title || `Experiences (${projectsToDisplay.length})`}
-            </div>
+            {loading ? (
+              <>
+                <Skeleton className="w-2 h-2" />
+                <Skeleton className="w-36 h-6" />
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+                <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">
+                  {showAll || detailedPage ? `Other Experiences (${allProjects?.length})` : title || `Experiences (${projectsToDisplay.length})`}
+                </div>
+              </>
+            )}
           </div>
-          {!showAll && (
+          {!showAll && loading ? (
+            <Skeleton className="w-28 h-10" />
+          ) : (
             <Link href={"/experiences"}>
               <Button variant={getButtonVariant()}>
                 View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
@@ -89,14 +100,27 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
       {detailedPage && (
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="font-medium text-gray-800 sm:text-lg text-base">{title || "Projects"}</div>
+            {loading ? (
+              <>
+                <Skeleton className="w-2 h-2" />
+                <Skeleton className="w-36 h-6" />
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+                <div className="font-medium text-gray-800 sm:text-lg text-base">{title || "Projects"}</div>
+              </>
+            )}
           </div>
-          <Link href={"/experiences"}>
-            <Button variant="white">
-              View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
-            </Button>
-          </Link>
+          {loading ? (
+            <Skeleton className="w-28 h-10" />
+          ) : (
+            <Link href={"/experiences"}>
+              <Button variant="white">
+                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
+              </Button>
+            </Link>
+          )}
         </div>
       )}
       {loading
