@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { Editor } from "@/components/text-editors/blocknote-editor";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { calculateDuration } from "@/lib/format-date";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Project = () => {
   // get id from url
@@ -140,7 +141,7 @@ const Project = () => {
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
           {loadingImage && !imageError && (
             <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717]">
-              <Loader />
+              <Skeleton className="w-full h-full rounded-lg" />
             </div>
           )}
           {!imageError ? (
