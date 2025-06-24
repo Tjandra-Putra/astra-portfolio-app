@@ -30,6 +30,8 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import Loader from "@/components/layout/loader";
 import { DatePicker } from "@/components/ui/date-picker";
+import { ComboBox } from "@/components/ui/combo-box";
+import { PROJECT_CATEGORIES } from "@/constants/categories";
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -268,7 +270,7 @@ const EditProjectPage = () => {
                       <FormItem>
                         <FormLabel>Category</FormLabel>
                         <FormControl>
-                          <Input placeholder="E.g Web Development" {...field} />
+                          <ComboBox placeholder="Select a category" options={PROJECT_CATEGORIES} value={field.value} onChange={field.onChange} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
