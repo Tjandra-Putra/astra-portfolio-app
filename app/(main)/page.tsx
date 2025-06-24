@@ -111,7 +111,7 @@ const LandingPage = () => {
                   className="rounded-lg"
                   onClick={() => {
                     if (userInfo?.id) {
-                      router.push(`/profile/${userInfo.id}`);
+                      router.push(`/manage`);
                     } else {
                       toast.error("User ID not found.");
                     }
