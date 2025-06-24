@@ -126,7 +126,7 @@ export default function Profile() {
             ) : (
               <>
                 <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
-                <div className="job-title font-medium text-gray-800 dark:text-sky">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
+                <div className="job-title font-medium text-gray-800 dark:text-gray-300">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
               </>
             )}
           </div>

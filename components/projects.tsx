@@ -78,7 +78,8 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
               </>
             ) : (
               <>
-                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
+                {/* <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" /> */}
+                <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
                 <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">
                   {showAll || detailedPage ? `Other Projects (${allProjects?.length})` : title || `Projects (${filteredProjects.length})`}
                 </div>
