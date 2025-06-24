@@ -132,7 +132,7 @@ export default function Profile() {
           </div>
           <Link href={process.env.NODE_ENV === "production" ? "https://astra-portfolio.vercel.app" : "/"}>
             <div className="status uppercase tracking-wider text-end">
-              <Badge variant={"diamond"} className="font-semibold">
+              <Badge variant={"sky"} className="font-semibold">
                 <FontAwesomeIcon
                   // icon={faSeedling}
                   icon={faRocket}
