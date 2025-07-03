@@ -24,7 +24,7 @@ const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
           </div>
           <div className="flex flex-wrap gap-2 mt-1 capitalize">
             {data.company && (
-              <Badge variant="navy" className="text-xs font-semibold dark:text-zinc-300">
+              <Badge variant="ocean" className="text-xs font-semibold dark:text-zinc-300">
                 {data.company}
               </Badge>
             )}
