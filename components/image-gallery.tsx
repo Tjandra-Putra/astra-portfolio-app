@@ -2,7 +2,7 @@
 import React from "react";
 import Lightbox, { Slide } from "yet-another-react-lightbox";
 import Counter from "yet-another-react-lightbox/plugins/counter";
-import Download from "yet-another-react-lightbox/plugins/download";
+// import Download from "yet-another-react-lightbox/plugins/download";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -68,7 +68,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, startIndex = 0, chi
         close={() => setOpen(false)}
         index={startIndex}
         slides={slides}
-        plugins={[Counter, Download, Fullscreen, Thumbnails, Zoom, ...(isInline ? [Inline] : [])]}
+        plugins={[Counter, Fullscreen, Thumbnails, Zoom, ...(isInline ? [Inline] : [])]}
         counter={{ container: { style: { top: "unset", bottom: 0 } } }}
         inline={isInline ? inline : undefined}
         carousel={{
