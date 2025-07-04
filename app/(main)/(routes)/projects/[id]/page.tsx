@@ -192,7 +192,7 @@ const Project = () => {
         <div className="badges flex flex-row flex-wrap gap-3 my-6">
           {project.tags
             ? project.tags.split(",").map((tag: string, index: number) => (
-                <Badge key={index} variant="sky">
+                <Badge key={index} variant="navy" className="text-xs font-normal">
                   {tag.trim()}
                 </Badge>
               ))

@@ -24,10 +24,11 @@ const ExperienceCard: React.FC<ProjectCardComponentProps> = ({ data }) => {
           </div>
           <div className="flex flex-wrap gap-2 mt-1 capitalize">
             {data.company && (
-              <Badge variant="ocean" className="text-xs font-semibold dark:text-zinc-300">
+              <Badge variant="sky" className="text-xs font-semibold">
                 {data.company}
               </Badge>
             )}
+
             {/* work duration in months */}
             <Badge variant="secondary" className="text-xs font-semibold">
               {calculateDuration(data.startDate, data.endDate)}
