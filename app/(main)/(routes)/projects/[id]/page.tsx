@@ -24,6 +24,8 @@ import { Editor } from "@/components/text-editors/blocknote-editor";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { calculateDuration } from "@/lib/format-date";
 import { Skeleton } from "@/components/ui/skeleton";
+import ImageGallery from "@/components/image-gallery";
+import { extractImageUrls } from "@/utils/image-processor";
 
 const Project = () => {
   // get id from url
@@ -95,6 +97,8 @@ const Project = () => {
     <Loader />
   ) : (
     <React.Fragment>
+      <ImageGallery images={extractImageUrls(project?.content)} />
+
       <div className="flex justify-between">
         <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm" onClick={() => window.history.back()}>
           <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
