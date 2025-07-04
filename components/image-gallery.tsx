@@ -64,6 +64,14 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, startIndex = 0, chi
       {wrapWithClick(children)}
 
       <Lightbox
+        // toolbar={{
+        //   buttons: [
+        //     <button key="my-button" type="button" className="yarl__button">
+        //       Button
+        //     </button>,
+        //     "close",
+        //   ],
+        // }}
         open={isInline || open} // always open if inline
         close={() => setOpen(false)}
         index={startIndex}
@@ -74,7 +82,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, startIndex = 0, chi
         carousel={{
           spacing: 0,
           padding: 0,
-          //   imageFit: "cover",
+        }}
+        render={{
+          buttonPrev: slides.length <= 1 ? () => null : undefined,
+          buttonNext: slides.length <= 1 ? () => null : undefined,
         }}
       />
     </>
