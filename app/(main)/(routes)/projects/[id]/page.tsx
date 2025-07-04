@@ -97,8 +97,6 @@ const Project = () => {
     <Loader />
   ) : (
     <React.Fragment>
-      <ImageGallery images={extractImageUrls(project?.content)} />
-
       <div className="flex justify-between">
         <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm" onClick={() => window.history.back()}>
           <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
@@ -143,30 +141,50 @@ const Project = () => {
       </section>
       <section>
         <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
-          {loadingImage && !imageError && (
+          {/* {loadingImage && !imageError && (
             <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717]">
               <Skeleton className="w-full h-full rounded-lg" />
             </div>
-          )}
-          {!imageError ? (
+          )} */}
+          {/* <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]}>
+            <Image
+              src={imageSrc}
+              alt={project?.name}
+              width={800}
+              height={450}
+              layout="responsive"
+              priority={true}
+              onLoad={() => setLoadingImage(false)}
+              onError={handleImageError}
+              className={`thumbnail-img w-full h-full rounded-lg ${loadingImage ? "hidden" : ""}`}
+            />
+          </ImageGallery> */}
+
+          <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]} isInline={true} />
+
+          {/* {!imageError ? (
             <div className="image-wrapper overflow-y-hidden">
-              <Image
-                src={imageSrc}
-                alt={project?.name}
-                width={800}
-                height={450}
-                layout="responsive"
-                priority={true}
-                onLoad={() => setLoadingImage(false)}
-                onError={handleImageError}
-                className={`thumbnail-img w-full h-full rounded-lg ${loadingImage ? "hidden" : ""}`}
-              />
+              <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]}>
+                <Image
+                  src={imageSrc}
+                  alt={project?.name}
+                  width={800}
+                  height={450}
+                  layout="responsive"
+                  priority={true}
+                  onLoad={() => setLoadingImage(false)}
+                  onError={handleImageError}
+                  className={`thumbnail-img w-full h-full rounded-lg ${loadingImage ? "hidden" : ""}`}
+                />
+              </ImageGallery>
+
+              <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]} isInline={true} />
             </div>
           ) : (
             <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717] text-zinc-500">
               <span>No image available</span>
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="title text-2xl font-semibold capitalize dark:text-zinc-200">{project?.name}</div>

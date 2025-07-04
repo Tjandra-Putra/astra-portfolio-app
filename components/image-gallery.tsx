@@ -6,38 +6,76 @@ import Download from "yet-another-react-lightbox/plugins/download";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Inline from "yet-another-react-lightbox/plugins/inline";
 
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 type ImageGalleryProps = {
-  /** Accept either simple URL strings or fully‑typed Slide objects */
+  /** Accept either URL strings or fully‑typed Slide objects */
   images: (string | Slide)[];
-  /** Optional: initial slide index (default 0) */
+  /** Index to open at (defaults 0) */
   startIndex?: number;
+  /** Anything you want to render as the “trigger” */
+  children?: React.ReactNode;
+  isInline?: boolean;
 };
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ images, startIndex = 0 }) => {
+const inline = {
+  style: {
+    width: "100%",
+    maxWidth: "900px",
+    aspectRatio: "2/2",
+    margin: "0 auto",
+  },
+};
+
+const ImageGallery: React.FC<ImageGalleryProps> = ({ images, startIndex = 0, children, isInline = false }) => {
   const [open, setOpen] = React.useState(false);
 
-  /** Convert string URLs ➜ { src: string } slides */
-  const slides: Slide[] = React.useMemo(() => images.map((item) => (typeof item === "string" ? { src: item } : item)), [images]);
+  const slides = React.useMemo<Slide[]>(() => images.map((img) => (typeof img === "string" ? { src: img } : img)), [images]);
+
+  const wrapWithClick = (nodes: React.ReactNode) => {
+    if (isInline) {
+      // Inline mode: just render children as is, no wrapping or onClick
+      return nodes;
+    }
+
+    const handleOpen = () => setOpen(true);
+
+    if (React.isValidElement(nodes)) {
+      return React.cloneElement(nodes, {
+        onClick: handleOpen,
+        ...(nodes.props || {}),
+        style: { cursor: "pointer", ...nodes.props?.style },
+      });
+    }
+
+    return (
+      <div onClick={handleOpen} style={{ cursor: "pointer" }}>
+        {nodes}
+      </div>
+    );
+  };
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)}>
-        Open Lightbox
-      </button>
+      {wrapWithClick(children)}
 
       <Lightbox
-        open={open}
+        open={isInline || open} // always open if inline
         close={() => setOpen(false)}
-        /** You can start from any index */
         index={startIndex}
         slides={slides}
-        plugins={[Counter, Download, Fullscreen, Thumbnails, Zoom]}
+        plugins={[Counter, Download, Fullscreen, Thumbnails, Zoom, ...(isInline ? [Inline] : [])]}
         counter={{ container: { style: { top: "unset", bottom: 0 } } }}
+        inline={isInline ? inline : undefined}
+        carousel={{
+          spacing: 0,
+          padding: 0,
+          //   imageFit: "cover",
+        }}
       />
     </>
   );
