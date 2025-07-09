@@ -76,7 +76,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, startIndex = 0, chi
         close={() => setOpen(false)}
         index={startIndex}
         slides={slides}
-        plugins={[Counter, Fullscreen, ...(slides.length > 1 ? [Thumbnails] : []), Zoom, ...(isInline ? [Inline] : [])]}
+        plugins={[
+          ...(slides.length > 1 ? [Counter] : []),
+          Fullscreen,
+          ...(slides.length > 1 ? [Thumbnails] : []),
+          Zoom,
+          ...(isInline ? [Inline] : []),
+        ]}
         counter={{ container: { style: { top: "unset", bottom: 0 } } }}
         inline={isInline ? inline : undefined}
         carousel={{
