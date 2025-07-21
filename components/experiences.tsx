@@ -72,8 +72,8 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
           <div className="flex items-center gap-2">
             {loading ? (
               <>
-                <Skeleton className="w-2 h-2 rounded-full" />
-                <Skeleton className="w-36 h-6 rounded-full" />
+                <Skeleton className="w-2 h-2 rounded-lg" />
+                <Skeleton className="w-36 h-6 rounded-lg" />
               </>
             ) : (
               <>

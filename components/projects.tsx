@@ -73,8 +73,8 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
           <div className="flex items-center gap-2">
             {loading ? (
               <>
-                <Skeleton className="w-2 h-2" />
-                <Skeleton className="w-36 h-6" />
+                <Skeleton className="w-2 h-2 rounded-lg" />
+                <Skeleton className="w-36 h-6 rounded-lg" />
               </>
             ) : (
               <>
