@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Loader from "./loader";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SocialCard = () => {
@@ -63,11 +63,20 @@ const SocialCard = () => {
           : profile?.socialLinks?.map((social: any) => {
               if (social.iconName !== "" && social.iconType !== "") {
                 return (
-                  <Link href={social.url} target="_blank" rel="noopener noreferrer" key={social.id}>
-                    <Button variant={"white"} className="font-semibold rounded-full w-11 h-11">
-                      <FontAwesomeIcon icon={[social.iconType, social.iconName]} color="#000000" className="text-lg" />
-                    </Button>
-                  </Link>
+                  <TooltipProvider delayDuration={100} key={social.id}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link href={social.url} target="_blank" rel="noopener noreferrer" key={social.id}>
+                          <Button variant={"white"} className="font-semibold rounded-full w-11 h-11">
+                            <FontAwesomeIcon icon={[social.iconType, social.iconName]} color="#000000" className="text-lg" />
+                          </Button>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{social?.iconName.split("-")[1].charAt(0).toUpperCase() + social?.iconName.split("-")[1].slice(1)}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 );
               }
             })}
