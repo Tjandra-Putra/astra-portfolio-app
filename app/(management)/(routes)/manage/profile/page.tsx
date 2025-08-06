@@ -88,6 +88,7 @@ const EditProfilePage = () => {
   const [profile, setProfile] = useState<any>({});
   const userInfo = useSelector((state: any) => state.userReducer);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isProfileLoaded, setIsProfileLoaded] = useState(false);
 
   // define form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -127,28 +128,34 @@ const EditProfilePage = () => {
 
   // ensures the form is only populated when the project is fetched
   useEffect(() => {
-    if (profile) {
-      // need to do this to match the format of the social media array
-      let formattedSocialLinks: any = [];
-
-      profile.socialLinks?.forEach((link: any) => {
-        const platform = `${link.iconName}, ${link.iconType}`;
-        const url = link.url;
-        const id = link.id;
-
-        formattedSocialLinks.push({ id, platform, url });
-      });
+    if (profile?.name !== undefined) {
+      const formattedSocialLinks = profile.socialLinks?.map((link: any) => {
+        const combined = `${link.iconName}, ${link.iconType}`;
+        const matchedPlatform = socialMediaPlatforms.find((p) => p.value === combined)?.value || "";
+        return {
+          id: link.id,
+          platform: matchedPlatform,
+          url: link.url,
+        };
+      }) || [
+        { id: "", platform: "", url: "" },
+        { id: "", platform: "", url: "" },
+        { id: "", platform: "", url: "" },
+        { id: "", platform: "", url: "" },
+      ];
 
       form.reset({
-        name: profile?.name ? profile.name : "",
-        workEmail: profile?.workEmail ? profile.workEmail : profile.email,
-        bio: profile?.bio ? profile.bio : "",
-        about: profile?.about ? profile.about : "",
-        imageUrl: profile?.imageUrl ? profile.imageUrl : "",
-        resumeUrl: profile?.resumeUrl ? profile.resumeUrl : "",
-        jobTitle: profile?.jobTitle ? profile.jobTitle : "",
-        socialMedia: profile?.socialLinks ? formattedSocialLinks : [],
+        name: profile.name || "",
+        workEmail: profile.workEmail || profile.email || "",
+        bio: profile.bio || "",
+        about: profile.about || "",
+        imageUrl: profile.imageUrl || "",
+        resumeUrl: profile.resumeUrl || "",
+        jobTitle: profile.jobTitle || "",
+        socialMedia: formattedSocialLinks,
       });
+
+      setIsProfileLoaded(true);
     }
   }, [profile]);
 
@@ -174,7 +181,7 @@ const EditProfilePage = () => {
     }
   };
 
-  return loading ? (
+  return loading || !isProfileLoaded ? (
     <Loader />
   ) : (
     <React.Fragment>

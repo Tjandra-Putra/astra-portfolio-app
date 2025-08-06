@@ -35,7 +35,7 @@ const Collaborate = () => {
   }, [userInfo.id]);
 
   return (
-    <section className="collaborate my-12 text-center">
+    <section className="collaborate my-6 text-center">
       <div className="title text-xl font-semibold text-gray-700 dark:text-zinc-200">Let&apos;s collaborate on your next project!</div>
       <div className="description mt-3 text-gray-900 font-normal px-6 dark:text-zinc-300">
         I&apos;m always open to discussing product design work or partnership opportunities.

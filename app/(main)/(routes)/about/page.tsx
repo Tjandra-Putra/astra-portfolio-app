@@ -73,7 +73,7 @@ const AboutPage = () => {
       />
 
       {/* avatar-border border-4 border-[#1c3454] p-3  */}
-      <div className="flex justify-center items-center mt-5 mb-3">
+      <div className="flex justify-center items-center mt-6">
         <img src={profile?.imageUrl} alt="Profile" className="w-28 h-28 rounded-full border-4 border-white shadow-md object-cover" />
       </div>
     </>
