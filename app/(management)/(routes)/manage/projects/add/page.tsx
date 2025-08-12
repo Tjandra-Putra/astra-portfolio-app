@@ -307,13 +307,25 @@ const AddProjectPage = () => {
                         <FormLabel>End Date</FormLabel>
                         <FormControl>
                           <div className="w-full">
-                            <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                            <DatePicker
+                              value={field.value}
+                              onChange={(date) => {
+                                // Make sure the date is either undefined or a Date instance
+                                if (date instanceof Date && !isNaN(date.getTime())) {
+                                  field.onChange(date);
+                                } else {
+                                  field.onChange(undefined);
+                                }
+                              }}
+                              fullWidth
+                            />
                           </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
                   {/* <FormField
                     control={form.control}
                     name="endDate"
