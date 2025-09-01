@@ -5,6 +5,7 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/themes/light.css";
 import { useTheme } from "next-themes";
+import "tippy.js/animations/scale.css";
 
 interface ProfileToastProps {
   profile: { imageUrl?: string; name?: string };
@@ -32,20 +33,21 @@ export default function ProfileToast({ profile, defaultProfileImage, children }:
       // Hide after 5s
       setTimeout(() => {
         tippyInstance.current.hide();
-      }, 5000);
+      }, 10000);
     };
   }, [profile, defaultProfileImage]);
 
   return (
     <Tippy
-      content={<span className="block  sm:max-w-[250px] text-center leading-snug">👋 Hey there, thank you for visiting my page!</span>}
-      placement={isMobile ? "bottom" : "bottom"}
+      content={<span className="block sm:max-w-[250px] text-center leading-snug">👋 Look who&apos;s curious! Welcome 😎</span>}
+      placement={isMobile ? "bottom" : "right"}
       trigger="manual"
       arrow={true}
       theme={resolvedTheme === "dark" ? "light" : "dark"}
       onCreate={(instance) => {
         tippyInstance.current = instance;
       }}
+      animation="scale"
       popperOptions={{
         modifiers: [
           {

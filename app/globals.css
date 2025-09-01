@@ -181,19 +181,22 @@
   border-right-color: #ffffff;
 }
 
-/* Dark theme override */
+/* Dark theme override with custom shadow */
 .tippy-box[data-theme~="dark"] {
-  @apply bg-gray-900 text-gray-100 shadow-lg rounded-xl px-3 py-2 text-sm;
+  @apply bg-white text-black rounded-xl px-3 py-2 text-sm;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
+
+/* Arrow colors for dark theme to match the white background */
 .tippy-box[data-theme~="dark"][data-placement^="top"] > .tippy-arrow::before {
-  border-top-color: #111827; /* Tailwind gray-900 */
+  border-top-color: #ffffff;
 }
 .tippy-box[data-theme~="dark"][data-placement^="bottom"] > .tippy-arrow::before {
-  border-bottom-color: #111827;
+  border-bottom-color: #ffffff;
 }
 .tippy-box[data-theme~="dark"][data-placement^="left"] > .tippy-arrow::before {
-  border-left-color: #111827;
+  border-left-color: #ffffff;
 }
 .tippy-box[data-theme~="dark"][data-placement^="right"] > .tippy-arrow::before {
-  border-right-color: #111827;
+  border-right-color: #ffffff;
 }
