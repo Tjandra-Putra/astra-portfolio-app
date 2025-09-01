@@ -21,6 +21,7 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import confetti from "canvas-confetti"; // Import canvas-confetti
 import { Skeleton } from "@/components/ui/skeleton";
+import ProfileToast from "@/components/profile-toast";
 
 // default route for the app "https://localhost:3000/"
 export default function Profile() {
@@ -241,10 +242,12 @@ export default function Profile() {
                   <Skeleton className="w-full h-full rounded-full" />
                 ) : (
                   <div className="border-4 border-navy dark:border-zinc-300 p-2 rounded-full w-full h-full">
-                    <Avatar className="w-full h-full rounded-full overflow-hidden">
-                      <AvatarImage src={profile?.imageUrl || defaultProfileImage} alt={profile?.name} className="object-cover w-full h-full" />
-                      <AvatarFallback>{profile?.name}</AvatarFallback>
-                    </Avatar>
+                    <ProfileToast profile={profile} defaultProfileImage={defaultProfileImage}>
+                      <Avatar className="w-full h-full rounded-full overflow-hidden">
+                        <AvatarImage src={profile?.imageUrl || defaultProfileImage} alt={profile?.name} className="object-cover w-full h-full" />
+                        <AvatarFallback>{profile?.name}</AvatarFallback>
+                      </Avatar>
+                    </ProfileToast>
                   </div>
                 )}
               </div>
