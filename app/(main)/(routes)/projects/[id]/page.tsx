@@ -195,7 +195,7 @@ const Project = () => {
         <div className="buttons flex flex-row justify-end">
           <Button className="mr-3" variant={"navy"} disabled={!project?.projectUrl}>
             <Link href={project ? project.projectUrl : ""} target="_blank">
-              Visit Website
+              Demo
               <FontAwesomeIcon icon={faArrowAltCircleRight} className="ms-2" />
             </Link>
           </Button>
