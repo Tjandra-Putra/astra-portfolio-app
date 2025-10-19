@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={cn(font.className)}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem storageKey="astra-theme" disableTransitionOnChange>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem storageKey="astra-theme" disableTransitionOnChange>
             <ReduxProvider>{children}</ReduxProvider>
             <Analytics />
             <Toaster position="bottom-center" />
