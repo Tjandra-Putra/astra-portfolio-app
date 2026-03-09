@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Familjen_Grotesk } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
@@ -10,7 +10,7 @@ import { ReduxProvider } from "./redux/provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { initialProfile } from "@/lib/initial-profile";
 
-const font = Inter({ subsets: ["latin"] });
+const font = Familjen_Grotesk({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Astra",
