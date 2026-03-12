@@ -59,7 +59,7 @@ const ProjectsPage = () => {
       <div className="flex items-center gap-2 mb-3 justify-between">
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-          <div className="job-title font-medium text-gray-800 text-lg">Manage Projects</div>
+          <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Manage Projects</div>
         </div>
         <Link href="/manage/projects/add">
           <Button variant="ash">
@@ -69,7 +69,7 @@ const ProjectsPage = () => {
         </Link>
       </div>
 
-      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
+      <div className="text-gray-800 dark:text-zinc-300 mb-6 font-normal text-sm sm:text-base">
         Your projects are listed below. You can edit, delete, or hide them from your profile.
       </div>
 

@@ -58,7 +58,7 @@ const ManageCertificatePage = () => {
       <div className="flex items-center gap-2 mb-3 justify-between">
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-          <div className="job-title font-medium text-gray-800 text-lg">Manage Certificates</div>
+          <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Manage Certificates</div>
         </div>
         <Link href="/manage/certificate/add">
           <Button variant="ash">
@@ -68,7 +68,7 @@ const ManageCertificatePage = () => {
         </Link>
       </div>
 
-      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
+      <div className="text-gray-800 dark:text-zinc-300 mb-6 font-normal text-sm sm:text-base">
         Manage your certificates here. You can add, edit, and delete certificates.
       </div>
 

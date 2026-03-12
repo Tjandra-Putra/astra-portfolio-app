@@ -212,13 +212,15 @@ const EditProjectPage = () => {
         >
           <div className="flex items-center gap-2 mb-3">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 text-lg">Edit Project </div>
+            <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Edit Project </div>
           </div>
-          <div className="text-gray-800 font-normal">Add a project to your portfolio. This will be displayed on your profile page.</div>
+          <div className="text-gray-800 dark:text-zinc-300 font-normal">
+            Add a project to your portfolio. This will be displayed on your profile page.
+          </div>
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Introduction
           </Badge>
-          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
+          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid grid-cols-12 items-center justify-center">
                 <div className="col-span-12 sm:col-span-6">
@@ -300,7 +302,7 @@ const EditProjectPage = () => {
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Details
           </Badge>
-          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
+          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid gap-4">
                 <div className="col-span-1">
@@ -364,7 +366,7 @@ const EditProjectPage = () => {
             </section>
 
             <section className="mb-5">
-              <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
+              <div className="flex flex-row items-center justify-between rounded-lg border dark:border-[#333335] p-4 bg-white dark:bg-[#1e1e1e]">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">
                     Your project is visible to everyone <span className="text-sm text-gray-600 font-light">(Optional)</span>
@@ -388,7 +390,7 @@ const EditProjectPage = () => {
             </section>
 
             <section className="mb-5">
-              <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
+              <div className="flex flex-row items-center justify-between rounded-lg border dark:border-[#333335] p-4 bg-white dark:bg-[#1e1e1e]">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">Is this a work experience?</Label>
                   <div className="text-sm text-gray-600 font-light">Turning on this option will consider this project as a work experience.</div>
@@ -434,7 +436,7 @@ const EditProjectPage = () => {
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Links
           </Badge>
-          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
+          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid gap-4">
                 <div className="col-span-1">
@@ -482,7 +484,7 @@ const EditProjectPage = () => {
           <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
             Project Tags
           </Badge>
-          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
+          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <FormField
                 control={form.control}
@@ -505,8 +507,8 @@ const EditProjectPage = () => {
           <Badge variant="navy" className="text-lg font-semibold w-full justify-between mt-7 rounded-lg rounded-bl-none rounded-br-none flex ">
             Main Content
           </Badge>
-          <div className="border bg-white p-0 rounded-lg">
-            <section className="mb-5 bg-white">
+          <div className="border dark:border-[#333335] bg-white dark:bg-[#1e1e1e] p-0 rounded-lg">
+            <section className="mb-5 bg-white dark:bg-[#1e1e1e]">
               <Editor onParentEditorChange={handleMarkdownChange} initialContent={project?.content} />
             </section>
           </div>

@@ -79,7 +79,7 @@ const formSchema = z.object({
       id: z.string(),
       platform: z.string().optional(),
       url: z.string().optional(),
-    })
+    }),
   ),
 });
 
@@ -189,10 +189,10 @@ const EditProfilePage = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex items-center gap-2 mb-3">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 text-lg">Manage Profile</div>
+            <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Manage Profile</div>
           </div>
 
-          <div className="text-gray-800 font-normal text-sm sm:text-base">
+          <div className="text-gray-800 dark:text-zinc-300 font-normal text-sm sm:text-base">
             Leave the field blank if you do not want to update the information. If you want to update the information, please fill in the field.
           </div>
 
@@ -200,7 +200,7 @@ const EditProfilePage = () => {
             Basic Information
           </Badge>
 
-          <div className="bg-zinc-50 p-5 rounded-lg">
+          <div className="bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-lg">
             <section className="mb-5">
               <div className="grid grid-cols-12 items-center justify-center gap-4">
                 <div className="col-span-6 col-start-1">
@@ -331,7 +331,7 @@ const EditProfilePage = () => {
             Files
           </Badge>
 
-          <div className="bg-zinc-50 p-5 rounded-lg">
+          <div className="bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-lg">
             <section className="mb-5">
               <div className="grid grid-cols-12 items-center justify-center gap-4">
                 <div className="col-span-6 col-start-1">
@@ -373,7 +373,7 @@ const EditProfilePage = () => {
             Social Media
           </Badge>
 
-          <div className="bg-zinc-50 p-5 rounded-lg">
+          <div className="bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-lg">
             {[0, 1, 2, 3].map((index) => (
               <section key={index} className="mb-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

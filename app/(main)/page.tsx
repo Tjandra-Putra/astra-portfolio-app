@@ -167,17 +167,16 @@ const LandingPage = () => {
                 >
                   <div className="flex sm:flex-row flex-col justify-between items-center sm:text-start text-center">
                     <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-3">
-                      <div className={`p-2 rounded-full ${loading ? "" : "border-2 border-zinc-300 dark:border-white"}`}>
-                        <Avatar>
-                          {loading ? (
-                            <Skeleton className="w-12 h-12 rounded-full" />
-                          ) : (
-                            <AvatarImage
-                              src={profile.imageUrl || (user && profile.id === user.publicMetadata.userId && user.imageUrl) || defaultImageUrl}
-                              alt={profile?.name}
-                              className="object-cover w-12 h-12"
-                            />
-                          )}
+                      <div className="p-2 rounded-full border-2 border-zinc-300 dark:border-zinc-600">
+                        <Avatar className="w-12 h-12">
+                          <AvatarImage
+                            src={profile.imageUrl || (user && profile.id === user.publicMetadata.userId && user.imageUrl) || defaultImageUrl}
+                            alt={profile?.name}
+                            className="object-cover w-12 h-12 transition-opacity duration-500 data-[state=loading]:opacity-0 data-[state=loaded]:opacity-100"
+                          />
+                          <AvatarFallback>
+                            <Skeleton className="w-full h-full rounded-full" />
+                          </AvatarFallback>
                         </Avatar>
                       </div>
                       <div className="flex flex-col">

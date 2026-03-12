@@ -35,7 +35,7 @@ const ManagePage = () => {
           domain: response?.data?.domain,
           email: response?.data?.email,
           workEmail: response?.data?.workEmail,
-        })
+        }),
       );
     });
   };
@@ -48,17 +48,17 @@ const ManagePage = () => {
     <React.Fragment>
       <div className="flex items-center gap-2 mb-3">
         <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="job-title font-medium text-gray-800 text-lg">Manage Platform</div>
+        <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Manage Platform</div>
       </div>
 
-      <div className="text-gray-800 mb-6 font-normal text-sm sm:text-base">
+      <div className="text-gray-800 dark:text-zinc-300 mb-6 font-normal text-sm sm:text-base">
         This page allows you to effortlessly manage your projects, profile, and work experiences. Update, showcase, and organize your professional
         journey with ease.
       </div>
 
-      <div className="bg-ash md:p-6 p-3 rounded-lg">
+      <div className="bg-ash dark:bg-[#0c0c0c] md:p-6 p-3 rounded-lg">
         <Link href={`/manage/profile`}>
-          <div className=" bg-white rounded-lg md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+          <div className=" bg-white dark:bg-[#171717] dark:border dark:border-[#333335] rounded-lg md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
             <div className="flex items-center gap-4">
               <div className="avatar-border border-4 border-[#74c0fc] p-2 rounded-full">
                 <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
@@ -66,17 +66,17 @@ const ManagePage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="project-title text-gray-800 font-medium text-base">User Profile</div>
+                <div className="project-title text-gray-800 dark:text-zinc-200 font-medium text-base">User Profile</div>
               </div>
             </div>
             <div className="view-more transition-transform transform hover:translate-x-1">
-              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+              <FontAwesomeIcon icon={faChevronRight} className="me-2 text-gray-800 dark:text-zinc-300" />
             </div>
           </div>
         </Link>
 
         <Link href={`/manage/projects`}>
-          <div className=" bg-white rounded-lg md:mt-5 mt-3 md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+          <div className=" bg-white dark:bg-[#171717] dark:border dark:border-[#333335] rounded-lg md:mt-5 mt-3 md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
             <div className="flex items-center gap-4">
               <div className="avatar-border border-4 border-[#63e6be] p-2 rounded-full">
                 <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
@@ -84,17 +84,17 @@ const ManagePage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="project-title text-gray-800 font-medium text-base">Projects & Experiences</div>
+                <div className="project-title text-gray-800 dark:text-zinc-200 font-medium text-base">Projects & Experiences</div>
               </div>
             </div>
             <div className="view-more transition-transform transform hover:translate-x-1">
-              <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+              <FontAwesomeIcon icon={faChevronRight} className="me-2 text-gray-800 dark:text-zinc-300" />
             </div>
           </div>
         </Link>
 
         <Link href={`/manage/certificate`}>
-          <div className=" bg-white rounded-lg md:mt-5 mt-3 md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+          <div className=" bg-white dark:bg-[#171717] dark:border dark:border-[#333335] rounded-lg md:mt-5 mt-3 md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
             <div className="flex items-center gap-4">
               <div className="avatar-border  border-4 border-[#e599f7] p-2 rounded-full">
                 <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
@@ -102,19 +102,19 @@ const ManagePage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="project-title text-gray-800 font-medium text-base">Certificates</div>
+                <div className="project-title text-gray-800 dark:text-zinc-200 font-medium text-base">Certificates</div>
               </div>
             </div>
             <div className="view-more transition-transform transform hover:translate-x-1">
               <Link href={`/manage/experiences`}>
-                <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+                <FontAwesomeIcon icon={faChevronRight} className="me-2 text-gray-800 dark:text-zinc-300" />
               </Link>
             </div>
           </div>
         </Link>
 
         <Link href={`/manage/education`}>
-          <div className=" bg-white rounded-lg md:mt-5 mt-3 md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
+          <div className=" bg-white dark:bg-[#171717] dark:border dark:border-[#333335] rounded-lg md:mt-5 mt-3 md:p-6 p-3 flex items-center justify-between ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:ring-[3px] hover:ring-[#74c0fc] disabled:pointer-events-none disabled:opacity-50">
             <div className="flex items-center gap-4">
               <div className="avatar-border border-4 border-[#ffd43b] p-2 rounded-full">
                 <div className="avatar h-14 w-14 flex items-center justify-center bg-[#183153] text-[#eecd4e] font-bold rounded-full">
@@ -122,12 +122,12 @@ const ManagePage = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="project-title text-gray-800 font-medium">Education</div>
+                <div className="project-title text-gray-800 dark:text-zinc-200 font-medium">Education</div>
               </div>
             </div>
             <div className="view-more transition-transform transform hover:translate-x-1">
               <Link href={`/manage/experiences`}>
-                <FontAwesomeIcon icon={faChevronRight} className="me-2" color="#000000" />
+                <FontAwesomeIcon icon={faChevronRight} className="me-2 text-gray-800 dark:text-zinc-300" />
               </Link>
             </div>
           </div>

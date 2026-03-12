@@ -129,7 +129,7 @@ const DashboardPage = () => {
           }
 
           return profile;
-        })
+        }),
       );
 
       toast.success("Profile accepted.");
@@ -169,7 +169,7 @@ const DashboardPage = () => {
           }
 
           return profile;
-        })
+        }),
       );
 
       toast.success("Profile rejected.");
@@ -237,7 +237,7 @@ const DashboardPage = () => {
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-          <div className="job-title font-medium text-gray-800 text-lg">User Management</div>
+          <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">User Management</div>
         </div>
         <Dialog>
           <DialogTrigger asChild>

@@ -137,10 +137,10 @@ const EditEducationPage = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex items-center gap-2 mb-3">
             <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 text-lg">Edit Education</div>
+            <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Edit Education</div>
           </div>
 
-          <div className="text-gray-800 font-normal">
+          <div className="text-gray-800 dark:text-zinc-300 font-normal">
             Edit your education to showcase your academic achievements. You can add multiple education entries.
           </div>
 
@@ -148,7 +148,7 @@ const EditEducationPage = () => {
             Basic Information
           </Badge>
 
-          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
+          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
                 <div className="col-span-1">
@@ -269,7 +269,7 @@ const EditEducationPage = () => {
             </section>
 
             <section className="mb-5">
-              <div className="flex flex-row items-center justify-between rounded-lg border p-4 bg-white">
+              <div className="flex flex-row items-center justify-between rounded-lg border dark:border-[#333335] p-4 bg-white dark:bg-[#1e1e1e]">
                 <div className="space-y-0.5">
                   <Label htmlFor="is-work-experience">Your education is visible to everyone</Label>
                   <div className="text-sm text-gray-600 font-light">Turning on this option will hide this education from your profile.</div>
@@ -295,7 +295,7 @@ const EditEducationPage = () => {
             Additional Information
           </Badge>
 
-          <div className="border bg-zinc-50 p-5 rounded-bl-lg rounded-br-lg">
+          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
             <section className="mb-5">
               <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
                 <div className="col-span-1">
