@@ -69,7 +69,7 @@ const CertificatePage = () => {
       <div className="bg-ash sm:px-6 sm:py-[0.1rem] py-[0.1rem] px-3 rounded-lg dark:bg-[#0c0c0c] dark:border dark:border-white/10">
         {certificates && certificates.length > 0 ? (
           certificates?.map((certificate) => (
-            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3 dark:bg-[#171717] dark:border" key={certificate.id}>
+            <div className="certificate-container bg-white rounded-lg sm:p-6 p-3 sm:my-6 my-3 dark:bg-[#171717] dark:border overflow-hidden" key={certificate.id}>
               <div className="header flex sm:flex-row sm:gap-6 gap-3 items-center">
                 <div>
                   <div className="sm:w-[100px] sm:h-[100px] w-[70px] h-[70px] object-cover rounded-lg bg-navy flex items-center justify-center">
@@ -91,12 +91,13 @@ const CertificatePage = () => {
                 <div className="w-full mt-3 shadow-paper rounded-lg overflow-hidden">
                   <iframe
                     src={certificate.certificateImageUrl}
-                    className="w-full aspect-[4/3] sm:h-[60vh] h-[50vh] rounded-lg"
+                    className="sm:h-[60vh] h-[50vh] rounded-lg block"
                     style={{
                       border: "none",
-                      transform: "scale(1)",
-                      transformOrigin: "top left",
+                      width: 0,
+                      minWidth: "100%",
                     }}
+                    title="Certificate PDF"
                     allowFullScreen
                   />
                 </div>
