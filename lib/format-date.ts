@@ -9,12 +9,19 @@ export const formatDate = (dateString: string): string => {
 };
 
 // Example Aug 2024 - Sep 2025 or Aug 2024 to Present
-export const formatDateRange = (startDate: string, endDate: string): string => {
+export const formatDateRange = (startDate: string, endDate?: string | null): string => {
   const start = new Date(startDate);
-  const end = new Date(endDate);
-
   const startMonth = start.toLocaleString("default", { month: "short" });
   const startYear = start.getFullYear();
+
+  if (!endDate) {
+    return `${startMonth} ${startYear} - Present`;
+  }
+
+  const end = new Date(endDate);
+  if (Number.isNaN(end.getTime()) || end.getFullYear() <= 1970) {
+    return `${startMonth} ${startYear} - Present`;
+  }
   const endMonth = end.toLocaleString("default", { month: "short" });
   const endYear = end.getFullYear();
 
@@ -25,9 +32,10 @@ export const formatDateRange = (startDate: string, endDate: string): string => {
   return `${startMonth} ${startYear} - ${endMonth} ${endYear}`;
 };
 
-export const calculateDuration = (startDate: string, endDate: string): string => {
+export const calculateDuration = (startDate: string, endDate?: string | null): string => {
   const start = new Date(startDate);
-  const end = new Date(endDate);
+  const parsedEnd = endDate ? new Date(endDate) : undefined;
+  const end = !parsedEnd || Number.isNaN(parsedEnd.getTime()) || parsedEnd.getFullYear() <= 1970 ? new Date() : parsedEnd;
 
   const startYear = start.getFullYear();
   const startMonth = start.getMonth();

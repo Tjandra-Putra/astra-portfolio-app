@@ -66,7 +66,7 @@ const Project = () => {
           domain: response.data.domain,
           email: response.data.email,
           workEmail: response.data.workEmail,
-        })
+        }),
       );
     } catch (error: any) {}
   };
@@ -79,6 +79,7 @@ const Project = () => {
   // Image source logic
   const imageSrc = project?.thumbnailUrl || "/assets/image/pexels-fauxels-3183186.jpg";
   const isFallback = !project?.thumbnailUrl;
+  const hasValidEndDate = !!project?.endDate && !Number.isNaN(new Date(project.endDate).getTime()) && new Date(project.endDate).getFullYear() > 1970;
 
   // Handle image error: if main fails, try fallback; if fallback fails, show message
   const handleImageError = () => {
@@ -130,7 +131,12 @@ const Project = () => {
           <div className="flex">
             <div className="text-[#000000] w-36 font-semibold dark:text-zinc-200">Date</div>
             <div className="text-black w-full dark:text-zinc-300">
-              {new Date(project.startDate).toLocaleDateString("en-SG")} to {new Date(project.endDate).toLocaleDateString("en-SG")}
+              {new Date(project.startDate).toLocaleDateString("en-SG")} to{" "}
+              {hasValidEndDate ? (
+                new Date(project.endDate).toLocaleDateString("en-SG")
+              ) : (
+                <span className="font-semibold text-[#1d3554] dark:text-sky">Present</span>
+              )}
               <br />
               <Badge variant="navy" className="mt-2">
                 {calculateDuration(project.startDate, project.endDate)}

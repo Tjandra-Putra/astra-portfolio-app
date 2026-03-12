@@ -20,14 +20,12 @@ interface DatePickerProps {
 
 export function DatePicker(
   { value, onChange, startYear = getYear(new Date()) - 100, endYear = getYear(new Date()) + 100 }: DatePickerProps,
-  fullWidth = false
+  fullWidth = false,
 ) {
-  const [internalDate, setInternalDate] = React.useState<Date>(value ?? new Date());
+  const [internalDate, setInternalDate] = React.useState<Date | undefined>(value);
 
   React.useEffect(() => {
-    if (value) {
-      setInternalDate(value);
-    }
+    setInternalDate(value);
   }, [value]);
 
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -35,13 +33,13 @@ export function DatePicker(
   const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
 
   const handleMonthChange = (month: string) => {
-    const newDate = setMonth(internalDate, months.indexOf(month));
+    const newDate = setMonth(internalDate ?? new Date(), months.indexOf(month));
     setInternalDate(newDate);
     onChange?.(newDate);
   };
 
   const handleYearChange = (year: string) => {
-    const newDate = setYear(internalDate, parseInt(year));
+    const newDate = setYear(internalDate ?? new Date(), parseInt(year));
     setInternalDate(newDate);
     onChange?.(newDate);
   };
@@ -61,12 +59,12 @@ export function DatePicker(
           className={cn(fullWidth ? "w-full" : "w-[250px]", "justify-start text-left font-normal", !internalDate && "text-muted-foreground")}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {internalDate ? format(internalDate, "PPP") : <span>Pick a date</span>}
+          {internalDate ? format(internalDate, "PPP") : <span className="text-muted-foreground">Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <div className="flex justify-between p-2">
-          <Select onValueChange={handleMonthChange} value={months[getMonth(internalDate)]}>
+          <Select onValueChange={handleMonthChange} value={internalDate ? months[getMonth(internalDate)] : undefined}>
             <SelectTrigger className="w-[110px]">
               <SelectValue placeholder="Month" />
             </SelectTrigger>
@@ -78,7 +76,7 @@ export function DatePicker(
               ))}
             </SelectContent>
           </Select>
-          <Select onValueChange={handleYearChange} value={getYear(internalDate).toString()}>
+          <Select onValueChange={handleYearChange} value={internalDate ? getYear(internalDate).toString() : undefined}>
             <SelectTrigger className="w-[110px]">
               <SelectValue placeholder="Year" />
             </SelectTrigger>
@@ -91,7 +89,14 @@ export function DatePicker(
             </SelectContent>
           </Select>
         </div>
-        <Calendar mode="single" selected={internalDate} onSelect={handleSelect} initialFocus month={internalDate} onMonthChange={setInternalDate} />
+        <Calendar
+          mode="single"
+          selected={internalDate}
+          onSelect={handleSelect}
+          initialFocus
+          month={internalDate ?? new Date()}
+          onMonthChange={setInternalDate}
+        />
       </PopoverContent>
     </Popover>
   );

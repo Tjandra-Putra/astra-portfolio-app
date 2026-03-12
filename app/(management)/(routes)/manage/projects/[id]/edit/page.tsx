@@ -63,9 +63,7 @@ const formSchema = z.object({
   startDate: z.date({
     required_error: "Start date is required",
   }),
-  endDate: z.date({
-    required_error: "End date is required",
-  }),
+  endDate: z.date().optional(),
   visible: z.boolean().optional(),
   isWorkExperience: z.boolean().optional(),
   workExperienceTitle: z.string().optional(),
@@ -142,7 +140,10 @@ const EditProjectPage = () => {
         category: project?.category,
         content: project?.content || "",
         startDate: new Date(project?.startDate),
-        endDate: new Date(project?.endDate),
+        endDate:
+          project?.endDate && !Number.isNaN(new Date(project.endDate).getTime()) && new Date(project.endDate).getFullYear() > 1970
+            ? new Date(project.endDate)
+            : undefined,
         isWorkExperience: project?.isWorkExperience,
         visible: project?.visible,
         tags: project?.tags,
@@ -162,12 +163,18 @@ const EditProjectPage = () => {
 
     values.content = markDownContent;
 
-    // Convert date strings to Date objects
-    values.startDate = new Date(values.startDate);
-    values.endDate = new Date(values.endDate);
+    const payload = {
+      ...values,
+      // Always set start date, and use null to explicitly clear end date in DB.
+      startDate: new Date(values.startDate),
+      endDate:
+        values.endDate && !Number.isNaN(new Date(values.endDate).getTime()) && new Date(values.endDate).getFullYear() > 1970
+          ? new Date(values.endDate)
+          : null,
+    };
 
     try {
-      await axios.put(`/api/manage/projects/${id}`, values);
+      await axios.put(`/api/manage/projects/${id}`, payload);
       toast.success("Project edited successfully!");
 
       // window.location.reload();
@@ -351,10 +358,21 @@ const EditProjectPage = () => {
                     name="endDate"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>End Date</FormLabel>
+                        <FormLabel>
+                          End Date <span className="text-sm text-gray-500 font-light">(Optional)</span>
+                        </FormLabel>
                         <FormControl>
-                          <div className="w-full">
+                          <div className="w-full flex flex-col gap-1">
                             <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                            {field.value && (
+                              <button
+                                type="button"
+                                onClick={() => field.onChange(undefined)}
+                                className="text-xs text-red-400 hover:text-red-600 text-left"
+                              >
+                                × Clear (set as Current)
+                              </button>
+                            )}
                           </div>
                         </FormControl>
                         <FormMessage />
