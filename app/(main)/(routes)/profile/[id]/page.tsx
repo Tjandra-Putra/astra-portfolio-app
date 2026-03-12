@@ -56,7 +56,7 @@ export default function Profile() {
           domain: response.data.domain,
           email: response.data.email,
           workEmail: response.data.workEmail,
-        })
+        }),
       );
     } catch (error: any) {
       console.error("Error fetching data:", error?.response || error.message);
@@ -119,6 +119,19 @@ export default function Profile() {
 
   return (
     <>
+      {/* Side background art for wide screens */}
+      <div className="pointer-events-none fixed left-0 top-0 z-[1] hidden xl:block h-screen w-[22vw] overflow-hidden" aria-hidden="true">
+        <div className="absolute -left-24 top-20 h-72 w-72 rounded-full bg-[#74c0fc]/35 blur-3xl dark:bg-[#74c0fc]/20" />
+        <div className="absolute left-16 top-[44%] h-48 w-48 rounded-[36px] border border-[#1d3554]/20 bg-white/30 rotate-12 dark:border-zinc-400/20 dark:bg-zinc-700/10" />
+        <div className="absolute left-8 bottom-20 h-52 w-52 rounded-full border-2 border-dashed border-[#1d3554]/25 dark:border-sky/40" />
+      </div>
+
+      <div className="pointer-events-none fixed right-0 top-0 z-[1] hidden xl:block h-screen w-[22vw] overflow-hidden" aria-hidden="true">
+        <div className="absolute -right-24 top-32 h-72 w-72 rounded-full bg-[#1d3554]/25 blur-3xl dark:bg-sky/20" />
+        <div className="absolute right-12 top-[38%] h-56 w-56 rounded-full border border-[#1d3554]/20 bg-gradient-to-br from-[#74c0fc]/20 to-[#1d3554]/10 dark:border-zinc-400/20" />
+        <div className="absolute right-20 bottom-16 h-28 w-28 rounded-3xl bg-[#fab306]/20 rotate-12 dark:bg-[#fab306]/15" />
+      </div>
+
       <section className="introduction sm:pb-6 pb-3">
         <div className="flex justify-between mb-5">
           <div className="flex items-center gap-2 mb-4">
