@@ -76,26 +76,43 @@ export default function Profile() {
   }, [id]);
 
   const triggerConfetti = () => {
-    var end = Date.now() + 1 * 300;
-    // go Buckeyes!
-    // var colors = ["#bb0000", "#ffffff"];
-    var colors = ["#38251e", "#f3b74d", "#e47a54", "#a4422c"];
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const colors = ["#183153", "#74c0fc", "#fab306", "#f3b74d", "#e47a54", "#ffffff"];
+    const end = Date.now() + 1400;
 
     (function frame() {
       confetti({
-        particleCount: 4,
-        angle: 60,
-        spread: 100,
-        origin: { x: 0 },
-        colors: colors,
+        particleCount: 3,
+        angle: 62,
+        spread: 72,
+        startVelocity: 20,
+        gravity: 0.95,
+        origin: { x: 0, y: 0.85 },
+        colors,
+        zIndex: 1200,
       });
       confetti({
-        particleCount: 4,
-        angle: 120,
-        spread: 100,
-        origin: { x: 1 },
-        colors: colors,
+        particleCount: 3,
+        angle: 118,
+        spread: 72,
+        startVelocity: 20,
+        gravity: 0.95,
+        origin: { x: 1, y: 0.85 },
+        colors,
+        zIndex: 1200,
       });
+      confetti({
+        particleCount: 2,
+        angle: 90,
+        spread: 64,
+        startVelocity: 18,
+        gravity: 1,
+        origin: { x: Math.random() * 0.5 + 0.25, y: 1 },
+        colors,
+        zIndex: 1200,
+      });
+
       if (Date.now() < end) {
         requestAnimationFrame(frame);
       }
