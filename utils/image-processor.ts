@@ -7,7 +7,7 @@
 
 export function extractImageUrls(input: string | any[]): string[] {
   // 1. Normalise to an array of blocks
-  const blocks: any[] = typeof input === "string" ? JSON.parse(input) : Array.isArray(input) ? input : [];
+  const blocks: any[] = typeof input === "string" ? (input.trim() ? JSON.parse(input) : []) : Array.isArray(input) ? input : [];
 
   const urls: string[] = [];
 
