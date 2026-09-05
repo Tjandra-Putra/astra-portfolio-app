@@ -18,6 +18,7 @@ import { Tilt } from "@/components/fx/tilt";
 import { Counter } from "@/components/fx/counter";
 import { MeshCrosshairs } from "@/components/fx/mesh-crosshairs";
 import { StageDecor } from "@/components/fx/stage-decor";
+import { LandingMotion } from "@/components/fx/landing-motion";
 import { patternFor } from "@/lib/pattern";
 import { AstraLogo, AstraMark } from "@/components/brand/astra-mark";
 import { useHideOnScroll } from "@/components/fx/use-hide-on-scroll";
@@ -256,6 +257,7 @@ export default function LandingPage() {
     <div className="stage flex min-h-[100svh] flex-col">
       <span className="progress" />
       <MotionLayer />
+      <LandingMotion />
       <Masthead />
 
       <main className="flex-1">
@@ -263,12 +265,12 @@ export default function LandingPage() {
         {/* Full-viewport hero. Subtracts the masthead (its sticky pill plus the
             --gutter top inset) so the fold lands exactly at the viewport edge
             rather than overflowing by the header's height. */}
-        <section className="wrap relative flex min-h-[calc(100svh-80px)] flex-col justify-center gap-8 pb-6 pt-4">
-          <StageDecor />
+        <section data-anim="hero" className="wrap relative flex min-h-[calc(100svh-80px)] flex-col justify-center gap-8 pb-6 pt-4">
+          <StageDecor className="[--x:0]" data-anim="decor" />
           <div className="orb left-[-8%] top-[-6%] h-[380px] w-[380px] sm:h-[520px] sm:w-[520px]" />
 
           <div className="bento w-full flex-1 items-center">
-            <div className="sm:col-span-6 lg:col-span-6">
+            <div data-anim="hero-copy" className="sm:col-span-6 lg:col-span-6">
               <span className="tt-mono rise inline-flex items-center gap-2">
                 <span className="pin" /> Portfolio platform
               </span>
@@ -305,7 +307,7 @@ export default function LandingPage() {
             </div>
 
             {/* 3D scene + floating glass cards in front of it */}
-            <div className="relative sm:col-span-6 lg:col-span-6">
+            <div data-anim="hero-media" className="relative sm:col-span-6 lg:col-span-6">
               {/* Mobile: the overlapping cluster is sized for a wide box — at
                   390px the cards collide and truncate. Show one card, in flow. */}
               <div className="rise mt-2 grid gap-2.5 md:hidden" style={{ animationDelay: "420ms" }}>
@@ -332,8 +334,8 @@ export default function LandingPage() {
           </div>
 
           {/* Capability band, closing out the fold */}
-          <div className="marquee shrink-0">
-            <div className="marquee-track" aria-hidden="true">
+          <div data-anim="hero-marquee" className="marquee shrink-0">
+            <div data-anim="mq-track" className="marquee-track" aria-hidden="true">
               {[...marqueeWords, ...marqueeWords].map((w, i) => (
                 <span key={i} className="flex shrink-0 items-center gap-8">
                   <span className="whitespace-nowrap text-[1.05rem] font-semibold tracking-tight text-ink/[0.14] sm:text-[1.3rem]">
@@ -348,10 +350,10 @@ export default function LandingPage() {
 
         {/* ══ BENTO MESH — what you get ═════════════════════ */}
         <section id="what" className="wrap bay scroll-mt-24">
-          <div className="reveal flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-lg">
               <p className="tt-mono">Everything in one place</p>
-              <h2 className="tt-h1 mt-2.5">
+              <h2 data-anim="words" className="tt-h1 mt-2.5">
                 Four sections that do the <span className="acc">explaining</span> for you.
               </h2>
             </div>
@@ -361,7 +363,7 @@ export default function LandingPage() {
           </div>
 
           {/* Uniform 3 x 3 tracks so the crosshair overlay lands on real grid lines. */}
-          <div className="mesh mesh-3 mesh-even reveal relative mt-6">
+          <div data-anim="mesh" className="mesh mesh-3 mesh-even relative mt-6">
             <MeshCrosshairs cols={3} rows={3} />
 
             {/* — Projects (2 wide) — */}
@@ -522,15 +524,15 @@ export default function LandingPage() {
 
         {/* ══ HOW IT WORKS ══════════════════════════════════ */}
         <section id="how" className="wrap bay scroll-mt-24">
-          <div className="reveal flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="tt-mono">How it works</p>
-              <h2 className="tt-h1 mt-2.5">Three steps to a live portfolio.</h2>
+              <h2 data-anim="words" className="tt-h1 mt-2.5">Three steps to a live portfolio.</h2>
             </div>
           </div>
 
           {/* One panel divided into three, rather than three floating cards. */}
-          <div className="mesh mesh-3 mesh-even reveal relative mt-6">
+          <div data-anim="mesh" className="mesh mesh-3 mesh-even relative mt-6">
             <MeshCrosshairs cols={3} rows={1} />
             {[
               { n: "01", t: "Sign in", d: "One click with your email. No setup, no template picking, no theme store." },
@@ -538,7 +540,7 @@ export default function LandingPage() {
               { n: "03", t: "Share the link", d: "Live at a clean URL the moment you publish. Update it any time." },
             ].map((st) => (
               <div key={st.n} className="pad flex items-start gap-4">
-                <span className="tt-num shrink-0 text-[1.5rem] text-muted-ink">{st.n}</span>
+                <span data-anim="step-n" className="tt-num shrink-0 text-[1.5rem] text-muted-ink">{st.n}</span>
                 <div>
                   <p className="tt-h2">{st.t}</p>
                   <p className="tt-body mt-1.5">{st.d}</p>
@@ -555,7 +557,7 @@ export default function LandingPage() {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="tt-mono">Directory</p>
-                <h2 className="tt-h1 mt-2.5">Browse published portfolios</h2>
+                <h2 data-anim="words" className="tt-h1 mt-2.5">Browse published portfolios</h2>
                 <p className="tt-body mt-2 max-w-md">See what other people are shipping — every profile here is live and public.</p>
               </div>
               <div className="seg">
@@ -596,7 +598,7 @@ export default function LandingPage() {
                   <p className="tt-sub mt-1">{query ? "Try a different search term." : "Be the first to publish on Astra."}</p>
                 </div>
               ) : (
-                <div className="bento">
+                <div data-anim="cards" className="bento">
                   {/* Real profiles always come first. Samples only pad out the
                       remainder of the grid, and never while searching. */}
                   {filtered.map((p, i) => (
@@ -614,7 +616,7 @@ export default function LandingPage() {
 
         {/* ══ CTA ═══════════════════════════════════════════ */}
         <section className="wrap pb-4">
-          <div className="glass pad-lg reveal relative overflow-hidden text-center">
+          <div data-anim="cta" className="glass pad-lg relative overflow-hidden text-center">
             <div className="orb bottom-[-40%] left-1/2 h-[420px] w-[420px] -translate-x-1/2" />
             <span className="tt-mono inline-flex items-center gap-2"><Sparkles className="h-3.5 w-3.5" strokeWidth={2} /> Free to publish</span>
             <h2 className="tt-h1 mx-auto mt-5 max-w-xl">

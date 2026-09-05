@@ -1554,3 +1554,27 @@
     }
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SPLIT TEXT
+   Per-word wrappers for masked line-rise headings. The mask is an
+   `overflow: hidden` inline-block, which would otherwise clip
+   descenders — the padding/negative-margin pair gives the glyph
+   room to hang without changing the line box.
+   ═══════════════════════════════════════════════════════════════ */
+.wm {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.wi {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* GSAP drives this track, so the CSS keyframe must not fight it. */
+.marquee-track.is-js {
+  animation: none;
+}

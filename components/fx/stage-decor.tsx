@@ -1,3 +1,5 @@
+import type * as React from "react";
+
 /**
  * Decorative technical illustration layer for the stage.
  *
@@ -9,9 +11,9 @@
  * tick scales, plus lattices and corner brackets, echoing the bento crosshairs
  * so the ornament reads as part of the system rather than decoration bolted on.
  */
-export function StageDecor({ className = "" }: { className?: string }) {
+export function StageDecor({ className = "", ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`} aria-hidden="true">
+    <div {...rest} className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`} aria-hidden="true">
       {/* Concentric rings, anchored off the right edge */}
       <svg
         className="absolute -right-[14%] -top-[22%] h-[min(78vw,760px)] w-[min(78vw,760px)] text-hairline-2"
