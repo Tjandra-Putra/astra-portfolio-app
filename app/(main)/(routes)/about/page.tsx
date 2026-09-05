@@ -4,18 +4,23 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { FileText, Quote, CalendarDays } from "lucide-react";
 import { getJSON, syncVersion } from "@/lib/data-client";
+import { resolveProfileId } from "@/lib/viewed-profile";
 import { Tilt } from "@/components/fx/tilt";
+import { ProfilePortrait } from "@/components/profile-portrait";
 
 const GREETINGS = ["Hello", "Hola", "Bonjour", "Ciao", "你好", "안녕하세요", "こんにちは", "Olá"];
 
 const AboutPage = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
+  // redux is cleared on sign-out; fall back to the durable viewed-profile id
+  // so a refresh on this route still knows whose data to load.
+  const profileId = resolveProfileId(userInfo?.id);
   const [profile, setProfile] = useState<any>();
 
   const fetchProfile = async () => {
     try {
-      const changed = await syncVersion(String(userInfo.id));
-      const response = await getJSON<any>(`/api/profile/${userInfo.id}`, changed ? { force: true } : {});
+      const changed = await syncVersion(profileId);
+      const response = await getJSON<any>(`/api/profile/${profileId}`, changed ? { force: true } : {});
       setProfile(response);
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
@@ -23,8 +28,10 @@ const AboutPage = () => {
   };
 
   useEffect(() => {
+    if (!profileId) return;
     fetchProfile();
-  }, [userInfo.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileId]);
 
   /* One grid row, two panels. The previous layout stacked a full-width header
      panel above a second row, which made a short page scroll twice as far. */
@@ -59,13 +66,11 @@ const AboutPage = () => {
         {profile?.imageUrl && (
           <Tilt max={5} className="rise min-h-0 flex-1 select-none" innerClassName="h-full">
             <div className="glass relative h-full min-h-[230px] rounded-panel p-2">
-              <div className="absolute inset-2 overflow-hidden rounded-tile">
-                <img
-                  src={profile.imageUrl}
-                  alt={profile?.name}
-                  className="h-full w-full object-cover object-top"
-                />
-              </div>
+              <ProfilePortrait
+                src={profile.imageUrl}
+                alt={profile?.name}
+                className="absolute inset-2 rounded-tile"
+              />
             </div>
           </Tilt>
         )}

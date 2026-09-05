@@ -5,17 +5,21 @@ import { useSelector } from "react-redux";
 import { GraduationCap } from "lucide-react";
 import Loader from "@/components/layout/loader";
 import { getJSON, syncVersion } from "@/lib/data-client";
+import { resolveProfileId } from "@/lib/viewed-profile";
 
 const EducationPage = () => {
   const [educations, setEducations] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const userInfo = useSelector((state: any) => state.userReducer);
+  // redux is cleared on sign-out; fall back to the durable viewed-profile id
+  // so a refresh on this route still knows whose data to load.
+  const profileId = resolveProfileId(userInfo?.id);
 
   const fetchEducations = async () => {
     try {
       setLoading(true);
-      const changed = await syncVersion(String(userInfo.id));
-      const response = await getJSON<any[]>(`/api/education/${userInfo.id}`, changed ? { force: true } : {});
+      const changed = await syncVersion(profileId);
+      const response = await getJSON<any[]>(`/api/education/${profileId}`, changed ? { force: true } : {});
       const visible = response.filter((e: any) => e.visible);
       visible.sort((a: any, b: any) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
       setEducations(visible);
@@ -27,8 +31,10 @@ const EducationPage = () => {
   };
 
   useEffect(() => {
+    if (!profileId) return;
     fetchEducations();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileId]);
 
   return (
     <div className="grid gap-3.5">

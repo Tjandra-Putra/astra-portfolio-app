@@ -8,9 +8,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { setUserInfo } from "@/app/redux/features/user-slice";
+import { rememberProfileId } from "@/lib/viewed-profile";
 import { useDispatch } from "react-redux";
 import { getJSON, syncVersion } from "@/lib/data-client";
 import ProfileToast from "@/components/profile-toast";
+import { ProfilePortrait } from "@/components/profile-portrait";
 import { FileText, Copy, CalendarDays, Briefcase, Mail, ArrowUpRight } from "lucide-react";
 
 import { Tilt } from "@/components/fx/tilt";
@@ -37,6 +39,7 @@ export default function Profile() {
       const response = await getJSON<any>(url, changed ? { force: true } : {});
       if (!response?.id) throw new Error("Invalid profile data: missing user ID");
       setProfile(response);
+      rememberProfileId(String(id));
       dispatch(
         setUserInfo({
           id: id,
@@ -160,11 +163,7 @@ export default function Profile() {
           <Tilt max={5} className="h-full" innerClassName="h-full">
             <div className="glass relative h-full min-h-[220px] select-none overflow-hidden rounded-panel">
               <ProfileToast profile={profile} defaultProfileImage={FALLBACK}>
-                <img
-                  src={image}
-                  alt={profile?.name}
-                  className="absolute inset-0 h-full w-full object-cover object-top"
-                />
+                <ProfilePortrait src={image} alt={profile?.name} className="absolute inset-0" />
               </ProfileToast>
             </div>
           </Tilt>

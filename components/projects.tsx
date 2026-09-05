@@ -8,6 +8,7 @@ import { ArrowRight, FolderOpen } from "lucide-react";
 import ProjectCard from "./project-card";
 import ProjectCardSkeleton from "@/components/skeleton/project-card-skeleton";
 import { getJSON } from "@/lib/data-client";
+import { resolveProfileId } from "@/lib/viewed-profile";
 
 interface ProjectsProps {
   title?: string;
@@ -21,11 +22,12 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
   const [allProjects, setAllProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const userInfo = useSelector((state: any) => state.userReducer);
+  const profileId = resolveProfileId(userInfo?.id);
 
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await getJSON<any[]>(`/api/projects/${userInfo?.id}`);
+      const response = await getJSON<any[]>(`/api/projects/${profileId}`);
       setProjects(response);
       const allProjects = response.filter((project: any) => !project.isWorkExperience && project.visible);
       setAllProjects(allProjects);
@@ -37,8 +39,10 @@ const Projects: React.FC<ProjectsProps> = ({ title, showAll, detailedPage, curre
   };
 
   useEffect(() => {
-    if (userInfo?.id) fetchProjects();
-  }, [userInfo]);
+    if (!profileId) return;
+    fetchProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileId]);
 
   const filteredProjects = projects.filter((project) => !project.isWorkExperience && project.visible && project.id !== currentProjectId);
   const projectsToDisplay = showAll ? filteredProjects : filteredProjects.slice(0, 3);

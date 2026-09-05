@@ -14,6 +14,7 @@ import { ProjectGallery } from "@/components/project-gallery";
 import { calculateDuration } from "@/lib/format-date";
 import { extractImageUrls } from "@/utils/image-processor";
 import { setUserInfo } from "@/app/redux/features/user-slice";
+import { rememberProfileId } from "@/lib/viewed-profile";
 import { getJSON } from "@/lib/data-client";
 
 const Meta = ({ label, children }: { label: string; children: React.ReactNode }) => (
@@ -42,6 +43,7 @@ const Project = () => {
   const fetchUserProfile = async () => {
     try {
       const response = await getJSON<any>(`/api/project/get-profile/${projectId}`);
+      rememberProfileId(response.id);
       dispatch(
         setUserInfo({
           id: response.id,

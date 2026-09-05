@@ -14,7 +14,7 @@ import { AstraLogo } from "@/components/brand/astra-mark";
 
 const Navbar: React.FC = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
-  const { userId } = useAuth();
+  const { userId, isLoaded } = useAuth();
   const dispatch = useDispatch();
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
@@ -23,9 +23,13 @@ const Navbar: React.FC = () => {
   const hidden = useHideOnScroll();
 
   useEffect(() => setMounted(true), []);
+  // Only clear on a CONFIRMED signed-out state. Clerk reports `userId: null`
+  // until it finishes loading, so the unguarded version wiped userInfo (and its
+  // persisted copy) on every refresh — which is what made the redux-backed
+  // pages come back empty.
   useEffect(() => {
-    if (!userId) dispatch(removeUserInfo());
-  }, [userId, dispatch]);
+    if (isLoaded && !userId) dispatch(removeUserInfo());
+  }, [isLoaded, userId, dispatch]);
   useEffect(() => setOpen(false), [pathname]);
 
   const links = [

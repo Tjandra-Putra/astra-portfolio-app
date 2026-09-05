@@ -58,11 +58,14 @@ export default function ProfileToast({ profile, defaultProfileImage, children }:
           shown ? "translate-y-0 opacity-100 blur-0" : "translate-y-3 opacity-0 blur-[2px]"
         }`}
       >
-        <span className="glass-bright inline-flex max-w-full items-center gap-2 rounded-tile py-2 pl-2 pr-3.5 shadow-e2">
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-xs bg-acc text-[13px] leading-none text-on-acc">
+        {/* Sits on a user-supplied photo, so it carries its own contrast rather
+            than a glass tint — a translucent chip is unreadable over a bright
+            image, exactly like the media controls. */}
+        <span className="inline-flex max-w-full items-center gap-2 rounded-tile bg-[#0a0a0ce0] py-2 pl-2 pr-3.5 shadow-[0_6px_20px_-6px_rgba(0,0,0,0.6)] ring-1 ring-white/15 backdrop-blur-md">
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-xs bg-acc text-[13px] leading-none">
             👋
           </span>
-          <span className="truncate text-[0.8125rem] font-semibold tracking-tight text-ink">
+          <span className="truncate text-[0.8125rem] font-semibold tracking-tight text-white">
             Look who&apos;s curious — welcome
           </span>
         </span>

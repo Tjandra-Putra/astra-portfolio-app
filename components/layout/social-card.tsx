@@ -10,9 +10,11 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { getJSON } from "@/lib/data-client";
+import { resolveProfileId } from "@/lib/viewed-profile";
 
 const SocialCard = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
+  const profileId = resolveProfileId(userInfo?.id);
   const [profile, setProfile] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -29,7 +31,7 @@ const SocialCard = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await getJSON<any>(`/api/profile/${userInfo.id}`);
+      const response = await getJSON<any>(`/api/profile/${profileId}`);
       setProfile(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -39,8 +41,10 @@ const SocialCard = () => {
   };
 
   useEffect(() => {
-    if (userInfo) fetchProfile();
-  }, [userInfo]);
+    if (!profileId) return;
+    fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileId]);
 
   const links = (profile?.socialLinks || []).filter((s: any) => s?.iconName && s?.iconType);
 

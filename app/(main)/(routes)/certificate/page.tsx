@@ -7,17 +7,21 @@ import { Award, ArrowUpRight, ShieldCheck, CalendarDays, Hash } from "lucide-rea
 import Loader from "@/components/layout/loader";
 import { CertificateFrame } from "@/components/certificate-frame";
 import { getJSON, syncVersion } from "@/lib/data-client";
+import { resolveProfileId } from "@/lib/viewed-profile";
 
 const CertificatePage = () => {
   const [certificates, setCertificates] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const userInfo = useSelector((state: any) => state.userReducer);
+  // redux is cleared on sign-out; fall back to the durable viewed-profile id
+  // so a refresh on this route still knows whose data to load.
+  const profileId = resolveProfileId(userInfo?.id);
 
   const fetchCertificates = async () => {
     try {
       setLoading(true);
-      const changed = await syncVersion(String(userInfo.id));
-      const response = await getJSON<any[]>(`/api/certificate/${userInfo.id}`, changed ? { force: true } : {});
+      const changed = await syncVersion(profileId);
+      const response = await getJSON<any[]>(`/api/certificate/${profileId}`, changed ? { force: true } : {});
       const visible = response.filter((c: any) => c.visible);
       visible.sort((a: any, b: any) => new Date(b.issuedDate).getTime() - new Date(a.issuedDate).getTime());
       setCertificates(visible);
@@ -29,8 +33,10 @@ const CertificatePage = () => {
   };
 
   useEffect(() => {
+    if (!profileId) return;
     fetchCertificates();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileId]);
 
   return (
     <div className="grid gap-3.5">

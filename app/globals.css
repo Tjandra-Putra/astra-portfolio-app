@@ -1578,3 +1578,34 @@
 .marquee-track.is-js {
   animation: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   IMAGE FEATHER
+   Softens an image's edges so it dissolves into the panel behind
+   it instead of ending on a hard rectangle. Paired with a blurred
+   copy of the same image underneath, a letterboxed portrait reads
+   as one continuous surface rather than a photo sitting in a box.
+   ═══════════════════════════════════════════════════════════════ */
+@layer components {
+  .img-feather {
+    -webkit-mask-image: radial-gradient(
+      118% 118% at 50% 50%,
+      #000 52%,
+      rgba(0, 0, 0, 0.72) 74%,
+      rgba(0, 0, 0, 0.25) 90%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      118% 118% at 50% 50%,
+      #000 52%,
+      rgba(0, 0, 0, 0.72) 74%,
+      rgba(0, 0, 0, 0.25) 90%,
+      transparent 100%
+    );
+  }
+  /* Gentler variant for images that already fill the frame. */
+  .img-feather-soft {
+    -webkit-mask-image: radial-gradient(135% 135% at 50% 45%, #000 68%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+    mask-image: radial-gradient(135% 135% at 50% 45%, #000 68%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  }
+}

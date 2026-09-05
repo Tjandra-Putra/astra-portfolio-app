@@ -7,16 +7,18 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { toast } from "sonner";
 import { FileText, Copy, ArrowUpRight, Sparkles } from "lucide-react";
 import { getJSON } from "@/lib/data-client";
+import { resolveProfileId } from "@/lib/viewed-profile";
 
 const Collaborate = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
+  const profileId = resolveProfileId(userInfo?.id);
   const [profile, setProfile] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await getJSON<any>(`/api/profile/${userInfo.id}`);
+      const response = await getJSON<any>(`/api/profile/${profileId}`);
       setProfile(response);
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
@@ -26,8 +28,10 @@ const Collaborate = () => {
   };
 
   useEffect(() => {
-    if (userInfo?.id) fetchProfile();
-  }, [userInfo.id]);
+    if (!profileId) return;
+    fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileId]);
 
   const email = profile?.workEmail || profile?.email;
 
