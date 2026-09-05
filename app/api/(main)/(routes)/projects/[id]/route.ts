@@ -1,40 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { currentUser } from "@clerk/nextjs";
-import { getProfileByUserId, getProjectsByProfileId } from "@/lib/cache";
+import { getProjectsByProfileId } from "@/lib/cache";
 import { jsonCached } from "@/lib/http";
 
-// A signed-in viewer gets their own projects, so the response is per-viewer and
-// must never be rendered at build time.
-export const dynamic = "force-dynamic";
-
-// retrieve all projects for a profile base on profile id
+/**
+ * All projects belonging to one profile. The id in the URL IS the request.
+ *
+ * Two bugs previously lived here:
+ *  1. A signed-in viewer's own profile id replaced the path id, so viewing
+ *     another person's portfolio listed YOUR projects under THEIR name.
+ *  2. A signed-in user with no profile row produced `profileId: undefined`,
+ *     which made Prisma drop the WHERE clause entirely and return every
+ *     project in the database to that viewer.
+ *
+ * Honouring the path id fixes both, and makes the response viewer-independent
+ * and therefore properly cacheable.
+ */
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
   try {
-    // Decide WHOSE projects to return before reading any, instead of querying
-    // the URL param's projects and then throwing that result away.
-    // currentUser() stays here in the handler: request-scoped data must not
-    // enter a cached reader, or the cache key would ignore the viewer.
-    const user = await currentUser();
+    const profileId = context.params.id;
 
-    // this is for public unauthenticated profile
-    let profileId: string | undefined = context.params.id;
-
-    // this is for authenticated profile
-    // if user is logged in, the user will see their own profile
-    if (user) {
-      const profile = await getProfileByUserId(user.id);
-      profileId = profile?.id;
+    if (!profileId) {
+      return jsonCached([], req);
     }
 
-    const projects = profileId
-      ? await getProjectsByProfileId(profileId)
-      : // Signed in but with no profile row. `where: { profileId: undefined }`
-        // made Prisma drop the filter and return every project, so that is what
-        // this branch still does. Left uncached deliberately — there is no
-        // profile to tag it against, and it is a degenerate case.
-        await db.project.findMany({ orderBy: { startDate: "desc" } });
-
+    const projects = await getProjectsByProfileId(profileId);
     return jsonCached(projects, req);
   } catch (error) {
     console.error("[PROJECTS_GET_ERROR]", error);

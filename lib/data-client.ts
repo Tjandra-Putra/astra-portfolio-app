@@ -48,8 +48,24 @@ const keyFor = (url: string) => `${viewer}|${url}`;
 let generation = 0;
 
 const DEFAULT_TTL = 60_000;
-const STORE_PREFIX = "astra:cache:";
+// Namespaced. Bump this whenever a response's SHAPE or SEMANTICS change, so
+// entries written under the old behaviour are abandoned rather than served.
+// v2: /api/profile/[id] and /api/projects/[id] stopped overriding the path id
+// with the signed-in viewer's own id, so any v1 entry may hold another
+// profile's data under this profile's URL.
+const STORE_PREFIX = "astra:cache:v2:";
 const VERSION_KEY = "astra:version:";
+
+// Drop entries from superseded cache namespaces.
+if (typeof sessionStorage !== "undefined") {
+  try {
+    Object.keys(sessionStorage)
+      .filter((k) => k.startsWith("astra:cache:") && !k.startsWith(STORE_PREFIX))
+      .forEach((k) => sessionStorage.removeItem(k));
+  } catch {
+    /* private mode — nothing to clean */
+  }
+}
 
 function readStore(key: string): Entry | undefined {
   if (typeof sessionStorage === "undefined") return undefined;
