@@ -249,17 +249,23 @@ export function ProjectGallery({
           </div>
 
           {/* Click the backdrop to dismiss; the image itself does not bubble. */}
-          <div className="relative flex-1 overflow-hidden" onClick={() => setOpen(false)}>
-            <div ref={boxRef} className="h-full overflow-hidden">
-              <div className="flex h-full touch-pan-y">
+          <div className="relative flex min-h-0 flex-1 items-center overflow-hidden" onClick={() => setOpen(false)}>
+            <div ref={boxRef} className="w-full overflow-hidden">
+              <div className="flex touch-pan-y items-center">
                 {slides.map((src, i) => (
-                  <div key={"l" + src + i} className="grid min-w-0 flex-[0_0_100%] place-items-center px-4 pb-4">
+                  <div key={"l" + src + i} className="grid min-w-0 flex-[0_0_100%] place-items-center px-4">
+                    {/* Sized against the viewport, not `max-h-full`: a percentage
+                        max-height does not resolve against an indefinite flex/grid
+                        area, so the image overflowed and got clipped. The subtracted
+                        space is the header plus the thumbnail rail. */}
                     <img
                       src={src}
                       alt={title ? `${title} — image ${i + 1}` : `Image ${i + 1}`}
                       draggable={false}
                       onClick={(e) => e.stopPropagation()}
-                      className="max-h-full max-w-full select-none rounded-tile object-contain shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)]"
+                      className={`h-auto w-auto max-w-full select-none rounded-tile object-contain shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)] ${
+                        many ? "max-h-[calc(100svh-13rem)]" : "max-h-[calc(100svh-7rem)]"
+                      }`}
                     />
                   </div>
                 ))}
