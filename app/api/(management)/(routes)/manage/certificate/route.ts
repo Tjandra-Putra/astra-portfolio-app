@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { revalidateCertificates } from "@/lib/revalidate";
 
 // get certificates by profile
 export async function GET() {
@@ -50,6 +51,8 @@ export async function POST(req: NextRequest) {
         issuedDate,
       },
     });
+
+    revalidateCertificates(newCertificate.profileId);
 
     return NextResponse.json(newCertificate);
   } catch (error) {

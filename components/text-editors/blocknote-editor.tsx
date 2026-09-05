@@ -61,6 +61,11 @@ export const Editor = ({ onParentEditorChange, initialContent, editable = true, 
             .bn-container[data-theming-css-demo] .bn-editor {
               padding-inline: 0px;
             }
+            /* Read-only: never render BlockNote's editing placeholders ("List", "Enter text…", etc.) */
+            .bn-container[data-theming-css-demo] .bn-inline-content:before,
+            .bn-container[data-theming-css-demo] .bn-inline-content:after {
+              content: none !important;
+            }
           `}
         </style>
       )}

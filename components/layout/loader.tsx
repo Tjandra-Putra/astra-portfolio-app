@@ -1,29 +1,31 @@
 import React from "react";
-import BarLoader from "react-spinners/BarLoader";
-import PulseLoader from "react-spinners/PulseLoader";
-import BounceLoader from "react-spinners/BounceLoader";
-import { useTheme } from "next-themes";
 
 interface LoaderProps {
   className?: string;
 }
 
 const Loader: React.FC<LoaderProps> = ({ className }) => {
-  const { resolvedTheme } = useTheme();
-  const loaderColor = resolvedTheme === "dark" ? "#ffffff" : "#1d3455"; // white in dark mode, navy in light mode
-
-  // Define the existing classes
-  const existingClasses =
-    "projects bg-ash p-6 my-6 rounded-lg w-full text-center flex justify-center items-center dark:bg-black/50 dark:backdrop-blur-md dark:border dark:border-white/10";
-
-  // Merge the existing classes with the provided className, if any
+  const existingClasses = "glass pad-lg my-6 w-full";
   const mergedClasses = className ? `${existingClasses} ${className}` : existingClasses;
 
   return (
-    <div className={mergedClasses}>
-      {/* <BarLoader loading={true} color={loaderColor} /> */}
-      <PulseLoader loading={true} color={loaderColor} size={5} />
-      {/* <BounceLoader loading={true} color={loaderColor} size={40} /> */}
+    <div className={mergedClasses} role="status" aria-live="polite">
+      <span className="tt-mono inline-flex items-center gap-2">
+        <span className="pin" /> Loading
+      </span>
+
+      <div className="mt-5 grid gap-2.5" aria-hidden="true">
+        <div className="glass-lite shimmer h-9 w-2/3 rounded-tile" />
+        <div className="glass-lite shimmer h-4 w-1/2 rounded-xs" />
+      </div>
+
+      <hr className="rule my-6" />
+
+      <div className="grid gap-2" aria-hidden="true">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="glass-lite shimmer h-[68px] rounded-tile" />
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,27 +1,25 @@
 "use client";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { Badge } from "@/components/ui/badge";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { FileText, Quote } from "lucide-react";
 import Loader from "@/components/layout/loader";
+import { getJSON, syncVersion } from "@/lib/data-client";
+import { Tilt } from "@/components/fx/tilt";
+
+const GREETINGS = ["Hello", "Hola", "Bonjour", "Ciao", "你好", "안녕하세요", "こんにちは", "Olá"];
 
 const AboutPage = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
   const [profile, setProfile] = useState<any>();
-  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchProfile = async () => {
     try {
-      setLoading(true);
-      const response = await axios.get(`/api/profile/${userInfo.id}`);
-      setProfile(response.data);
+      const changed = await syncVersion(String(userInfo.id));
+      const response = await getJSON<any>(`/api/profile/${userInfo.id}`, changed ? { force: true } : {});
+      setProfile(response);
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -29,52 +27,119 @@ const AboutPage = () => {
     fetchProfile();
   }, [userInfo.id]);
 
-  return !profile ? (
-    <Loader />
-  ) : (
+  if (!profile)
+    return (
+      <div className="rise">
+        <section className="glass pad-lg">
+          <p className="tt-mono">Colophon</p>
+          <div className="glass-lite shimmer mt-5 h-10 w-[min(24rem,82%)] rounded-tile" />
+          <hr className="rule my-7" />
+          <div className="flex flex-wrap gap-2">
+            {GREETINGS.map((greeting) => (
+              <span key={greeting} className="glass-lite shimmer h-[27px] w-[4.5rem] rounded-xs" />
+            ))}
+          </div>
+        </section>
+
+        <div className="bento mt-3.5">
+          <div className="glass shimmer aspect-[4/5] rounded-panel sm:col-span-2 lg:col-span-4" />
+          <div className="glass pad-lg sm:col-span-4 lg:col-span-8">
+            <div className="grid gap-3">
+              {[100, 94, 97, 78].map((w, i) => (
+                <span key={i} className="glass-lite shimmer h-3.5 rounded-xs" style={{ width: `${w}%` }} />
+              ))}
+            </div>
+            <Loader />
+          </div>
+        </div>
+      </div>
+    );
+
+  return (
     <>
-      <div className="flex items-center gap-2 mb-7">
-        <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="font-medium text-gray-800 text-lg dark:text-zinc-200">About</div>
-      </div>
-      <div className="flex flex-row flex-wrap gap-3">
-        <Badge variant={"navy"} className="sm:text-xl text-sm">
-          👋
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          Hello.
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          Hola.
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          Bonjour.
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          Ciao.
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          你好.
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          안녕하세요.
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          こんにちは.
-        </Badge>
-        <Badge variant={"navy"} className="sm:text-xl text-sm font-semi-bold">
-          Olá.
-        </Badge>
-      </div>
+      {/* ══ HEADER PANEL ════════════════════════════════════ */}
+      <section className="glass pad-lg rise">
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <p className="tt-mono inline-flex items-center gap-2">
+              <span className="pin" /> Colophon
+            </p>
+            <h1 className="tt-h1 mt-4 max-w-[20ch]">
+              A little <span className="acc">about me.</span>
+            </h1>
+            {(profile?.bio || profile?.jobTitle) && (
+              <p className="tt-lead mt-5 max-w-md">{profile.bio || profile.jobTitle}</p>
+            )}
+          </div>
 
-      <div
-        className="text-gray-800 sm:my-6 my-3 font-normal whitespace-pre-line sm:text-base text-sm dark:text-zinc-300"
-        dangerouslySetInnerHTML={{ __html: profile?.about || "" }}
-      />
+          {profile?.updatedAt && (
+            <div className="glass-lite pad-sm min-w-[9.5rem]">
+              <p className="tt-mono">Last updated</p>
+              <p className="tt-num mt-2.5 text-[1.75rem]">
+                {new Date(profile.updatedAt).toLocaleDateString("en-GB", { day: "2-digit" })}
+              </p>
+              <p className="tt-unit mt-1">
+                {new Date(profile.updatedAt).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
+              </p>
+            </div>
+          )}
+        </div>
 
-      {/* avatar-border border-4 border-[#1c3454] p-3  */}
-      <div className="flex justify-center items-center mt-6">
-        <img src={profile?.imageUrl} alt="Profile" className="w-28 h-28 rounded-full border-4 border-white shadow-md object-cover" />
+        <hr className="rule my-7" />
+
+        <p className="tt-mono">{GREETINGS.length} ways to say hello</p>
+        <div className="mt-3.5 flex flex-wrap gap-2">
+          {GREETINGS.map((greeting) => (
+            <span key={greeting} className="chip">
+              {greeting}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* ══ PORTRAIT + COPY ═════════════════════════════════ */}
+      <div className="bento mt-3.5">
+        {profile?.imageUrl && (
+          <Tilt max={5} className="reveal select-none sm:col-span-2 lg:col-span-4">
+            <div className="glass rounded-panel p-2.5">
+              <img
+                src={profile.imageUrl}
+                alt={profile?.name}
+                className="aspect-[4/5] w-full rounded-tile object-cover"
+              />
+            </div>
+          </Tilt>
+        )}
+
+        <div
+          className={`glass pad-lg reveal ${
+            profile?.imageUrl ? "sm:col-span-4 lg:col-span-8" : "sm:col-span-6 lg:col-span-12"
+          }`}
+        >
+          <div className="flex items-center justify-between gap-4">
+            <p className="tt-mono">In my own words</p>
+            <span className="glass-lite grid h-9 w-9 place-items-center rounded-xs">
+              <Quote className="h-4 w-4 text-ink" strokeWidth={1.75} />
+            </span>
+          </div>
+
+          <hr className="rule my-6" />
+
+          {profile?.about ? (
+            <div
+              className="tt-body whitespace-pre-line [&_a]:text-[var(--acc-text)] [&_a]:underline"
+              dangerouslySetInnerHTML={{ __html: profile.about }}
+            />
+          ) : (
+            <div className="glass-well pad-lg grid place-items-center text-center">
+              <span className="glass-bright mb-4 grid h-12 w-12 place-items-center rounded-tile">
+                <FileText className="h-5 w-5 text-muted-ink" strokeWidth={1.75} />
+              </span>
+              <p className="tt-h3">Nothing written here yet</p>
+              <p className="tt-sub mt-1">This colophon fills in once an about section is added from the dashboard.</p>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

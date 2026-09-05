@@ -22,11 +22,14 @@ type ImageGalleryProps = {
   isInline?: boolean;
 };
 
+/* Inline (non-modal) sizing. Landscape and viewport-capped: a 1:1 ratio at
+   full container width pushed the page content far below the fold. */
 const inline = {
   style: {
     width: "100%",
-    maxWidth: "900px",
-    aspectRatio: "2/2",
+    maxWidth: "100%",
+    aspectRatio: "16 / 10",
+    maxHeight: "clamp(220px, 44vh, 460px)",
     margin: "0 auto",
   },
 };

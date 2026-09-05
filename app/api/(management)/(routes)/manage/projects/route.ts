@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { revalidateProjects } from "@/lib/revalidate";
 
 export async function POST(req: NextRequest) {
   try {
@@ -48,6 +49,8 @@ export async function POST(req: NextRequest) {
         content,
       },
     });
+
+    revalidateProjects(newProject.profileId, newProject.id);
 
     return NextResponse.json(newProject);
   } catch (error) {

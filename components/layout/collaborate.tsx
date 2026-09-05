@@ -1,17 +1,12 @@
 "use client";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
-import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
-import Loader from "./loader";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { toast } from "sonner";
-import { Skeleton } from "@/components/ui/skeleton";
+import { FileText, Copy, ArrowUpRight, Sparkles } from "lucide-react";
+import { getJSON } from "@/lib/data-client";
 
 const Collaborate = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
@@ -21,8 +16,8 @@ const Collaborate = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/profile/${userInfo.id}`);
-      setProfile(response.data);
+      const response = await getJSON<any>(`/api/profile/${userInfo.id}`);
+      setProfile(response);
     } catch (error: any) {
       console.error("Error fetching data:", error.response);
     } finally {
@@ -31,56 +26,66 @@ const Collaborate = () => {
   };
 
   useEffect(() => {
-    fetchProfile();
+    if (userInfo?.id) fetchProfile();
   }, [userInfo.id]);
 
+  const email = profile?.workEmail || profile?.email;
+
   return (
-    <section className="collaborate my-6 text-center">
-      <div className="title text-xl font-semibold text-gray-700 dark:text-zinc-200">Let&apos;s collaborate on your next project!</div>
-      <div className="description mt-3 text-gray-900 font-normal px-6 dark:text-zinc-300">
-        I&apos;m always open to discussing product design work or partnership opportunities.
+    <section className="glass pad-lg reveal relative mt-10 overflow-hidden text-center">
+      <div className="orb bottom-[-45%] left-1/2 h-[400px] w-[400px] -translate-x-1/2" />
+
+      <span className="tt-mono inline-flex items-center gap-2">
+        <Sparkles className="h-3.5 w-3.5" strokeWidth={2} />
+        Get in touch
+      </span>
+
+      <h2 className="tt-h1 mx-auto mt-5 max-w-xl">
+        Let&apos;s make <span className="acc">something.</span>
+      </h2>
+
+      <p className="tt-lead mx-auto mt-5 max-w-md">
+        Always open to discussing product work, partnerships, or new opportunities.
+      </p>
+
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {loading ? (
+          <>
+            <span className="glass-lite shimmer h-[46px] w-40 rounded-tile" />
+            <span className="glass-lite shimmer h-[46px] w-36 rounded-tile" />
+          </>
+        ) : (
+          <>
+            {profile?.resumeUrl ? (
+              <Link href={profile.resumeUrl} target="_blank" rel="noreferrer" className="btn btn-acc btn-lg">
+                View resume
+                <FileText className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              </Link>
+            ) : (
+              <span className="btn btn-glass btn-lg" aria-disabled="true">
+                Resume unavailable
+                <FileText className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              </span>
+            )}
+
+            {email ? (
+              <CopyToClipboard text={email} onCopy={() => toast.success("Copied to clipboard!")}>
+                <button className="btn btn-glass btn-lg">
+                  Copy email
+                  <Copy className="h-[18px] w-[18px]" strokeWidth={1.75} />
+                </button>
+              </CopyToClipboard>
+            ) : null}
+          </>
+        )}
       </div>
 
-      <div className="buttons flex justify-center mt-5 space-x-3">
-        {loading ? (
-          <Skeleton className="h-10 w-28 rounded-lg" />
-        ) : profile?.resumeUrl ? (
-          <Link href={profile.resumeUrl} target="_blank">
-            <Button variant={"navy"}>
-              <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-              Resume
-            </Button>
-          </Link>
-        ) : (
-          <Button variant={"navy"} disabled>
-            <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-            Resume
-          </Button>
-        )}
-
-        {loading ? (
-          <Skeleton className="h-10 w-28 rounded-lg" />
-        ) : profile?.workEmail ? (
-          <CopyToClipboard
-            text={profile?.workEmail}
-            onCopy={() => {
-              toast.success("Copied to clipboard!");
-            }}
-          >
-            <Button variant={"secondary"}>
-              <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" />
-              Copy Email
-            </Button>
-          </CopyToClipboard>
-        ) : (
-          <CopyToClipboard text={profile?.email} onCopy={() => {}}>
-            <Button variant={"secondary"}>
-              <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" />
-              Copy Email
-            </Button>
-          </CopyToClipboard>
-        )}
-      </div>
+      {!loading && email && (
+        <p className="tt-sub mt-6 inline-flex items-center gap-1.5">
+          <span className="pin" />
+          {email}
+        </p>
+      )}
     </section>
   );
 };

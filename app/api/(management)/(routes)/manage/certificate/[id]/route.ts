@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { revalidateCertificates } from "@/lib/revalidate";
 
 // get certificate by id for this user profile
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
@@ -64,6 +65,8 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
       data: updatedCertificateData,
     });
 
+    revalidateCertificates(updatedCertificate.profileId);
+
     return NextResponse.json(updatedCertificate);
   } catch (error) {
     console.error("[PROJECTS_PUT_ERROR]", error);
@@ -96,6 +99,9 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
         id: context.params.id,
       },
     });
+
+    // profileId comes from the row read before the delete.
+    revalidateCertificates(certificate.profileId);
 
     return new NextResponse(context.params.id, { status: 204 });
   } catch (error) {

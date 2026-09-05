@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { revalidateProjects } from "@/lib/revalidate";
 
 // get project by id for this user profile
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
@@ -81,6 +82,8 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
       },
     });
 
+    revalidateProjects(updatedProject.profileId, updatedProject.id);
+
     return NextResponse.json(updatedProject);
   } catch (error) {
     console.error("[PROJECTS_UPDATE_ERROR]", error);
@@ -115,6 +118,10 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
         id: existingProject.id,
       },
     });
+
+    // profileId comes from the row read before the delete, which is why it is
+    // still available here.
+    revalidateProjects(existingProject.profileId, existingProject.id);
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {

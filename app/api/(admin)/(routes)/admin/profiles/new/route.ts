@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { revalidateProfile } from "@/lib/revalidate";
 
 export async function POST(req: NextRequest) {
   try {
@@ -75,6 +76,9 @@ export async function POST(req: NextRequest) {
         })
       );
     }
+
+    // Called once at the end so it covers the profile row and its social links.
+    revalidateProfile(newProfile.id);
 
     return new NextResponse(JSON.stringify(newProfile), { status: 200 });
   } catch (error) {

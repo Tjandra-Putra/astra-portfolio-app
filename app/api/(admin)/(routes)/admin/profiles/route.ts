@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { revalidateProfile } from "@/lib/revalidate";
 
 // get all profiles
 export async function GET(req: NextRequest) {
@@ -44,6 +45,10 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
         role: updatedProfileData.role,
       },
     });
+
+    // Taken from the updated row rather than the params, which this
+    // non-dynamic route does not actually carry.
+    revalidateProfile(updatedProfile.id);
 
     return NextResponse.json(updatedProfile);
   } catch (error) {

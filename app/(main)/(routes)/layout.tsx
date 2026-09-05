@@ -1,22 +1,26 @@
 import BottomGroup from "@/components/layout/bottom-group";
 import Navbar from "@/components/layout/navbar";
+import { MotionLayer } from "@/components/fx/motion-layer";
+import { StageDecor } from "@/components/fx/stage-decor";
 import React from "react";
 
+/**
+ * Shell for every non-landing public page. Owns the stage, the scroll
+ * progress hairline and the single MotionLayer that drives `.reveal`.
+ * `.wrap` owns the page gutter — pages must not add horizontal padding.
+ */
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col items-center p-3 bg-ash min-h-screen h-full dark:bg-[#0c0c0c] dark:border dark:border-white/10">
-      <div className="w-full sm:w-[570px]">
-        {/* static content */}
-        <Navbar />
+    <div className="stage flex min-h-[100svh] flex-col">
+      <span className="progress" />
+      <MotionLayer />
+      <Navbar />
 
-        <div className="min-h-[85vh] h-full shadow-paper bg-white rounded-xl md:p-6 p-3 mt-3 pb-[0.1rem] dark:bg-[#171717] dark:border dark: border-[#333335]">
-          {/* dynamic content */}
-          {children}
-
-          {/* static content */}
-          <BottomGroup />
-        </div>
-      </div>
+      <main className="wrap relative flex-1 pt-6 pb-[var(--gutter)]">
+        <StageDecor />
+        {children}
+        <BottomGroup />
+      </main>
     </div>
   );
 };

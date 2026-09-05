@@ -1,72 +1,56 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import Image from "next/image";
-
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import Projects from "@/components/projects";
-import { formatDate } from "@/lib/format-date";
-import { useSelector } from "react-redux";
-
-import Loader from "@/components/layout/loader";
-import Experiences from "@/components/experiences";
-import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
+import { ArrowLeft, ArrowUpRight, FileText, Github } from "lucide-react";
+
+import Projects from "@/components/projects";
+import Experiences from "@/components/experiences";
+import Loader from "@/components/layout/loader";
 import { Editor } from "@/components/text-editors/blocknote-editor";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { ProjectGallery } from "@/components/project-gallery";
 import { calculateDuration } from "@/lib/format-date";
-import { Skeleton } from "@/components/ui/skeleton";
-import ImageGallery from "@/components/image-gallery";
 import { extractImageUrls } from "@/utils/image-processor";
+import { setUserInfo } from "@/app/redux/features/user-slice";
+import { getJSON } from "@/lib/data-client";
+
+const Meta = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div className="flex items-baseline justify-between gap-4 py-3">
+    <dt className="tt-mono shrink-0">{label}</dt>
+    <dd className="text-right text-[0.875rem] font-medium tracking-tight text-ink">{children}</dd>
+  </div>
+);
 
 const Project = () => {
-  // get id from url
   const params = useParams();
   const projectId = params.id;
-
   const dispatch = useDispatch();
 
-  const userInfo = useSelector((state: any) => state.userReducer);
-  const [profile, setProfile] = useState<any>();
   const [project, setProject] = useState<any>();
-  const [loading, setLoading] = useState(true);
-
-  // Improved image loading/error state
-  const [loadingImage, setLoadingImage] = useState(true);
-  const [imageError, setImageError] = useState(false);
 
   const fetchProject = async () => {
     try {
-      const response = await axios.get(`/api/project/${projectId}`);
-      setProject(response.data);
-      setLoading(false);
+      const response = await getJSON<any>(`/api/project/${projectId}`);
+      setProject(response);
     } catch (error: any) {
       console.error("Error fetching data:", error.response?.data);
-      setLoading(false);
     }
   };
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`/api/project/get-profile/${projectId}`);
-      // redux
+      const response = await getJSON<any>(`/api/project/get-profile/${projectId}`);
       dispatch(
         setUserInfo({
-          id: response.data.id,
-          role: response.data.role,
-          name: response.data.name,
-          domain: response.data.domain,
-          email: response.data.email,
-          workEmail: response.data.workEmail,
-        }),
+          id: response.id,
+          role: response.role,
+          name: response.name,
+          domain: response.domain,
+          email: response.email,
+          workEmail: response.workEmail,
+        })
       );
     } catch (error: any) {}
   };
@@ -76,163 +60,151 @@ const Project = () => {
     fetchUserProfile();
   }, []);
 
-  // Image source logic
+  if (!project) return <Loader />;
+
   const imageSrc = project?.thumbnailUrl || "/assets/image/pexels-fauxels-3183186.jpg";
-  const isFallback = !project?.thumbnailUrl;
-  const hasValidEndDate = !!project?.endDate && !Number.isNaN(new Date(project.endDate).getTime()) && new Date(project.endDate).getFullYear() > 1970;
+  const hasEnd = !!project?.endDate && !Number.isNaN(new Date(project.endDate).getTime()) && new Date(project.endDate).getFullYear() > 1970;
 
-  // Handle image error: if main fails, try fallback; if fallback fails, show message
-  const handleImageError = () => {
-    if (isFallback) {
-      setImageError(true);
-      setLoadingImage(false);
-    } else {
-      setLoadingImage(true);
-      setImageError(false);
-      // Switch to fallback image by clearing thumbnailUrl
-      setProject((prev: any) => ({ ...prev, thumbnailUrl: null }));
-    }
-  };
+  const tags: string[] = project?.tags
+    ? project.tags
+        .split(",")
+        .map((t: string) => t.trim())
+        .filter(Boolean)
+    : [];
 
-  return !project ? (
-    <Loader />
-  ) : (
+  const metaRows: { label: string; value: React.ReactNode }[] = [
+    ...(project?.company ? [{ label: "Company", value: project.company }] : []),
+    { label: "Category", value: project?.category || "—" },
+    {
+      label: "Dates",
+      value: (
+        <>
+          {new Date(project.startDate).toLocaleDateString("en-SG")} —{" "}
+          {hasEnd ? new Date(project.endDate).toLocaleDateString("en-SG") : <span className="acc">Present</span>}
+        </>
+      ),
+    },
+    { label: "Duration", value: calculateDuration(project.startDate, project.endDate) },
+  ];
+
+  return (
     <React.Fragment>
-      <div className="flex justify-between">
-        <Button className="sm:mb-6 mb-3" variant={"ghost"} size="sm" onClick={() => window.history.back()}>
-          <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
-          Previous
-        </Button>
+      {/* ══ Masthead of the case study ═════════════════════ */}
+      <div className="rise">
+        <div>
+          <button onClick={() => window.history.back()} className="btn btn-glass btn-sm">
+            <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
+            Back
+          </button>
+        </div>
+
+        <p className="tt-mono mt-7 flex w-fit items-center gap-2">
+          <span className="pin" />
+          {project?.category || "Project"}
+        </p>
+        <h1 className="tt-h1 mt-3 max-w-3xl">{project?.name}</h1>
       </div>
 
-      <section className="bg-ash rounded-lg p-6 dark:bg-[#0c0c0c] dark:border dark:border-white/10">
-        <div className="company">
-          <div className="flex mb-3">
-            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-200">Company</div>
-            <div className="text-black w-full dark:text-zinc-300">{project?.company}</div>
-          </div>
-        </div>
-
-        <div className="project-title">
-          <div className="flex mb-3">
-            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-200">Title</div>
-            <div className="text-black w-full dark:text-zinc-300">{project?.name}</div>
-          </div>
-        </div>
-
-        <div className="project-type">
-          <div className="flex mb-3">
-            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-200">Category</div>
-            <div className="text-black w-full dark:text-zinc-300">{project?.category}</div>
-          </div>
-        </div>
-
-        <div className="start-date">
-          <div className="flex">
-            <div className="text-[#000000] w-36 font-semibold dark:text-zinc-200">Date</div>
-            <div className="text-black w-full dark:text-zinc-300">
-              {new Date(project.startDate).toLocaleDateString("en-SG")} to{" "}
-              {hasValidEndDate ? (
-                new Date(project.endDate).toLocaleDateString("en-SG")
-              ) : (
-                <span className="font-semibold text-[#1d3554] dark:text-sky">Present</span>
-              )}
-              <br />
-              <Badge variant="navy" className="mt-2">
-                {calculateDuration(project.startDate, project.endDate)}
-              </Badge>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div className="thumbnail-wrapper my-6 rounded-lg shadow-paper">
-          {/* {loadingImage && !imageError && (
-            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717]">
-              <Skeleton className="w-full h-full rounded-lg" />
-            </div>
-          )} */}
-          {/* <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]}>
-            <Image
-              src={imageSrc}
-              alt={project?.name}
-              width={800}
-              height={450}
-              layout="responsive"
-              priority={true}
-              onLoad={() => setLoadingImage(false)}
-              onError={handleImageError}
-              className={`thumbnail-img w-full h-full rounded-lg ${loadingImage ? "hidden" : ""}`}
-            />
-          </ImageGallery> */}
-
-          <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]} isInline={true} />
-
-          {/* {!imageError ? (
-            <div className="image-wrapper overflow-y-hidden">
-              <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]}>
-                <Image
-                  src={imageSrc}
-                  alt={project?.name}
-                  width={800}
-                  height={450}
-                  layout="responsive"
-                  priority={true}
-                  onLoad={() => setLoadingImage(false)}
-                  onError={handleImageError}
-                  className={`thumbnail-img w-full h-full rounded-lg ${loadingImage ? "hidden" : ""}`}
-                />
-              </ImageGallery>
-
-              <ImageGallery images={[imageSrc, ...extractImageUrls(project?.content)]} isInline={true} />
-            </div>
-          ) : (
-            <div className="flex items-center justify-center w-full h-64 bg-ash rounded-lg dark:bg-[#171717] text-zinc-500">
-              <span>No image available</span>
-            </div>
-          )} */}
-        </div>
-
-        <div className="title text-2xl font-semibold capitalize dark:text-zinc-200">{project?.name}</div>
-        <div
-          className="description my-3 leading-6 whitespace-pre-wrap dark:text-zinc-300"
-          dangerouslySetInnerHTML={{ __html: project?.description || "" }}
+      {/* ══ Hero media ═════════════════════════════════════ */}
+      <div className="reveal mt-8 sm:mt-10">
+        <ProjectGallery
+          images={[imageSrc, ...extractImageUrls(project?.content)]}
+          title={project?.name}
+          siteUrl={project?.projectUrl}
         />
-        <div className="buttons flex flex-row justify-end">
-          <Button className="mr-3" variant={"navy"} disabled={!project?.projectUrl}>
-            <Link href={project ? project.projectUrl : ""} target="_blank">
-              Demo
-              <FontAwesomeIcon icon={faArrowAltCircleRight} className="ms-2" />
-            </Link>
-          </Button>
-          <Button className="mr-3" variant={"ash"} disabled={!project?.githubUrl}>
-            <Link href={project ? project.githubUrl : ""} target="_blank">
-              Github
-              <FontAwesomeIcon icon={faGithub} className="ms-2" />
-            </Link>
-          </Button>
+      </div>
+
+      {/* ══ Body ═══════════════════════════════════════════ */}
+      <div className="bento mt-12 items-start sm:mt-14">
+        <aside className="glass pad reveal sm:col-span-6 lg:col-span-4">
+          <div className="flex items-center justify-between gap-3">
+            <p className="tt-h3">Details</p>
+            <span className="tt-mono">{project?.isWorkExperience ? "Role" : "Project"}</span>
+          </div>
+
+          <hr className="rule my-4" />
+
+          <dl>
+            {metaRows.map((row, i) => (
+              <React.Fragment key={row.label}>
+                {i > 0 && <hr className="rule" />}
+                <Meta label={row.label}>{row.value}</Meta>
+              </React.Fragment>
+            ))}
+          </dl>
+
+          {(project?.projectUrl || project?.githubUrl) && (
+            <React.Fragment>
+              <hr className="rule mt-4" />
+              <div className="mt-5 flex flex-wrap gap-2">
+                {project?.projectUrl && (
+                  <Link href={project.projectUrl} target="_blank" className="btn btn-glass btn-sm">
+                    Live demo
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+                  </Link>
+                )}
+                {project?.githubUrl && (
+                  <Link href={project.githubUrl} target="_blank" className="btn btn-glass btn-sm">
+                    <Github className="h-4 w-4" strokeWidth={1.75} />
+                    GitHub
+                  </Link>
+                )}
+              </div>
+            </React.Fragment>
+          )}
+
+          {tags.length > 0 && (
+            <React.Fragment>
+              <hr className="rule mt-5" />
+              <p className="tt-mono mt-5">Stack</p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {tags.map((tag) => (
+                  <span key={tag} className="chip">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </React.Fragment>
+          )}
+        </aside>
+
+        <div className="glass pad-lg reveal sm:col-span-6 lg:col-span-8">
+          <p className="tt-mono">Overview</p>
+          <hr className="rule mt-4" />
+
+          {project?.description ? (
+            <div
+              className="tt-lead mt-6 whitespace-pre-wrap [&_a]:text-[var(--acc-text)] [&_a]:underline"
+              dangerouslySetInnerHTML={{ __html: project?.description || "" }}
+            />
+          ) : project?.content?.length > 351 ? null : (
+            <div className="glass-well pad-lg mt-6 grid place-items-center text-center">
+              <span className="glass-bright mb-4 grid h-12 w-12 place-items-center rounded-tile">
+                <FileText className="h-5 w-5 text-muted-ink" strokeWidth={1.75} />
+              </span>
+              <p className="tt-h3">No write-up yet</p>
+              <p className="tt-sub mt-1">This entry has no description added.</p>
+            </div>
+          )}
+
+          {project?.content?.length > 351 ? (
+            <div className="mt-8">
+              <hr className="rule" />
+              <div className="mt-8 [&_a]:text-[var(--acc-text)] [&_a]:underline">
+                <Editor initialContent={project?.content} editable={false} />
+              </div>
+            </div>
+          ) : null}
         </div>
+      </div>
 
-        <Separator className="mt-6 mb-6" />
-
-        {project?.content?.length > 351 ? <Editor initialContent={project?.content} editable={false} /> : null}
-
-        <div className="badges flex flex-row flex-wrap gap-3 my-6">
-          {project.tags
-            ? project.tags.split(",").map((tag: string, index: number) => (
-                <Badge key={index} variant="navy" className="text-xs font-normal">
-                  {tag.trim()}
-                </Badge>
-              ))
-            : null}
-        </div>
-
+      <div className="mt-16 sm:mt-20">
         {project?.isWorkExperience ? (
           <Experiences title="Other Experiences" showAll={true} detailedPage={false} currentExperienceId={projectId} />
         ) : (
           <Projects title="Other Projects" showAll={true} detailedPage={false} currentProjectId={projectId} />
         )}
-      </section>
+      </div>
     </React.Fragment>
   );
 };

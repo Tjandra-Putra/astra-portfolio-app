@@ -1,11 +1,6 @@
 "use client";
 
-import { ReactElement, useRef, useEffect } from "react";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import "tippy.js/themes/light.css";
-import { useTheme } from "next-themes";
-import "tippy.js/animations/scale.css";
+import { ReactElement, useEffect, useState } from "react";
 
 interface ProfileToastProps {
   profile: { imageUrl?: string; name?: string };
@@ -13,53 +8,65 @@ interface ProfileToastProps {
   children: ReactElement;
 }
 
+/**
+ * The "look who's curious" greeting.
+ *
+ * Previously a Tippy tooltip anchored outside the portrait, which put it over
+ * the adjacent identity panel where that panel's `overflow` clipped it. It is
+ * now a glass chip rendered inside the portrait frame itself: nothing to
+ * collide with, nothing to clip, and it inherits the design system directly.
+ *
+ * Waits for the portrait to actually decode before greeting — appearing over a
+ * blank frame is what made the old timing feel arbitrary.
+ */
 export default function ProfileToast({ profile, defaultProfileImage, children }: ProfileToastProps) {
-  const tippyInstance = useRef<any>(null);
-  const { resolvedTheme } = useTheme();
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+  const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    const img = new Image();
-    img.src = profile?.imageUrl || defaultProfileImage;
+    const src = profile?.imageUrl || defaultProfileImage;
+    if (!src) return;
 
-    img.onload = () => {
-      if (!tippyInstance.current) return;
+    let enter: number | undefined;
+    let exit: number | undefined;
 
-      // Show after 0.5s
-      setTimeout(() => {
-        tippyInstance.current.show();
-      }, 1000);
+    const start = () => {
+      enter = window.setTimeout(() => setShown(true), 700);
+      exit = window.setTimeout(() => setShown(false), 8000);
+    };
 
-      // Hide after 5s
-      setTimeout(() => {
-        tippyInstance.current.hide();
-      }, 10000);
+    const img = new window.Image();
+    img.src = src;
+    if (img.complete) start();
+    else {
+      img.onload = start;
+      img.onerror = start;
+    }
+
+    return () => {
+      if (enter) window.clearTimeout(enter);
+      if (exit) window.clearTimeout(exit);
     };
   }, [profile, defaultProfileImage]);
 
   return (
-    <Tippy
-      content={<span className="block sm:max-w-[250px] text-center leading-snug">👋 Look who&apos;s curious! Welcome 😎</span>}
-      placement={isMobile ? "bottom" : "right"}
-      trigger="manual"
-      arrow={true}
-      theme={resolvedTheme === "dark" ? "light" : "dark"}
-      onCreate={(instance) => {
-        tippyInstance.current = instance;
-      }}
-      animation="scale"
-      popperOptions={{
-        modifiers: [
-          {
-            name: "offset",
-            options: {
-              offset: isMobile ? [0, -25] : [0, 0], // 👈 move up 10px on mobile
-            },
-          },
-        ],
-      }}
-    >
+    <>
       {children}
-    </Tippy>
+
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute bottom-3 left-3 right-3 z-20 transition-all duration-700 ease-glass ${
+          shown ? "translate-y-0 opacity-100 blur-0" : "translate-y-3 opacity-0 blur-[2px]"
+        }`}
+      >
+        <span className="glass-bright inline-flex max-w-full items-center gap-2 rounded-tile py-2 pl-2 pr-3.5 shadow-e2">
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-xs bg-acc text-[13px] leading-none text-on-acc">
+            👋
+          </span>
+          <span className="truncate text-[0.8125rem] font-semibold tracking-tight text-ink">
+            Look who&apos;s curious — welcome
+          </span>
+        </span>
+      </div>
+    </>
   );
 }

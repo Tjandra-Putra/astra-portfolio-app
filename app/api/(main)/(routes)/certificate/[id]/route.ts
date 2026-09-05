@@ -1,18 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import { getCertificatesByProfileId } from "@/lib/cache";
+import { jsonCached } from "@/lib/http";
 
 // get certificates by profile
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
   try {
-    const certificates = await db.certificate.findMany({
-      where: {
-        profileId: context.params.id,
-      },
-    });
+    // Every row is returned with `visible` intact. The `visible` filter lives in
+    // app/(main)/(routes)/certificate/page.tsx and stays there — filtering here
+    // would change the payload.
+    const certificates = await getCertificatesByProfileId(context.params.id);
 
-    return NextResponse.json(certificates);
+    return jsonCached(certificates, req);
   } catch (error) {
     console.error("[CERTIFICATES_GET_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });

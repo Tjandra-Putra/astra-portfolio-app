@@ -1,22 +1,21 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import Projects from "@/components/projects";
 
-const ProjectsPage = () => {
-  return (
-    <div>
-      <div className="flex items-center gap-2">
-        <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-        <div className="job-title font-medium text-gray-800 text-lg dark:text-zinc-300">Projects</div>
-      </div>
+const ProjectsPage = () => (
+  <div>
+    <section className="glass pad-lg rise">
+      <p className="tt-mono inline-flex items-center gap-2">
+        <span className="pin" /> Work
+      </p>
+      <h1 className="tt-h1 mt-5 max-w-2xl">
+        Selected <span className="acc">projects.</span>
+      </h1>
+      <p className="tt-body mt-5 max-w-xl">
+        A selection of work I&apos;ve built. There is more — these are the ones I can show publicly.
+      </p>
+    </section>
 
-      <div className="description mt-3 mb-6 text-gray-900 font-normal text-sm sm:text-base dark:text-zinc-400">
-        This is a list of projects that I have worked on. I have worked on many projects, but I only list the ones that I can show publicly.
-      </div>
-
-      <Projects showAll={true} />
-    </div>
-  );
-};
+    <Projects showAll={true} />
+  </div>
+);
 
 export default ProjectsPage;

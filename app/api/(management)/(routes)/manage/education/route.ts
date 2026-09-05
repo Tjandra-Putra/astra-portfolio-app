@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { revalidateEducation } from "@/lib/revalidate";
 
 // get education by profile
 export async function GET() {
@@ -53,6 +54,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    revalidateEducation(newEducation.profileId);
+
     return NextResponse.json(newEducation);
   } catch (error) {
     console.error("[EDUCATIONS_POST_ERROR]", error);
@@ -87,6 +90,9 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
         id: context.params.id,
       },
     });
+
+    // profileId comes from the row read before the delete.
+    revalidateEducation(existingEducation.profileId);
 
     return new NextResponse("Deleted", { status: 204 });
   } catch (error) {

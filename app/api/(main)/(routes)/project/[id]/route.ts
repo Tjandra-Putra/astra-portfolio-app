@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { getProjectById } from "@/lib/cache";
+import { jsonCached } from "@/lib/http";
 
 // get single project base on project id and user id
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
-  let project;
-
   try {
     // this is for public unauthenticated profile
-    project = await db.project.findFirst({
-      where: { id: context.params.id },
-    });
+    // A missing project keeps answering 200 with a `null` body, as before —
+    // this route has never returned 404.
+    const project = await getProjectById(context.params.id);
 
-    return NextResponse.json(project);
+    return jsonCached(project, req);
   } catch (error) {
     console.error("[PROJECT_GET_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });

@@ -1,17 +1,14 @@
-import { currentProfile } from "@/lib/current-profile";
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { getProfiles } from "@/lib/cache";
+import { jsonCached } from "@/lib/http";
 
 // Get all profiles
 export async function GET(req: NextRequest) {
   try {
-    const profiles = await db.profile.findMany({
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
+    // Same query as before (orderBy createdAt asc), now tagged `profiles`.
+    const profiles = await getProfiles();
 
-    return NextResponse.json(profiles);
+    return jsonCached(profiles, req);
   } catch (error) {
     console.error("[PROFILE_GET_ERROR]", error);
     return NextResponse.json({ error: "Internal Error" }, { status: 500 });

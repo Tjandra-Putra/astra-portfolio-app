@@ -1,230 +1,136 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { SignedIn, UserButton, useAuth } from "@clerk/nextjs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAddressCard,
-  faFolderBlank,
-  faPenToSquare,
-  faUserAstronaut,
-  faCrown,
-  faSquarePlus,
-  faAward,
-  faGraduationCap,
-  faPaperPlane,
-} from "@fortawesome/free-solid-svg-icons";
-import { faFolder, faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { useEffect, useState } from "react";
+import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ModeToggle } from "@/components/mode-toggle";
-import { useSelector, useDispatch } from "react-redux";
-import { removeUserInfo } from "@/app/redux/features/user-slice";
-import { CircleUserRound, Folder, FolderCog, Home, Mail, Square, SquareUser, User, GraduationCap } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useSelector, useDispatch } from "react-redux";
+import { Sun, Moon, Settings, Menu, X } from "lucide-react";
+
+import { removeUserInfo } from "@/app/redux/features/user-slice";
+import { useHideOnScroll } from "@/components/fx/use-hide-on-scroll";
+import { AstraLogo } from "@/components/brand/astra-mark";
 
 const Navbar: React.FC = () => {
   const userInfo = useSelector((state: any) => state.userReducer);
   const { userId } = useAuth();
   const dispatch = useDispatch();
-  const navbarRef = useRef<HTMLDivElement>(null);
-
   const pathname = usePathname();
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+  const hidden = useHideOnScroll();
 
-  const getButtonVariant = (path: string) => {
-    const isActive = pathname === path;
-
-    if (isActive) {
-      return resolvedTheme === "dark" ? "sky" : "navy";
-    }
-
-    return resolvedTheme === "dark" ? "secondary2" : "ash";
-  };
-
+  useEffect(() => setMounted(true), []);
   useEffect(() => {
-    if (!userId) {
-      dispatch(removeUserInfo());
-    }
+    if (!userId) dispatch(removeUserInfo());
+  }, [userId, dispatch]);
+  useEffect(() => setOpen(false), [pathname]);
 
-    const navbar = navbarRef.current;
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
+  const links = [
+    { href: userInfo?.id ? `/profile/${userInfo.id}` : "/", label: "Overview" },
+    { href: "/projects", label: "Projects" },
+    { href: "/experiences", label: "Experience" },
+    { href: "/education", label: "Education" },
+    { href: "/certificate", label: "Certificates" },
+    { href: "/about", label: "About" },
+  ];
 
-    const handleStart = (e: TouchEvent | MouseEvent) => {
-      isDown = true;
-      startX = e instanceof TouchEvent ? e.touches[0].clientX : e.pageX;
-      scrollLeft = navbar?.scrollLeft || 0;
-    };
-
-    const handleMove = (e: TouchEvent | MouseEvent) => {
-      if (!isDown || !navbar) return;
-      e.preventDefault();
-      const x = e instanceof TouchEvent ? e.touches[0].clientX : e.pageX;
-      const walk = (x - startX) * 1; // Adjust scrolling speed here
-      navbar.scrollLeft = scrollLeft - walk;
-    };
-
-    const handleEnd = () => {
-      isDown = false;
-    };
-
-    navbar?.addEventListener("mousedown", handleStart);
-    navbar?.addEventListener("touchstart", handleStart);
-    navbar?.addEventListener("mousemove", handleMove);
-    navbar?.addEventListener("touchmove", handleMove);
-    navbar?.addEventListener("mouseup", handleEnd);
-    navbar?.addEventListener("touchend", handleEnd);
-
-    return () => {
-      navbar?.removeEventListener("mousedown", handleStart);
-      navbar?.removeEventListener("touchstart", handleStart);
-      navbar?.removeEventListener("mousemove", handleMove);
-      navbar?.removeEventListener("touchmove", handleMove);
-      navbar?.removeEventListener("mouseup", handleEnd);
-      navbar?.removeEventListener("touchend", handleEnd);
-    };
-  }, [userId]);
+  const isActive = (href: string) =>
+    pathname === href || (href.startsWith("/profile") && pathname.startsWith("/profile"));
 
   return (
-    <nav
-      ref={navbarRef}
-      className="sticky top-3 h-16 shadow-paper bg-white dark:bg-[#171717] dark:border dark: border-[#333335] rounded-xl flex flex-row justify-between items-center md:px-3 px-3 overflow-x-hidden z-10"
+    <header
+      className={`sticky top-0 z-40 pt-[var(--gutter)] transition-[transform,opacity] duration-500 ease-glass ${
+        hidden && !open ? "pointer-events-none -translate-y-[130%] opacity-0" : "translate-y-0 opacity-100"
+      }`}
     >
-      <div className="nav-left flex gap-3">
-        <Link href={userInfo?.id ? `/profile/${userInfo.id}` : "/"} className="nav-item">
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant={getButtonVariant(`/profile/${userInfo?.id}`)}>
-                  <FontAwesomeIcon icon={faFolder} className="w-6 h-6 sm:w-6 sm:h-6  transition duration-300" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Home</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </Link>
-        <Link href="/about" className="nav-item">
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant={getButtonVariant("/about")}>
-                  <FontAwesomeIcon icon={faUserAstronaut} className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>About</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+      <div className="wrap flex items-center gap-3">
+        {/* Brand */}
+        {/* Always the landing page — the signed-in user's own portfolio is
+            reachable from the "Overview" link. */}
+        <Link
+          href="/"
+          aria-label="Astra home"
+          className="glass-bright flex h-9 shrink-0 items-center gap-2 rounded-tile pl-1.5 pr-1.5 sm:h-10 sm:gap-2.5 transition-transform duration-300 ease-glass hover:-translate-y-0.5 sm:pr-4"
+        >
+          <span className="grid h-6 w-6 shrink-0 place-items-center rounded-xs bg-ink text-[11px] font-bold text-stage sm:h-7 sm:w-7 sm:text-[12px]">A</span>
+          <span className="hidden text-[15px] font-semibold tracking-tight text-ink sm:inline">Astra</span>
         </Link>
 
-        <Link href="/certificate" className="nav-item">
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant={getButtonVariant("/certificate")}>
-                  <FontAwesomeIcon icon={faAward} className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Certificate</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </Link>
-
-        <Link href="/education" className="nav-item">
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant={getButtonVariant("/education")}>
-                  <FontAwesomeIcon icon={faGraduationCap} className="w-6 h-6 sm:w-6 sm:h-6 transition duration-300" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Education</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </Link>
-
-        <ModeToggle />
-
-        <SignedIn>
-          <Link href="/manage" className="nav-item">
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant={getButtonVariant("/manage")}>
-                    <FolderCog className="transition duration-300" strokeWidth={2.2} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Manage</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </Link>
-          <div className="nav-item">
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant={getButtonVariant("")}>
-                    <UserButton
-                      appearance={{
-                        elements: {
-                          avatarBox: {
-                            width: "1.65rem",
-                            height: "1.65rem",
-                          },
-                        },
-                      }}
-                      afterSignOutUrl="/"
-                    />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Account</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        </SignedIn>
-      </div>
-
-      <SignedIn>
-        <div className="px-3">
-          <div className="h-[15px] bg-gray-200 w-[1px] dark:bg-[#333335]"></div>
-        </div>
-      </SignedIn>
-
-      <div className="nav-right flex gap-3">
-        <SignedIn>
-          {userInfo?.role == "ADMIN" && (
-            <Link href="/admin/dashboard" className="nav-item">
-              <Button variant={"sky"}>
-                <FontAwesomeIcon icon={faCrown} color="#183153" className="me-2" />
-                Admin
-              </Button>
+        {/* Desktop nav — separate glass pills, active one recessed */}
+        <nav className="seg hidden lg:flex" aria-label="Main">
+          {links.map((l) => (
+            <Link key={l.href} href={l.href} className={`seg-btn ${isActive(l.href) ? "is-on" : ""}`}>
+              {l.label}
             </Link>
-          )}
-        </SignedIn>
+          ))}
+        </nav>
 
-        <div className="ms-3"></div>
-        <Link href={`mailto:${userInfo?.workEmail ? userInfo?.workEmail : userInfo?.email}`}>
-          <Button variant={"ocean"} className="font-semibold">
-            <FontAwesomeIcon icon={faPaperPlane} className="mx-2" color="#ffffff" />
-            Contact
-          </Button>
-        </Link>
+        {/* Actions */}
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          <button
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            aria-label="Toggle theme"
+            className="iconbtn"
+          >
+            {mounted ? (
+              resolvedTheme === "dark" ? (
+                <Moon className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              ) : (
+                <Sun className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              )
+            ) : (
+              <span className="h-[18px] w-[18px]" />
+            )}
+          </button>
+
+          <SignedIn>
+            <Link href="/manage" aria-label="Manage" className="iconbtn hidden sm:grid">
+              <Settings className="h-[18px] w-[18px]" strokeWidth={1.75} />
+            </Link>
+            <span className="glass-bright grid h-9 w-9 place-items-center rounded-tile sm:h-10 sm:w-10">
+              <UserButton
+                appearance={{ elements: { avatarBox: { width: "1.75rem", height: "1.75rem" } } }}
+                afterSignOutUrl="/"
+              />
+            </span>
+          </SignedIn>
+
+          <SignedOut>
+            <Link href="/sign-in" className="btn btn-acc">
+              Sign in
+            </Link>
+          </SignedOut>
+
+          <button onClick={() => setOpen((v) => !v)} aria-label="Menu" aria-expanded={open} className="iconbtn lg:hidden">
+            {open ? <X className="h-[18px] w-[18px]" strokeWidth={1.75} /> : <Menu className="h-[18px] w-[18px]" strokeWidth={1.75} />}
+          </button>
+        </div>
       </div>
-    </nav>
+
+      {/* Mobile sheet */}
+      {open && (
+        <div className="wrap mt-3 lg:hidden">
+          <nav className="glass rise p-2" aria-label="Main">
+            <div className="grid gap-1.5 sm:grid-cols-2">
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className={`flex h-11 items-center rounded-tile px-4 text-[0.9375rem] transition-colors ${
+                    isActive(l.href) ? "glass-bright font-semibold text-ink" : "text-ink-soft hover:text-ink"
+                  }`}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 };
 

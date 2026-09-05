@@ -1,76 +1,177 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sriracha&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Quill Text Editor */
-.ql-container.ql-snow,
-.ql-toolbar.ql-snow {
-  border: none !important;
-}
+/* ═══════════════════════════════════════════════════════════════
+   ASTRA — "GLASS STAGE"
+   Futuristic glassmorphism. A soft grey stage, frosted white
+   panels floating on it, and exactly one saturated accent.
+   Depth comes from elevation + blur, never from borders.
+   ═══════════════════════════════════════════════════════════════ */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    /* ── Stage ─────────────────────────────────────────── */
+    --stage: #c6c6c4; /* the grey the glass floats on */
+    --stage-hi: #e8e8e6; /* ambient light bloom */
+    --stage-lo: #ababa9; /* ambient falloff / vignette */
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    /* ── Glass ─────────────────────────────────────────── */
+    /* Nested surfaces get LIGHTER as they rise — that inversion
+       is what reads as stacked frosted paper. */
+    --glass: rgba(255, 255, 255, 0.8);
+    --glass-lite: rgba(255, 255, 255, 0.94); /* nested tile */
+    --glass-bright: rgba(255, 255, 255, 1); /* top of the stack */
+    --glass-deep: rgba(150, 150, 148, 0.3); /* recessed well */
+    --glass-edge: rgba(255, 255, 255, 0.6); /* inner light catch */
+    --plate: #f4f4f3; /* opaque fallback surface */
+    --panel-solid: #f2f2f1;
+    --panel-solid-hi: #f8f8f7;
 
+    --blur-lg: 18px;
+    --blur-md: 12px;
+    --blur-sm: 10px;
+
+    /* ── Ink ───────────────────────────────────────────── */
+    --ink: #0a0a0c;
+    --ink-soft: #3d3d43;
+    --muted-ink: #5c5c64;
+    --hairline: rgba(10, 10, 12, 0.12);
+    /* Prefixed: bare --ring/--line collide with the shadcn bridge tokens. */
+    --pat-dot: rgba(10, 10, 12, 0.16);
+    --pat-line: rgba(10, 10, 12, 0.075);
+    --pat-ring: rgba(10, 10, 12, 0.07);
+    --hairline-2: rgba(10, 10, 12, 0.2);
+
+    /* ── Accent (the only colour in the system) ────────── */
+    --acc: #d94d12;
+    --acc-hi: #c2430e;
+    --acc-text: #a33605; /* accent used AS text on the stage */
+    --acc-wash: rgba(217, 77, 18, 0.12);
+    --acc-ring: rgba(217, 77, 18, 0.34);
+    --on-acc: #ffffff;
+
+    /* ── Radii ─────────────────────────────────────────── */
+    --gutter: 40px;
+
+    --r-xl: 20px;
+    --r-lg: 16px;
+    --r-md: 12px;
+    --r-sm: 10px;
+    --r-xs: 8px;
+
+    /* ── Elevation ─────────────────────────────────────── */
+    --sh-1: 0 1px 2px rgba(10, 10, 12, 0.07);
+    --sh-2: 0 1px 3px rgba(10, 10, 12, 0.08), 0 6px 16px -6px rgba(10, 10, 12, 0.14);
+    --sh-3: 0 2px 6px rgba(10, 10, 12, 0.08), 0 14px 34px -12px rgba(10, 10, 12, 0.2),
+      0 36px 70px -30px rgba(10, 10, 12, 0.26);
+    --sh-lift: 0 4px 10px rgba(10, 10, 12, 0.1), 0 26px 54px -16px rgba(10, 10, 12, 0.3);
+    --sh-acc: 0 6px 20px -6px rgba(217, 77, 18, 0.45);
+    --edge: inset 0 1px 0 var(--glass-edge);
+
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* ── shadcn bridge (ui/* components) ───────────────── */
+    --background: 60 3% 84%;
+    --foreground: 240 8% 5%;
+    --card: 60 3% 95%;
+    --card-foreground: 240 8% 5%;
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --popover-foreground: 240 8% 5%;
+    --primary: 240 8% 5%;
+    --primary-foreground: 60 3% 95%;
+    --secondary: 60 3% 91%;
+    --secondary-foreground: 240 8% 5%;
+    --muted: 60 3% 91%;
+    --muted-foreground: 240 4% 45%;
+    --accent: 60 3% 91%;
+    --accent-foreground: 240 8% 5%;
+    --destructive: 0 72% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 60 3% 79%;
+    --input: 60 3% 79%;
+    --ring: 17 84% 46%;
+    --radius: 0.75rem;
 
-    --primary: 24 9.8% 10%;
-    --primary-foreground: 60 9.1% 97.8%;
-
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
-
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 20 14.3% 4.1%;
-
-    --radius: 0.5rem;
+    /* ── Legacy aliases (admin / manage / ui — out of scope) ── */
+    --canvas: var(--stage);
+    --paper: var(--stage);
+    --paper-2: var(--plate);
+    --surface: var(--plate);
+    --surface-2: #e8e8e7;
+    --tile: var(--plate);
+    --tile-2: #e8e8e7;
+    --tile-ink: var(--ink);
+    --hairline-strong: var(--hairline-2);
+    --brand: var(--ink);
+    --brand-bright: var(--acc-text);
+    --gold: var(--acc);
+    --radius-tile: var(--r-md);
+    --shadow-soft: var(--sh-1);
+    --shadow-float: var(--sh-2);
+    --highlight: none;
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
+    --stage: #17171a;
+    --stage-hi: #2a2a30;
+    --stage-lo: #0b0b0d;
 
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
+    --glass: rgba(255, 255, 255, 0.055);
+    --glass-lite: rgba(255, 255, 255, 0.1);
+    --glass-bright: rgba(255, 255, 255, 0.15);
+    --glass-deep: rgba(0, 0, 0, 0.24);
+    --glass-edge: rgba(255, 255, 255, 0.12);
+    --plate: #1e1e22;
+    --panel-solid: #202024;
+    --panel-solid-hi: #26262b;
 
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
+    --ink: #f4f4f2;
+    --ink-soft: #c2c2cb;
+    --muted-ink: #9b9ba6;
+    --hairline: rgba(255, 255, 255, 0.1);
+    --pat-dot: rgba(255, 255, 255, 0.14);
+    --pat-line: rgba(255, 255, 255, 0.06);
+    --pat-ring: rgba(255, 255, 255, 0.07);
+    --hairline-2: rgba(255, 255, 255, 0.18);
 
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
+    --acc: #e05215;
+    --acc-hi: #f26224;
+    --acc-text: #ff8552;
+    --acc-wash: rgba(224, 82, 21, 0.18);
+    --acc-ring: rgba(224, 82, 21, 0.45);
+    --on-acc: #ffffff;
 
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
+    --sh-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --sh-2: 0 1px 3px rgba(0, 0, 0, 0.45), 0 6px 16px -6px rgba(0, 0, 0, 0.55);
+    --sh-3: 0 2px 6px rgba(0, 0, 0, 0.4), 0 14px 34px -12px rgba(0, 0, 0, 0.6),
+      0 32px 64px -32px rgba(0, 0, 0, 0.75);
+    --sh-lift: 0 4px 10px rgba(0, 0, 0, 0.45), 0 22px 48px -16px rgba(0, 0, 0, 0.7);
+    --sh-acc: 0 6px 20px -6px rgba(224, 82, 21, 0.5);
 
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
+    --background: 240 8% 10%;
+    --foreground: 60 11% 96%;
+    --card: 240 8% 13%;
+    --card-foreground: 60 11% 96%;
+    --popover: 240 8% 13%;
+    --popover-foreground: 60 11% 96%;
+    --primary: 60 11% 96%;
+    --primary-foreground: 240 8% 10%;
+    --secondary: 240 6% 18%;
+    --secondary-foreground: 60 11% 96%;
+    --muted: 240 6% 18%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 240 6% 18%;
+    --accent-foreground: 60 11% 96%;
+    --destructive: 0 62% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 6% 22%;
+    --input: 240 6% 22%;
+    --ring: 17 82% 48%;
 
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 24 5.7% 82.9%;
+    --surface-2: #26262b;
+    --tile-2: #26262b;
   }
 }
 
@@ -78,125 +179,1378 @@
   * {
     @apply border-border;
   }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--stage);
+    color: var(--ink);
+    font-feature-settings: "ss01", "cv01";
   }
   ul,
   ol {
     list-style: revert;
   }
-}
-
-@layer base {
-  h1 {
-    @apply text-4xl;
-    @apply font-bold;
+  ::selection {
+    background: var(--acc);
+    color: var(--on-acc);
   }
-  h2 {
-    @apply text-3xl;
-    @apply font-bold;
-  }
-  h3 {
-    @apply text-2xl;
-    @apply font-bold;
-  }
-  h4 {
-    @apply text-xl;
-    @apply font-semibold;
-  }
-  h5 {
-    @apply text-lg; /*or text-lg */
-    @apply font-semibold;
-  }
-  h6 {
-    @apply text-sm;
-    @apply font-semibold;
+  :focus-visible {
+    outline: 2px solid var(--acc);
+    outline-offset: 2px;
   }
 }
 
-@layer utilities {
-  .text-md {
-    font-size: 1.125rem; /* Adjust the size as needed */
+@layer components {
+  /* ═══════════════════════════════════════════════════════════════
+     STAGE — the lit grey ground everything floats on
+     ═══════════════════════════════════════════════════════════════ */
+  .stage {
+    position: relative;
+    background-color: var(--stage);
+    color: var(--ink);
+    isolation: isolate;
+  }
+  /* Studio lighting: a soft bloom top-centre falling off to the edges.
+     Fixed so it reads as a lit room, not a scrolling gradient. */
+  .stage::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(125% 85% at 50% -12%, var(--stage-hi) 0%, transparent 62%),
+      radial-gradient(100% 80% at 88% 112%, var(--stage-lo) 0%, transparent 60%),
+      radial-gradient(90% 65% at 2% 92%, var(--stage-lo) 0%, transparent 55%),
+      linear-gradient(180deg, transparent 40%, var(--stage-lo) 140%);
+  }
+  /* Fine tooth, so large flat areas aren't dead-flat */
+  /* Blueprint field: a dot matrix over a sparse grid, with slow sonar rings
+     from the top. Replaces the old SVG-turbulence noise layer — cheaper to
+     raster and does far more visually. Masked so it reads as depth behind the
+     glass rather than texture competing with content. */
+  .stage::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 1px 1px, var(--pat-dot) 1px, transparent 0),
+      linear-gradient(var(--pat-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--pat-line) 1px, transparent 1px),
+      repeating-radial-gradient(circle at 50% -5%, transparent 0 118px, var(--pat-ring) 118px 119px);
+    background-size: 34px 34px, 136px 136px, 136px 136px, 100% 100%;
+    -webkit-mask-image: radial-gradient(140% 110% at 50% -8%, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 82%);
+    mask-image: radial-gradient(140% 110% at 50% -8%, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 82%);
+  }
+
+  /* ── Shell ─────────────────────────────────────────────── */
+  /* Full-bleed with ONE constant gutter at every viewport. No max-width cap:
+     a cap makes the side margin grow on wide screens, which is exactly the
+     inconsistency this replaces. Long-form text is constrained per-block with
+     max-w-* utilities instead of by the page shell. */
+  .wrap {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  /* Opt-in centred measure for prose-only pages. */
+  .wrap-tight {
+    max-width: 1100px;
+  }
+
+  .bay {
+    padding-block: 28px;
+  }
+  @media (min-width: 768px) {
+    .bay {
+      padding-block: 44px;
+    }
+  }
+
+  /* 12-column bento field */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 12px;
+  }
+  @media (min-width: 640px) {
+    .bento {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .bento {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     GLASS SURFACES
+     ═══════════════════════════════════════════════════════════════ */
+  .glass,
+  .glass-lite,
+  .glass-bright,
+  .glass-well {
+    position: relative;
+    border-radius: var(--r-lg);
+    background-clip: padding-box;
+  }
+
+  /* Base panel — sits directly on the stage */
+  .glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(1.35);
+    backdrop-filter: blur(var(--blur-lg)) saturate(1.35);
+    box-shadow: var(--sh-3), var(--edge);
+  }
+
+  /* Nested tile — lighter than its parent, so the stack rises */
+  .glass-lite {
+    background: var(--glass-lite);
+    -webkit-backdrop-filter: blur(var(--blur-md)) saturate(1.2);
+    backdrop-filter: blur(var(--blur-md)) saturate(1.2);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-1), var(--edge);
+  }
+
+  /* Top of the stack — most opaque, for content that must stay legible */
+  .glass-bright {
+    background: var(--glass-bright);
+    -webkit-backdrop-filter: blur(var(--blur-md)) saturate(1.1);
+    backdrop-filter: blur(var(--blur-md)) saturate(1.1);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-2), var(--edge);
+  }
+
+  /* Recessed well — reads as cut into the panel */
+  .glass-well {
+    background: var(--glass-deep);
+    border-radius: var(--r-md);
+    box-shadow: inset 0 1px 3px rgba(13, 13, 15, 0.09);
+  }
+  .dark .glass-well {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Opaque plate — for long scrolling lists where stacked blurs cost too much */
+  .plate {
+    background: var(--plate);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-2), var(--edge);
+  }
+
+  .pad {
+    padding: 16px;
+  }
+  @media (min-width: 768px) {
+    .pad {
+      padding: 20px;
+    }
+  }
+  .pad-sm {
+    padding: 12px;
+  }
+  @media (min-width: 768px) {
+    .pad-sm {
+      padding: 14px;
+    }
+  }
+  .pad-lg {
+    padding: 20px;
+  }
+  @media (min-width: 768px) {
+    .pad-lg {
+      padding: 28px;
+    }
+  }
+
+  /* Hover raise — the whole card lifts toward the light */
+  .lift {
+    transition: transform 0.42s var(--ease), box-shadow 0.42s var(--ease), background-color 0.28s ease;
+    will-change: transform;
+  }
+  .lift:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sh-lift), var(--edge);
+    background: var(--glass-lite);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lift:hover {
+      transform: none;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TYPOGRAPHY
+     ═══════════════════════════════════════════════════════════════ */
+  .tt-hero {
+    font-size: clamp(2.1rem, 5vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.042em;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .tt-h1 {
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .tt-h2 {
+    font-size: clamp(1.125rem, 1.7vw, 1.4rem);
+    line-height: 1.2;
+    letter-spacing: -0.028em;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .tt-h3 {
+    font-size: 0.9375rem;
+    line-height: 1.25;
+    letter-spacing: -0.017em;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .tt-lead {
+    font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+    line-height: 1.55;
+    letter-spacing: -0.011em;
+    color: var(--ink-soft);
+  }
+  .tt-body {
+    font-size: 0.875rem;
+    line-height: 1.62;
+    color: var(--ink-soft);
+  }
+  .tt-sub {
+    font-size: 0.78125rem;
+    line-height: 1.45;
+    color: var(--muted-ink);
+  }
+
+  /* Technical micro-label — the institutional register */
+  .tt-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--muted-ink);
+  }
+
+  /* Big tabular figure — pairs with a small unit label beneath */
+  .tt-num {
+    font-size: clamp(1.5rem, 2.1vw, 2rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+  .tt-unit {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted-ink);
+  }
+
+  .acc {
+    color: var(--acc-text);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     BUTTONS
+     ═══════════════════════════════════════════════════════════════ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding-inline: 17px;
+    border-radius: var(--r-sm);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.2s var(--ease), box-shadow 0.24s var(--ease), background-color 0.18s ease,
+      color 0.18s ease;
+  }
+  .btn:active {
+    transform: scale(0.975);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  /* The one saturated thing on the page */
+  .btn-acc {
+    background: var(--acc);
+    color: var(--on-acc);
+    box-shadow: var(--sh-acc);
+  }
+  .btn-acc:hover {
+    background: var(--acc-hi);
+    box-shadow: 0 8px 26px -6px var(--acc-ring);
+  }
+
+  .btn-dark {
+    background: var(--ink);
+    color: var(--stage);
+    box-shadow: var(--sh-2);
+  }
+  .btn-dark:hover {
+    box-shadow: var(--sh-lift);
+  }
+
+  .btn-glass {
+    background: var(--glass-lite);
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+    backdrop-filter: blur(var(--blur-sm));
+    color: var(--ink);
+    box-shadow: var(--sh-1), var(--edge);
+  }
+  .btn-glass:hover {
+    background: var(--glass-bright);
+    box-shadow: var(--sh-2), var(--edge);
+  }
+
+  .btn-bare {
+    color: var(--ink-soft);
+  }
+  .btn-bare:hover {
+    background: var(--glass-lite);
+    color: var(--ink);
+  }
+
+  .btn-sm {
+    height: 33px;
+    padding-inline: 12px;
+    font-size: 0.8125rem;
+    border-radius: var(--r-xs);
+  }
+  .btn-lg {
+    height: 46px;
+    padding-inline: 21px;
+    font-size: 0.9375rem;
+    border-radius: var(--r-md);
+  }
+
+  /* Floating rounded-square icon button */
+  .iconbtn {
+    display: grid;
+    place-items: center;
+    height: 40px;
+    width: 40px;
+    flex-shrink: 0;
+    border-radius: var(--r-sm);
+    color: var(--ink);
+    background: var(--glass-lite);
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+    backdrop-filter: blur(var(--blur-sm));
+    box-shadow: var(--sh-1), var(--edge);
+    cursor: pointer;
+    transition: transform 0.24s var(--ease), background-color 0.18s ease, box-shadow 0.24s var(--ease);
+  }
+  .iconbtn:hover {
+    background: var(--glass-bright);
+    transform: translateY(-2px);
+    box-shadow: var(--sh-2), var(--edge);
+  }
+  .iconbtn:active {
+    transform: scale(0.94);
+  }
+  .iconbtn-sm {
+    height: 33px;
+    width: 33px;
+    border-radius: var(--r-xs);
+  }
+  .iconbtn-on {
+    background: var(--acc);
+    color: var(--on-acc);
+    box-shadow: var(--sh-acc);
+  }
+  .iconbtn-on:hover {
+    background: var(--acc-hi);
+  }
+
+  /* Corner expand affordance (↗) */
+  .expand {
+    display: grid;
+    place-items: center;
+    height: 30px;
+    width: 30px;
+    flex-shrink: 0;
+    border-radius: var(--r-xs);
+    color: var(--ink-soft);
+    background: var(--glass-lite);
+    box-shadow: var(--edge);
+    transition: transform 0.3s var(--ease), background-color 0.2s ease, color 0.2s ease;
+  }
+  .group:hover .expand {
+    background: var(--glass-bright);
+    color: var(--ink);
+    transform: translate(2px, -2px);
+  }
+
+  /* Floating icon rail (the vertical strips in the reference) */
+  .rail {
+    display: flex;
+    gap: 10px;
+  }
+  .rail-v {
+    flex-direction: column;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     SEGMENTED CONTROL — separate pills, active one filled
+     ═══════════════════════════════════════════════════════════════ */
+  .seg {
+    display: inline-flex;
+    gap: 6px;
+    padding: 0;
+  }
+  /* Same 40px as .btn and .iconbtn — every control in a masthead row must
+     share one height or the row reads as broken. */
+  .seg-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 40px;
+    padding-inline: 15px;
+    border-radius: var(--r-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    color: var(--ink-soft);
+    background: var(--glass-lite);
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+    backdrop-filter: blur(var(--blur-sm));
+    box-shadow: var(--edge);
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .seg-btn:hover {
+    background: var(--glass-bright);
+    color: var(--ink);
+  }
+  .seg-btn.is-on {
+    background: var(--glass-deep);
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: inset 0 1px 3px rgba(13, 13, 15, 0.08);
+  }
+  .dark .seg-btn.is-on {
+    background: var(--glass-bright);
+    box-shadow: var(--edge);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     CHIPS · PINS · RULES
+     ═══════════════════════════════════════════════════════════════ */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 25px;
+    padding-inline: 10px;
+    border-radius: var(--r-xs);
+    background: var(--glass-lite);
+    box-shadow: var(--edge);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .chip-acc {
+    background: var(--acc-wash);
+    color: var(--acc-text);
+    box-shadow: none;
+  }
+  .chip-solid {
+    background: var(--acc);
+    color: var(--on-acc);
+    box-shadow: var(--sh-acc);
+  }
+  /* Square letter chip (the L R F B row) */
+  .chip-sq {
+    display: grid;
+    place-items: center;
+    height: 30px;
+    width: 30px;
+    border-radius: var(--r-xs);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--glass-lite);
+    box-shadow: var(--edge);
+  }
+  .chip-sq-on {
+    background: var(--acc);
+    color: var(--on-acc);
+    box-shadow: var(--sh-acc);
+  }
+
+  .pin {
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 999px;
+    background: var(--acc);
+    box-shadow: 0 0 0 3px var(--acc-wash);
+  }
+
+  .rule {
+    height: 1px;
+    border: 0;
+    background: var(--hairline);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     FIELDS
+     ═══════════════════════════════════════════════════════════════ */
+  .field {
+    width: 100%;
+    height: 42px;
+    padding-inline: 14px;
+    border-radius: var(--r-sm);
+    background: var(--glass-deep);
+    color: var(--ink);
+    font-size: 0.9375rem;
+    box-shadow: inset 0 1px 3px rgba(13, 13, 15, 0.07);
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  .dark .field {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45);
+  }
+  .field::placeholder {
+    color: var(--muted-ink);
+  }
+  .field:focus {
+    outline: none;
+    background: var(--glass-lite);
+    box-shadow: 0 0 0 3px var(--acc-ring), var(--edge);
+  }
+  .field-icon {
+    padding-left: 44px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ROWS · LISTS
+     ═══════════════════════════════════════════════════════════════ */
+  .rows > * + * {
+    border-top: 1px solid var(--hairline);
+  }
+  .rowitem {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 14px;
+    transition: background-color 0.2s ease, padding-left 0.24s var(--ease);
+  }
+  a.rowitem:hover,
+  button.rowitem:hover {
+    background: var(--glass-lite);
+    padding-left: 24px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    a.rowitem:hover,
+    button.rowitem:hover {
+      padding-left: 18px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOTION
+     ═══════════════════════════════════════════════════════════════ */
+  .rise {
+    animation: glass-rise 0.7s var(--ease-out) both;
+  }
+
+  .shimmer {
+    background-image: linear-gradient(90deg, transparent 20%, var(--glass-bright) 50%, transparent 80%);
+    background-size: 200% 100%;
+    animation: sheen 1.6s linear infinite;
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise,
+    .shimmer {
+      animation: none;
+    }
+    .rise {
+      opacity: 1;
+      transform: none;
+    }
+    * {
+      scroll-behavior: auto !important;
+    }
+  }
+
+
+}
+
+@keyframes glass-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sheen {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes tile-pulse {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
-@layer utilities {
-  .font-poppins {
-    font-family: "Poppins", sans-serif;
-  }
-
-  .font-roboto {
-    font-family: "Roboto", sans-serif;
-  }
-
-  .font-sriracha {
-    font-family: "Sriracha", cursive;
-  }
+/* ═══════════════════════════════════════════════════════════════
+   MISC / VENDOR
+   ═══════════════════════════════════════════════════════════════ */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--hairline-2);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted-ink);
+  background-clip: content-box;
+}
+
+/* Quill / BlockNote */
+.ql-container.ql-snow,
+.ql-toolbar.ql-snow {
+  border: none !important;
+}
+
+/* UploadThing */
 .ut-hidden {
   @apply hidden;
 }
 .ut-bg-blue-600 {
-  @apply flex h-10 w-36 cursor-pointer items-center justify-center rounded-md bg-blue-600 hover:bg-blue-500;
+  @apply flex h-10 w-36 cursor-pointer items-center justify-center rounded-xl;
+  background: var(--acc);
 }
-
 .ut-text-white {
   @apply text-white;
 }
-
 .ut-text-xs {
-  @apply text-center text-xs leading-5 text-gray-600;
+  @apply text-center text-xs leading-5;
+  color: var(--muted-ink);
 }
 
-/* Custom scrollbar styles */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-
-/* Tippy.js custom styles */
-/* Light theme override */
-.tippy-box[data-theme~="light"] {
-  @apply bg-white text-gray-900 shadow-lg rounded-xl px-3 py-2 text-sm;
-}
-.tippy-box[data-theme~="light"][data-placement^="top"] > .tippy-arrow::before {
-  border-top-color: #ffffff;
-}
-.tippy-box[data-theme~="light"][data-placement^="bottom"] > .tippy-arrow::before {
-  border-bottom-color: #ffffff;
-}
-.tippy-box[data-theme~="light"][data-placement^="left"] > .tippy-arrow::before {
-  border-left-color: #ffffff;
-}
-.tippy-box[data-theme~="light"][data-placement^="right"] > .tippy-arrow::before {
-  border-right-color: #ffffff;
-}
-
-/* Dark theme override with custom shadow */
+/* Tippy */
+.tippy-box[data-theme~="light"],
 .tippy-box[data-theme~="dark"] {
-  @apply bg-white text-black rounded-xl px-3 py-2 text-sm;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  background: var(--glass-bright);
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
+  color: var(--ink);
+  border-radius: var(--r-sm);
+  box-shadow: var(--sh-2), var(--edge);
+  @apply px-3 py-2 text-sm;
+}
+.tippy-box[data-theme~="light"] > .tippy-arrow::before,
+.tippy-box[data-theme~="dark"] > .tippy-arrow::before {
+  display: none;
 }
 
-/* Arrow colors for dark theme to match the white background */
-.tippy-box[data-theme~="dark"][data-placement^="top"] > .tippy-arrow::before {
-  border-top-color: #ffffff;
+/* ═══════════════════════════════════════════════════════════════
+   BENTO MESH — hairline-divided grid with crosshair intersections
+   ═══════════════════════════════════════════════════════════════ */
+@layer components {
+  /* 1px gap filled by the hairline colour = perfectly even dividers,
+     no double-borders, no per-cell border bookkeeping. */
+  .mesh {
+    position: relative;
+    display: grid;
+    gap: 1px;
+    background: var(--hairline);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--sh-3), var(--edge);
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  /* Equal row heights so grid lines land on exact fractions and the crosshair
+     overlay can be positioned deterministically. Only from `lg`, where the
+     grid is actually multi-column — applying it to a single-column stack pads
+     every short cell out to the tallest one. */
+  @media (min-width: 1024px) {
+    .mesh-even {
+      grid-auto-rows: minmax(0, 1fr);
+    }
+  }
+  @media (min-width: 640px) {
+    .mesh {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .mesh-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  /* No backdrop-filter here. Cells are near-opaque, so a container blur added
+     nothing but a haze over the content and a compositing cost.
+     `:not(.mesh-overlay)` matters: the crosshair layer is also a direct child,
+     and it is `absolute inset-0` at z-index 2 — giving it a cell background
+     lays an opaque sheet over every cell's content. */
+  .mesh > *:not(.mesh-overlay) {
+    position: relative;
+    background: var(--panel-solid);
+    transition: background-color 0.4s var(--ease);
+  }
+  .mesh > *:not(.mesh-overlay):hover {
+    background: var(--panel-solid-hi);
+  }
+  .mesh-overlay {
+    background: none !important;
+  }
+  .cell-wide {
+    grid-column: span 1;
+  }
+  @media (min-width: 640px) {
+    .cell-wide {
+      grid-column: span 2;
+    }
+  }
+
+  /* Decorative crosshair, placed at a mesh intersection */
+  .crosshair {
+    position: absolute;
+    z-index: 2;
+    height: 13px;
+    width: 13px;
+    margin-left: -6.5px;
+    margin-top: -6.5px;
+    pointer-events: none;
+    color: var(--hairline-2);
+  }
+  .crosshair::before,
+  .crosshair::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+  }
+  .crosshair::before {
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+  .crosshair::after {
+    top: 50%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    transform: translateY(-50%);
+  }
+
+  /* ── 3D tilt ─────────────────────────────────────────── */
+  /* JS writes --rx/--ry/--mx/--my; CSS does the rest. */
+  .tilt {
+    perspective: 1000px;
+    perspective-origin: center;
+  }
+  .tilt-in {
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transform-style: preserve-3d;
+    transition: transform 0.5s var(--ease);
+    will-change: transform;
+  }
+  .tilt:hover .tilt-in {
+    transition: transform 0.12s linear;
+  }
+  .depth-1 {
+    transform: translateZ(26px);
+  }
+  .depth-2 {
+    transform: translateZ(52px);
+  }
+  .depth-3 {
+    transform: translateZ(80px);
+  }
+
+  /* Cursor-tracked specular sheen on a glass card */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 255, 255, 0.5),
+      transparent 62%
+    );
+  }
+  .sheen:hover::after {
+    opacity: 1;
+  }
+  .dark .sheen::after {
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 255, 255, 0.09),
+      transparent 62%
+    );
+  }
+
+  /* ── Ambient accent orb — the only large colour on the stage ── */
+  /* Ambient accent glow. A soft-stopped radial-gradient rather than
+     `filter: blur()` — a 70px blur on a 500px animated element is one of the
+     most expensive things you can put on a page, and this is indistinguishable. */
+  .orb {
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.3;
+    background: radial-gradient(
+      circle closest-side,
+      var(--acc) 0%,
+      color-mix(in srgb, var(--acc) 45%, transparent) 38%,
+      color-mix(in srgb, var(--acc) 14%, transparent) 62%,
+      transparent 100%
+    );
+    animation: orb-drift 18s ease-in-out infinite alternate;
+    will-change: transform;
+    contain: strict;
+  }
+  .dark .orb {
+    opacity: 0.24;
+  }
+
+  /* Light sweeping along a panel's top edge */
+  .beam {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .beam::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    width: 34%;
+    background: linear-gradient(90deg, transparent, var(--acc), transparent);
+    animation: beam-run 4.5s var(--ease) infinite;
+  }
+
+  /* ── Marquee ─────────────────────────────────────────── */
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 44px;
+    padding-right: 44px;
+    animation: marquee-run 34s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* ── Scroll reveal (GSAP toggles .is-in) ─────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s var(--ease-out), transform 0.5s var(--ease-out);
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Scroll progress hairline */
+  .progress {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 60;
+    height: 2px;
+    width: 100%;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    background: var(--acc);
+    pointer-events: none;
+  }
 }
-.tippy-box[data-theme~="dark"][data-placement^="bottom"] > .tippy-arrow::before {
-  border-bottom-color: #ffffff;
+
+@layer utilities {
+  .grid-lines {
+    background-image: linear-gradient(var(--hairline) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
 }
-.tippy-box[data-theme~="dark"][data-placement^="left"] > .tippy-arrow::before {
-  border-left-color: #ffffff;
+
+@keyframes orb-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, -8%, 0) scale(1.18);
+  }
 }
-.tippy-box[data-theme~="dark"][data-placement^="right"] > .tippy-arrow::before {
-  border-right-color: #ffffff;
+@keyframes beam-run {
+  0% {
+    transform: translateX(-120%);
+  }
+  60%,
+  100% {
+    transform: translateX(420%);
+  }
+}
+@keyframes marquee-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .beam::after,
+  .marquee-track {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .tilt-in {
+    transform: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE TIER
+   The clamped type scales with the viewport on its own, but the
+   fixed-height controls and the small fixed sizes do not. Scale
+   them here so hierarchy survives at 390px.
+   ═══════════════════════════════════════════════════════════════ */
+@layer components {
+  @media (max-width: 639px) {
+    .btn {
+      height: 36px;
+      padding-inline: 14px;
+      font-size: 0.875rem;
+    }
+    .btn-sm {
+      height: 31px;
+      padding-inline: 11px;
+      font-size: 0.78125rem;
+    }
+    .btn-lg {
+      height: 42px;
+      padding-inline: 17px;
+      font-size: 0.9375rem;
+    }
+    .iconbtn {
+      height: 36px;
+      width: 36px;
+    }
+    .iconbtn-sm {
+      height: 31px;
+      width: 31px;
+    }
+    .seg-btn {
+      height: 36px;
+      padding-inline: 13px;
+      font-size: 0.8125rem;
+    }
+    .field {
+      height: 40px;
+      font-size: 0.875rem;
+    }
+    .expand {
+      height: 28px;
+      width: 28px;
+    }
+    .chip {
+      height: 23px;
+      padding-inline: 8px;
+      font-size: 0.71875rem;
+    }
+    .chip-sq {
+      height: 27px;
+      width: 27px;
+    }
+    .tt-h3 {
+      font-size: 0.875rem;
+    }
+    .tt-body {
+      font-size: 0.84375rem;
+      line-height: 1.6;
+    }
+    .tt-sub {
+      font-size: 0.75rem;
+    }
+    .tt-mono {
+      font-size: 0.625rem;
+      letter-spacing: 0.11em;
+    }
+    .tt-unit {
+      font-size: 0.6875rem;
+    }
+    .rowitem {
+      gap: 11px;
+      padding: 10px 12px;
+    }
+    a.rowitem:hover,
+    button.rowitem:hover {
+      padding-left: 12px;
+    }
+  }
+}
+
+@layer utilities {
+  /* Slim inner scrollbar for framed media viewports. */
+  .scrollbar-slim {
+    scrollbar-width: thin;
+    scrollbar-color: var(--hairline-2) transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    background-color: var(--hairline-2);
+    border-radius: 999px;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-ink);
+  }
+}
+
+@keyframes decor-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT PATTERNS
+   Minimal drafting textures for individual panels, so a grid of
+   cards has some variety instead of reading as identical slabs.
+   Applied as extra `background-image` LAYERS rather than a
+   pseudo-element: background layers paint above the panel's colour
+   and below all of its content, so nothing needs z-index juggling
+   and no mask can catch the text. Alpha is deliberately tiny —
+   these should be felt, not read.
+   ═══════════════════════════════════════════════════════════════ */
+@layer components {
+  .pat-dots {
+    background-image: radial-gradient(circle at 1px 1px, var(--pat-line) 1px, transparent 0);
+    background-size: 17px 17px;
+  }
+  .pat-grid {
+    background-image: linear-gradient(var(--pat-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--pat-line) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px;
+  }
+  .pat-diag {
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--pat-line) 0 1px,
+      transparent 1px 10px
+    );
+  }
+  /* Concentric arcs sweeping out of one corner. */
+  .pat-rings {
+    background-image: repeating-radial-gradient(
+      circle at 100% 0%,
+      transparent 0 36px,
+      var(--pat-line) 36px 37px
+    );
+  }
+  /* A measure strip along the top edge only — confined by background-size. */
+  .pat-ticks {
+    background-image: repeating-linear-gradient(90deg, var(--pat-line) 0 1px, transparent 1px 20px);
+    background-size: 100% 7px;
+    background-repeat: no-repeat;
+    background-position: top left;
+  }
+  /* Corner hatch wedge. */
+  .pat-wedge {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--pat-line) 0 1px,
+      transparent 1px 8px
+    );
+    background-size: 120px 120px;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+  }
+
+  /* The mesh paints cell colour via background-color, so a pattern layer on a
+     cell composes correctly. Keep it off the crosshair overlay. */
+  .mesh > .mesh-overlay {
+    background-image: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BLOCKNOTE — map the editor's own theme onto our tokens
+   The rendered rich text is the ONLY surface that was still using
+   the library's palette, so read-only project copy sat on its own
+   background at its own text colour. Unlayered and reasonably
+   specific so it beats @blocknote/react/style.css.
+   ═══════════════════════════════════════════════════════════════ */
+.bn-container,
+.bn-container[data-color-scheme],
+.bn-container[data-theming-css-demo] {
+  --bn-colors-editor-text: var(--ink);
+  --bn-colors-editor-background: transparent;
+  --bn-colors-menu-text: var(--ink);
+  --bn-colors-menu-background: var(--panel-solid);
+  --bn-colors-tooltip-text: var(--ink);
+  --bn-colors-tooltip-background: var(--panel-solid);
+  --bn-colors-hovered-text: var(--ink);
+  --bn-colors-hovered-background: var(--glass-lite);
+  --bn-colors-selected-text: var(--on-acc);
+  --bn-colors-selected-background: var(--acc);
+  --bn-colors-disabled-text: var(--muted-ink);
+  --bn-colors-disabled-background: var(--glass-deep);
+  --bn-colors-border: var(--hairline);
+  --bn-colors-side-menu: var(--muted-ink);
+  --bn-colors-shadow: var(--hairline-2);
+  --bn-font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --bn-border-radius: var(--r-xs);
+}
+
+.bn-container .bn-editor,
+.bn-container .bn-block-content,
+.bn-container .bn-inline-content {
+  background-color: transparent;
+}
+
+/* Match .tt-body so rendered copy sits in the same typographic system. */
+.bn-container .bn-editor {
+  color: var(--ink-soft);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.68;
+}
+.bn-container .bn-editor h1,
+.bn-container .bn-editor h2,
+.bn-container .bn-editor h3 {
+  color: var(--ink);
+  letter-spacing: -0.022em;
+}
+.bn-container .bn-editor a {
+  color: var(--acc-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bn-container .bn-editor code {
+  background: var(--glass-deep);
+  border-radius: var(--r-xs);
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.875em;
+}
+.bn-container .bn-editor blockquote {
+  border-left: 2px solid var(--acc);
+  padding-left: 0.9rem;
+  color: var(--ink-soft);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MEDIA CONTROLS
+   Controls that sit ON TOP of user-supplied imagery cannot use the
+   glass classes: a translucent light panel is invisible over a
+   white screenshot. These carry their own fixed contrast.
+   ═══════════════════════════════════════════════════════════════ */
+@layer components {
+  .mediabtn {
+    display: grid;
+    place-items: center;
+    height: 38px;
+    width: 38px;
+    flex-shrink: 0;
+    border-radius: var(--r-sm);
+    color: #fff;
+    background: rgba(10, 10, 12, 0.62);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22), 0 4px 14px -4px rgba(0, 0, 0, 0.5);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.24s var(--ease), box-shadow 0.24s var(--ease);
+  }
+  .mediabtn:hover {
+    background: rgba(10, 10, 12, 0.86);
+    transform: scale(1.06);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 6px 18px -4px rgba(0, 0, 0, 0.6);
+  }
+  .mediabtn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INTERACTION LAYER
+   Micro-interactions, kept to a small vocabulary so hover feels
+   like one system rather than per-component invention. All of it
+   is transform/opacity only, and all of it stops under
+   prefers-reduced-motion.
+   ═══════════════════════════════════════════════════════════════ */
+@layer components {
+  /* Buttons rise very slightly and deepen their shadow. */
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn:active {
+    transform: translateY(0) scale(0.975);
+  }
+
+  /* A trailing arrow that leans into the direction of travel. */
+  .hov-arrow {
+    transition: transform 0.34s var(--ease);
+  }
+  .btn:hover .hov-arrow,
+  .group:hover .hov-arrow {
+    transform: translateX(3px);
+  }
+
+  /* Accent underline that grows from the leading edge. */
+  .hov-line {
+    position: relative;
+  }
+  .hov-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1.5px;
+    width: 100%;
+    background: var(--acc);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease);
+  }
+  .hov-line:hover::after,
+  .group:hover .hov-line::after {
+    transform: scaleX(1);
+  }
+
+  /* Chips acknowledge the cursor without moving the layout. */
+  .chip {
+    transition: background-color 0.22s ease, transform 0.22s var(--ease), color 0.22s ease;
+  }
+  a .chip:hover,
+  button .chip:hover,
+  .group:hover .chip {
+    transform: translateY(-1px);
+  }
+
+  /* Segmented control: the active pill settles, the others lift. */
+  .seg-btn {
+    transform: translateY(0);
+  }
+  .seg-btn:hover:not(.is-on) {
+    transform: translateY(-1px);
+  }
+  .seg-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* A bento cell reveals an accent hairline along its top edge. */
+  .mesh > *:not(.mesh-overlay)::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--acc), transparent);
+    opacity: 0;
+    transform: scaleX(0.4);
+    transition: opacity 0.45s var(--ease), transform 0.6s var(--ease);
+    pointer-events: none;
+  }
+  .mesh > *:not(.mesh-overlay):hover::after {
+    opacity: 0.85;
+    transform: scaleX(1);
+  }
+
+  /* Media frames brighten their chrome on approach. */
+  .glass-well:hover > .scrollbar-slim {
+    scrollbar-color: var(--muted-ink) transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn:hover,
+    .btn:active,
+    .seg-btn:hover:not(.is-on),
+    .seg-btn:active,
+    .mediabtn:hover,
+    .mediabtn:active,
+    .chip:hover,
+    .group:hover .chip {
+      transform: none;
+    }
+    .hov-arrow,
+    .hov-line::after,
+    .mesh > *:not(.mesh-overlay)::after {
+      transition: none;
+    }
+  }
 }

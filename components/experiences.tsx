@@ -1,17 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { faArrowRight, faCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "./ui/button";
 import Link from "next/link";
-import ExperienceCard from "./experience-card";
-import axios from "axios";
 import { useSelector } from "react-redux";
-import Loader from "./layout/loader";
-import { useTheme } from "next-themes";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ArrowUpRight, Briefcase } from "lucide-react";
+
+import ExperienceCard from "./experience-card";
 import ExperienceCardSkeleton from "@/components/skeleton/experience-card-skeleton";
+import { getJSON } from "@/lib/data-client";
 
 interface ExperiencesProps {
   title?: string;
@@ -23,28 +19,15 @@ interface ExperiencesProps {
 const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage, currentExperienceId }) => {
   const [projects, setProjects] = useState<any[]>([]);
   const [allProjects, setAllProjects] = useState<any[]>([]);
-
   const [loading, setLoading] = useState(true);
   const userInfo = useSelector((state: any) => state.userReducer);
-
-  const { resolvedTheme } = useTheme();
-
-  const getButtonVariant = () => {
-    if (resolvedTheme === "dark") {
-      return "secondary";
-    }
-    return "white";
-  };
 
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/projects/${userInfo?.id}`);
-      // Only show 3 projects on the home page
-      setProjects(response.data);
-
-      // Projects exclusive of non work experience
-      const allProjects = response.data.filter((project: any) => project.isWorkExperience && project.visible);
+      const response = await getJSON<any[]>(`/api/projects/${userInfo?.id}`);
+      setProjects(response);
+      const allProjects = response.filter((project: any) => project.isWorkExperience && project.visible);
       setAllProjects(allProjects);
     } catch (error) {
       console.error("Error fetching projects:", error);
@@ -54,84 +37,71 @@ const Experiences: React.FC<ExperiencesProps> = ({ title, showAll, detailedPage,
   };
 
   useEffect(() => {
-    if (userInfo?.id) {
-      fetchProjects();
-    }
+    if (userInfo?.id) fetchProjects();
   }, [userInfo]);
 
   const projectsToDisplay = showAll
     ? projects.filter((project) => project.isWorkExperience && project.visible && project.id !== currentExperienceId)
     : projects.filter((project) => project.isWorkExperience && project.visible).slice(0, 3);
 
-  return (
-    <div className="projects bg-ash md:p-6 p-3 mb-3 sm:mb-6 rounded-lg sm:mt-6 mt-3 dark:bg-[#0c0c0c] dark:border dark:border-white/10">
-      {projectsToDisplay && projectsToDisplay?.length === 0 && !loading ? (
-        <div>No project experiences available.</div>
-      ) : (
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            {loading ? (
-              <>
-                <Skeleton className="w-2 h-2 rounded-lg" />
-                <Skeleton className="w-36 h-6 rounded-lg" />
-              </>
-            ) : (
-              <>
-                {/* <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" /> */}
-                <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
-                <div className="font-medium text-gray-800 sm:text-lg text-base dark:text-zinc-200">
-                  {showAll || detailedPage ? `Other Experiences (${allProjects?.length})` : title || `Experiences (${projectsToDisplay.length})`}
-                </div>
-              </>
-            )}
-          </div>
-          {!showAll && loading ? (
-            <Skeleton className="w-28 h-10" />
-          ) : (
-            <Link href={"/experiences"}>
-              <Button variant={getButtonVariant()}>
-                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
-              </Button>
-            </Link>
-          )}
-        </div>
-      )}
+  const heading = showAll || detailedPage ? "Other experiences" : title || "Experiences";
+  const count = showAll || detailedPage ? allProjects?.length ?? 0 : projectsToDisplay.length;
 
-      {/* Use map to render ProjectCard components based on the projectsToDisplay array */}
-      {detailedPage && (
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            {loading ? (
-              <>
-                <Skeleton className="w-2 h-2" />
-                <Skeleton className="w-36 h-6" />
-              </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-                <div className="font-medium text-gray-800 sm:text-lg text-base">{title || "Projects"}</div>
-              </>
-            )}
-          </div>
-          {loading ? (
-            <Skeleton className="w-28 h-10" />
-          ) : (
-            <Link href={"/experiences"}>
-              <Button variant="white">
-                View All <FontAwesomeIcon icon={faArrowRight} className="ms-2 dark:text-zinc-300" color="#000000" />
-              </Button>
-            </Link>
-          )}
-        </div>
+  const header = (
+    <div className="reveal mb-4 flex flex-wrap items-end justify-between gap-4 sm:mb-5">
+      <div>
+        <p className="tt-mono">Career</p>
+        <h2 className="tt-h2 mt-2.5">
+          {heading} <span className="text-muted-ink">{String(count).padStart(2, "0")}</span>
+        </h2>
+      </div>
+      {!showAll && (
+        <Link href="/experiences" className="btn btn-glass btn-sm shrink-0">
+          View all
+          <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+        </Link>
       )}
-      {loading
-        ? Array.from({ length: 3 }).map((_, i) => <ExperienceCardSkeleton key={`skeleton-${i}`} />)
-        : projectsToDisplay.map((project) => (
-            <Link href={`/projects/${project.id}`} key={project.id}>
-              <ExperienceCard data={project} />
-            </Link>
-          ))}
     </div>
+  );
+
+  if (!loading && projectsToDisplay.length === 0) {
+    return (
+      <section className="mt-10 sm:mt-14">
+        {header}
+        <div className="glass pad-lg reveal grid place-items-center text-center">
+          <span className="glass-lite mb-4 grid h-12 w-12 place-items-center">
+            <Briefcase className="h-5 w-5 text-muted-ink" strokeWidth={1.75} />
+          </span>
+          <p className="tt-h3">No experience published yet</p>
+          <p className="tt-sub mt-1">Roles added and set to visible will show up here.</p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="mt-10 sm:mt-14">
+      {header}
+
+      <div className="bento">
+        {loading
+          ? Array.from({ length: 3 }).map((_, i) => (
+              <div key={`skeleton-${i}`} className="col-span-1 sm:col-span-3 lg:col-span-4">
+                <ExperienceCardSkeleton />
+              </div>
+            ))
+          : projectsToDisplay.map((project, i) => (
+              <Link
+                href={`/projects/${project.id}`}
+                key={project.id}
+                className="reveal col-span-1 block sm:col-span-3 lg:col-span-4"
+                style={{ transitionDelay: `${Math.min(i, 5) * 60}ms` }}
+              >
+                <ExperienceCard data={project} />
+              </Link>
+            ))}
+      </div>
+    </section>
   );
 };
 

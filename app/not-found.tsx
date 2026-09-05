@@ -1,40 +1,42 @@
 "use client";
+
 import Link from "next/link";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, ArrowUpRight, Compass } from "lucide-react";
 
 const NotFound: React.FC = () => {
   const router = useRouter();
 
-  const goBack = () => {
-    router.back(); // Navigates back to the previous page
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 p-4 text-center">
-      <Card className="w-full max-w-lg bg-white dark:bg-gray-900 shadow-lg rounded-2xl">
-        <CardHeader>
-          <Image src="/assets/image/error-404.png" alt="404" width={200} height={200} className="mx-auto mb-4" />
-          <CardTitle className="text-3xl font-bold text-gray-800 dark:text-white">Page Not Found</CardTitle>
-        </CardHeader>
-        <CardContent className="text-center flex flex-col items-center">
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Sorry, the page you are looking for does not exist. Please check the URL or go back to the homepage.
+    <div className="stage grid min-h-[100svh] place-items-center overflow-x-clip py-14">
+      <div className="orb left-1/2 top-[6%] h-[380px] w-[380px] -translate-x-1/2 sm:h-[540px] sm:w-[540px]" />
+
+      <div className="wrap">
+        <div className="glass pad-lg rise mx-auto max-w-2xl text-center">
+          <span className="glass-lite mx-auto grid h-12 w-12 place-items-center rounded-tile">
+            <Compass className="h-5 w-5 text-ink" strokeWidth={1.75} />
+          </span>
+
+          <p className="tt-mono mt-6">Error 404</p>
+          <h1 className="tt-hero mt-5">
+            Page not <span className="acc">found.</span>
+          </h1>
+          <p className="tt-lead mx-auto mt-6 max-w-sm">
+            This link is broken or the page has moved. Step back to where you were, or start again from the index.
           </p>
-          <div className="flex gap-4 justify-center">
-            <Button variant="secondary" className="w-full  py-2 rounded-full" onClick={goBack}>
-              Go Back
-            </Button>
-            <Link href="/">
-              <Button variant="secondary" className="w-full bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-full">
-                Go to Home
-              </Button>
+
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <button onClick={() => router.back()} className="btn btn-glass btn-lg">
+              <ArrowLeft className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              Go back
+            </button>
+            <Link href="/" className="btn btn-acc btn-lg">
+              Return home
+              <ArrowUpRight className="h-[18px] w-[18px]" strokeWidth={1.75} />
             </Link>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

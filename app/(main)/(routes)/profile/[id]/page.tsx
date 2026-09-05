@@ -1,62 +1,51 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faSeedling, faRocket } from "@fortawesome/free-solid-svg-icons";
-import { faFile, faCopy } from "@fortawesome/free-regular-svg-icons";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Projects from "@/components/projects";
 import Experiences from "@/components/experiences";
-import Loader from "@/components/layout/loader";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
 import { toast } from "sonner";
 import { setUserInfo } from "@/app/redux/features/user-slice";
 import { useDispatch } from "react-redux";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css"; // optional
-import confetti from "canvas-confetti"; // Import canvas-confetti
-import { Skeleton } from "@/components/ui/skeleton";
+import { getJSON, syncVersion } from "@/lib/data-client";
 import ProfileToast from "@/components/profile-toast";
+import { FileText, Copy, CalendarDays, Briefcase, Mail, ArrowUpRight } from "lucide-react";
 
-// default route for the app "https://localhost:3000/"
+import { Tilt } from "@/components/fx/tilt";
+
+const FALLBACK = "https://vutz38vdur.ufs.sh/f/O8iVoUnKSnAlP7J3LDxbvrzVStD23fJj4xZMB9eRcLgWuknX";
+
 export default function Profile() {
   const params = useParams();
   const id = params.id;
 
   const [profile, setProfile] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
-
-  const defaultProfileImage = "https://vutz38vdur.ufs.sh/f/O8iVoUnKSnAlP7J3LDxbvrzVStD23fJj4xZMB9eRcLgWuknX";
-
-  // redux
   const dispatch = useDispatch();
 
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/profile/${id}`);
-
-      if (!response?.data?.id) {
-        throw new Error("Invalid profile data: missing user ID");
-      }
-
-      setProfile(response.data);
-
-      // redux
+      const url = `/api/profile/${id}`;
+      // An edit made in the dashboard can land while the cached copy is still
+      // inside its TTL, so compare the server's row fingerprint first and force
+      // past the cache when it has moved. Without this the edit would only show
+      // after a hard reload.
+      const changed = await syncVersion(String(id));
+      const response = await getJSON<any>(url, changed ? { force: true } : {});
+      if (!response?.id) throw new Error("Invalid profile data: missing user ID");
+      setProfile(response);
       dispatch(
         setUserInfo({
           id: id,
-          role: response.data.role,
-          name: response.data.name,
-          domain: response.data.domain,
-          email: response.data.email,
-          workEmail: response.data.workEmail,
-        }),
+          role: response.role,
+          name: response.name,
+          domain: response.domain,
+          email: response.email,
+          workEmail: response.workEmail,
+        })
       );
     } catch (error: any) {
       console.error("Error fetching data:", error?.response || error.message);
@@ -67,210 +56,119 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    if (id) {
-      fetchProfile().then(() => {
-        // Automatically trigger confetti for demonstration
-        triggerConfetti();
-      });
-    }
+    if (id) fetchProfile();
   }, [id]);
 
-  const triggerConfetti = () => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (loading) {
+    return (
+      <section className="bento" aria-busy="true" aria-label="Loading profile">
+        <div className="glass shimmer h-[300px] sm:col-span-6 lg:col-span-8" />
+        <div className="glass shimmer h-[300px] sm:col-span-6 lg:col-span-4" />
+      </section>
+    );
+  }
 
-    const colors = ["#183153", "#74c0fc", "#fab306", "#f3b74d", "#e47a54", "#ffffff"];
-    const end = Date.now() + 1400;
-
-    (function frame() {
-      confetti({
-        particleCount: 3,
-        angle: 62,
-        spread: 72,
-        startVelocity: 20,
-        gravity: 0.95,
-        origin: { x: 0, y: 0.85 },
-        colors,
-        zIndex: 1200,
-      });
-      confetti({
-        particleCount: 3,
-        angle: 118,
-        spread: 72,
-        startVelocity: 20,
-        gravity: 0.95,
-        origin: { x: 1, y: 0.85 },
-        colors,
-        zIndex: 1200,
-      });
-      confetti({
-        particleCount: 2,
-        angle: 90,
-        spread: 64,
-        startVelocity: 18,
-        gravity: 1,
-        origin: { x: Math.random() * 0.5 + 0.25, y: 1 },
-        colors,
-        zIndex: 1200,
-      });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    })();
-    // confetti({
-    //   particleCount: 400,
-    //   spread: 150,
-    //   origin: { y: 0.3 },
-    // });
-    // confetti({
-    //   particleCount: 100,
-    //   spread: 70,
-    //   origin: { y: 0.6 },
-    //   colors: colors,
-    // });
-  };
-
-  const stopConfetti = () => {
-    confetti.reset();
-  };
+  const image = profile?.imageUrl || FALLBACK;
+  const contactEmail = profile?.workEmail || profile?.email;
 
   return (
     <>
-      <section className="introduction sm:pb-6 pb-3">
-        <div className="flex justify-between mb-5">
-          <div className="flex items-center gap-2 mb-4">
-            {loading ? (
-              <Skeleton className="h-[26px] w-[100px] rounded-full mx-auto" />
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faCircle} className="w-2 h-2 text-[#9b9ca5] dark:text-sky" />
-                <div className="job-title font-medium text-gray-800 dark:text-gray-300">{profile?.jobTitle ? profile.jobTitle : "Self Employed"}</div>
-              </>
+      {/* ══ IDENTITY ══════════════════════════════════════════ */}
+      {/* Identity and contact live in ONE panel: the portrait sets the row
+          height, and a separate meta row underneath left a dead gap in the
+          text column. Meta is now an inline strip, so the column fills. */}
+      <section className="bento">
+        <div className="glass pad rise sm:col-span-6 lg:col-span-8">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="chip chip-acc">
+              <Briefcase className="h-3.5 w-3.5" strokeWidth={1.75} />
+              {profile?.jobTitle || "Self Employed"}
+            </span>
+            <span className="chip">
+              <span className="pin" />
+              Published profile
+            </span>
+          </div>
+
+          <h1 className="tt-h1 mt-4">
+            Hi, I&apos;m <span className="acc">{profile?.name?.split(" ")[0] || "there"}</span>
+          </h1>
+
+          <p className="tt-body mt-3 max-w-xl">
+            {profile?.bio ||
+              "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
+          </p>
+
+          {/* Inline meta strip — fills the column instead of a separate row */}
+          <div className="mt-5 grid gap-2 sm:grid-cols-2">
+            {contactEmail && (
+              <div className="glass-lite flex items-center gap-2.5 rounded-tile px-3 py-2.5">
+                <Mail className="h-4 w-4 shrink-0 text-muted-ink" strokeWidth={1.75} />
+                <div className="min-w-0">
+                  <p className="tt-mono text-[0.625rem]">Get in touch</p>
+                  <p className="truncate text-[0.8125rem] font-semibold text-ink">{contactEmail}</p>
+                </div>
+              </div>
+            )}
+            {profile?.updatedAt && (
+              <div className="glass-lite flex items-center gap-2.5 rounded-tile px-3 py-2.5">
+                <CalendarDays className="h-4 w-4 shrink-0 text-muted-ink" strokeWidth={1.75} />
+                <div className="min-w-0">
+                  <p className="tt-mono text-[0.625rem]">Last updated</p>
+                  <p className="truncate font-mono text-[0.8125rem] font-semibold text-ink">
+                    {new Date(profile.updatedAt).toLocaleDateString("en-SG")}
+                  </p>
+                </div>
+              </div>
             )}
           </div>
-          <Link href={process.env.NODE_ENV === "production" ? "https://astra-portfolio.vercel.app" : "/"}>
-            <div className="status uppercase tracking-wider text-end">
-              <Badge variant={"sky"} className="font-semibold">
-                <FontAwesomeIcon
-                  // icon={faSeedling}
-                  icon={faRocket}
-                  className="sm:me-2" // Hide on screens larger than sm (small)
-                  color="#183153"
-                />
-                <Tippy content={"Redirect to Home"} placement="bottom">
-                  <span className="hidden sm:block">
-                    {/* Available for Hire */}
-                    Astra Portfolio
-                  </span>
-                </Tippy>
-              </Badge>
-            </div>
-          </Link>
+
+          <div className="mt-5 flex flex-wrap items-center gap-2.5">
+            {profile?.resumeUrl ? (
+              <Link href={profile.resumeUrl} target="_blank" rel="noopener noreferrer" className="btn btn-acc">
+                Resume
+                <FileText className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              </Link>
+            ) : (
+              <span className="btn btn-glass" aria-disabled="true">
+                Resume
+                <FileText className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              </span>
+            )}
+            <CopyToClipboard
+              text={profile?.workEmail || profile?.email}
+              onCopy={() => profile?.workEmail && toast.success("Copied to clipboard!")}
+            >
+              <button className="btn btn-glass">
+                Copy email
+                <Copy className="h-[18px] w-[18px]" strokeWidth={1.75} />
+              </button>
+            </CopyToClipboard>
+            <Link href="/projects" className="btn btn-bare">
+              See the work
+              <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+            </Link>
+          </div>
         </div>
 
-        {
-          <div className="grid md:grid-cols-12 gap-6 sm:mb-0 mb-4 text-center sm:text-left">
-            <div className="md:col-span-8 sm:order-first order-last">
-              <div className="w-full">
-                {loading ? (
-                  <div>
-                    <Skeleton className="h-8 max-w-52 rounded-full mx-auto sm:mx-0" />
-                  </div>
-                ) : (
-                  <div className="name sm:text-4xl text-2xl font-medium dark:text-zinc-200">
-                    Hi, I&apos;m <span className="text-primary">{profile?.name ? profile.name.split(" ")[0] : "..."}</span>
-                  </div>
-                )}
-                {loading ? (
-                  <div className="flex flex-col items-center sm:items-start justify-start">
-                    <Skeleton className="h-4 w-64 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
-                    <Skeleton className="h-4 w-72 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
-                    <Skeleton className="h-4 w-80 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
-                    <Skeleton className="h-4 w-72 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
-                    <Skeleton className="h-4 w-64 rounded-lg sm:text-base text-base mt-3 dark:text-zinc-300" />
-                  </div>
-                ) : (
-                  <div className="description mt-3 text-gray-900 font-normal sm:text-base text-base dark:text-zinc-300">
-                    {profile?.bio
-                      ? profile.bio
-                      : "Welcome to my creative space! I thrive on turning ideas into reality and bringing concepts to life."}
-                  </div>
-                )}
-                <div className="buttons mt-6 space-x-3">
-                  {loading ? (
-                    <>
-                      <Skeleton className="inline-block w-28 h-10 rounded-md" />
-                      <Skeleton className="inline-block w-28 h-10 rounded-md" />
-                    </>
-                  ) : (
-                    <>
-                      {profile?.resumeUrl ? (
-                        <Link href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
-                          <Button variant={"navy"}>
-                            <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-                            Resume
-                          </Button>
-                        </Link>
-                      ) : (
-                        <Button variant={"navy"} disabled>
-                          <FontAwesomeIcon icon={faFile} className="me-2" color="#ffffff" />
-                          Resume
-                        </Button>
-                      )}
-
-                      {profile?.workEmail ? (
-                        <CopyToClipboard
-                          text={profile?.workEmail}
-                          onCopy={() => {
-                            toast.success("Copied to clipboard!");
-                          }}
-                        >
-                          <Button variant={"secondary"}>
-                            <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
-                            Copy Email
-                          </Button>
-                        </CopyToClipboard>
-                      ) : (
-                        <CopyToClipboard text={profile?.email} onCopy={() => {}}>
-                          <Button variant={"secondary"}>
-                            <FontAwesomeIcon icon={faCopy} className="me-2 dark:text-white" color="#000000" />
-                            Copy Email
-                          </Button>
-                        </CopyToClipboard>
-                      )}
-                    </>
-                  )}
-                </div>
-
-                <div className="text-sm mt-6 text-blue-500 dark:text-zinc-400">
-                  {loading ? (
-                    <div className="flex items-center justify-center sm:justify-start">
-                      <Skeleton className="h-4 w-52 rounded-lg sm:text-base text-base dark:text-zinc-300" />
-                    </div>
-                  ) : (
-                    `Last updated on: ${new Date(profile?.updatedAt).toLocaleDateString("en-SG")}`
-                  )}
-                </div>
-              </div>
+        {/* Portrait. The image is absolutely positioned so it cannot
+            contribute to layout height — an in-flow `h-full` image resolves to
+            `auto` here (the grid item's own height is auto) and its intrinsic
+            height then forces the whole row taller than the text column,
+            which is what left dead space under the buttons. */}
+        <div className="rise h-full sm:col-span-6 lg:col-span-4" style={{ animationDelay: "90ms" }}>
+          <Tilt max={5} className="h-full" innerClassName="h-full">
+            <div className="glass relative h-full min-h-[220px] select-none overflow-hidden rounded-panel">
+              <ProfileToast profile={profile} defaultProfileImage={FALLBACK}>
+                <img
+                  src={image}
+                  alt={profile?.name}
+                  className="absolute inset-0 h-full w-full object-cover object-top"
+                />
+              </ProfileToast>
             </div>
-            <div className="md:col-span-4 flex items-center justify-center">
-              <div className="w-36 h-36">
-                {loading ? (
-                  <Skeleton className="w-full h-full rounded-full" />
-                ) : (
-                  <div className="border-4 border-navy dark:border-zinc-300 p-2 rounded-full w-full h-full">
-                    <ProfileToast profile={profile} defaultProfileImage={defaultProfileImage}>
-                      <Avatar className="w-full h-full rounded-full overflow-hidden">
-                        <AvatarImage src={profile?.imageUrl || defaultProfileImage} alt={profile?.name} className="object-cover w-full h-full" />
-                        <AvatarFallback>{profile?.name}</AvatarFallback>
-                      </Avatar>
-                    </ProfileToast>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        }
+          </Tilt>
+        </div>
       </section>
 
       <Experiences />

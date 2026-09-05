@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { revalidateProfile } from "@/lib/revalidate";
 
 // get profile by user id
 export async function GET(req: NextRequest, context: { params: { id: string } }) {
@@ -77,6 +78,10 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
         jobTitle: updatedProfileData.jobTitle,
       },
     });
+
+    // Covers both writes above: the social links are read back through the
+    // profile reader, which hangs off the same profile-scoped tags.
+    revalidateProfile(updatedProfile.id);
 
     return NextResponse.json(updatedProfile);
   } catch (error) {
