@@ -19,7 +19,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         white: "bg-white text-black hover:bg-white/80",
         navy: "bg-[#1c3454] text-primary-foreground hover:bg-[#1c3454]/90 dark:text-white",
-        cheese: "bg-cheese text-black hover:bg-cheese/90",
+        cheese: "bg-acc text-on-acc hover:bg-acc-hi",
         sky: "bg-[#74c0fc] text-[#183153] hover:bg-strawberry/90",
         ocean: "bg-[#3e6392] text-[#ffffff] hover:bg-[#3e6392]/90",
         diamond: "bg-[#63e6be] text-[#183153] hover:bg-[#63e6be]/90",

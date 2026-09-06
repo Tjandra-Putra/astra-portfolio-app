@@ -16,7 +16,7 @@ export function StageDecor({ className = "", ...rest }: React.HTMLAttributes<HTM
     <div {...rest} className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`} aria-hidden="true">
       {/* Concentric rings, anchored off the right edge */}
       <svg
-        className="absolute -right-[14%] -top-[22%] h-[min(78vw,760px)] w-[min(78vw,760px)] text-hairline-2"
+        className="absolute -right-[10%] -top-[18%] hidden h-[min(58vw,620px)] w-[min(58vw,620px)] text-hairline-2 md:block"
         viewBox="0 0 400 400"
         fill="none"
       >
@@ -31,7 +31,7 @@ export function StageDecor({ className = "", ...rest }: React.HTMLAttributes<HTM
       </svg>
 
       {/* Measure scale down the left edge */}
-      <svg className="absolute left-0 top-[18%] h-[460px] w-9 text-hairline-2" viewBox="0 0 36 460" fill="none">
+      <svg className="absolute left-0 top-[18%] hidden h-[460px] w-9 text-hairline-2 sm:block" viewBox="0 0 36 460" fill="none">
         <line x1="0.5" y1="0" x2="0.5" y2="460" stroke="currentColor" strokeWidth="0.6" />
         {Array.from({ length: 24 }).map((_, i) => (
           <line
@@ -47,7 +47,7 @@ export function StageDecor({ className = "", ...rest }: React.HTMLAttributes<HTM
       </svg>
 
       {/* Plus lattice, bottom-left */}
-      <svg className="absolute -left-4 bottom-[6%] h-40 w-64 text-hairline-2" viewBox="0 0 256 160" fill="none">
+      <svg className="absolute -left-4 bottom-[6%] hidden h-40 w-64 text-hairline-2 sm:block" viewBox="0 0 256 160" fill="none">
         {Array.from({ length: 5 }).flatMap((_, r) =>
           Array.from({ length: 8 }).map((__, c) => {
             const x = c * 32 + 16;

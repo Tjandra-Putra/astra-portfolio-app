@@ -115,12 +115,12 @@ function MiniTimeline() {
     { role: "Product Intern", org: "GovTech", on: false },
   ];
   return (
-    <div className="glass-bright pad-sm w-full">
+    <div className="glass-bright pad-sm flex h-full w-full flex-col">
       <div className="flex items-center justify-between">
         <p className="tt-h3">Experience</p>
         <span className="tt-mono">2 roles</span>
       </div>
-      <div className="mt-3 grid gap-2">
+      <div className="mt-3 grid flex-1 auto-rows-fr gap-2">
         {rows.map((r) => (
           <div key={r.role} className="glass-lite flex items-center gap-3 rounded-xs px-3 py-2.5">
             <span className={`grid h-7 w-7 place-items-center rounded-xs ${r.on ? "bg-acc text-on-acc" : "glass-well text-ink-soft"}`}>
@@ -139,7 +139,7 @@ function MiniTimeline() {
 
 function MiniCredential() {
   return (
-    <div className="glass-bright pad-sm w-full">
+    <div className="glass-bright pad-sm flex h-full w-full flex-col">
       <div className="flex items-center gap-2.5">
         <span className="grid h-9 w-9 place-items-center rounded-xs bg-acc text-on-acc">
           <CheckCircle2 className="h-[16px] w-[16px]" strokeWidth={2} />
@@ -149,7 +149,7 @@ function MiniCredential() {
           <p className="tt-sub truncate">Verified · 2025</p>
         </div>
       </div>
-      <div className="mt-3 grid grid-cols-3 gap-1.5">
+      <div className="mt-auto grid grid-cols-3 gap-1.5 pt-3">
         {["ID", "Issuer", "Doc"].map((k) => (
           <div key={k} className="glass-well grid place-items-center rounded-xs py-2">
             <span className="tt-mono text-[0.625rem]">{k}</span>
@@ -377,41 +377,48 @@ export default function LandingPage() {
           </div>
 
           {/* Uniform 3 x 3 tracks so the crosshair overlay lands on real grid lines. */}
-          <div data-anim="mesh" className="mesh mesh-3 mesh-even relative mt-6">
-            <MeshCrosshairs cols={3} rows={3} />
+          <div data-anim="mesh" className="mesh mesh-3 relative mt-6">
+            <MeshCrosshairs />
 
             {/* — Projects (2 wide) — */}
-            <div className="cell-wide pad group flex flex-col pat-ticks">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="tt-mono inline-flex items-center gap-2">
-                    <FolderOpen className="h-3.5 w-3.5 text-ink" strokeWidth={2} /> Projects
-                  </p>
+            <div className="cell-wide pad group pat-ticks">
+              <div className="flex h-full flex-col gap-5 sm:flex-row sm:items-center">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="tt-mono inline-flex items-center gap-2">
+                      <FolderOpen className="h-3.5 w-3.5 text-ink" strokeWidth={2} /> Projects
+                    </p>
+                    <span className="expand sm:hidden">
+                      <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+                    </span>
+                  </div>
                   <p className="tt-h2 mt-2.5">Case studies, not link dumps</p>
-                  <p className="tt-body mt-2 max-w-sm">
+                  <p className="tt-body mt-2">
                     Rich text, image galleries, tech tags, live and repo links — plus dates that compute their own
                     duration.
                   </p>
                 </div>
-                <span className="expand">
-                  <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
-                </span>
+                <div className="flex shrink-0 items-start gap-3 sm:w-[19rem]">
+                  <Tilt max={4} className="min-w-0 flex-1">
+                    <MiniProject />
+                  </Tilt>
+                  <span className="expand hidden sm:grid">
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
+                  </span>
+                </div>
               </div>
-              <Tilt max={4} className="mt-4 max-w-[19rem]">
-                <MiniProject />
-              </Tilt>
             </div>
 
             {/* — Stat — */}
-            <div className="pad flex flex-col justify-between pat-dots">
-              <p className="tt-mono">Sections</p>
-              <div>
+            <div className="pad pat-dots">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="tt-mono">Sections</p>
                 <p className="tt-num">
                   <Counter value={4} />
                 </p>
-                <p className="tt-unit mt-1">per portfolio</p>
               </div>
-              <div className="mt-4 grid gap-1.5">
+              <p className="tt-unit mt-1">per portfolio</p>
+              <div className="mt-5 grid gap-1.5">
                 {["Projects", "Experience", "Education", "Certificates"].map((r) => (
                   <div key={r} className="glass-lite flex items-center gap-2 rounded-xs px-2.5 py-1.5">
                     <span className="pin shrink-0" />
@@ -433,7 +440,7 @@ export default function LandingPage() {
               </div>
               <p className="tt-h2 mt-2.5">A timeline kept current</p>
               <p className="tt-body mt-2">Roles, companies and ranges — open-ended dates handled properly.</p>
-              <Tilt max={4} className="mt-4">
+              <Tilt max={4} className="mt-4 flex flex-1 flex-col" innerClassName="flex h-full flex-col">
                 <MiniTimeline />
               </Tilt>
             </div>
@@ -450,13 +457,13 @@ export default function LandingPage() {
               </div>
               <p className="tt-h2 mt-2.5">Degrees with the detail</p>
               <p className="tt-body mt-2">Field, grade and the skills you actually came away with.</p>
-              <div className="glass-well mt-4 grid gap-1.5 rounded-tile p-2">
+              <div className="glass-well mt-4 grid flex-1 auto-rows-fr gap-1.5 rounded-tile p-2">
                 {[
                   { k: "Information Systems", v: "BSc" },
                   { k: "Graduated", v: "2023" },
                   { k: "Result", v: "Distinction" },
                 ].map((r, i) => (
-                  <div key={r.k} className="glass-lite flex items-center justify-between gap-3 rounded-xs px-2.5 py-1.5">
+                  <div key={r.k} className="glass-lite flex items-center justify-between gap-3 rounded-xs px-2.5 py-2">
                     <span className="truncate text-[0.78125rem] font-medium text-ink">{r.k}</span>
                     <span className="flex shrink-0 items-center gap-1.5 font-mono text-[0.6875rem] text-muted-ink">
                       {r.v}
@@ -479,55 +486,57 @@ export default function LandingPage() {
               </div>
               <p className="tt-h2 mt-2.5">Shown, not claimed</p>
               <p className="tt-body mt-2">Attach the document itself, plus the issuer&apos;s verify link.</p>
-              <Tilt max={4} className="mt-4">
+              <Tilt max={4} className="mt-4 flex flex-1 flex-col" innerClassName="flex h-full flex-col">
                 <MiniCredential />
               </Tilt>
             </div>
 
             {/* — Share (2 wide) — */}
-            <div className="cell-wide pad flex flex-col justify-between pat-wedge">
-              <div className="flex gap-4">
-                <span className="mt-0.5 w-[3px] shrink-0 rounded-full bg-acc" />
-                <div>
-                  <p className="tt-mono">Distribution</p>
-                  <p className="tt-h2 mt-2.5">One link, anywhere you need it</p>
-                  <p className="tt-body mt-2 max-w-md">
-                    A clean public URL for applications, DMs and email signatures. Update the content and the link
-                    never changes.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
+            <div className="cell-wide pad pat-wedge">
+              <div className="flex h-full gap-4">
+                <span className="w-[3px] shrink-0 rounded-full bg-acc" />
+                <div className="flex min-w-0 flex-1 flex-col gap-5 sm:flex-row sm:items-center">
+                  <div className="min-w-0 flex-1">
+                    <p className="tt-mono">Distribution</p>
+                    <p className="tt-h2 mt-2.5">One link, anywhere you need it</p>
+                    <p className="tt-body mt-2">
+                      A clean public URL for applications, DMs and email signatures. Update the content and the link
+                      never changes.
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 flex-wrap gap-2 sm:w-[13rem] sm:flex-col sm:items-start">
                 {[
                   { icon: Link2, label: "astra.app/you" },
                   { icon: Share2, label: "Copy & send" },
                   { icon: Globe, label: "Public by default" },
                   { icon: CheckCircle2, label: "Per-section privacy" },
                 ].map(({ icon: Icon, label }) => (
-                  <span key={label} className="chip">
-                    <Icon className="h-3.5 w-3.5" strokeWidth={2} /> {label}
-                  </span>
-                ))}
+                      <span key={label} className="chip">
+                        <Icon className="h-3.5 w-3.5" strokeWidth={2} /> {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* — Stat — */}
-            <div className="pad flex flex-col justify-between pat-rings">
-              <p className="tt-mono">Price</p>
-              <div>
+            <div className="pad pat-rings">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="tt-mono">Price</p>
                 <p className="tt-num">
                   $<Counter value={0} />
                 </p>
-                <p className="tt-unit mt-1">to publish, forever</p>
               </div>
+              <p className="tt-unit mt-1">to publish, forever</p>
               <SignedOut>
-                <Link href="/sign-in" className="btn btn-acc mt-4 w-full">
+                <Link href="/sign-in" className="btn btn-acc mt-5 w-full">
                   Start free
                   <ArrowRight className="hov-arrow h-4 w-4" strokeWidth={2} />
                 </Link>
               </SignedOut>
               <SignedIn>
-                <Link href="/manage" className="btn btn-acc mt-4 w-full">
+                <Link href="/manage" className="btn btn-acc mt-5 w-full">
                   Dashboard
                   <ArrowRight className="hov-arrow h-4 w-4" strokeWidth={2} />
                 </Link>
@@ -546,8 +555,8 @@ export default function LandingPage() {
           </div>
 
           {/* One panel divided into three, rather than three floating cards. */}
-          <div data-anim="mesh" className="mesh mesh-3 mesh-even relative mt-6">
-            <MeshCrosshairs cols={3} rows={1} />
+          <div data-anim="mesh" className="mesh mesh-3 relative mt-6">
+            <MeshCrosshairs />
             {[
               { n: "01", t: "Sign in", d: "One click with your email. No setup, no template picking, no theme store." },
               { n: "02", t: "Fill your sections", d: "Add projects, roles, schools and certificates from a single dashboard." },

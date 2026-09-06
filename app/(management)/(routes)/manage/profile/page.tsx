@@ -1,25 +1,30 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import Link from "next/link";
 import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { FileUpload } from "@/components/file-upload";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
-import Loader from "@/components/layout/loader";
+import { Camera, Check, FileText, Link2, Loader2, Mail, Plus, Trash2, User } from "lucide-react";
+
+/* Shared field styling. The shadcn primitives ship their own bridge utilities
+   (bg-background, border-input, h-10, focus rings) which sit in Tailwind's
+   utilities layer and would otherwise win over `.field` — these neutralise them
+   with tokens so the glass treatment shows through in both themes. */
+const FIELD =
+  "field h-[42px] rounded-md border-0 bg-glass-deep px-3.5 text-[0.9375rem] focus-visible:ring-0 focus-visible:ring-offset-0";
+const FIELD_AREA =
+  "field h-auto min-h-0 rounded-md border-0 bg-glass-deep px-3.5 py-3 text-[0.9375rem] focus-visible:ring-0 focus-visible:ring-offset-0 resize-none whitespace-pre-line";
+const LABEL = "tt-sub text-[0.78125rem]";
+const ERROR = "text-[0.78125rem] text-[color:var(--acc-text)]";
 
 const socialMediaPlatforms = [
   { value: "fa-linkedin, fa-brands", label: "LinkedIn" },
@@ -110,6 +115,14 @@ const EditProfilePage = () => {
     },
   });
 
+  /* Renders the same `socialMedia.${index}` paths the payload already used —
+     `keyName` is moved off "id" so the row's real database id survives. */
+  const { fields: socialFields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "socialMedia",
+    keyName: "_key",
+  });
+
   const fetchProfile = async () => {
     try {
       setLoading(true);
@@ -181,261 +194,351 @@ const EditProfilePage = () => {
     }
   };
 
-  return loading || !isProfileLoaded ? (
-    <Loader />
-  ) : (
-    <React.Fragment>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex items-center gap-2 mb-3">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Manage Profile</div>
-          </div>
-
-          <div className="text-gray-800 dark:text-zinc-300 font-normal text-sm sm:text-base">
-            Leave the field blank if you do not want to update the information. If you want to update the information, please fill in the field.
-          </div>
-
-          <Badge variant="navy" className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Basic Information
-          </Badge>
-
-          <div className="bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-lg">
-            <section className="mb-5">
-              <div className="grid grid-cols-12 items-center justify-center gap-4">
-                <div className="col-span-6 col-start-1">
-                  <div className="leading-7">
-                    <Label htmlFor="picture">Profile Photo</Label>
-                    <div className="font-light text-sm">Recommended size: 300x300px</div>
-                  </div>
-                </div>
-
-                <div className="col-span-6 text-center">
-                  <FormField
-                    control={form.control}
-                    name="imageUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+  if (loading || !isProfileLoaded) {
+    return (
+      <div className="grid gap-3">
+        <div className="glass pad rise">
+          <div className="glass-lite shimmer h-3 w-24 rounded-xs" />
+          <div className="glass-lite shimmer mt-3 h-6 w-52 rounded-xs" />
+        </div>
+        <div className="grid gap-3 lg:grid-cols-12">
+          <div className="grid gap-3 lg:col-span-8">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="glass pad rise" style={{ animationDelay: `${i * 50}ms` }}>
+                <div className="glass-lite shimmer h-3 w-20 rounded-xs" />
+                <hr className="rule my-3" />
+                <div className="grid gap-3">
+                  <div className="glass-lite shimmer h-[42px] rounded-md" />
+                  <div className="glass-lite shimmer h-[42px] rounded-md" />
                 </div>
               </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="First Name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="jobTitle"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Profession</FormLabel>
-                        <FormControl>
-                          <Input placeholder="E.g Software Engineer" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="grid gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="workEmail"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Contact Email <span className="text-sm text-gray-600 font-light">(Optional)</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="E.g tjandrap.work@gmail.com" {...field} />
-                        </FormControl>
-                        <FormDescription>If no email is provided, the email used to sign up will be used.</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="grid gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="bio"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Bio</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Introduce yourself in a few words." className="resize-none whitespace-pre-line" {...field} />
-                        </FormControl>
-                        <FormDescription>Introduce yourself in a few words for the main page</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="grid gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="about"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>About</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Introduce yourself in detail." className="resize-none whitespace-pre-line" rows={12} {...field} />
-                        </FormControl>
-                        <FormDescription>Introduce yourself in details for the about page.</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <Badge variant="navy" className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Files
-          </Badge>
-
-          <div className="bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-lg">
-            <section className="mb-5">
-              <div className="grid grid-cols-12 items-center justify-center gap-4">
-                <div className="col-span-6 col-start-1">
-                  <div className="leading-7">
-                    <Label htmlFor="picture">
-                      <p>Current Resume:</p>
-                      {profile?.resumeUrl ? (
-                        <Badge variant={"diamond"} className="text-xs my-4">
-                          Uploaded <FontAwesomeIcon icon={faCircleCheck} className="ps-1" />
-                        </Badge>
-                      ) : (
-                        <Badge variant={"ocean"} className="text-xs my-2">
-                          Not Uploaded
-                        </Badge>
-                      )}
-                    </Label>
-                    <div className="text-sm">The file must be in PDF format and less than 5MB.</div>
-                  </div>
-                </div>
-
-                <div className="col-span-6 text-center">
-                  <FormField
-                    control={form.control}
-                    name="resumeUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <FileUpload endpoint="messageFile" value={field.value || ""} onChange={field.onChange} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <Badge variant="navy" className="text-base font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Social Media
-          </Badge>
-
-          <div className="bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-lg">
-            {[0, 1, 2, 3].map((index) => (
-              <section key={index} className="mb-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="col-span-1">
-                    <FormField
-                      control={form.control}
-                      name={`socialMedia.${index}.platform`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{`Social Media (${index + 1})`}</FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value || ""}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {socialMediaPlatforms.map((platform) => (
-                                <SelectItem key={platform.value} value={platform.value}>
-                                  {platform.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="col-span-1">
-                    <FormField
-                      control={form.control}
-                      name={`socialMedia.${index}.url`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Link</FormLabel>
-                          <FormControl>
-                            <Input type="text" placeholder="E.g https://www.example.com" {...field} className="text-[#007bff]" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-              </section>
             ))}
           </div>
+          <div className="grid gap-3 lg:col-span-4">
+            <div className="glass pad rise">
+              <div className="glass-lite shimmer h-3 w-20 rounded-xs" />
+              <hr className="rule my-3" />
+              <div className="glass-lite shimmer h-28 rounded-tile" />
+            </div>
+            <div className="glass pad rise">
+              <div className="glass-lite shimmer h-10 rounded-md" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-          <Button variant={"diamond"} className="w-full font-semibold mt-5" type="submit" disabled={isEditing}>
-            {isEditing ? (
-              <span className="flex items-center justify-center">
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Saving...
-              </span>
-            ) : (
-              "Save Changes"
-            )}
-          </Button>
-        </form>
-      </Form>
-    </React.Fragment>
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-3">
+        {/* ══ Section header ═══════════════════════════════════ */}
+        <header className="glass pad rise flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="tt-mono">Account</p>
+            <h1 className="tt-h2 mt-1.5 truncate">Profile</h1>
+          </div>
+          <p className="tt-sub max-w-sm shrink-0">
+            Blank fields are left untouched. Fill in only what you want to change.
+          </p>
+        </header>
+
+        <div className="grid gap-3 lg:grid-cols-12">
+          {/* ══ Main column ════════════════════════════════════ */}
+          <div className="grid gap-3 lg:col-span-8">
+            {/* ── Identity ── */}
+            <section className="glass pad rise">
+              <div className="flex items-center gap-2">
+                <User className="h-3.5 w-3.5 text-muted-ink" strokeWidth={1.75} />
+                <p className="tt-mono">Identity</p>
+              </div>
+              <hr className="rule my-3" />
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={LABEL}>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="First Name" className={FIELD} {...field} />
+                      </FormControl>
+                      <FormMessage className={ERROR} />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="jobTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={LABEL}>Profession</FormLabel>
+                      <FormControl>
+                        <Input placeholder="E.g Software Engineer" className={FIELD} {...field} />
+                      </FormControl>
+                      <FormMessage className={ERROR} />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="mt-3">
+                <FormField
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={LABEL}>Bio</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Introduce yourself in a few words." rows={3} className={FIELD_AREA} {...field} />
+                      </FormControl>
+                      <FormDescription className="tt-sub text-[0.78125rem]">
+                        Introduce yourself in a few words for the main page
+                      </FormDescription>
+                      <FormMessage className={ERROR} />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </section>
+
+            {/* ── About ── */}
+            <section className="glass pad rise" style={{ animationDelay: "50ms" }}>
+              <div className="flex items-center gap-2">
+                <FileText className="h-3.5 w-3.5 text-muted-ink" strokeWidth={1.75} />
+                <p className="tt-mono">About</p>
+              </div>
+              <hr className="rule my-3" />
+
+              <FormField
+                control={form.control}
+                name="about"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={LABEL}>Long form</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Introduce yourself in detail." rows={12} className={FIELD_AREA} {...field} />
+                    </FormControl>
+                    <FormDescription className="tt-sub text-[0.78125rem]">
+                      Introduce yourself in details for the about page.
+                    </FormDescription>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+            </section>
+
+            {/* ── Contact ── */}
+            <section className="glass pad rise" style={{ animationDelay: "100ms" }}>
+              <div className="flex items-center gap-2">
+                <Mail className="h-3.5 w-3.5 text-muted-ink" strokeWidth={1.75} />
+                <p className="tt-mono">Contact</p>
+              </div>
+              <hr className="rule my-3" />
+
+              <div className="grid gap-3">
+                <div className="glass-lite pad-sm rounded-tile">
+                  <p className="tt-mono">Account email</p>
+                  <p className="mt-1 truncate text-[0.8125rem] font-medium text-ink">{profile?.email || "—"}</p>
+                  <p className="tt-sub mt-1">The address you signed up with. It is not editable here.</p>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="workEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={LABEL}>Contact email (optional)</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="E.g tjandrap.work@gmail.com" className={FIELD} {...field} />
+                      </FormControl>
+                      <FormDescription className="tt-sub text-[0.78125rem]">
+                        If no email is provided, the email used to sign up will be used.
+                      </FormDescription>
+                      <FormMessage className={ERROR} />
+                    </FormItem>
+                  )}
+                />
+
+                <hr className="rule" />
+
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className={LABEL}>Résumé</p>
+                    <span className={`chip ${profile?.resumeUrl ? "chip-acc" : ""}`}>
+                      {profile?.resumeUrl ? (
+                        <>
+                          <Check className="h-3 w-3" strokeWidth={2.5} /> Uploaded
+                        </>
+                      ) : (
+                        "Not uploaded"
+                      )}
+                    </span>
+                  </div>
+                  <p className="tt-sub mt-1">PDF only, under 5MB.</p>
+
+                  <div className="glass-well pad-sm mt-2 grid place-items-center rounded-tile">
+                    <FormField
+                      control={form.control}
+                      name="resumeUrl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <FileUpload endpoint="messageFile" value={field.value || ""} onChange={field.onChange} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ── Social links ── */}
+            <section className="glass pad rise" style={{ animationDelay: "150ms" }}>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <Link2 className="h-3.5 w-3.5 text-muted-ink" strokeWidth={1.75} />
+                  <p className="tt-mono">Social links</p>
+                </div>
+                <span className="tt-sub">{socialFields.length} row{socialFields.length === 1 ? "" : "s"}</span>
+              </div>
+              <hr className="rule my-3" />
+
+              <div className="grid gap-2">
+                {socialFields.map((row, index) => (
+                  <div key={row._key} className="glass-lite pad-sm rounded-tile">
+                    <div className="flex items-start gap-2">
+                      <div className="grid min-w-0 flex-1 gap-3 sm:grid-cols-2">
+                        <FormField
+                          control={form.control}
+                          name={`socialMedia.${index}.platform`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className={LABEL}>Platform</FormLabel>
+                              <Select onValueChange={field.onChange} value={field.value || ""}>
+                                <FormControl>
+                                  <SelectTrigger
+                                    className={`${FIELD} justify-between focus:ring-0 focus:ring-offset-0`}
+                                  >
+                                    <SelectValue placeholder="Select" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {socialMediaPlatforms.map((platform) => (
+                                    <SelectItem key={platform.value} value={platform.value}>
+                                      {platform.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage className={ERROR} />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name={`socialMedia.${index}.url`}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className={LABEL}>Link</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="text"
+                                  placeholder="E.g https://www.example.com"
+                                  className={`${FIELD} text-[color:var(--acc-text)]`}
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage className={ERROR} />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        aria-label={`Remove social link ${index + 1}`}
+                        className="iconbtn iconbtn-sm mt-[1.375rem] shrink-0"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => append({ id: "", platform: "", url: "" })}
+                className="btn btn-glass btn-sm mt-3"
+              >
+                <Plus className="h-4 w-4" strokeWidth={2} />
+                Add link
+              </button>
+            </section>
+          </div>
+
+          {/* ══ Sidebar ════════════════════════════════════════ */}
+          <aside className="grid gap-3 self-start lg:col-span-4 lg:sticky lg:top-0">
+            {/* ── Photo / media ── */}
+            <section className="glass pad rise" style={{ animationDelay: "50ms" }}>
+              <div className="flex items-center gap-2">
+                <Camera className="h-3.5 w-3.5 text-muted-ink" strokeWidth={1.75} />
+                <p className="tt-mono">Photo</p>
+              </div>
+              <hr className="rule my-3" />
+
+              <div className="glass-well pad-sm grid place-items-center rounded-tile">
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage className={ERROR} />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <p className="tt-sub mt-3">Recommended size: 300×300px.</p>
+            </section>
+
+            {/* ── Actions ── */}
+            <section className="glass pad rise" style={{ animationDelay: "100ms" }}>
+              <p className="tt-mono">Actions</p>
+              <hr className="rule my-3" />
+
+              <div className="grid gap-2">
+                <button type="submit" className="btn btn-acc w-full" disabled={isEditing}>
+                  {isEditing ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
+                      Saving…
+                    </>
+                  ) : (
+                    "Save changes"
+                  )}
+                </button>
+
+                <Link href="/manage" className="btn btn-glass w-full">
+                  Cancel
+                </Link>
+              </div>
+
+              <p className="tt-sub mt-3">Changes go live on your public page as soon as they save.</p>
+            </section>
+          </aside>
+        </div>
+      </form>
+    </Form>
   );
 };
 

@@ -199,9 +199,21 @@
     color: var(--ink);
     font-feature-settings: "ss01", "cv01";
   }
+  /* Rich-text output (BlockNote / dangerouslySetInnerHTML) needs real list
+     markers, which Tailwind's preflight strips. But that reverted every list in
+     the app, putting bullets beside nav items and checklists. Bare lists — the
+     ones rich text produces — keep markers; any list we author carries a class
+     and opts out. */
   ul,
   ol {
     list-style: revert;
+  }
+  /* Only the marker and its indent — do NOT reset margin here, it fights the
+     `mt-*` utility on component lists. */
+  ul[class],
+  ol[class] {
+    list-style: none;
+    padding-left: 0;
   }
   ::selection {
     background: var(--acc);

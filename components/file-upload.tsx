@@ -43,7 +43,7 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       <div className="relative">
         <div className="avatar-border rounded-sm">
           <Link href={value} target="_blank">
-            <div className="w-full h-10 bg-navy rounded-lg text-white font-medium  flex items-center justify-center">View PDF</div>
+            <div className="btn btn-glass w-full">View PDF</div>
           </Link>
           <button
             onClick={() => onChange("")}
@@ -67,9 +67,9 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
         console.log(error);
         toast.error(`Upload failed: ${error.message}`);
       }}
-      className="bg-ash text-[#1d3554] p-5"
+      className="glass-well rounded-tile p-5 text-ink"
       appearance={{
-        button: "bg-navy text-white", // Add your desired styles here
+        button: "btn btn-acc", // matches the design system's primary action
       }}
       content={{
         button({ isUploading }) {

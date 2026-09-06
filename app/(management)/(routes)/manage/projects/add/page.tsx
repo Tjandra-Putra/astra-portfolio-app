@@ -2,33 +2,74 @@
 
 import React from "react";
 import axios from "axios";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
+import { Eye, Github, ImageIcon, Link2, Loader2, CalendarRange } from "lucide-react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Loader2 } from "lucide-react";
-
-import { FileUpload } from "@/components/file-upload";
-import { toast } from "sonner";
-import { Editor } from "@/components/text-editors/blocknote-editor";
 import { DatePicker } from "@/components/ui/date-picker";
-// import QuillTextEditor from "@/components/text-editors/quill-editor";
+import { FileUpload } from "@/components/file-upload";
+import { Editor } from "@/components/text-editors/blocknote-editor";
+import { toast } from "sonner";
+
+/* ── Shared field styling ──────────────────────────────────────────────
+   `.field` lives in globals.css. The shadcn Input/Textarea wrappers ship
+   their own `border/bg-background/h-10` utilities which sit in Tailwind's
+   utilities layer and would win over `.field`, so the raw elements are used
+   directly inside <FormControl> — the Slot still forwards every a11y prop
+   and the react-hook-form wiring is untouched. */
+const FIELD = "field";
+const FIELD_AREA = "field h-auto resize-none py-3";
+const LABEL = "tt-sub text-[0.78125rem]";
+const ERROR = "text-[0.78125rem] text-[color:var(--acc-text)]";
+const HINT = "tt-sub text-[0.78125rem] text-[color:var(--muted-ink)]";
+
+/* Popover-based shadcn triggers (DatePicker) take no className, so the
+   trigger is restyled from the wrapper. Its PopoverContent is portalled,
+   so `>button` only ever matches the trigger itself. */
+const TRIGGER =
+  "w-full [&>button]:h-[42px] [&>button]:w-full [&>button]:rounded-[var(--r-sm)] [&>button]:border-0 " +
+  "[&>button]:bg-glass-deep [&>button]:px-[14px] [&>button]:text-[0.9375rem] [&>button]:font-normal " +
+  "[&>button]:text-ink [&>button]:shadow-none [&>button:hover]:bg-glass-lite [&>button:hover]:ring-0";
+
+/** A field group: mono label, rule, then the fields. */
+const Panel = ({
+  label,
+  icon: Icon,
+  className = "",
+  delay = 0,
+  children,
+}: {
+  label: string;
+  icon?: React.ElementType;
+  className?: string;
+  delay?: number;
+  children: React.ReactNode;
+}) => (
+  <section className={`glass rise ${className}`} style={{ animationDelay: `${delay}ms` }}>
+    <div className="flex items-center gap-2">
+      {Icon && <Icon className="h-3.5 w-3.5 text-muted-ink" strokeWidth={1.75} />}
+      <p className="tt-mono">{label}</p>
+    </div>
+    <hr className="rule my-3" />
+    <div className="grid gap-4">{children}</div>
+  </section>
+);
+
+/** A switch row — label + explanation on the left, the control on the right. */
+const ToggleRow = ({ title, hint, children }: { title: string; hint: string; children: React.ReactNode }) => (
+  <div className="glass-well flex items-center justify-between gap-3 rounded-tile px-3.5 py-3">
+    <div className="min-w-0">
+      <p className="text-[0.8125rem] font-medium text-ink">{title}</p>
+      <p className="tt-sub mt-0.5">{hint}</p>
+    </div>
+    {children}
+  </div>
+);
 
 const formSchema = z.object({
   thumbnailUrl: z.string(),
@@ -129,402 +170,267 @@ const AddProjectPage = () => {
   };
 
   return (
-    <React.Fragment>
+    <div className="grid gap-3.5">
+      {/* ══ Header ══════════════════════════════════════════ */}
+      <header className="glass pad-lg rise flex flex-wrap items-center justify-between gap-4">
+        <div className="min-w-0">
+          <p className="tt-mono">Work</p>
+          <h1 className="tt-h2 mt-1.5">Add project</h1>
+        </div>
+        <p className="tt-sub max-w-[34ch]">This entry appears on your public profile page.</p>
+      </header>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex items-center gap-2 mb-3">
-            <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-            <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">Add Project </div>
-          </div>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-3.5 lg:grid-cols-12">
+          {/* ══ MAIN ══════════════════════════════════════════ */}
+          <div className="grid content-start gap-3.5 lg:col-span-8">
+            <Panel label="Basics" className="pad-lg" delay={40}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={LABEL}>Name</FormLabel>
+                      <FormControl>
+                        <input className={FIELD} placeholder="E.g Enterprise Development" {...field} />
+                      </FormControl>
+                      <FormMessage className={ERROR} />
+                    </FormItem>
+                  )}
+                />
 
-          <div className="text-gray-800 dark:text-zinc-300 font-normal">
-            Add a project to your portfolio. This will be displayed on your profile page.
-          </div>
-
-          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Introduction
-          </Badge>
-
-          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
-            <section className="mb-5">
-              <div className="grid grid-cols-12 items-center justify-center">
-                <div className="col-span-12 sm:col-span-6">
-                  <div className="leading-7 sm:text-start text-center mb-5">
-                    <Label htmlFor="picture">Project Thumbnail</Label>
-                    <div className="font-light text-sm">Recommended size: any</div>
-                  </div>
-                </div>
-
-                <div className="col-span-12 sm:col-span-6 text-center">
-                  <FormField
-                    control={form.control}
-                    name="thumbnailUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={LABEL}>Company (optional)</FormLabel>
+                      <FormControl>
+                        <input className={FIELD} placeholder="E.g Google" {...field} />
+                      </FormControl>
+                      <FormMessage className={ERROR} />
+                    </FormItem>
+                  )}
+                />
               </div>
-            </section>
 
-            <section className="mb-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="E.g Enterprise Development" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category</FormLabel>
-                        <FormControl>
-                          <Input placeholder="E.g Web Development" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
               <FormField
                 control={form.control}
-                name="description"
+                name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel className={LABEL}>Category</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="E.g This project aims to ..." className="resize-none whitespace-pre-line" rows={10} {...field} />
+                      <input className={FIELD} placeholder="E.g Web Development" {...field} />
                     </FormControl>
-                    <FormDescription>This is a summary of what your project is about.</FormDescription>
-                    <FormMessage />
+                    <FormMessage className={ERROR} />
                   </FormItem>
                 )}
               />
-            </section>
-          </div>
 
-          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Project Details
-          </Badge>
-
-          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
-            <section className="mb-5">
-              <div className="grid gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Company <span className="text-sm text-gray-600 font-light">(Optional)</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="E.g Google" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="startDate"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>Start Date</FormLabel>
-                        <FormControl>
-                          <div className="w-full">
-                            <DatePicker value={field.value} onChange={field.onChange} fullWidth />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  {/* <FormField
-                    control={form.control}
-                    name="startDate"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>Start Date</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
-                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
-                </div>
-
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="endDate"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>
-                          End Date <span className="text-sm text-gray-500 font-light">(Optional)</span>
-                        </FormLabel>
-                        <FormControl>
-                          <div className="w-full">
-                            <DatePicker value={field.value} onChange={field.onChange} fullWidth />
-                            {field.value && (
-                              <button
-                                type="button"
-                                onClick={() => field.onChange(undefined)}
-                                className="text-xs text-red-400 hover:text-red-600 text-left"
-                              >
-                                × Clear (set as Current)
-                              </button>
-                            )}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* <FormField
-                    control={form.control}
-                    name="endDate"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>End Date</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
-                              >
-                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="flex flex-row items-center justify-between rounded-lg border dark:border-[#333335] p-4 bg-white dark:bg-[#1e1e1e]">
-                <div className="space-y-0.5">
-                  <Label htmlFor="is-work-experience">
-                    Your project is visible to everyone <span className="text-sm text-gray-600 font-light">(Optional)</span>
-                  </Label>
-                  <div className="text-sm text-gray-600 font-light">Turning on this option will hide this project from your profile.</div>
-                </div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="visible"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="flex flex-row items-center justify-between rounded-lg border dark:border-[#333335] p-4 bg-white dark:bg-[#1e1e1e]">
-                <div className="space-y-0.5">
-                  <Label htmlFor="is-work-experience">Is this a work experience?</Label>
-                  <div className="text-sm text-gray-600 font-light">Turning on this option will consider this project as a work experience.</div>
-                </div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="isWorkExperience"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="grid gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="workExperienceTitle"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Job Title <span className="text-sm text-gray-600 font-light">(Optional)</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="E.g Software Developer" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Project Links
-          </Badge>
-
-          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
-            <section className="mb-5">
-              <div className="grid gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="projectUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Project Url <span className="text-sm text-gray-600 font-light">(Optional)</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://www.example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section className="mb-5">
-              <div className="grid gap-4">
-                <div className="col-span-1">
-                  <FormField
-                    control={form.control}
-                    name="githubUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Github Url <span className="text-sm text-gray-600 font-light">(Optional)</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://www.github.com/my-project" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Project Tags
-          </Badge>
-          <div className="border dark:border-[#333335] bg-zinc-50 dark:bg-[#1e1e1e] p-5 rounded-bl-lg rounded-br-lg">
-            <section className="mb-5">
               <FormField
                 control={form.control}
                 name="tags"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Tags <span className="text-sm text-gray-600 font-light">(Optional, Comma Separated)</span>
-                    </FormLabel>
+                    <FormLabel className={LABEL}>Tags (optional)</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="E.g This project aims to ..." className="resize-none" {...field} />
+                      <textarea className={FIELD_AREA} rows={2} placeholder="E.g React, TypeScript, Postgres" {...field} />
                     </FormControl>
-                    <FormDescription>This is a summary of what your project is about.</FormDescription>
-                    <FormMessage />
+                    <FormDescription className={HINT}>Comma separated. These show as chips on the project.</FormDescription>
+                    <FormMessage className={ERROR} />
                   </FormItem>
                 )}
               />
-            </section>
+            </Panel>
+
+            <Panel label="Content" className="pad-lg" delay={80}>
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={LABEL}>Description</FormLabel>
+                    <FormControl>
+                      <textarea
+                        placeholder="E.g This project aims to ..."
+                        className={`${FIELD_AREA} whitespace-pre-line`}
+                        rows={8}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription className={HINT}>A short summary of what this project is about.</FormDescription>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+
+              <div>
+                <p className={LABEL}>Main content</p>
+                <div className="glass-well rounded-tile mt-2 p-2">
+                  <Editor onParentEditorChange={handleMarkdownChange} />
+                </div>
+              </div>
+            </Panel>
           </div>
 
-          <Badge variant="navy" className="text-lg font-semibold w-full justify-start mt-7 rounded-lg rounded-bl-none rounded-br-none">
-            Main Content
-          </Badge>
-          <div className="border  p-5 rounded-bl-lg rounded-br-lg">
-            <Editor onParentEditorChange={handleMarkdownChange} />
-          </div>
+          {/* ══ SIDEBAR ═══════════════════════════════════════ */}
+          <aside className="grid content-start gap-3.5 self-start lg:col-span-4 lg:sticky lg:top-0">
+            <Panel label="Visibility" icon={Eye} className="pad" delay={120}>
+              <FormField
+                control={form.control}
+                name="visible"
+                render={({ field }) => (
+                  <ToggleRow title="Visible to everyone" hint="Turn this off to hide the project from your profile.">
+                    <FormItem className="shrink-0 space-y-0">
+                      <FormControl>
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  </ToggleRow>
+                )}
+              />
 
-          {/* <div className="border bg-white p-3 rounded-lg h-[50vh]">
-            <section className="bg-white">
-              <QuillTextEditor onMarkdownChange={handleMarkdownChange} />
+              <FormField
+                control={form.control}
+                name="isWorkExperience"
+                render={({ field }) => (
+                  <ToggleRow title="Work experience" hint="Lists this under experience instead of projects.">
+                    <FormItem className="shrink-0 space-y-0">
+                      <FormControl>
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  </ToggleRow>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="workExperienceTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={LABEL}>Job title (optional)</FormLabel>
+                    <FormControl>
+                      <input className={FIELD} placeholder="E.g Software Developer" {...field} />
+                    </FormControl>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+            </Panel>
+
+            <Panel label="Dates" icon={CalendarRange} className="pad" delay={160}>
+              <FormField
+                control={form.control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className={LABEL}>Start date</FormLabel>
+                    <FormControl>
+                      <div className={TRIGGER}>
+                        <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                      </div>
+                    </FormControl>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className={LABEL}>End date (optional)</FormLabel>
+                    <FormControl>
+                      <div className={`${TRIGGER} flex flex-col gap-2`}>
+                        <DatePicker value={field.value} onChange={field.onChange} fullWidth />
+                        {field.value && (
+                          <button type="button" onClick={() => field.onChange(undefined)} className="btn btn-bare btn-sm w-full">
+                            Clear — set as current
+                          </button>
+                        )}
+                      </div>
+                    </FormControl>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+            </Panel>
+
+            <Panel label="Links" icon={Link2} className="pad" delay={200}>
+              <FormField
+                control={form.control}
+                name="projectUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={LABEL}>Project URL (optional)</FormLabel>
+                    <FormControl>
+                      <input className={FIELD} placeholder="https://www.example.com" {...field} />
+                    </FormControl>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="githubUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={LABEL}>
+                      <Github className="mr-1 inline h-3.5 w-3.5 align-[-2px]" strokeWidth={1.75} />
+                      GitHub URL (optional)
+                    </FormLabel>
+                    <FormControl>
+                      <input className={FIELD} placeholder="https://www.github.com/my-project" {...field} />
+                    </FormControl>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+            </Panel>
+
+            <Panel label="Media" icon={ImageIcon} className="pad" delay={240}>
+              <div>
+                <p className={LABEL}>Thumbnail</p>
+                <p className="tt-sub mt-0.5">Any size. Used as the project cover.</p>
+              </div>
+              <FormField
+                control={form.control}
+                name="thumbnailUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
+                    </FormControl>
+                    <FormMessage className={ERROR} />
+                  </FormItem>
+                )}
+              />
+            </Panel>
+
+            <section className="glass pad rise" style={{ animationDelay: "280ms" }}>
+              <button type="submit" className="btn btn-acc w-full" disabled={isAdding}>
+                {isAdding ? (
+                  <span className="flex items-center justify-center">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" strokeWidth={1.75} />
+                    Adding...
+                  </span>
+                ) : (
+                  "Add project"
+                )}
+              </button>
+              <Link href="/manage/projects" className="btn btn-glass mt-2 w-full">
+                Cancel
+              </Link>
             </section>
-          </div> */}
-
-          <Button variant={"diamond"} className="w-full font-semibold sm:mt-6 mt-3" type="submit" disabled={isAdding}>
-            {isAdding ? (
-              <span className="flex items-center justify-center">
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Adding...
-              </span>
-            ) : (
-              "Add Project"
-            )}
-          </Button>
+          </aside>
         </form>
       </Form>
-    </React.Fragment>
+    </div>
   );
 };
 

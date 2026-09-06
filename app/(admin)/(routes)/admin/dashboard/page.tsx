@@ -3,14 +3,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faEye, faSquareCheck, faBan, faCheck, faTrashCan, faPlusCircle, faCrown } from "@fortawesome/free-solid-svg-icons";
-import { faCircleCheck, faClock } from "@fortawesome/free-regular-svg-icons";
-import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   Dialog,
@@ -26,10 +21,8 @@ import { Input } from "@/components/ui/input";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import Loader from "@/components/layout/loader";
-import { Loader2 } from "lucide-react";
-import { set } from "date-fns";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Ban, Check, Clock, Crown, Eye, Loader2, Plus, ShieldCheck, Trash2, Users } from "lucide-react";
 
 interface UserProfile {
   userId: string;
@@ -204,57 +197,76 @@ const DashboardPage = () => {
     fetchProfiles();
   }, []);
 
+  /** Role as a chip — accent for ADMIN, plain glass otherwise. */
   const renderBadge = (profile: UserProfile) => {
     if (profile.userId.includes("login_pending_user")) {
       return (
-        <Badge variant={"sky"} className="min-w-[5.5rem] flex place-content-center">
-          Pending <FontAwesomeIcon icon={faClock} className="ps-1" />
-        </Badge>
+        <span className="chip">
+          <Clock className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Pending
+        </span>
       );
     } else if (profile.role === "MEMBER") {
       return (
-        <Badge variant={"diamond"} className="min-w-[5.5rem] flex place-content-center">
-          Member <FontAwesomeIcon icon={faCircleCheck} className="ps-1" />
-        </Badge>
+        <span className="chip">
+          <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Member
+        </span>
       );
     } else if (profile.role === "ADMIN") {
       return (
-        <Badge variant={"navy"} className="min-w-[5.5rem] flex place-content-center">
-          Admin <FontAwesomeIcon icon={faCrown} className="ps-1" />
-        </Badge>
+        <span className="chip chip-acc">
+          <Crown className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Admin
+        </span>
       );
     } else {
       return (
-        <Badge variant={"cheese"} className="min-w-[5.5rem] flex place-content-center">
-          Guest <FontAwesomeIcon icon={faClock} className="ps-1" />
-        </Badge>
+        <span className="chip">
+          <Clock className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Guest
+        </span>
       );
     }
   };
 
+  /** Totals the profile list supports: everyone, then a count per role. */
+  const stats = [
+    { label: "Total", value: profiles.length, unit: "profiles" },
+    { label: "Admin", value: profiles.filter((p) => p.role === "ADMIN").length, unit: "admins" },
+    { label: "Member", value: profiles.filter((p) => p.role === "MEMBER").length, unit: "members" },
+    { label: "Guest", value: profiles.filter((p) => p.role === "GUEST").length, unit: "guests" },
+  ];
+
   return (
-    <div>
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <div className="flex items-center gap-2">
-          <FontAwesomeIcon icon={faCircle} className="w-2 h-2" color="#9b9ca5" />
-          <div className="job-title font-medium text-gray-800 dark:text-zinc-200 text-lg">User Management</div>
+    <div className="grid gap-3.5">
+      {/* ══ Section header + add user ═══════════════════════ */}
+      <header className="glass pad-lg rise flex flex-wrap items-center justify-between gap-4">
+        <div className="min-w-0">
+          <p className="tt-mono">Admin</p>
+          <h1 className="tt-h2 mt-1.5 truncate">User management</h1>
         </div>
+
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant={"ash"}>
-              <FontAwesomeIcon icon={faPlusCircle} className="w-3 h-3 pe-2" color="" type="button" />
-              Add
-            </Button>
+            <button type="button" className="btn btn-acc btn-sm shrink-0">
+              <Plus className="h-4 w-4" strokeWidth={2} />
+              Add user
+            </button>
           </DialogTrigger>
 
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="plate pad border-0 shadow-e3 sm:max-w-[440px]">
             <DialogHeader>
-              <DialogTitle>Add User</DialogTitle>
-              <DialogDescription>Enter the email address of the user you want to add to the system.</DialogDescription>
+              <DialogTitle className="tt-h3">Add user</DialogTitle>
+              <DialogDescription className="tt-sub">
+                Enter the email address of the user you want to add to the system.
+              </DialogDescription>
             </DialogHeader>
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
+                <hr className="rule mb-4" />
+
                 <div className="flex flex-col">
                   <div className="mb-4">
                     <FormField
@@ -262,100 +274,164 @@ const DashboardPage = () => {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel className="tt-sub">Email</FormLabel>
                           <FormControl>
-                            <Input type="email" {...field} required />
+                            <Input type="email" className="field border-0" {...field} required />
                           </FormControl>
 
-                          <FormMessage />
+                          <FormMessage className="text-[0.78125rem] text-[color:var(--acc-text)]" />
                         </FormItem>
                       )}
                     />
                   </div>
                 </div>
 
-                <DialogFooter>
-                  <Button type="submit" variant={"diamond"} disabled={loading}>
+                <DialogFooter className="gap-2">
+                  <DialogClose asChild>
+                    <button type="button" className="btn btn-glass btn-sm">
+                      Cancel
+                    </button>
+                  </DialogClose>
+                  <button type="submit" className="btn btn-acc btn-sm" disabled={loading}>
                     {loading ? (
                       <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Adding User
+                        <Loader2 className="h-4 w-4 animate-spin" strokeWidth={1.75} /> Adding user
                       </>
                     ) : (
-                      "Add User"
+                      "Add user"
                     )}
-                  </Button>
+                  </button>
                 </DialogFooter>
               </form>
             </Form>
           </DialogContent>
         </Dialog>
-      </div>
+      </header>
 
-      {loading ? (
-        <Loader />
-      ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Email</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {profiles?.map((profile) => (
-              <TableRow key={profile.id}>
-                <TableCell>{profile.email}</TableCell>
-                <TableCell>{renderBadge(profile)}</TableCell>
-                <TableCell className="text-right flex gap-2">
-                  {profile.role !== "ADMIN" && ( // Check if profile role is not ADMIN
-                    <>
-                      {profile.role === "GUEST" ? (
-                        <Button variant={"secondary"} onClick={() => acceptProfile(profile.id, profile.userId)}>
-                          <FontAwesomeIcon icon={faCheck} />
-                        </Button>
-                      ) : (
-                        <Button variant={"navy"}>
-                          <FontAwesomeIcon icon={faSquareCheck} />
-                        </Button>
-                      )}
+      {/* ══ Totals ══════════════════════════════════════════ */}
+      <section className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
+        {stats.map(({ label, value, unit }, i) => (
+          <div key={label} className="glass pad-sm rise" style={{ animationDelay: `${i * 50}ms` }}>
+            <p className="tt-mono">{label}</p>
+            <p className="tt-num mt-3 text-[1.75rem]">{loading ? "—" : String(value).padStart(2, "0")}</p>
+            <p className="tt-unit mt-0.5">{unit}</p>
+          </div>
+        ))}
+      </section>
 
-                      {profile.role === "GUEST" ? (
-                        <Button variant={"navy"} onClick={() => rejectProfile(profile.id, profile.userId)}>
-                          <FontAwesomeIcon icon={faBan} />
-                        </Button>
-                      ) : (
-                        <Button variant={"secondary"} onClick={() => rejectProfile(profile.id, profile.userId)}>
-                          <FontAwesomeIcon icon={faBan} />
-                        </Button>
-                      )}
-                    </>
-                  )}
+      {/* ══ Profiles — genuinely tabular, so the table stays ═ */}
+      <section className="glass pad rise" style={{ animationDelay: "200ms" }}>
+        <div className="flex items-center justify-between gap-3">
+          <p className="tt-mono">Profiles</p>
+          <span className="tt-sub">{loading ? "Loading" : `${profiles.length} total`}</span>
+        </div>
 
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Button variant={"secondary"}>
-                          <FontAwesomeIcon icon={faEye} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{profile.id}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+        <hr className="rule my-3" />
 
-                  {profile.role !== "ADMIN" && ( // Check if profile role is not ADMIN
-                    <Button variant={"secondary"} onClick={() => deleteProfile(profile.id)}>
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>
+        {loading ? (
+          <div className="grid gap-2" aria-hidden="true">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="glass-lite shimmer h-[52px] rounded-tile" />
             ))}
-          </TableBody>
-        </Table>
-      )}
+          </div>
+        ) : profiles.length === 0 ? (
+          <div className="glass-well pad-lg grid place-items-center rounded-tile text-center">
+            <span className="glass-bright grid h-11 w-11 place-items-center rounded-tile">
+              <Users className="h-5 w-5 text-ink" strokeWidth={1.75} />
+            </span>
+            <p className="tt-h3 mt-3">No profiles yet</p>
+            <p className="tt-sub mt-1">Invite someone by email to get them into the system.</p>
+          </div>
+        ) : (
+          /* The TABLE scrolls sideways here — never the page. */
+          <div className="scrollbar-slim overflow-x-auto">
+            <Table className="min-w-[600px]">
+              <TableHeader className="[&_tr]:border-0">
+                <TableRow className="border-0 hover:bg-transparent">
+                  <TableHead className="tt-mono h-auto px-3 pb-2 pt-0 text-muted-ink">Email</TableHead>
+                  <TableHead className="tt-mono h-auto px-3 pb-2 pt-0 text-muted-ink">Role</TableHead>
+                  <TableHead className="tt-mono h-auto px-3 pb-2 pt-0 text-right text-muted-ink">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+
+              <TableBody>
+                {profiles?.map((profile) => (
+                  <TableRow key={profile.id} className="border-0 hover:bg-glass-lite">
+                    <TableCell className="tt-body max-w-[280px] truncate rounded-l-tile px-3 py-2.5 text-ink">
+                      {profile.email}
+                    </TableCell>
+
+                    <TableCell className="px-3 py-2.5">{renderBadge(profile)}</TableCell>
+
+                    <TableCell className="rounded-r-tile px-3 py-2.5">
+                      <div className="flex items-center justify-end gap-2">
+                        {profile.role !== "ADMIN" && ( // Check if profile role is not ADMIN
+                          <>
+                            {profile.role === "GUEST" ? (
+                              <button
+                                type="button"
+                                aria-label="Accept profile"
+                                title="Accept"
+                                className="iconbtn iconbtn-sm"
+                                onClick={() => acceptProfile(profile.id, profile.userId)}
+                              >
+                                <Check className="h-4 w-4" strokeWidth={1.75} />
+                              </button>
+                            ) : (
+                              <span
+                                aria-label="Already a member"
+                                title="Already a member"
+                                className="iconbtn iconbtn-sm iconbtn-on cursor-default"
+                              >
+                                <Check className="h-4 w-4" strokeWidth={2} />
+                              </span>
+                            )}
+
+                            <button
+                              type="button"
+                              aria-label="Reject profile"
+                              title="Reject"
+                              className={`iconbtn iconbtn-sm ${profile.role === "GUEST" ? "iconbtn-on" : ""}`}
+                              onClick={() => rejectProfile(profile.id, profile.userId)}
+                            >
+                              <Ban className="h-4 w-4" strokeWidth={1.75} />
+                            </button>
+                          </>
+                        )}
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span aria-label="Show reference" className="iconbtn iconbtn-sm cursor-default">
+                                <Eye className="h-4 w-4" strokeWidth={1.75} />
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent className="plate border-0 shadow-e2">
+                              <p className="tt-mono">{profile.id}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        {profile.role !== "ADMIN" && ( // Check if profile role is not ADMIN
+                          <button
+                            type="button"
+                            aria-label="Delete profile"
+                            title="Delete"
+                            className="iconbtn iconbtn-sm"
+                            onClick={() => deleteProfile(profile.id)}
+                          >
+                            <Trash2 className="h-4 w-4" strokeWidth={1.75} />
+                          </button>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+      </section>
     </div>
   );
 };
