@@ -90,7 +90,7 @@ function Masthead() {
 /* ══ Miniature product widgets — illustrate the sections ════ */
 function MiniProject() {
   return (
-    <div className="glass-bright pad-sm w-full">
+    <div className="glass-bright pad-sm cut-br tech-sm w-full">
       <div className="flex items-start justify-between gap-3">
         <span className="glass-lite grid h-9 w-9 place-items-center rounded-xs">
           <Layers className="h-[16px] w-[16px] text-ink" strokeWidth={1.75} />
@@ -139,7 +139,7 @@ function MiniTimeline() {
 
 function MiniCredential() {
   return (
-    <div className="glass-bright pad-sm flex h-full w-full flex-col">
+    <div className="glass-bright pad-sm cut-br tech-sm flex h-full w-full flex-col">
       <div className="flex items-center gap-2.5">
         <span className="grid h-9 w-9 place-items-center rounded-xs bg-acc text-on-acc">
           <CheckCircle2 className="h-[16px] w-[16px]" strokeWidth={2} />
@@ -377,7 +377,7 @@ export default function LandingPage() {
           </div>
 
           {/* Uniform 3 x 3 tracks so the crosshair overlay lands on real grid lines. */}
-          <div data-anim="mesh" className="mesh mesh-3 relative mt-6">
+          <div data-anim="mesh" className="mesh mesh-3 cut-diag tech-lg relative mt-6">
             <MeshCrosshairs />
 
             {/* — Projects (2 wide) — */}
@@ -410,7 +410,8 @@ export default function LandingPage() {
             </div>
 
             {/* — Stat — */}
-            <div className="pad pat-dots">
+            <div className="pad pat-dots marks relative">
+              <span className="edge-tag right-3 top-3">01 / 02</span>
               <div className="flex items-baseline justify-between gap-3">
                 <p className="tt-mono">Sections</p>
                 <p className="tt-num">
@@ -521,7 +522,8 @@ export default function LandingPage() {
             </div>
 
             {/* — Stat — */}
-            <div className="pad pat-rings">
+            <div className="tech-acc pad relative">
+              <span className="edge-tag right-3 top-3">02 / 02</span>
               <div className="flex items-baseline justify-between gap-3">
                 <p className="tt-mono">Price</p>
                 <p className="tt-num">
@@ -530,13 +532,13 @@ export default function LandingPage() {
               </div>
               <p className="tt-unit mt-1">to publish, forever</p>
               <SignedOut>
-                <Link href="/sign-in" className="btn btn-acc mt-5 w-full">
+                <Link href="/sign-in" className="btn btn-dark mt-5 w-full">
                   Start free
                   <ArrowRight className="hov-arrow h-4 w-4" strokeWidth={2} />
                 </Link>
               </SignedOut>
               <SignedIn>
-                <Link href="/manage" className="btn btn-acc mt-5 w-full">
+                <Link href="/manage" className="btn btn-dark mt-5 w-full">
                   Dashboard
                   <ArrowRight className="hov-arrow h-4 w-4" strokeWidth={2} />
                 </Link>
@@ -555,7 +557,7 @@ export default function LandingPage() {
           </div>
 
           {/* One panel divided into three, rather than three floating cards. */}
-          <div data-anim="mesh" className="mesh mesh-3 relative mt-6">
+          <div data-anim="mesh" className="mesh mesh-3 cut-diag tech-lg relative mt-6">
             <MeshCrosshairs />
             {[
               { n: "01", t: "Sign in", d: "One click with your email. No setup, no template picking, no theme store." },
@@ -639,7 +641,7 @@ export default function LandingPage() {
 
         {/* ══ CTA ═══════════════════════════════════════════ */}
         <section className="wrap pb-4">
-          <div data-anim="cta" className="glass pad-lg relative overflow-hidden text-center">
+          <div data-anim="cta" className="tech tech-lg cut-diag rail-top scan pad-lg relative overflow-hidden text-center">
             <div className="orb bottom-[-40%] left-1/2 h-[420px] w-[420px] -translate-x-1/2" />
             <span className="tt-mono inline-flex items-center gap-2"><Sparkles className="h-3.5 w-3.5" strokeWidth={2} /> Free to publish</span>
             <h2 className="tt-h1 mx-auto mt-5 max-w-xl">
