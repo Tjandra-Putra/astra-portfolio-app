@@ -176,6 +176,18 @@
 }
 
 @layer base {
+  /* Minimal page edge on phones. The 40px gutter is right on desktop but eats
+     ~20% of a 390px screen, so every panel loses a fifth of its width to empty
+     margin. All four edges follow this token, so one override moves the whole
+     page frame. */
+  @media (max-width: 639px) {
+    :root {
+      --gutter: 10px;
+    }
+  }
+}
+
+@layer base {
   * {
     @apply border-border;
   }
