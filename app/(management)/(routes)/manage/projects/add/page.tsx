@@ -6,7 +6,7 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, Github, ImageIcon, Link2, Loader2, CalendarRange } from "lucide-react";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -113,6 +113,10 @@ const formSchema = z.object({
 
 const AddProjectPage = () => {
   const router = useRouter();
+  // The Work list links here with ?type=experience so "Add role" opens the
+  // form already set to a work-experience record.
+  const searchParams = useSearchParams();
+  const presetExperience = searchParams.get("type") === "experience";
 
   const [markDownContent, setMarkdownContent] = React.useState<string | undefined>("");
   const [isAdding, setIsAdding] = React.useState<boolean>(false);
@@ -132,7 +136,7 @@ const AddProjectPage = () => {
       content: "",
       startDate: undefined,
       endDate: undefined,
-      isWorkExperience: false,
+      isWorkExperience: presetExperience,
       visible: true,
       tags: "",
     },

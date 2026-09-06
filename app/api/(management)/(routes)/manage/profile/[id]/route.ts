@@ -38,31 +38,45 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
       },
     });
 
-    // Batch update existing social media links
-    if (existingSocialLinks.length > 0) {
-      const updateSocialMediaPromises = updatedProfileData.socialMedia.map(async (socialMedia: any) => {
-        const existingSocialLink = existingSocialLinks.find((link) => link.id === socialMedia.id);
+    /**
+     * Reconcile social links: update, create AND delete.
+     *
+     * This previously only updated rows whose id already existed, so the
+     * editor's "Add link" silently saved nothing and "Remove" left the link
+     * live on the public page — the UI promised two actions the API could not
+     * perform.
+     */
+    const submitted: any[] = Array.isArray(updatedProfileData.socialMedia) ? updatedProfileData.socialMedia : [];
+    const keptIds = new Set(submitted.map((s) => s?.id).filter(Boolean));
 
-        if (existingSocialLink) {
-          const { iconName, iconType } = splitPlatform(socialMedia.platform);
+    await Promise.all([
+      // Rows the user removed from the form.
+      ...existingSocialLinks
+        .filter((link) => !keptIds.has(link.id))
+        .map((link) => db.userSocialLink.delete({ where: { id: link.id } })),
 
+      ...submitted.map((socialMedia: any) => {
+        const { iconName, iconType } = splitPlatform(socialMedia?.platform || "");
+        // A row with no url and no platform is an untouched blank — skip it
+        // rather than persisting an empty link.
+        if (!socialMedia?.url && !iconName) return null;
+
+        const existing = socialMedia?.id
+          ? existingSocialLinks.find((link) => link.id === socialMedia.id)
+          : undefined;
+
+        if (existing) {
           return db.userSocialLink.update({
-            where: {
-              id: existingSocialLink.id,
-            },
-            data: {
-              url: socialMedia.url,
-              iconName,
-              iconType,
-            },
+            where: { id: existing.id },
+            data: { url: socialMedia.url, iconName, iconType },
           });
         }
 
-        return null;
-      });
-
-      await Promise.all(updateSocialMediaPromises);
-    }
+        return db.userSocialLink.create({
+          data: { profileId: profile.id, url: socialMedia.url ?? "", iconName: iconName ?? "", iconType: iconType ?? "" },
+        });
+      }),
+    ].filter(Boolean) as Promise<unknown>[]);
 
     const updatedProfile = await db.profile.update({
       where: {
@@ -91,6 +105,6 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
 }
 
 function splitPlatform(platform: string) {
-  const [iconName, iconType] = platform.split(",").map((part) => part.trim());
+  const [iconName = "", iconType = ""] = (platform || "").split(",").map((part) => part.trim());
   return { iconName, iconType };
 }

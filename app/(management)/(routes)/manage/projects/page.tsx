@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Briefcase, Eye, EyeOff, FolderKanban, Layers, Pencil, Plus, Search, Trash2 } from "lucide-react";
 
 type Filter = "all" | "visible" | "hidden";
+type Tab = "projects" | "experience";
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -16,6 +17,9 @@ const ProjectsPage = () => {
   // Toolbar state — filters the already-fetched array, no extra requests.
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  // Projects and work experience are the same record distinguished by
+  // `isWorkExperience`; the tab picks which kind you are managing.
+  const [tab, setTab] = useState<Tab>("projects");
 
   const fetchProjects = async () => {
     try {
@@ -31,23 +35,21 @@ const ProjectsPage = () => {
   };
 
   const deleteProjectHandler = async (id: string) => {
-    // Display a confirmation prompt
     const confirmed = window.confirm("Are you sure you want to delete this project?");
+    if (!confirmed) return;
 
-    // If the user confirms, proceed with deletion
-    if (confirmed) {
-      console.log("DELETE CONFIRMED");
-      try {
-        setButtonLoading(true);
-        await axios.delete(`/api/manage/projects/${id}`);
-        toast.success("Project deleted successfully");
-      } catch (error) {
-        console.error("Error deleting project:", error);
-      } finally {
-        setButtonLoading(false);
-      }
-    } else {
-      console.log("DELETE CANCELLED");
+    try {
+      setButtonLoading(true);
+      await axios.delete(`/api/manage/project/${id}`);
+      // Drop the row locally. Previously the request succeeded and the record
+      // stayed on screen until a manual reload, which reads as a failed delete.
+      setProjects((current) => current.filter((item: any) => item.id !== id));
+      toast.success("Project deleted successfully");
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      toast.error("Could not delete. Please try again.");
+    } finally {
+      setButtonLoading(false);
     }
   };
 
@@ -60,13 +62,23 @@ const ProjectsPage = () => {
    * experience into two tables, which meant the same record type was managed in
    * two places. The row's icon and subtitle carry the distinction instead.
    */
+  const counts = useMemo(
+    () => ({
+      projects: projects.filter((p) => !p.isWorkExperience).length,
+      experience: projects.filter((p) => p.isWorkExperience).length,
+    }),
+    [projects]
+  );
+
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
+    const wantExperience = tab === "experience";
 
     return projects
       .slice()
       .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
       .filter((project) => {
+        if (Boolean(project?.isWorkExperience) !== wantExperience) return false;
         if (filter === "visible" && !project?.visible) return false;
         if (filter === "hidden" && project?.visible) return false;
         if (!q) return true;
@@ -74,7 +86,12 @@ const ProjectsPage = () => {
           .filter(Boolean)
           .some((value: string) => value.toLowerCase().includes(q));
       });
-  }, [projects, query, filter]);
+  }, [projects, query, filter, tab]);
+
+  const tabs: { key: Tab; label: string; count: number }[] = [
+    { key: "projects", label: "Projects", count: counts.projects },
+    { key: "experience", label: "Experience", count: counts.experience },
+  ];
 
   const filters: { key: Filter; label: string }[] = [
     { key: "all", label: "All" },
@@ -88,15 +105,43 @@ const ProjectsPage = () => {
       <header className="glass pad rise flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="tt-mono">Work</p>
-          <h1 className="tt-h2 mt-1.5">Projects &amp; experience</h1>
+          <h1 className="tt-h2 mt-1.5">{tab === "experience" ? "Experience" : "Projects"}</h1>
         </div>
-        <Link href="/manage/projects/add" className="btn btn-acc btn-sm shrink-0">
-          <Plus className="h-4 w-4" strokeWidth={2} /> Add
+        <Link
+          href={`/manage/projects/add${tab === "experience" ? "?type=experience" : ""}`}
+          className="btn btn-acc btn-sm shrink-0"
+        >
+          <Plus className="h-4 w-4" strokeWidth={2} />
+          {tab === "experience" ? "Add role" : "Add project"}
         </Link>
       </header>
 
-      {/* ══ Toolbar ═════════════════════════════════════════ */}
-      <div className="glass pad-sm rise flex flex-wrap items-center justify-between gap-3" style={{ animationDelay: "60ms" }}>
+      {/* ══ Toolbar: kind tabs (primary) + search and visibility (secondary) ══ */}
+      <div className="glass pad-sm rise grid gap-3" style={{ animationDelay: "60ms" }}>
+        <div className="seg w-full sm:w-auto" role="tablist" aria-label="Record type">
+          {tabs.map(({ key, label, count }) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={tab === key}
+              onClick={() => setTab(key)}
+              className={`seg-btn flex-1 justify-center sm:flex-none ${tab === key ? "is-on" : ""}`}
+            >
+              {key === "experience" ? (
+                <Briefcase className="h-4 w-4" strokeWidth={1.75} />
+              ) : (
+                <Layers className="h-4 w-4" strokeWidth={1.75} />
+              )}
+              {label}
+              <span className="font-mono text-[0.6875rem] text-muted-ink">{String(count).padStart(2, "0")}</span>
+            </button>
+          ))}
+        </div>
+
+        <hr className="rule" />
+
+        <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="relative min-w-0 flex-1 sm:max-w-[22rem]">
           <Search
             className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-ink"
@@ -105,7 +150,7 @@ const ProjectsPage = () => {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search projects, roles, companies"
+            placeholder={tab === "experience" ? "Search roles and companies" : "Search projects"}
             aria-label="Search projects"
             className="field field-icon"
           />
@@ -124,6 +169,7 @@ const ProjectsPage = () => {
             </button>
           ))}
         </div>
+        </div>
       </div>
 
       {/* ══ Records ═════════════════════════════════════════ */}
@@ -139,15 +185,27 @@ const ProjectsPage = () => {
             <span className="glass-bright grid h-12 w-12 place-items-center rounded-tile">
               <FolderKanban className="h-5 w-5 text-ink" strokeWidth={1.75} />
             </span>
-            <p className="tt-h3 mt-4">{projects.length === 0 ? "No projects yet" : "No matches"}</p>
+            <p className="tt-h3 mt-4">
+              {counts[tab] === 0
+                ? tab === "experience"
+                  ? "No experience yet"
+                  : "No projects yet"
+                : "No matches"}
+            </p>
             <p className="tt-sub mt-1.5 max-w-sm">
-              {projects.length === 0
-                ? "Add a project or a role and it appears on your public page."
+              {counts[tab] === 0
+                ? tab === "experience"
+                  ? "Add a role and it appears on your public page."
+                  : "Add a project and it appears on your public page."
                 : "Nothing matches this search and filter. Try a different term."}
             </p>
-            {projects.length === 0 ? (
-              <Link href="/manage/projects/add" className="btn btn-acc btn-sm mt-4">
-                <Plus className="h-4 w-4" strokeWidth={2} /> Add a project
+            {counts[tab] === 0 ? (
+              <Link
+                href={`/manage/projects/add${tab === "experience" ? "?type=experience" : ""}`}
+                className="btn btn-acc btn-sm mt-4"
+              >
+                <Plus className="h-4 w-4" strokeWidth={2} />
+                {tab === "experience" ? "Add a role" : "Add a project"}
               </Link>
             ) : (
               <button

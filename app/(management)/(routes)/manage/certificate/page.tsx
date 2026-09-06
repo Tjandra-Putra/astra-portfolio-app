@@ -10,7 +10,7 @@ type Filter = "all" | "visible" | "hidden";
 
 const ManageCertificatePage = () => {
   const [certificates, setCertificates] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   // Toolbar state — filters the already-fetched array, no extra requests.
@@ -31,23 +31,21 @@ const ManageCertificatePage = () => {
   };
 
   const deleteCertificateHandler = async (id: string) => {
-    // Display a confirmation prompt
     const confirmed = window.confirm("Are you sure you want to delete this certificate?");
+    if (!confirmed) return;
 
-    // If the user confirms, proceed with deletion
-    if (confirmed) {
-      console.log("DELETE CONFIRMED");
-      try {
-        setButtonLoading(true);
-        await axios.delete(`/api/manage/certificate/${id}`);
-        toast.success("Certificate deleted successfully");
-      } catch (error) {
-        console.error("Error deleting certificate:", error);
-      } finally {
-        setButtonLoading(false);
-      }
-    } else {
-      console.log("DELETE CANCELLED");
+    try {
+      setButtonLoading(true);
+      await axios.delete(`/api/manage/certificate/${id}`);
+      // Drop the row locally. Previously the request succeeded and the record
+      // stayed on screen until a manual reload, which reads as a failed delete.
+      setCertificates((current) => current.filter((item: any) => item.id !== id));
+      toast.success("Certificate deleted successfully");
+    } catch (error) {
+      console.error("Error deleting certificate:", error);
+      toast.error("Could not delete. Please try again.");
+    } finally {
+      setButtonLoading(false);
     }
   };
 
