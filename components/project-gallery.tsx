@@ -152,7 +152,10 @@ export function ProjectGallery({
                         screenshot, and matches the browser-window framing.
                         `overscroll-contain` stops it from stealing page scroll;
                         `touch-pan-y` on the track keeps Embla's horizontal drag. */}
-                    <div className="scrollbar-slim h-[clamp(260px,52vh,540px)] overflow-y-auto overscroll-contain px-3 pb-3">
+                    <div
+                      data-gal-slide
+                      className="scrollbar-slim h-[var(--gal-h,clamp(260px,52vh,540px))] overflow-y-auto overscroll-contain px-3 pb-3"
+                    >
                       <div className="grid min-h-full place-items-center">
                         <img
                           src={src}

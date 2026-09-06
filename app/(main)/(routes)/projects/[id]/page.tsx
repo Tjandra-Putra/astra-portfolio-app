@@ -11,6 +11,7 @@ import Experiences from "@/components/experiences";
 import Loader from "@/components/layout/loader";
 import { Editor } from "@/components/text-editors/blocknote-editor";
 import { ProjectGallery } from "@/components/project-gallery";
+import { ExpandOnScroll } from "@/components/fx/expand-on-scroll";
 import { calculateDuration } from "@/lib/format-date";
 import { extractImageUrls } from "@/utils/image-processor";
 import { setUserInfo } from "@/app/redux/features/user-slice";
@@ -108,12 +109,16 @@ const Project = () => {
       </div>
 
       {/* ══ Hero media ═════════════════════════════════════ */}
-      <div className="reveal mt-8 sm:mt-10">
-        <ProjectGallery
-          images={[imageSrc, ...extractImageUrls(project?.content)]}
-          title={project?.name}
-          siteUrl={project?.projectUrl}
-        />
+      {/* Scroll into the media: it pins and grows to fill the screen, then
+          releases into the write-up below. */}
+      <div className="mt-8 sm:mt-10">
+        <ExpandOnScroll>
+          <ProjectGallery
+            images={[imageSrc, ...extractImageUrls(project?.content)]}
+            title={project?.name}
+            siteUrl={project?.projectUrl}
+          />
+        </ExpandOnScroll>
       </div>
 
       {/* ══ Body ═══════════════════════════════════════════ */}
