@@ -416,7 +416,7 @@
      TYPOGRAPHY
      ═══════════════════════════════════════════════════════════════ */
   .tt-hero {
-    font-size: clamp(2.1rem, 5vw, 3.5rem);
+    font-size: clamp(2.35rem, 6.6vw, 4.5rem);
     line-height: 1;
     letter-spacing: -0.042em;
     font-weight: 600;
@@ -1639,65 +1639,17 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   TECH SHAPES
-   Chamfered panels, notches and registration marks. Where `.glass`
-   is soft and rounded, these are cut and angular — for the moments
-   the layout should read as engineered rather than friendly.
+   TECH ACCENTS
+   Registration marks, edge rails and the solid accent panel.
 
-   `clip-path` clips `box-shadow` too, so depth here comes from
-   `filter: drop-shadow()`, which follows the clipped silhouette.
-   Never animate these: a filter is cheap to paint once and
-   expensive per frame.
+   The chamfer set that used to live here (`.tech`, `.cut-tr/br/bl/tl`,
+   `.cut-diag`) is gone: every panel is soft and rounded again. Those
+   classes were `clip-path` polygons, which also clip `box-shadow` —
+   which is why they had to fake depth with `filter: drop-shadow()`
+   and square off `border-radius`. With the clipping removed, panels
+   use the normal radius tokens and real box-shadows again.
    ═══════════════════════════════════════════════════════════════ */
 @layer components {
-  .tech {
-    --cut: 20px;
-    position: relative;
-    border-radius: 0;
-    background: var(--panel-solid);
-    filter: drop-shadow(0 2px 4px rgba(10, 10, 12, 0.18)) drop-shadow(0 16px 28px rgba(10, 10, 12, 0.22));
-  }
-  .tech-lg {
-    --cut: 34px;
-  }
-  .tech-sm {
-    --cut: 12px;
-  }
-  /* A clip-path makes the radius meaningless; square it off explicitly so the
-     cut corners read as deliberate rather than as a clipped rounded box. */
-  .cut-tr,
-  .cut-br,
-  .cut-bl,
-  .cut-tl,
-  .cut-diag {
-    border-radius: 0;
-  }
-
-  /* Single-corner chamfers */
-  .cut-tr {
-    clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
-  }
-  .cut-br {
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
-  }
-  .cut-bl {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-  }
-  .cut-tl {
-    clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut));
-  }
-  /* Opposite pair — the most "engineered" of the set */
-  .cut-diag {
-    clip-path: polygon(
-      var(--cut) 0,
-      100% 0,
-      100% calc(100% - var(--cut)),
-      calc(100% - var(--cut)) 100%,
-      0 100%,
-      0 var(--cut)
-    );
-  }
-
   /* Accent sliver along one edge — a cut panel's "power rail". */
   .rail-edge::before {
     content: "";
@@ -1767,11 +1719,13 @@
     );
   }
 
-  /* Solid accent variant of a cut panel */
+  /* Solid accent panel. No filter: the drop-shadow here only existed because
+     `clip-path` clipped `box-shadow`, and this only ever renders inside
+     `.mesh`, which is `overflow: hidden` — an outer shadow was invisible and
+     the filter still cost a containing block and a separate paint. */
   .tech-acc {
     background: var(--acc);
     color: var(--on-acc);
-    filter: drop-shadow(0 2px 4px rgba(10, 10, 12, 0.2)) drop-shadow(0 16px 30px var(--acc-ring));
   }
   .tech-acc .tt-mono,
   .tech-acc .tt-unit,

@@ -90,7 +90,7 @@ function Masthead() {
 /* ══ Miniature product widgets — illustrate the sections ════ */
 function MiniProject() {
   return (
-    <div className="glass-bright pad-sm cut-br tech-sm w-full">
+    <div className="glass-bright pad-sm w-full">
       <div className="flex items-start justify-between gap-3">
         <span className="glass-lite grid h-9 w-9 place-items-center rounded-xs">
           <Layers className="h-[16px] w-[16px] text-ink" strokeWidth={1.75} />
@@ -139,7 +139,7 @@ function MiniTimeline() {
 
 function MiniCredential() {
   return (
-    <div className="glass-bright pad-sm cut-br tech-sm flex h-full w-full flex-col">
+    <div className="glass-bright pad-sm flex h-full w-full flex-col">
       <div className="flex items-center gap-2.5">
         <span className="grid h-9 w-9 place-items-center rounded-xs bg-acc text-on-acc">
           <CheckCircle2 className="h-[16px] w-[16px]" strokeWidth={2} />
@@ -284,16 +284,14 @@ export default function LandingPage() {
           <div className="orb left-[-8%] top-[-6%] h-[380px] w-[380px] sm:h-[520px] sm:w-[520px]" />
 
           <div className="bento w-full flex-1 items-center">
-            <div data-anim="hero-copy" className="sm:col-span-6 lg:col-span-6">
+            <div data-anim="hero-copy" className="sm:col-span-6 lg:col-span-7">
               <span className="tt-mono rise inline-flex items-center gap-2">
                 <span className="pin" /> Portfolio platform
               </span>
-              <h1 className="tt-hero rise mt-6" style={{ animationDelay: "60ms" }}>
-                Your work,
-                <br />
-                one <span className="acc">link.</span>
+              <h1 className="tt-hero rise mt-6 text-balance" style={{ animationDelay: "60ms" }}>
+                Your work, one <span className="acc">link.</span>
               </h1>
-              <p className="tt-lead rise mt-7 max-w-md" style={{ animationDelay: "120ms" }}>
+              <p className="tt-lead rise mt-7 max-w-[36rem]" style={{ animationDelay: "120ms" }}>
                 Astra turns your projects, experience, education and certificates into a portfolio that looks
                 considered — without you touching a line of code.
               </p>
@@ -321,7 +319,7 @@ export default function LandingPage() {
             </div>
 
             {/* 3D scene + floating glass cards in front of it */}
-            <div data-anim="hero-media" className="relative sm:col-span-6 lg:col-span-6">
+            <div data-anim="hero-media" className="relative sm:col-span-6 lg:col-span-5">
               {/* Mobile: the overlapping cluster is sized for a wide box — at
                   390px the cards collide and truncate. Show one card, in flow. */}
               <div className="rise mt-2 grid gap-2.5 md:hidden" style={{ animationDelay: "420ms" }}>
@@ -377,7 +375,7 @@ export default function LandingPage() {
           </div>
 
           {/* Uniform 3 x 3 tracks so the crosshair overlay lands on real grid lines. */}
-          <div data-anim="mesh" className="mesh mesh-3 cut-diag tech-lg relative mt-6">
+          <div data-anim="mesh" className="mesh mesh-3 relative mt-6">
             <MeshCrosshairs />
 
             {/* — Projects (2 wide) — */}
@@ -557,7 +555,7 @@ export default function LandingPage() {
           </div>
 
           {/* One panel divided into three, rather than three floating cards. */}
-          <div data-anim="mesh" className="mesh mesh-3 cut-diag tech-lg relative mt-6">
+          <div data-anim="mesh" className="mesh mesh-3 relative mt-6">
             <MeshCrosshairs />
             {[
               { n: "01", t: "Sign in", d: "One click with your email. No setup, no template picking, no theme store." },
@@ -641,7 +639,7 @@ export default function LandingPage() {
 
         {/* ══ CTA ═══════════════════════════════════════════ */}
         <section className="wrap pb-4">
-          <div data-anim="cta" className="tech tech-lg cut-diag rail-top scan pad-lg relative overflow-hidden text-center">
+          <div data-anim="cta" className="glass rail-top scan pad-lg relative overflow-hidden text-center">
             <div className="orb bottom-[-40%] left-1/2 h-[420px] w-[420px] -translate-x-1/2" />
             <span className="tt-mono inline-flex items-center gap-2"><Sparkles className="h-3.5 w-3.5" strokeWidth={2} /> Free to publish</span>
             <h2 className="tt-h1 mx-auto mt-5 max-w-xl">
