@@ -55,5 +55,42 @@ export function SmoothScroll() {
     else window.scrollTo(0, 0);
   }, [pathname]);
 
+  /**
+   * In-page anchors go through Lenis.
+   *
+   * Native hash navigation sets scrollTop directly, which Lenis then snaps to —
+   * so `#directory` teleported instead of gliding. Intercepting the click and
+   * handing the target to Lenis keeps anchors on the same easing as every
+   * other scroll. `scroll-mt-*` is respected via the scroll-margin-top offset.
+   */
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      const anchor = (e.target as HTMLElement | null)?.closest?.('a[href*="#"]') as HTMLAnchorElement | null;
+      if (!anchor) return;
+
+      const url = new URL(anchor.href, window.location.href);
+      if (url.pathname !== window.location.pathname || !url.hash || url.hash === "#") return;
+
+      const target = document.querySelector<HTMLElement>(url.hash);
+      if (!target) return;
+
+      e.preventDefault();
+      const offset = parseFloat(getComputedStyle(target).scrollMarginTop || "0") || 0;
+      const lenis = (window as any).__lenis;
+
+      if (lenis?.scrollTo) {
+        lenis.scrollTo(target, { offset: -offset, duration: 1.15 });
+      } else {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      history.replaceState(null, "", url.hash);
+    };
+
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
   return null;
 }

@@ -25,7 +25,15 @@ import { useHideOnScroll } from "@/components/fx/use-hide-on-scroll";
 import { getJSON } from "@/lib/data-client";
 
 const FALLBACK = "https://vutz38vdur.ufs.sh/f/O8iVoUnKSnAlP7J3LDxbvrzVStD23fJj4xZMB9eRcLgWuknX";
-type Profile = { id: string; name?: string; jobTitle?: string; bio?: string; imageUrl?: string; updatedAt?: string };
+type Profile = {
+  id: string;
+  role?: string;
+  name?: string;
+  jobTitle?: string;
+  bio?: string;
+  imageUrl?: string;
+  updatedAt?: string;
+};
 
 /* ══ Masthead ═══════════════════════════════════════════════ */
 function Masthead() {
@@ -173,7 +181,7 @@ function ProfileCard({ p, user, i }: { p: Profile; user: any; i: number }) {
   return (
     <Link
       href={`/profile/${p.id}`}
-      className={`glass-lite lift sheen group flex flex-col rounded-tile p-4 sm:col-span-3 lg:col-span-4 ${patternFor(p.id)}`}
+      className={`glass-lite lift sheen group flex h-full flex-col rounded-tile p-4 sm:col-span-3 lg:col-span-4 ${patternFor(p.id)}`}
     >
       <div className="flex items-start gap-3">
         <img src={img} alt="" className="h-12 w-12 shrink-0 rounded-tile object-cover shadow-e1" />
@@ -186,7 +194,9 @@ function ProfileCard({ p, user, i }: { p: Profile; user: any; i: number }) {
 
       <p className="tt-body mt-3 line-clamp-2 min-h-[2.6em]">{p.bio || "No bio published yet."}</p>
 
-      <div className="mt-4 flex items-center gap-2">
+      {/* mt-auto pins the meta row to the card base, so cards of differing bio
+          length still line their footers up across the row. */}
+      <div className="mt-auto flex items-center gap-2 pt-4">
         <span className="chip chip-acc"><span className="pin" /> Live</span>
         {p.updatedAt && (
           <span className="tt-mono ml-auto">{new Date(p.updatedAt).toLocaleDateString("en-SG")}</span>
@@ -200,7 +210,7 @@ function SampleCard({ s, i }: { s: { role: string; blurb: string }; i: number })
   return (
     <div
       aria-hidden="true"
-      className={`glass-lite flex select-none flex-col rounded-tile p-4 opacity-55 sm:col-span-3 lg:col-span-4 ${patternFor(s.role)}`}
+      className={`glass-lite flex h-full select-none flex-col rounded-tile p-4 opacity-55 sm:col-span-3 lg:col-span-4 ${patternFor(s.role)}`}
     >
       <div className="flex items-start gap-3">
         <span className="glass-well grid h-12 w-12 shrink-0 place-items-center rounded-tile">
@@ -216,7 +226,7 @@ function SampleCard({ s, i }: { s: { role: string; blurb: string }; i: number })
 
       <p className="tt-body mt-3 line-clamp-2 min-h-[2.6em]">{s.blurb}</p>
 
-      <div className="mt-4 flex items-center gap-2">
+      <div className="mt-auto flex items-center gap-2 pt-4">
         <span className="chip">Sample</span>
       </div>
     </div>
@@ -234,7 +244,11 @@ export default function LandingPage() {
     (async () => {
       try {
         const data = await getJSON<Profile[]>("/api/profile");
-        setProfiles(Array.isArray(data) ? data : []);
+        // GUEST rows are placeholder accounts created on invite (no name, role
+        // or bio yet). They are not published portfolios, so they do not belong
+        // in a public directory. Filtered here rather than in the API, which
+        // stays a generic "all profiles" endpoint the dashboard also relies on.
+        setProfiles(Array.isArray(data) ? data.filter((p) => p.role !== "GUEST") : []);
       } catch (e) {
         console.error("[PROFILE_GET_ERROR]", e);
       } finally {

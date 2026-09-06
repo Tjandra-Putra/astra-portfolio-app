@@ -231,6 +231,8 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
+    /* Own layer: without this the gradients re-rasterise on every scroll frame. */
+    transform: translateZ(0);
     background:
       radial-gradient(125% 85% at 50% -12%, var(--stage-hi) 0%, transparent 62%),
       radial-gradient(100% 80% at 88% 112%, var(--stage-lo) 0%, transparent 60%),
@@ -248,6 +250,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
+    transform: translateZ(0);
     background-image:
       radial-gradient(circle at 1px 1px, var(--pat-dot) 1px, transparent 0),
       linear-gradient(var(--pat-line) 1px, transparent 1px),
@@ -321,10 +324,11 @@
   }
 
   /* Nested tile — lighter than its parent, so the stack rises */
+  /* No backdrop-filter: this always sits inside an already-blurred .glass,
+     and at 94% opacity a second blur is invisible while still forcing its own
+     compositing layer on every one of these — the main scroll cost. */
   .glass-lite {
     background: var(--glass-lite);
-    -webkit-backdrop-filter: blur(var(--blur-md)) saturate(1.2);
-    backdrop-filter: blur(var(--blur-md)) saturate(1.2);
     border-radius: var(--r-md);
     box-shadow: var(--sh-1), var(--edge);
   }
@@ -525,8 +529,6 @@
 
   .btn-glass {
     background: var(--glass-lite);
-    -webkit-backdrop-filter: blur(var(--blur-sm));
-    backdrop-filter: blur(var(--blur-sm));
     color: var(--ink);
     box-shadow: var(--sh-1), var(--edge);
   }
@@ -566,8 +568,6 @@
     border-radius: var(--r-sm);
     color: var(--ink);
     background: var(--glass-lite);
-    -webkit-backdrop-filter: blur(var(--blur-sm));
-    backdrop-filter: blur(var(--blur-sm));
     box-shadow: var(--sh-1), var(--edge);
     cursor: pointer;
     transition: transform 0.24s var(--ease), background-color 0.18s ease, box-shadow 0.24s var(--ease);
@@ -645,8 +645,6 @@
     white-space: nowrap;
     color: var(--ink-soft);
     background: var(--glass-lite);
-    -webkit-backdrop-filter: blur(var(--blur-sm));
-    backdrop-filter: blur(var(--blur-sm));
     box-shadow: var(--edge);
     transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   }

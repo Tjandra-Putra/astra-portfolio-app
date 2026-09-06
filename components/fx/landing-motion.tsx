@@ -130,11 +130,15 @@ export function LandingMotion() {
       /* ── Card grids: stagger in ────────────────────────────── */
       q('[data-anim="cards"]').forEach((grid) => {
         gsap.from(grid.children, {
-          y: 22,
+          y: 18,
           opacity: 0,
-          duration: 0.7,
+          duration: 0.55,
           ease: "expo.out",
-          stagger: 0.06,
+          stagger: 0.05,
+          // Strip the inline transform when done: a leftover per-card `y`
+          // offsets grid siblings against each other and reads as a broken,
+          // misaligned row.
+          clearProps: "transform",
           scrollTrigger: { trigger: grid, start: "top 88%", once: true },
         });
       });
@@ -209,16 +213,19 @@ export function LandingMotion() {
      * would hide real content — so sweep once and clear anything still hidden
      * that is now inside the viewport.
      */
+    // Targets only elements actually carrying an inline opacity:0 — the exact
+    // failure mode. The previous `[data-anim] *` selector matched essentially
+    // the whole page on every tick, which is not something to run while the
+    // user is scrolling.
     const net = window.setInterval(() => {
-      document.querySelectorAll<HTMLElement>("[data-anim] *, [data-anim]").forEach((el) => {
-        if (el.style.opacity !== "0") return;
+      document.querySelectorAll<HTMLElement>('[style*="opacity: 0"]').forEach((el) => {
         const r = el.getBoundingClientRect();
         if (r.height > 4 && r.top < window.innerHeight * 0.9) {
           gsap.set(el, { clearProps: "opacity,transform" });
         }
       });
-    }, 1200);
-    const stopNet = window.setTimeout(() => window.clearInterval(net), 15000);
+    }, 2000);
+    const stopNet = window.setTimeout(() => window.clearInterval(net), 12000);
 
     return () => {
       window.clearTimeout(settle);

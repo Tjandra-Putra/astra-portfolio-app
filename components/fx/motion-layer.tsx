@@ -58,6 +58,11 @@ export function MotionLayer() {
     };
     scan();
 
+    // Watches for late-arriving content (fetches resolving). Disconnected once
+    // the page has settled — leaving a whole-body subtree observer running for
+    // the session means every DOM insertion schedules another full `.reveal`
+    // scan while the user is scrolling. After this, the scroll handler's own
+    // scan() still picks up anything new.
     let pending = 0;
     const mo = new MutationObserver(() => {
       if (pending) return;
@@ -67,6 +72,7 @@ export function MotionLayer() {
       });
     });
     mo.observe(document.body, { childList: true, subtree: true });
+    const stopObserving = window.setTimeout(() => mo.disconnect(), 10000);
 
     // Last-resort net: never leave content invisible.
     const failOpen = window.setTimeout(revealAll, 2500);
@@ -89,6 +95,7 @@ export function MotionLayer() {
 
     return () => {
       mo.disconnect();
+      window.clearTimeout(stopObserving);
       io.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.clearTimeout(failOpen);
